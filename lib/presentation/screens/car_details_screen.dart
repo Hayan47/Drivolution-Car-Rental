@@ -1,0 +1,112 @@
+import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/data/models/car_model.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../widgets/car_details.dart';
+
+class CarDetailsScreen extends StatefulWidget {
+  final Car car;
+
+  const CarDetailsScreen({required this.car, super.key});
+
+  @override
+  State<CarDetailsScreen> createState() => _CarDetailsScreenState();
+}
+
+class _CarDetailsScreenState extends State<CarDetailsScreen> {
+  final _controller = PageController();
+
+  bool favorite = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: MyColors.myBlue2,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: MyColors.myBlue2,
+            actions: [
+              Hero(
+                tag: widget.car.id!,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        favorite = !favorite;
+                      });
+                    },
+                    child: favorite
+                        ? Image.asset(
+                            'assets/icons/love2.png',
+                            width: 30,
+                            height: 30,
+                          )
+                        : Image.asset(
+                            'assets/icons/love.png',
+                            width: 30,
+                            height: 30,
+                            color: Colors.white,
+                          ),
+                  ),
+                ),
+              )
+            ],
+            pinned: true,
+            expandedHeight: 225,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Hero(
+                tag: widget.car.name!,
+                child: Text(
+                  widget.car.name!,
+                  style: GoogleFonts.karla(),
+                ),
+              ),
+              centerTitle: true,
+              background: Stack(
+                children: [
+                  Hero(
+                    tag: widget.car.img!,
+                    child: PageView(
+                        controller: _controller,
+                        children: List.generate(
+                            widget.car.imgs!.length,
+                            (index) => Image.asset(
+                                  widget.car.imgs![index],
+                                  fit: BoxFit.cover,
+                                ))),
+                  ),
+                  Container(
+                    alignment: const Alignment(0, 0.95),
+                    child: SmoothPageIndicator(
+                      effect: const ExpandingDotsEffect(
+                        activeDotColor: MyColors.myBlue2,
+                        dotColor: Colors.white,
+                        dotHeight: 5,
+                        dotWidth: 5,
+                      ),
+                      count: widget.car.imgs!.length,
+                      controller: _controller,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+
+          //sliver items
+          SliverToBoxAdapter(
+            child: CarDetails(car: widget.car),
+          ),
+        ],
+      ),
+    );
+  }
+}
