@@ -24,7 +24,7 @@ class AppRouter {
 
   AppRouter() {
     carsRepository = CarsRepository(CarsWebServices());
-    carsCubit = CarsCubit(carsRepository);
+    carsCubit = CarsCubit();
   }
 
   Route? generateRoute(RouteSettings settings) {

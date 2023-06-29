@@ -1,7 +1,6 @@
 import 'package:drivolution/business-logic/cubit/usr_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
-import 'package:drivolution/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,11 +35,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went wrong'));
           } else if (snapshot.hasData) {
-            // final user = FirebaseAuth.instance.currentUser!;
-            // print("BBBBBBBBBBBBBBBBBBBBBBBBBB" + user.uid);
-            // Auth().getUserInfo(user.uid);
-            // print("AAAAAAAAAAAAAAAAAAAAAAAAAA" + user.toString());
-            // Container();
             return BlocProvider.value(
               value: UsrCubit(),
               child: const ProfileDetailsScreen(),

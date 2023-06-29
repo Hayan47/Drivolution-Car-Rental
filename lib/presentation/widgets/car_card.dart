@@ -9,7 +9,7 @@ import '../../data/models/car_model.dart';
 class CarCard extends StatelessWidget {
   final Car car;
 
-  CarCard({required this.car, super.key});
+  const CarCard({required this.car, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class CarCard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  car.rentd.toString() + '\$',
+                                  '${car.rentd}\$',
                                   style: GoogleFonts.karla(
                                     color: MyColors.mywhite,
                                     fontSize: 16,
@@ -148,7 +148,8 @@ class CarCard extends StatelessWidget {
                             ),
                           ),
                           Hero(
-                            tag: car.id!,
+                            // tag: car.id!,
+                            tag: 1,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Image.asset(

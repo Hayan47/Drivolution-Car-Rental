@@ -104,7 +104,6 @@ class Auth {
     final snapshot = await data.get();
     final usr = snapshot.data(); // Convert to City object
     if (usr != null) {
-      //print(usr.img);
       return usr;
     } else {
       // print("No such document.");

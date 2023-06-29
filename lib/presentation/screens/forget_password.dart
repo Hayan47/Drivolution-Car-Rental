@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:drivolution/services/auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +65,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                     !EmailValidator.validate(value)) {
                                   return 'Enter a valid email';
                                 }
+                                return null;
                               },
                               style: const TextStyle(color: MyColors.mywhite),
                               decoration: const InputDecoration(
@@ -88,11 +92,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 context,
                                 _forgotpasswordcontroller.text.trim(),
                               );
-                              // Get.snackbar(
-                              //   '',
-                              //   'reset password email sent',
-                              //   snackPosition: SnackPosition.BOTTOM,
-                              // );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(MySnackBar(
+                                icon: const Icon(
+                                  Icons.done,
+                                  color: Colors.green,
+                                  size: 20,
+                                ),
+                                title: 'Done',
+                                message: 'Password reset successfuly',
+                              ));
                             },
                             style: ButtonStyle(
                                 side: MaterialStateProperty.all(

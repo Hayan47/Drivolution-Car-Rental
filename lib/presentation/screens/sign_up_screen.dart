@@ -103,6 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             if (value == '') {
                                               return 'Enter a name';
                                             }
+                                            return null;
                                           },
                                           style: const TextStyle(
                                             color: MyColors.mywhite,
@@ -209,6 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           !EmailValidator.validate(value)) {
                                         return 'Enter a valid email';
                                       }
+                                      return null;
                                     },
                                     style: const TextStyle(
                                         color: MyColors.mywhite),
@@ -247,6 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       if (value == null || value.length < 8) {
                                         return 'password should be 6 chrachters or more';
                                       }
+                                      return null;
                                     },
                                     style: const TextStyle(
                                         color: MyColors.mywhite),
@@ -300,6 +303,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       if (value != _passwordcontroller.text) {
                                         return 'passwords not matching';
                                       }
+                                      return null;
                                     },
                                     style: const TextStyle(
                                         color: MyColors.mywhite),

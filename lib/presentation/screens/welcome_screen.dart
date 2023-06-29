@@ -1,5 +1,6 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
+import 'package:drivolution/services/cars_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -81,6 +82,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     setState(() {
                       _toggle = !_toggle;
                     });
+                    // await CarServices().getAllCars();
+
                     await Future.delayed(const Duration(seconds: 1));
                     // ignore: use_build_context_synchronously
                     Navigator.pushNamed(context, mainScreen);

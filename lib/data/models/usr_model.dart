@@ -29,6 +29,7 @@ class Usr {
       email: data?['email'],
       age: data?['age'],
       img: data?['image'],
+      phoneNumber: data?['phoneNumber'],
     );
   }
 
@@ -39,6 +40,7 @@ class Usr {
       if (email != null) "email": email,
       if (age != null) "age": age,
       if (img != null) "image": img,
+      if (phoneNumber != null) "phoneNumber": phoneNumber,
     };
   }
 }
