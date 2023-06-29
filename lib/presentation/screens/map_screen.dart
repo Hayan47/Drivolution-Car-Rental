@@ -61,7 +61,8 @@ class _MapScreenState extends State<MapScreen> {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         dotenv.env['GOOGLE_MAP'],
         PointLatLng(position.latitude, position.longitude),
-        PointLatLng(widget.car.location1!, widget.car.location2!));
+        PointLatLng(
+            widget.car.geoPoint!.latitude, widget.car.geoPoint!.longitude));
 
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) =>
@@ -80,7 +81,8 @@ class _MapScreenState extends State<MapScreen> {
         icon: BitmapDescriptor.fromBytes(smalling!),
         markerId: const MarkerId('carloc'),
         infoWindow: const InfoWindow(title: 'Car Location'),
-        position: LatLng(widget.car.location1!, widget.car.location2!),
+        position: LatLng(
+            widget.car.geoPoint!.latitude, widget.car.geoPoint!.longitude),
       ));
     });
   }
@@ -104,7 +106,8 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       body: GoogleMap(
           initialCameraPosition: CameraPosition(
-            target: LatLng(widget.car.location1!, widget.car.location2!),
+            target: LatLng(
+                widget.car.geoPoint!.latitude, widget.car.geoPoint!.longitude),
             zoom: 14,
           ),
           zoomControlsEnabled: false,

@@ -1,9 +1,11 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../business-logic/cubit/usr_cubit.dart';
 import '../../data/models/car_model.dart';
 import 'owner_card.dart';
 
@@ -667,7 +669,10 @@ class _CarDetailsState extends State<CarDetails> {
               ),
             ),
             //owner
-            OwnerCard(car: widget.car),
+            BlocProvider(
+              create: (context) => UsrCubit(),
+              child: OwnerCard(car: widget.car),
+            ),
             const SizedBox(height: 10),
             Divider(
               color: Theme.of(context).secondaryHeaderColor,

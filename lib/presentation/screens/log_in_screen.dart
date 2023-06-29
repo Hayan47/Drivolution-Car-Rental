@@ -95,6 +95,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                           !EmailValidator.validate(value)) {
                                         return 'Enter a valid email';
                                       }
+                                      return null;
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -139,6 +140,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       if (value == null || value.length < 8) {
                                         return 'password is short';
                                       }
+                                      return null;
                                     },
                                     decoration: InputDecoration(
                                       suffixIcon: IconButton(

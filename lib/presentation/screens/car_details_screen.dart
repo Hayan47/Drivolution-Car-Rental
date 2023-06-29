@@ -1,6 +1,9 @@
+import 'package:drivolution/business-logic/cubit/usr_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/data/models/usr_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/car_details.dart';
@@ -16,7 +19,7 @@ class CarDetailsScreen extends StatefulWidget {
 
 class _CarDetailsScreenState extends State<CarDetailsScreen> {
   final _controller = PageController();
-
+  late Usr usr;
   bool favorite = false;
   @override
   void initState() {
@@ -34,7 +37,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             backgroundColor: MyColors.myBlue2,
             actions: [
               Hero(
-                tag: widget.car.id!,
+                // tag: widget.car.id!,
+                tag: 1,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
