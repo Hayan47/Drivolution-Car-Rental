@@ -1,10 +1,12 @@
+// ignore_for_file: library_prefixes
+
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_to_byte/image_to_byte.dart';
 import 'package:image/image.dart' as IMG;
+import 'package:image_to_byte/image_to_byte.dart';
 import '../../data/models/car_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -23,7 +25,7 @@ class _MapScreenState extends State<MapScreen> {
 
   late Set<Marker> markers = {};
 
-  Set<Polyline> _polylines = Set<Polyline>();
+  final Set<Polyline> _polylines = <Polyline>{};
 
   // @override
   // void dispose() {
@@ -31,7 +33,7 @@ class _MapScreenState extends State<MapScreen> {
   //   super.dispose();
   // }
 
-  //get my location
+  //?get my location
   Future<Position> _getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -53,7 +55,7 @@ class _MapScreenState extends State<MapScreen> {
     return position;
   }
 
-  //get polypoints
+  //?get polypoints
   void _getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
     Position position = await _getCurrentLocation();
@@ -62,17 +64,18 @@ class _MapScreenState extends State<MapScreen> {
         dotenv.env['GOOGLE_MAP'],
         PointLatLng(position.latitude, position.longitude),
         PointLatLng(
-            widget.car.geoPoint!.latitude, widget.car.geoPoint!.longitude));
+            widget.car.geoPoint.latitude, widget.car.geoPoint.longitude));
 
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) =>
-          polyLineCoordinate.add(LatLng(point.latitude, point.longitude)));
+      for (var point in result.points) {
+        polyLineCoordinate.add(LatLng(point.latitude, point.longitude));
+      }
     }
   }
 
   _addMarker() async {
     Uint8List customMarker = await imageToByte(
-      widget.car.img!,
+      widget.car.img,
     );
     Uint8List? smalling = resizeImage(customMarker, 200, 100);
 
@@ -81,8 +84,8 @@ class _MapScreenState extends State<MapScreen> {
         icon: BitmapDescriptor.fromBytes(smalling!),
         markerId: const MarkerId('carloc'),
         infoWindow: const InfoWindow(title: 'Car Location'),
-        position: LatLng(
-            widget.car.geoPoint!.latitude, widget.car.geoPoint!.longitude),
+        position:
+            LatLng(widget.car.geoPoint.latitude, widget.car.geoPoint.longitude),
       ));
     });
   }
@@ -107,7 +110,7 @@ class _MapScreenState extends State<MapScreen> {
       body: GoogleMap(
           initialCameraPosition: CameraPosition(
             target: LatLng(
-                widget.car.geoPoint!.latitude, widget.car.geoPoint!.longitude),
+                widget.car.geoPoint.latitude, widget.car.geoPoint.longitude),
             zoom: 14,
           ),
           zoomControlsEnabled: false,
@@ -142,7 +145,7 @@ class _MapScreenState extends State<MapScreen> {
               ));
               //add polyline
               _polylines.add(Polyline(
-                polylineId: PolylineId('route'),
+                polylineId: const PolylineId('route'),
                 color: Colors.red,
                 width: 10,
                 points: polyLineCoordinate,

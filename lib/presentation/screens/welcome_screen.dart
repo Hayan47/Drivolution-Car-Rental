@@ -1,6 +1,7 @@
+// import 'dart:ffi';
+
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
-import 'package:drivolution/services/cars_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +20,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //background image
     return DecoratedBox(
       decoration: const BoxDecoration(
         image: DecorationImage(

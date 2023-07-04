@@ -40,16 +40,16 @@ class CustomTheme with ChangeNotifier {
           fontSize: 24,
         ),
         centerTitle: true,
-        actionsIconTheme: IconThemeData(
+        actionsIconTheme: const IconThemeData(
           color: MyColors.mywhite,
         ),
         //icon theme
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: MyColors.mywhite,
         ),
       ),
       //text theme
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
           bodyText1: TextStyle(
         color: Colors.black,
         fontSize: 18,
@@ -79,18 +79,18 @@ class CustomTheme with ChangeNotifier {
           fontSize: 24,
         ),
         centerTitle: true,
-        actionsIconTheme: IconThemeData(
+        actionsIconTheme: const IconThemeData(
           color: Colors.black,
         ),
         // icon theme
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black,
         ),
       ),
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
           bodyText1: TextStyle(color: MyColors.mywhite, fontSize: 18)),
       bottomNavigationBarTheme:
-          BottomNavigationBarThemeData(backgroundColor: Colors.black),
+          const BottomNavigationBarThemeData(backgroundColor: Colors.black),
     );
   }
 }

@@ -3,27 +3,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Car {
   String? id;
-  String? logo;
-  String? img;
-  String? name;
-  String? model;
-  int? rentd;
-  List<String>? imgs;
-  GeoPoint? geoPoint;
-  String? location;
-  String? type;
-  int? seats;
-  int? doors;
-  String? fuel;
-  List<String>? features;
-  String? color;
-  String? interiorColor;
-  String? engine;
-  String? drivetrain;
-  int? kilometrage;
-  String? description;
-  String? transmission;
-  String? ownerid;
+  String logo;
+  String img;
+  String name;
+  String model;
+  int rent;
+  List<String> images;
+  GeoPoint geoPoint;
+  String locationName;
+  String type;
+  int seats;
+  int doors;
+  String fuel;
+  List<String> features;
+  String color;
+  String interiorColor;
+  String engine;
+  String drivetrain;
+  int kilometrage;
+  String transmission;
+  String ownerid;
+  String description;
 
   //Owner? owner;
   //Review? review;
@@ -56,27 +56,27 @@ class Car {
 
   Car({
     this.id,
-    this.logo,
-    this.img,
-    this.name,
-    this.model,
-    this.rentd,
-    this.imgs,
-    this.geoPoint,
-    this.location,
-    this.type,
-    this.seats,
-    this.doors,
-    this.fuel,
-    this.features,
-    this.color,
-    this.interiorColor,
-    this.engine,
-    this.drivetrain,
-    this.kilometrage,
-    this.description,
-    this.transmission,
-    this.ownerid,
+    required this.logo,
+    required this.img,
+    required this.name,
+    required this.model,
+    required this.rent,
+    required this.images,
+    required this.geoPoint,
+    required this.locationName,
+    required this.type,
+    required this.seats,
+    required this.doors,
+    required this.fuel,
+    required this.features,
+    required this.color,
+    required this.interiorColor,
+    required this.engine,
+    required this.drivetrain,
+    required this.kilometrage,
+    required this.transmission,
+    required this.ownerid,
+    required this.description,
   });
 
   factory Car.fromFirestore(
@@ -90,12 +90,10 @@ class Car {
       img: data?['image'],
       name: data?['name'],
       model: data?['model'],
-      rentd: data?['rent'],
-      imgs: List<String>.from(data?['images']),
-      geoPoint: data?['location'],
-      // location1: data?['location1'],
-      // location2: data?['location2'],
-      location: data?['location_name'],
+      rent: data?['rent'],
+      images: List<String>.from(data?['images']),
+      geoPoint: data?['geoPoint'],
+      locationName: data?['locationName'],
       type: data?['type'],
       seats: data?['seats'],
       doors: data?['doors'],
@@ -115,17 +113,15 @@ class Car {
   //? Convert Car object to a Map for writing to Firebase
   Map<String, dynamic> toFirestore() {
     return {
-      'id': id,
+      // 'id': id,
       'logo': logo,
       'image': img,
       'name': name,
       'model': model,
-      'rentd': rentd,
-      'images': imgs,
-      'location': location,
-      // 'location1': location1,
-      // 'location2': location2,
-      'location_name': location,
+      'rent': rent,
+      'images': images,
+      'locationName': locationName,
+      'geoPoint': geoPoint,
       'type': type,
       'seats': seats,
       'doors': doors,

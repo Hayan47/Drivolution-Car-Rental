@@ -27,7 +27,7 @@ class CarCard extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 height: 180,
                 child: Stack(
@@ -58,11 +58,11 @@ class CarCard extends StatelessWidget {
                     //   ),
                     // ),
 
-                    //child
+                    //!child
 
                     Padding(
                       padding: const EdgeInsets.all(15),
-                      //main colimn
+                      //?main colimn
 
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,9 +77,9 @@ class CarCard extends StatelessWidget {
                                   children: [
                                     Flexible(
                                       child: Hero(
-                                        tag: car.name!,
+                                        tag: car.name,
                                         child: Text(
-                                          '${car.name!} ${car.model!}',
+                                          '${car.name} ${car.model}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
                                           softWrap: false,
@@ -93,14 +93,14 @@ class CarCard extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // FadeInImage.assetNetwork(
-                              //   placeholder: 'assets/lottie/loading.gif',
-                              //   image: car.logo!,
-                              // )
                               Hero(
-                                tag: car.logo!,
-                                child: Image.asset(
-                                  car.logo!,
+                                tag: car.logo,
+                                child: CachedNetworkImage(
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(
+                                    color: MyColors.mywhite,
+                                  )),
+                                  imageUrl: car.logo,
                                   width: 50,
                                   height: 50,
                                 ),
@@ -131,7 +131,7 @@ class CarCard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${car.rentd}\$',
+                                  '${car.rent}\$',
                                   style: GoogleFonts.karla(
                                     color: MyColors.mywhite,
                                     fontSize: 16,
@@ -168,19 +168,19 @@ class CarCard extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 100, top: 110),
+          Positioned(
+            height: 225,
+            width: 250,
+            left: MediaQuery.sizeOf(context).width / 3,
+            top: 30,
             child: Hero(
-              tag: car.img!,
-              child: Container(
-                alignment: Alignment.bottomRight,
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(
-                    color: MyColors.mywhite,
-                  )),
-                  imageUrl: car.img!,
-                ),
+              tag: car.img,
+              child: CachedNetworkImage(
+                placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(
+                  color: MyColors.mywhite,
+                )),
+                imageUrl: car.img,
               ),
             ),
           ),

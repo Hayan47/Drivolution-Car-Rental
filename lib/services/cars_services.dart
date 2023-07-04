@@ -21,4 +21,18 @@ class CarServices {
     print(cars[0].interiorColor);
     return cars;
   }
+
+  Future<void> addCar(Car car) async {
+    try {
+      await _store
+          .collection('cars')
+          .withConverter<Car>(
+            fromFirestore: Car.fromFirestore,
+            toFirestore: (car, options) => car.toFirestore(),
+          )
+          .add(car);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

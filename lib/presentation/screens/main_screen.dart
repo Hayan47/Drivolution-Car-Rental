@@ -38,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       //body
       body: _screens[_selectedIndex],
       //bottom nav bar

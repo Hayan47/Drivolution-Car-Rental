@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onChanged: (value) {
                             searchedForCars = allCars
                                 .where((car) =>
-                                    car.name!.toLowerCase().startsWith(value))
+                                    car.name.toLowerCase().startsWith(value))
                                 .toList();
                             setState(() {});
                           },
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     )
                   : AppBar(
-                      title: Text(
+                      title: const Text(
                         'All Cars',
                       ),
                       actions: [

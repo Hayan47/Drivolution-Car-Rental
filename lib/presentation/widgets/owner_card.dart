@@ -12,7 +12,7 @@ import '../../data/models/car_model.dart';
 class OwnerCard extends StatefulWidget {
   final Car car;
 
-  OwnerCard({required this.car, super.key});
+  const OwnerCard({required this.car, super.key});
 
   @override
   State<OwnerCard> createState() => _OwnerCardState();
@@ -21,9 +21,8 @@ class OwnerCard extends StatefulWidget {
 class _OwnerCardState extends State<OwnerCard> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    context.read<UsrCubit>().getUserInfo(widget.car.ownerid!);
+    context.read<UsrCubit>().getUserInfo(widget.car.ownerid);
   }
 
   bool favorite = false;
@@ -64,7 +63,7 @@ class _OwnerCardState extends State<OwnerCard> {
                             child: Container(),
                           ),
 
-                          //gradiant effect
+                          //!gradiant effect
 
                           Container(
                             decoration: BoxDecoration(
@@ -80,37 +79,52 @@ class _OwnerCardState extends State<OwnerCard> {
                             ),
                           ),
 
-                          //child
+                          //!child
 
                           Padding(
                             padding: const EdgeInsets.all(15),
-                            //main colimn
+                            //?main colimn
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                //price
+                                //!price
                                 Container(
                                   padding: const EdgeInsets.all(6),
                                   width: 125,
                                   decoration: BoxDecoration(
-                                      color: MyColors.myred.withOpacity(0.7),
-                                      borderRadius: BorderRadius.circular(12),
-                                      boxShadow: const [
-                                        //boorom right dark
-                                        BoxShadow(
-                                          color: MyColors.myBlue2,
-                                          offset: Offset(5, 5),
-                                          blurRadius: 10,
-                                          spreadRadius: 1,
-                                        ),
-                                        //top left light
-                                        BoxShadow(
-                                          color: MyColors.myBlue,
-                                          offset: Offset(-2, -2),
-                                          blurRadius: 10,
-                                          spreadRadius: 1,
-                                        ),
-                                      ]),
+                                    color: MyColors.myred.withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: const [
+                                      //* right
+                                      BoxShadow(
+                                        color: MyColors.myBlue,
+                                        offset: Offset(2, 0),
+                                        blurRadius: 1,
+                                        spreadRadius: 0.1,
+                                      ),
+                                      //* left
+                                      BoxShadow(
+                                        color: MyColors.myBlue,
+                                        offset: Offset(-2, 0),
+                                        blurRadius: 1,
+                                        spreadRadius: 0.1,
+                                      ),
+                                      //* top
+                                      BoxShadow(
+                                        color: MyColors.myBlue,
+                                        offset: Offset(0, 2),
+                                        blurRadius: 1,
+                                        spreadRadius: 0.1,
+                                      ),
+                                      //* down
+                                      BoxShadow(
+                                        color: MyColors.myBlue,
+                                        offset: Offset(0, -2),
+                                        blurRadius: 0.5,
+                                        spreadRadius: 0.1,
+                                      ),
+                                    ],
+                                  ),
                                   child: Row(
                                     children: [
                                       Text(
@@ -121,7 +135,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                         ),
                                       ),
                                       Text(
-                                        '${widget.car.rentd}\$',
+                                        '${widget.car.rent}\$',
                                         style: GoogleFonts.karla(
                                           color: MyColors.mywhite,
                                           fontSize: 16,
@@ -137,16 +151,16 @@ class _OwnerCardState extends State<OwnerCard> {
                                     ],
                                   ),
                                 ),
-                                //divider
+                                //!divider
                                 Divider(
                                   color: Theme.of(context).secondaryHeaderColor,
                                 ),
-                                //main row
-                                //picture
+                                //?main row
+                                //!picture
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      // name + number + buttons
+                                      //! name + number + buttons
                                       SizedBox(
                                         width: 60,
                                         height: 100,
@@ -272,18 +286,17 @@ class _OwnerCardState extends State<OwnerCard> {
                     ),
                   ),
                 ),
-                Padding(
-                    padding: const EdgeInsets.only(
-                      left: 150,
-                    ),
-                    child: Container(
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(
-                          color: MyColors.mywhite,
-                        )),
-                        imageUrl: widget.car.img!,
-                      ),
+                Positioned(
+                    height: 200,
+                    width: 225,
+                    left: MediaQuery.sizeOf(context).width / 2.5,
+                    bottom: 80,
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(
+                        color: MyColors.mywhite,
+                      )),
+                      imageUrl: widget.car.img,
                     )),
               ],
             ),
