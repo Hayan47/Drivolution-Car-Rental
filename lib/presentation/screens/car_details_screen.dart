@@ -1,9 +1,8 @@
-import 'package:drivolution/business-logic/cubit/usr_cubit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/models/usr_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/car_details.dart';
@@ -21,11 +20,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
   final _controller = PageController();
   late Usr usr;
   bool favorite = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +61,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             expandedHeight: 225,
             flexibleSpace: FlexibleSpaceBar(
               title: Hero(
-                tag: widget.car.name!,
+                tag: widget.car.name,
                 child: Text(
-                  widget.car.name!,
+                  widget.car.name,
                   style: GoogleFonts.karla(),
                 ),
               ),
@@ -77,15 +71,25 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               background: Stack(
                 children: [
                   Hero(
-                    tag: widget.car.img!,
+                    tag: widget.car.img,
                     child: PageView(
-                        controller: _controller,
-                        children: List.generate(
-                            widget.car.imgs!.length,
-                            (index) => Image.asset(
-                                  widget.car.imgs![index],
-                                  fit: BoxFit.cover,
-                                ))),
+                      controller: _controller,
+                      children: List.generate(
+                          widget.car.images.length,
+                          (index) =>
+                              // Image.asset(
+                              //   widget.car.images[index],
+                              //   fit: BoxFit.cover,
+                              // ),
+                              CachedNetworkImage(
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(
+                                  color: MyColors.mywhite,
+                                )),
+                                imageUrl: widget.car.images[index],
+                                fit: BoxFit.cover,
+                              )),
+                    ),
                   ),
                   Container(
                     alignment: const Alignment(0, 0.95),
@@ -96,7 +100,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                         dotHeight: 5,
                         dotWidth: 5,
                       ),
-                      count: widget.car.imgs!.length,
+                      count: widget.car.images.length,
                       controller: _controller,
                     ),
                   )

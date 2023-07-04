@@ -97,16 +97,16 @@ class Auth {
 
   //? get user info
   Future<Usr?> getUserInfo(String userID) async {
-    var data = _store.collection('users').doc(userID).withConverter(
-          fromFirestore: Usr.fromFirestore,
-          toFirestore: (usr, options) => usr.toFirestore(),
-        );
-    final snapshot = await data.get();
-    final usr = snapshot.data(); // Convert to City object
-    if (usr != null) {
+    try {
+      var data = _store.collection('users').doc(userID).withConverter(
+            fromFirestore: Usr.fromFirestore,
+            toFirestore: (usr, options) => usr.toFirestore(),
+          );
+      final snapshot = await data.get();
+      final usr = snapshot.data(); // Convert to City object
       return usr;
-    } else {
-      // print("No such document.");
+    } catch (e) {
+      print(e);
     }
   }
 

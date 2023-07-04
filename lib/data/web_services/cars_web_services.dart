@@ -8,8 +8,8 @@ class CarsWebServices {
       responseType: ResponseType.json,
       baseUrl: 'https://a0bfd6fd-ddd9-4b90-a189-1db502001050.mock.pstmn.io/',
       receiveDataWhenStatusError: true,
-      connectTimeout: Duration(seconds: 60),
-      receiveTimeout: Duration(seconds: 60),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
     );
 
     dio = Dio(options);

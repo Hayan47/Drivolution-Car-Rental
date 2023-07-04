@@ -22,7 +22,7 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //app bar
+      //?app bar
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -36,7 +36,7 @@ class _LogInScreenState extends State<LogInScreen> {
             slivers: [
               SliverFillRemaining(
                 hasScrollBody: false,
-                //main column
+                //?main column
                 child: Form(
                   key: formKey2,
                   child: Column(
@@ -45,7 +45,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       Column(
                         children: [
                           const SizedBox(height: 15),
-                          //first message
+                          //!first message
                           Text('Hello Again!',
                               style: GoogleFonts.roboto(
                                 color: MyColors.myred,
@@ -54,7 +54,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               )),
 
                           const SizedBox(height: 10),
-                          //second message
+                          //!second message
                           Text(
                             'welcome back, you have been missed!',
                             style: GoogleFonts.roboto(
@@ -66,7 +66,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                       Column(
                         children: [
-                          //email TextField
+                          //!email TextField
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: Stack(
@@ -112,7 +112,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           // ignore: prefer_const_constructors
                           SizedBox(height: 15),
-                          //password TextField
+                          //!password TextField
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: Stack(
@@ -168,7 +168,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          //forget password
+                          //!forget password
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: Row(
@@ -188,7 +188,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               ],
                             ),
                           ),
-                          //login Button
+                          //!login Button
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -245,7 +245,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          //sign up message
+                          //!sign up message
                           const Text(
                             'ain\'t member yet?',
                             style:

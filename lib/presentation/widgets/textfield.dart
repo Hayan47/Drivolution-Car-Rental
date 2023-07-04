@@ -21,6 +21,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      // todo: text overflow
       padding: const EdgeInsets.all(8),
       child: Container(
         height: 44,
@@ -37,12 +38,12 @@ class MyTextField extends StatelessWidget {
           ),
           controller: controller,
           decoration: InputDecoration(
-            //hint style
+            //!hint style
             hintStyle: GoogleFonts.karla(
               color: MyColors.mywhite.withOpacity(0.5),
               fontSize: 14,
             ),
-            //1 enabled border
+            //!1 enabled border
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
@@ -50,15 +51,15 @@ class MyTextField extends StatelessWidget {
                 width: 0.2,
               ),
             ),
-            //2 focused border
+            //!2 focused border
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(21),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
                 color: Colors.blue,
                 width: 1,
               ),
             ),
-            //hint
+            //!hint
             hintText: hint,
             floatingLabelStyle: const TextStyle(color: MyColors.myBlue2),
             labelStyle: GoogleFonts.karla(
@@ -67,7 +68,7 @@ class MyTextField extends StatelessWidget {
             ),
             floatingLabelAlignment: FloatingLabelAlignment.start,
           ),
-          cursorHeight: 25,
+          cursorHeight: 18,
           keyboardType: inputType,
           textInputAction: actionType,
         ),
