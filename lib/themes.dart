@@ -33,13 +33,12 @@ class CustomTheme with ChangeNotifier {
       // app bar theme
       appBarTheme: AppBarTheme(
         elevation: 0,
-        backgroundColor: MyColors.myred3,
+        backgroundColor: Colors.transparent,
         titleTextStyle: GoogleFonts.karla(
           fontWeight: FontWeight.bold,
           color: MyColors.mywhite,
           fontSize: 24,
         ),
-        centerTitle: true,
         actionsIconTheme: const IconThemeData(
           color: MyColors.mywhite,
         ),

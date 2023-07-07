@@ -1,13 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:drivolution/business-logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
+import 'package:drivolution/presentation/screens/date_range_picker.dart';
+import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../business-logic/cubit/usr_cubit.dart';
 import '../../data/models/car_model.dart';
+import '../../data/models/reservation_model.dart';
 import 'owner_card.dart';
 
 class CarDetails extends StatefulWidget {
@@ -21,29 +27,34 @@ class CarDetails extends StatefulWidget {
 
 class _CarDetailsState extends State<CarDetails> {
   bool _showAllFeatures = false;
-  DateTimeRange dateTimeRange =
+
+  DateTimeRange range =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
-  Future pickDateRange() async {
-    DateTimeRange? newdateTimeRange = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2030, 12, 31),
-      currentDate: DateTime.now(),
-    );
-    if (newdateTimeRange == null) {
-      return;
+  Duration duration = const Duration();
+  int price = 0;
+  //!pick Range
+  Future pickRange() async {
+    try {
+      Map<String, dynamic> result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: ReservationsCubit(),
+              child: DateRangePicker(carid: widget.car.id!),
+            ),
+          ));
+      setState(() {
+        range = result['selectedRange'];
+        duration = range.end.difference(range.start) + const Duration(days: 1);
+        price = duration.inDays * widget.car.rent;
+      });
+    } catch (e) {
+      print(e);
     }
-    setState(() {
-      dateTimeRange = newdateTimeRange;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final start = dateTimeRange.start;
-    final end = dateTimeRange.end;
-    final duration = dateTimeRange.duration;
-    int price = widget.car.rent * duration.inDays;
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
@@ -144,7 +155,7 @@ class _CarDetailsState extends State<CarDetails> {
                         arguments: widget.car),
                     child: const Icon(
                       Icons.location_on_outlined,
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                     ),
                   ),
                 ],
@@ -164,27 +175,27 @@ class _CarDetailsState extends State<CarDetails> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: widget.car.rent.toString(),
-                          style: GoogleFonts.karla(
-                              color: MyColors.myBlue, fontSize: 20),
-                        ),
-                        TextSpan(
-                          text: ' \$/D',
-                          style: GoogleFonts.karla(
-                              color: MyColors.myred2, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Text(
-                  //   '${widget.car.rent.toString()} \$/D',
-                  //   style:
-                  //       GoogleFonts.karla(color: MyColors.myBlue, fontSize: 20),
+                  // RichText(
+                  //   text: TextSpan(
+                  //     children: [
+                  //       TextSpan(
+                  //         text: widget.car.rent.toString(),
+                  //         style: GoogleFonts.karla(
+                  //             color: MyColors.myBlue, fontSize: 20),
+                  //       ),
+                  //       TextSpan(
+                  //         text: ' \$/D',
+                  //         style: GoogleFonts.karla(
+                  //             color: MyColors.myred2, fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
                   // ),
+                  Text(
+                    '${widget.car.rent.toString()} \$/D',
+                    style:
+                        GoogleFonts.karla(color: MyColors.myBlue, fontSize: 20),
+                  ),
                 ],
               ),
             ),
@@ -215,57 +226,56 @@ class _CarDetailsState extends State<CarDetails> {
                   if (widget.car.type == 'Sedan')
                     Image.asset(
                       'assets/icons/sedan.png',
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                       width: 40,
                       height: 40,
                     ),
                   if (widget.car.type == 'Pick Up')
                     Image.asset(
                       'assets/icons/pickup.png',
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                       width: 40,
                       height: 40,
                     ),
                   if (widget.car.type == 'SUV')
                     Image.asset(
                       'assets/icons/suv.png',
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                       width: 40,
                       height: 40,
                     ),
                   if (widget.car.type == 'Sport')
                     Image.asset(
                       'assets/icons/sport.png',
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                       width: 40,
                       height: 40,
                     ),
                   if (widget.car.type == 'Coupe')
                     Image.asset(
                       'assets/icons/coupe.png',
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                       width: 40,
                       height: 40,
                     ),
                   if (widget.car.type == 'Convertible')
                     Image.asset(
                       'assets/icons/convertible.png',
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                       width: 40,
                       height: 40,
                     ),
                   if (widget.car.type == 'HatchBack')
                     Image.asset(
                       'assets/icons/hatchback.png',
-                      color: MyColors.myred2,
+                      color: MyColors.myBlue,
                       width: 40,
                       height: 40,
                     ),
                 ],
               ),
             ),
-            //! car info
-
+            ////////////////////? CAR INFO
             //!1 seats
             Padding(
               padding: const EdgeInsets.all(20),
@@ -426,42 +436,46 @@ class _CarDetailsState extends State<CarDetails> {
                 ),
               ),
             ),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: widget.car.features.length >= 3
-                  ? _showAllFeatures
-                      ? widget.car.features.length
-                      : 3
-                  : widget.car.features.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: MyColors.myBlue2,
-                          foregroundColor: MyColors.mywhite,
-                          child: Text('${index + 1}'),
-                        ),
-                        title: Text(
-                          widget.car.features[index],
-                          style: GoogleFonts.karla(
-                            color: MyColors.myBlue2,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+            AnimatedSize(
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeInOutCubicEmphasized,
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: widget.car.features.length >= 3
+                    ? _showAllFeatures
+                        ? widget.car.features.length
+                        : 3
+                    : widget.car.features.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: MyColors.myBlue2,
+                            foregroundColor: MyColors.mywhite,
+                            child: Text('${index + 1}'),
+                          ),
+                          title: Text(
+                            widget.car.features[index],
+                            style: GoogleFonts.karla(
+                              color: MyColors.myBlue2,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Divider(),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Divider(),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
             !_showAllFeatures
                 ? GestureDetector(
@@ -498,74 +512,10 @@ class _CarDetailsState extends State<CarDetails> {
                       ),
                     ),
                   ),
-            // ListTile(
-            //   onTap: () {
-            //     showDialog(
-            //       context: context,
-            //       builder: (_) => AlertDialog(
-            //         backgroundColor: MyColors.myBlue2,
-            //         scrollable: true,
-            //         title: Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             Text(
-            //               'Features',
-            //               style: GoogleFonts.karla(
-            //                 color: MyColors.myBlue,
-            //                 fontSize: 20,
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //             GestureDetector(
-            //               onTap: () {
-            //                 Navigator.pop(context);
-            //               },
-            //               child: const Icon(
-            //                 Icons.close,
-            //                 color: MyColors.myBlue,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //         content: Column(
-            //             children: List.generate(
-            //           widget.car.features.length,
-            //           (index) => Padding(
-            //             padding: const EdgeInsets.symmetric(
-            //               vertical: 4,
-            //             ),
-            //             child: ListTile(
-            //                 title: Text(
-            //               widget.car.features[index],
-            //               style: GoogleFonts.karla(
-            //                 color: MyColors.myBlue,
-            //               ),
-            //             )),
-            //           ),
-            //         )),
-            //         actions: [
-            //           TextButton(onPressed: () {}, child: const Text('Ok'))
-            //         ],
-            //       ),
-            //     );
-            //   },
-            //   title: Text(
-            //     'Features',
-            //     style: GoogleFonts.karla(
-            //       color: MyColors.myBlue2,
-            //       fontSize: 20,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            //   trailing: Text(
-            //     'View All',
-            //     style: GoogleFonts.karla(color: MyColors.myBlue, fontSize: 16),
-            //   ),
-            // ),
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //Details
+            //!Details
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text(
@@ -573,11 +523,11 @@ class _CarDetailsState extends State<CarDetails> {
                 style: GoogleFonts.karla(
                   color: MyColors.myBlue2,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 22,
                 ),
               ),
             ),
-            //1 color
+            //!1 color
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
@@ -588,6 +538,7 @@ class _CarDetailsState extends State<CarDetails> {
                     style: GoogleFonts.karla(
                       color: MyColors.myBlue2,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -603,7 +554,7 @@ class _CarDetailsState extends State<CarDetails> {
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //2 interior color
+            //!2 interior color
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
@@ -614,6 +565,7 @@ class _CarDetailsState extends State<CarDetails> {
                     style: GoogleFonts.karla(
                       color: MyColors.myBlue2,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -629,7 +581,7 @@ class _CarDetailsState extends State<CarDetails> {
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //3 engine
+            //!3 engine
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
@@ -640,6 +592,7 @@ class _CarDetailsState extends State<CarDetails> {
                     style: GoogleFonts.karla(
                       color: MyColors.myBlue2,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -655,7 +608,7 @@ class _CarDetailsState extends State<CarDetails> {
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //4 transmission
+            //!4 transmission
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
@@ -666,6 +619,7 @@ class _CarDetailsState extends State<CarDetails> {
                     style: GoogleFonts.karla(
                       color: MyColors.myBlue2,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -681,7 +635,7 @@ class _CarDetailsState extends State<CarDetails> {
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //5 Drive train
+            //!5 Drive train
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
@@ -692,6 +646,7 @@ class _CarDetailsState extends State<CarDetails> {
                     style: GoogleFonts.karla(
                       color: MyColors.myBlue2,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -707,7 +662,7 @@ class _CarDetailsState extends State<CarDetails> {
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //6 kilometrage
+            //!6 kilometrage
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
@@ -718,6 +673,7 @@ class _CarDetailsState extends State<CarDetails> {
                     style: GoogleFonts.karla(
                       color: MyColors.myBlue2,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
@@ -733,10 +689,11 @@ class _CarDetailsState extends State<CarDetails> {
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //discription
+            //!discription
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Discription',
@@ -747,23 +704,34 @@ class _CarDetailsState extends State<CarDetails> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ReadMoreText(
-                    widget.car.description,
-                    style: GoogleFonts.karla(
-                      color: MyColors.mywhite,
-                      fontSize: 15,
-                    ),
-                    trimMode: TrimMode.Line,
-                    trimLines: 2,
-                    moreStyle: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 15,
-                    ),
-                    lessStyle: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 15,
-                    ),
-                  )
+                  widget.car.description != ''
+                      ? ReadMoreText(
+                          widget.car.description,
+                          style: GoogleFonts.karla(
+                            color: MyColors.mywhite,
+                            fontSize: 15,
+                          ),
+                          trimMode: TrimMode.Line,
+                          trimLines: 2,
+                          moreStyle: GoogleFonts.karla(
+                            color: MyColors.myBlue,
+                            fontSize: 15,
+                          ),
+                          lessStyle: GoogleFonts.karla(
+                            color: MyColors.myBlue,
+                            fontSize: 15,
+                          ),
+                        )
+                      : Center(
+                          child: Text(
+                            'No Description',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.karla(
+                              color: MyColors.mywhite.withOpacity(0.8),
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -776,7 +744,7 @@ class _CarDetailsState extends State<CarDetails> {
             Divider(
               color: Theme.of(context).secondaryHeaderColor,
             ),
-            //book now
+            //!book now
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
@@ -788,13 +756,14 @@ class _CarDetailsState extends State<CarDetails> {
                 ),
               ),
             ),
+            //!Date Pick
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                    onTap: pickDateRange,
+                    onTap: pickRange,
                     child: Container(
                       width: 125,
                       height: 40,
@@ -804,7 +773,7 @@ class _CarDetailsState extends State<CarDetails> {
                       ),
                       child: Center(
                           child: Text(
-                        '${start.year}/${start.month}/${start.day}',
+                        '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
                         style: GoogleFonts.karla(
                           color: MyColors.mywhite,
                           fontSize: 15,
@@ -818,7 +787,7 @@ class _CarDetailsState extends State<CarDetails> {
                     color: MyColors.myred,
                   ),
                   GestureDetector(
-                    onTap: pickDateRange,
+                    onTap: pickRange,
                     child: Container(
                       width: 125,
                       height: 40,
@@ -827,19 +796,21 @@ class _CarDetailsState extends State<CarDetails> {
                         color: MyColors.myred,
                       ),
                       child: Center(
-                          child: Text(
-                        '${end.year}/${end.month}/${end.day}',
-                        style: GoogleFonts.karla(
-                          color: MyColors.mywhite,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                        child: Text(
+                          '${range.end.year.toString()} / ${range.end.month.toString()} / ${range.end.day.toString()}',
+                          style: GoogleFonts.karla(
+                            color: MyColors.mywhite,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      )),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+            //!Duration
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               child: Text(
@@ -868,7 +839,48 @@ class _CarDetailsState extends State<CarDetails> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    //onTap: pickDateRange,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                      try {
+                        context.read<ReservationsCubit>().addReservation(
+                              Reservation(
+                                carId: widget.car.id!,
+                                customerId:
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                startDate: range.start,
+                                endDate: range.end,
+                              ),
+                            );
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+                          icon: const Icon(
+                            Icons.done,
+                            color: Colors.green,
+                            size: 20,
+                          ),
+                          title: 'Done',
+                          message: 'Reservation Completed Successfuly',
+                        ));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+                          icon: const Icon(
+                            Icons.error,
+                            color: MyColors.myred,
+                            size: 20,
+                          ),
+                          title: 'Error',
+                          message: 'Make Reservation Failed',
+                        ));
+                      }
+                    },
                     child: Container(
                       width: 75,
                       height: 35,

@@ -106,10 +106,18 @@ class _AddCarScreenState extends State<AddCarScreen> {
     );
 
     if (response.statusCode == 200) {
-      Uint8List _imageBytes = response.bodyBytes;
-      return _imageBytes;
+      Uint8List imageBytes = response.bodyBytes;
+      return imageBytes;
     } else {
-      print('EEEE');
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'image upload failed',
+      ));
       throw Exception('Failed to remove background: ${response.body}');
     }
   }
@@ -130,6 +138,16 @@ class _AddCarScreenState extends State<AddCarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.myBlue2,
+      // appBar: AppBar(
+      //   title: Row(
+      //     children: [
+      //       SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+      //       const Text(
+      //         'Add Car',
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: SafeArea(
         child: Container(
           //?gradiant effect
@@ -184,6 +202,72 @@ class _AddCarScreenState extends State<AddCarScreen> {
                               const SizedBox(height: 10),
                               const Divider(color: MyColors.myred2),
                               const SizedBox(height: 10),
+                              //!car logo
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Container(
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueGrey,
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: carLogos.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedlogo = index;
+                                          });
+                                        },
+                                        child: AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 200),
+                                          curve: Curves.easeIn,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: selectedlogo == index
+                                                ? MyColors.myBlue
+                                                : Colors.transparent,
+                                            // borderRadius:
+                                            //     BorderRadius.circular(12),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4),
+                                            child: CachedNetworkImage(
+                                              placeholder: (context, url) =>
+                                                  const Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                color: MyColors.mywhite,
+                                              )),
+                                              imageUrl: carLogos[index],
+                                              fit: BoxFit.contain,
+                                              width: 50,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const SizedBox(width: 10);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
                               //!pick main image
                               GestureDetector(
                                 onTap: () async {
@@ -201,10 +285,18 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       setState(() {
                                         carImage = img;
                                       });
-                                      print(carImage);
                                     }
                                   } catch (e) {
-                                    print(e);
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(MySnackBar(
+                                      icon: const Icon(
+                                        Icons.error,
+                                        color: MyColors.myred,
+                                        size: 20,
+                                      ),
+                                      title: 'Error',
+                                      message: 'Image not picked correctly',
+                                    ));
                                   }
                                 },
                                 child: SizedBox(
@@ -238,67 +330,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 ),
                               ),
                               const SizedBox(height: 25),
-                              //!car logo
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: SizedBox(
-                                  height: 90,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: carLogos.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedlogo = index;
-                                          });
-                                        },
-                                        child: AnimatedContainer(
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          curve: Curves.easeIn,
-                                          decoration: BoxDecoration(
-                                            color: selectedlogo == index
-                                                ? MyColors.myBlue
-                                                : Colors.transparent,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: MyColors.myBlue
-                                                    .withOpacity(0.2),
-                                                blurRadius: 5,
-                                                offset: const Offset(0, 2),
-                                              ),
-                                            ],
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(4),
-                                            child: CachedNetworkImage(
-                                              placeholder: (context, url) =>
-                                                  const Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                color: MyColors.mywhite,
-                                              )),
-                                              imageUrl: carLogos[index],
-                                              fit: BoxFit.contain,
-                                              width: 50,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(width: 10);
-                                    },
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
                               //!car name
                               Padding(
                                 padding:
@@ -601,7 +632,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       ),
                                       axis: Axis.horizontal,
                                       itemWidth: 30,
-                                      haptics: true,
+                                      haptics: false,
                                       value: _currentValue1,
                                       minValue: 2,
                                       maxValue: 50,
@@ -646,7 +677,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       ),
                                       axis: Axis.horizontal,
                                       itemWidth: 30,
-                                      haptics: true,
+                                      haptics: false,
                                       value: _currentValue2,
                                       minValue: 2,
                                       maxValue: 50,
@@ -771,7 +802,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 ),
                               ),
                               const SizedBox(height: 20),
-
                               //!car description
                               Padding(
                                 padding:
@@ -784,6 +814,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                     controller: _carDescriptionController,
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 4,
+                                    autofocus: false,
                                     style: GoogleFonts.karla(
                                       color: MyColors.mywhite,
                                       fontSize: 16,
@@ -844,8 +875,16 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                             loc = result;
                                           });
                                         } catch (e) {
-                                          //todo
-                                          print(e);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(MySnackBar(
+                                            icon: const Icon(
+                                              Icons.error,
+                                              color: MyColors.myred,
+                                              size: 20,
+                                            ),
+                                            title: 'Error',
+                                            message: 'picking location failed',
+                                          ));
                                         }
                                       },
                                       child: const Icon(
@@ -955,11 +994,18 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                                 Uint8List.fromList(imageData));
                                           });
                                         }
-                                        print(carImages.length);
                                       }
                                     } catch (e) {
-                                      //todo
-                                      print(e);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(MySnackBar(
+                                        icon: const Icon(
+                                          Icons.error,
+                                          color: MyColors.myred,
+                                          size: 20,
+                                        ),
+                                        title: 'Error',
+                                        message: 'Images not picked correctly',
+                                      ));
                                     }
                                   },
                                   child: SizedBox(
@@ -967,8 +1013,10 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                     child: Expanded(
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: MyColors.myred)),
+                                          border: Border.all(
+                                            color: MyColors.myred,
+                                          ),
+                                        ),
                                         child: GridView.count(
                                           crossAxisCount: 3,
                                           children: (carImages.isEmpty)
@@ -996,6 +1044,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   ),
                                 ),
                               ),
+                              const SizedBox(height: 15),
                               TextButton(
                                 onPressed: () async {
                                   showDialog(
@@ -1003,13 +1052,14 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                     barrierDismissible: false,
                                     builder: (context) => const Center(
                                       child: CircularProgressIndicator(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   );
                                   for (int i = 0; i < carImages.length; i++) {
                                     final file = carImages[i];
-                                    final imageName = 'image_$i.jpg';
+                                    final imageName =
+                                        '${_carNameController.text}$i.jpg';
                                     final ref = FirebaseStorage.instance
                                         .ref()
                                         .child('cars')
@@ -1021,13 +1071,23 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       final imageUrl =
                                           await ref.getDownloadURL();
                                       carImagesLinks.add(imageUrl);
-                                      print('Uploaded image $i: $imageUrl');
+                                      // print('Uploaded image $i: $imageUrl');
                                     } on FirebaseException catch (e) {
-                                      print('Error uploading image $i: $e');
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(MySnackBar(
+                                        icon: const Icon(
+                                          Icons.error,
+                                          color: MyColors.myred,
+                                          size: 20,
+                                        ),
+                                        title: 'Error',
+                                        message: 'uploading images failed',
+                                      ));
                                     }
                                   }
                                   final file = carImage;
-                                  const imageName = 'main_image.jpg';
+                                  final imageName =
+                                      '${_carNameController.text}_main_image.jpg';
                                   final ref = FirebaseStorage.instance
                                       .ref()
                                       .child('cars')
@@ -1038,9 +1098,17 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                     await ref.putData(file!);
                                     imageUrl = await ref.getDownloadURL();
                                   } on FirebaseException catch (e) {
-                                    print('Error uploading image $e');
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(MySnackBar(
+                                      icon: const Icon(
+                                        Icons.error,
+                                        color: MyColors.myred,
+                                        size: 20,
+                                      ),
+                                      title: 'Error',
+                                      message: 'uploading images failed',
+                                    ));
                                   }
-
                                   context.read<CarsCubit>().addCar(
                                         Car(
                                           logo: carLogos[selectedlogo],
@@ -1084,11 +1152,18 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                     message: 'car added successfuly',
                                   ));
                                 },
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(MyColors.myred),
+                                  fixedSize: MaterialStateProperty.all(
+                                    const Size(100, 20),
+                                  ),
+                                ),
                                 child: Text(
-                                  'submit',
+                                  'Submit',
                                   style: GoogleFonts.karla(
-                                    color: MyColors.myred2,
-                                    fontSize: 28,
+                                    color: MyColors.mywhite,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

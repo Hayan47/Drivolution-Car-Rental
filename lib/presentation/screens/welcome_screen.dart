@@ -86,13 +86,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                     await Future.delayed(const Duration(seconds: 1));
                     // ignore: use_build_context_synchronously
-                    Navigator.pushNamed(context, mainScreen);
+                    Navigator.pushReplacementNamed(context, mainScreen);
                   },
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(MyColors.myred),
-                      fixedSize:
-                          MaterialStateProperty.all(const Size(100, 20))),
+                    backgroundColor: MaterialStateProperty.all(MyColors.myred),
+                    fixedSize: MaterialStateProperty.all(
+                      const Size(100, 20),
+                    ),
+                  ),
                   child: const Text(
                     'Continue',
                     style: TextStyle(

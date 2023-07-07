@@ -1,11 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
-import 'dart:typed_data';
-import 'package:image/image.dart' as img;
-import 'dart:typed_data';
+import 'package:drivolution/business-logic/cubit/reservations_cubit.dart';
+import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/data/models/reservation_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
@@ -15,94 +15,244 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  Uint8List? carImage;
+  // DateTime start = DateTime.now();
+  // DateTime end = DateTime.now();
+  // Duration duration = const Duration();
 
-  //? resize img
-  // Uint8List compressImage(
-  //     Uint8List imageBytes, int targetWidth, int targetHeight) {
-  //   // Decode the image
-  //   img.Image? image = img.decodeImage(imageBytes);
+  // //!pick start
+  // Future pickStartDate() async {
+  //   List<Reservation> reservations = context
+  //       .read<ReservationsCubit>()
+  //       .getCarReservations('1oESb2ML7Iy64lhVjEpD');
+  //   print("S");
+  //   Set<DateTime> disabledDates = {};
+  //   for (Reservation reservation in reservations) {
+  //     //todo
+  //     DateTime startDate = reservation.startDate;
+  //     DateTime endDate = reservation.endDate;
 
-  //   // Resize the image
-  //   img.Image resizedImage =
-  //       img.copyResize(image!, width: targetWidth, height: targetHeight);
+  //     for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
+  //       DateTime currentDay = startDate.add(Duration(days: i));
+  //       disabledDates
+  //           .add(DateTime(currentDay.year, currentDay.month, currentDay.day));
+  //     }
+  //   }
+  //   final result = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime.now(),
+  //     lastDate: DateTime(2030),
+  //     selectableDayPredicate: (DateTime date) {
+  //       return !disabledDates
+  //           .contains(DateTime(date.year, date.month, date.day));
+  //     },
+  //   );
 
-  //   // Compress the image and return it as a Uint8List
-  //   return img.encodeJpg(resizedImage, quality: 50);
+  //   if (result == null) {
+  //     return;
+  //   }
+  //   setState(() {
+  //     start = result;
+  //   });
   // }
 
-  Future<Uint8List> removeBackground(Uint8List imageFile) async {
-//? remove img background
-    final response = await http.post(
-      headers: {
-        'X-Api-Key': 'v9hizpcYyJfHxJFLyNKBHdrs',
-      },
-      Uri.parse('https://api.remove.bg/v1.0/removebg'),
-      body: {
-        'image_file_b64': base64.encode(imageFile),
-      },
-    );
-    if (response.statusCode == 200) {
-      Uint8List _imageBytes = response.bodyBytes;
-      return _imageBytes;
-    } else {
-      print('EEEE');
-      throw Exception('Failed to remove background: ${response.body}');
+  // //!pick end
+  // Future pickEndDate() async {
+  //   final result = await showDatePicker(
+  //       context: context,
+  //       initialDate: DateTime.now(),
+  //       firstDate: DateTime.now(),
+  //       lastDate: DateTime(2030));
+
+  //   if (result == null) {
+  //     return;
+  //   }
+  //   setState(() {
+  //     end = result;
+  //     duration = end.difference(start);
+  //   });
+  // }
+
+  DateTimeRange? _selectedDateRange;
+  List<Reservation> reservations = [];
+  List<DateTime> disabledDates = [];
+
+  //!get reservations
+  Future getReservations() async {
+    reservations = context
+        .read<ReservationsCubit>()
+        .getCarReservations('1oESb2ML7Iy64lhVjEpD');
+    for (Reservation reservation in reservations) {
+      DateTime startDate = reservation.startDate;
+      DateTime endDate = reservation.endDate;
+      for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
+        DateTime currentDay = startDate.add(Duration(days: i));
+        disabledDates
+            .add(DateTime(currentDay.year, currentDay.month, currentDay.day));
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () async {
-          try {
-            XFile? pickedFile =
-                await ImagePicker().pickImage(source: ImageSource.gallery);
-            if (pickedFile != null) {
-              final image = File(pickedFile.path);
-              final imageData = await image.readAsBytes();
-              // final compressedImage = compressImage(imageData, 815, 300);
-              final img = await removeBackground(imageData);
-              setState(() {
-                carImage = img;
-              });
-              print(carImage);
-            }
-          } catch (e) {
-            print(e);
-          }
-        },
-        child: Center(
-          child: SizedBox(
-            height: 200,
-            child: carImage != null
-                ? Card(
-                    color: Colors.transparent,
-                    child: Image.memory(
-                      carImage!,
-                      fit: BoxFit.contain,
-                    ),
-                  )
-                : Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: Colors.blue,
-                        width: 2,
+      body: Center(
+          child: IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    getReservations();
+                    //!Background Container
+                    return Container(
+                      height: 400,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 5.0,
+                            spreadRadius: 1.0,
+                          ),
+                        ],
                       ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        'assets/img/cars/carholder.jpg',
-                        fit: BoxFit.cover,
+                      //!Date Range Picker
+                      child: SfDateRangePicker(
+                        //!when select a day
+                        onSelectionChanged:
+                            (DateRangePickerSelectionChangedArgs args) {
+                          if (args.value is DateTimeRange) {
+                            setState(() {
+                              _selectedDateRange = args.value;
+                            });
+                          }
+                        },
+                        //!mode
+                        selectionMode: DateRangePickerSelectionMode.range,
+                        //!past days
+                        enablePastDates: false,
+                        //!Disabled Days
+                        monthViewSettings: DateRangePickerMonthViewSettings(
+                          enableSwipeSelection: false,
+                          blackoutDates: disabledDates,
+                          showTrailingAndLeadingDates: true,
+                        ),
+                        //!Day Style
+                        monthCellStyle: DateRangePickerMonthCellStyle(
+                          blackoutDateTextStyle: GoogleFonts.karla(
+                            color: MyColors.myred,
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 16,
+                          ),
+                        ),
+                        //!Selected Day Style
+                        selectionTextStyle: GoogleFonts.karla(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                        //!Selected Days in Range Style
+                        rangeTextStyle: GoogleFonts.karla(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        //!Range Line Style
+                        rangeSelectionColor: MyColors.myred2.withOpacity(0.5),
+                        startRangeSelectionColor: MyColors.myred2,
+                        endRangeSelectionColor: MyColors.myred2,
+                        showActionButtons: true,
                       ),
-                    ),
-                  ),
-          ),
-        ),
-      ),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.date_range))),
     );
+    // var price;
+    // return Scaffold(
+    //   body: SafeArea(
+    //     child: Column(
+    //       children: [
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //             children: [
+    //               GestureDetector(
+    //                 onTap: pickStartDate,
+    //                 child: Container(
+    //                   width: 125,
+    //                   height: 40,
+    //                   decoration: BoxDecoration(
+    //                     borderRadius: BorderRadius.circular(8),
+    //                     color: MyColors.myred,
+    //                   ),
+    //                   child: Center(
+    //                       child: Text(
+    //                     '${start.year}/${start.month}/${start.day}',
+    //                     style: GoogleFonts.karla(
+    //                       color: MyColors.mywhite,
+    //                       fontSize: 15,
+    //                       fontWeight: FontWeight.bold,
+    //                     ),
+    //                   )),
+    //                 ),
+    //               ),
+    //               const Icon(
+    //                 Icons.arrow_forward_ios,
+    //                 color: MyColors.myred,
+    //               ),
+    //               GestureDetector(
+    //                 onTap: pickEndDate,
+    //                 child: Container(
+    //                   width: 125,
+    //                   height: 40,
+    //                   decoration: BoxDecoration(
+    //                     borderRadius: BorderRadius.circular(8),
+    //                     color: MyColors.myred,
+    //                   ),
+    //                   child: Center(
+    //                     child: Text(
+    //                       '${end.year}/${end.month}/${end.day}',
+    //                       style: GoogleFonts.karla(
+    //                         color: MyColors.mywhite,
+    //                         fontSize: 15,
+    //                         fontWeight: FontWeight.bold,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+    //           child: Text(
+    //             'Days: ${duration.inDays}',
+    //             style: GoogleFonts.karla(
+    //               color: MyColors.myBlue2,
+    //               fontSize: 18,
+    //               fontWeight: FontWeight.bold,
+    //             ),
+    //           ),
+    //         ),
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+    //           child: Text(
+    //             'price', // $price \$',
+    //             style: GoogleFonts.karla(
+    //               color: MyColors.myBlue2,
+    //               fontSize: 18,
+    //               fontWeight: FontWeight.bold,
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

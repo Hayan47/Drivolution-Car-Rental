@@ -85,7 +85,7 @@ class Car {
   ) {
     final data = snapshot.data();
     return Car(
-      // id: data?['id'],
+      id: snapshot.id,
       logo: data?['logo'],
       img: data?['image'],
       name: data?['name'],
