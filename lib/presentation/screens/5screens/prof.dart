@@ -18,53 +18,72 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: MyColors.myred3,
-        title: const Text('Profile'),
-        centerTitle: true,
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/img/background2.jpg'),
+          fit: BoxFit.fill,
+        ),
       ),
-      body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: Colors.black,
-            ));
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Something went wrong'));
-          } else if (snapshot.hasData) {
-            return BlocProvider.value(
-              value: UsrCubit(),
-              child: const ProfileDetailsScreen(),
-            );
-          } else {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppBar(
+            title: Row(
               children: [
-                Text(
-                  'Make Your Account Now!',
-                  style: GoogleFonts.karla(
-                    color: MyColors.myred2,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Lottie.asset('assets/lottie/register.zip'),
-                ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, loginscreen),
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(MyColors.myred),
-                      fixedSize:
-                          MaterialStateProperty.all(const Size(100, 20))),
-                  child: const Text('LogIn'),
+                SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                const Text(
+                  'Profile',
                 ),
               ],
-            );
-          }
-        },
+            ),
+          ),
+          StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.black,
+                ));
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Something went wrong'));
+              } else if (snapshot.hasData) {
+                return BlocProvider.value(
+                  value: UsrCubit(),
+                  child: const ProfileDetailsScreen(),
+                );
+              } else {
+                return Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'Make Your Account Now!',
+                        style: GoogleFonts.karla(
+                          color: MyColors.myBlue,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Lottie.asset('assets/lottie/register.zip'),
+                      ElevatedButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, loginscreen),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(MyColors.myBlue),
+                            fixedSize:
+                                MaterialStateProperty.all(const Size(100, 20))),
+                        child: const Text('LogIn'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

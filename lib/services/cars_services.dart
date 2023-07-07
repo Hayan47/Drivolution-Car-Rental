@@ -18,7 +18,6 @@ class CarServices {
       var car = doc.data();
       cars.add(car);
     }
-    print(cars[0].interiorColor);
     return cars;
   }
 

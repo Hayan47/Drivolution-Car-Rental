@@ -23,9 +23,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       child: Column(
         children: [
           AppBar(
-            title: const Text('Favorite'),
-            centerTitle: true,
-            backgroundColor: MyColors.myred3,
+            title: Row(
+              children: [
+                SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                const Text(
+                  'Favorite',
+                ),
+              ],
+            ),
           ),
           // Expanded(
           //   child: GetBuilder<FavoriteController>(

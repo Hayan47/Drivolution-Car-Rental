@@ -3,8 +3,10 @@ import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/models/usr_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../../business-logic/cubit/reservations_cubit.dart';
 import '../widgets/car_details.dart';
 
 class CarDetailsScreen extends StatefulWidget {
@@ -31,8 +33,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             backgroundColor: MyColors.myBlue2,
             actions: [
               Hero(
-                // tag: widget.car.id!,
-                tag: 1,
+                tag: widget.car.id!,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
@@ -76,12 +77,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                       controller: _controller,
                       children: List.generate(
                           widget.car.images.length,
-                          (index) =>
-                              // Image.asset(
-                              //   widget.car.images[index],
-                              //   fit: BoxFit.cover,
-                              // ),
-                              CachedNetworkImage(
+                          (index) => CachedNetworkImage(
                                 placeholder: (context, url) => const Center(
                                     child: CircularProgressIndicator(
                                   color: MyColors.mywhite,

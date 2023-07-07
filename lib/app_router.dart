@@ -1,15 +1,16 @@
 import 'package:drivolution/business-logic/cubit/cars_cubit.dart';
+import 'package:drivolution/business-logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
+import 'package:drivolution/presentation/screens/date_range_picker.dart';
 import 'package:drivolution/presentation/screens/forget_password.dart';
 import 'package:drivolution/presentation/screens/location_picker.dart';
 import 'package:drivolution/presentation/screens/log_in_screen.dart';
 import 'package:drivolution/presentation/screens/map_screen.dart';
 import 'package:drivolution/presentation/screens/sign_up_screen.dart';
 import 'package:drivolution/presentation/screens/welcome_screen.dart';
-import 'package:drivolution/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:drivolution/presentation/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,9 +21,11 @@ import 'business-logic/cubit/usr_cubit.dart';
 class AppRouter {
   late CarsCubit carsCubit;
   late UsrCubit usrCubit;
+  late ReservationsCubit resCubit;
 
   AppRouter() {
     carsCubit = CarsCubit();
+    resCubit = ReservationsCubit();
   }
 
   Route? generateRoute(RouteSettings settings) {
@@ -40,7 +43,11 @@ class AppRouter {
 
       case cardetailsscreen:
         final car = settings.arguments as Car;
-        return MaterialPageRoute(builder: (_) => CarDetailsScreen(car: car));
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                  value: resCubit,
+                  child: CarDetailsScreen(car: car),
+                ));
       case loginscreen:
         return MaterialPageRoute(builder: (_) => const LogInScreen());
       case signupscreen:
@@ -59,8 +66,14 @@ class AppRouter {
       case mapscreen:
         final car = settings.arguments as Car;
         return MaterialPageRoute(builder: (_) => MapScreen(car: car));
-      case locationpickerscreen:
-        return MaterialPageRoute(builder: (_) => LocationPicker());
+      // case locationpickerscreen:
+      //   return MaterialPageRoute(builder: (_) => LocationPicker());
+      // case daterangepicker:
+      //   return MaterialPageRoute(
+      //       builder: (_) => BlocProvider.value(
+      //             value: resCubit,
+      //             child: const DateRangePicker(),
+      //           ));
     }
     return null;
   }

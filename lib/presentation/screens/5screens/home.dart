@@ -49,11 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'find a car...',
+                            hintText: 'Find A Car...',
                             hintStyle: GoogleFonts.karla(
                               decoration: TextDecoration.none,
                               color: MyColors.mywhite,
-                              fontSize: 20,
+                              fontSize: 22,
                             ),
                           ),
                           style: GoogleFonts.karla(
@@ -72,38 +72,53 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       actions: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.only(right: 10),
                           child: IconButton(
-                              onPressed: () {
-                                _searchController.clear();
-                                Navigator.pop(context);
-                                //_isSearching = false;
-                              },
-                              icon: const Icon(Icons.clear)),
+                            onPressed: () {
+                              _searchController.clear();
+                              Navigator.pop(context);
+                              //_isSearching = false;
+                            },
+                            icon: const Icon(
+                              Icons.clear,
+                              size: 32,
+                            ),
+                          ),
                         )
                       ],
                     )
                   : AppBar(
-                      title: const Text(
-                        'All Cars',
+                      title: Row(
+                        children: [
+                          SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                          const Text(
+                            'All Cars',
+                          ),
+                        ],
                       ),
                       actions: [
-                        IconButton(
-                          onPressed: () {
-                            ModalRoute.of(context)!
-                                .addLocalHistoryEntry(LocalHistoryEntry(
-                              onRemove: () {
-                                setState(() {
-                                  _searchController.clear();
-                                  _isSearching = false;
-                                });
-                              },
-                            ));
-                            setState(() {
-                              _isSearching = true;
-                            });
-                          },
-                          icon: const Icon(Icons.search),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: IconButton(
+                            onPressed: () {
+                              ModalRoute.of(context)!
+                                  .addLocalHistoryEntry(LocalHistoryEntry(
+                                onRemove: () {
+                                  setState(() {
+                                    _searchController.clear();
+                                    _isSearching = false;
+                                  });
+                                },
+                              ));
+                              setState(() {
+                                _isSearching = true;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.search,
+                              size: 32,
+                            ),
+                          ),
                         ),
                       ],
                     ),

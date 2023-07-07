@@ -58,6 +58,7 @@ dependencies:
   readmore: ^2.2.0
   simple_gradient_text: ^1.2.4
   smooth_page_indicator: ^1.0.1
+  syncfusion_flutter_datepicker: ^22.1.37
   transparent_image: ^2.0.1
   url_launcher: ^6.1.11
 

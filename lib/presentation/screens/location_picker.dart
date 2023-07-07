@@ -11,7 +11,7 @@ class LocationPicker extends StatefulWidget {
 // todo: get my location
 class _LocationPickerState extends State<LocationPicker> {
   late GoogleMapController _mapController;
-  LatLng _pickedLocation = LatLng(23, 22);
+  LatLng _pickedLocation = const LatLng(23, 22);
   late String _cityName;
   late Set<Marker> markers = {};
 
@@ -26,9 +26,6 @@ class _LocationPickerState extends State<LocationPicker> {
 
     setState(() {
       _pickedLocation = location;
-      print('\n');
-      print(location);
-      print('\n');
       _cityName = placemark.locality!;
     });
   }
@@ -111,7 +108,7 @@ class _LocationPickerState extends State<LocationPicker> {
             );
 
             setState(() {
-              //add marker
+              //!add marker
               markers.add(Marker(
                 markerId: const MarkerId('yourloc'),
                 infoWindow: const InfoWindow(title: 'Your Location'),

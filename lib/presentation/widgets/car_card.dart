@@ -148,8 +148,7 @@ class CarCard extends StatelessWidget {
                             ),
                           ),
                           Hero(
-                            // tag: car.id!,
-                            tag: 1,
+                            tag: car.id!,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Image.asset(

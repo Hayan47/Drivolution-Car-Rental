@@ -12,26 +12,38 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        //app bar
-        appBar: AppBar(
-          title: Text(
-            'Settings',
+    return DecoratedBox(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/img/background2.jpg'),
+            fit: BoxFit.fill,
           ),
         ),
-        //body
-        body: ListView(
+        child: ListView(
           children: [
+            AppBar(
+              title: Row(
+                children: [
+                  SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                  const Text(
+                    'Settings',
+                  ),
+                ],
+              ),
+            ),
             ListTile(
               leading: IconButton(
                   onPressed: () {
                     currentTheme.toggleTheme();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.toggle_off_outlined,
                     color: MyColors.myred,
                   )),
-              title: Text('Change Theme'),
+              title: const Text(
+                'Change Theme',
+                style: TextStyle(color: Colors.white),
+              ),
             )
           ],
         ));
