@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, depend_on_referenced_packages
 
 import 'dart:convert';
 import 'dart:io';
@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drivolution/business-logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cubit/cars_cubit.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -984,16 +984,14 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                     try {
                                       List<XFile> pickedFiles =
                                           await ImagePicker().pickMultiImage();
-                                      if (pickedFiles != null) {
-                                        for (var pickedFile in pickedFiles) {
-                                          final image = File(pickedFile.path);
-                                          final imageData =
-                                              await image.readAsBytes();
-                                          setState(() {
-                                            carImages.add(
-                                                Uint8List.fromList(imageData));
-                                          });
-                                        }
+                                      for (var pickedFile in pickedFiles) {
+                                        final image = File(pickedFile.path);
+                                        final imageData =
+                                            await image.readAsBytes();
+                                        setState(() {
+                                          carImages.add(
+                                              Uint8List.fromList(imageData));
+                                        });
                                       }
                                     } catch (e) {
                                       ScaffoldMessenger.of(context)
@@ -1072,7 +1070,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                           await ref.getDownloadURL();
                                       carImagesLinks.add(imageUrl);
                                       // print('Uploaded image $i: $imageUrl');
-                                    } on FirebaseException catch (e) {
+                                    } on FirebaseException {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(MySnackBar(
                                         icon: const Icon(
@@ -1097,7 +1095,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   try {
                                     await ref.putData(file!);
                                     imageUrl = await ref.getDownloadURL();
-                                  } on FirebaseException catch (e) {
+                                  } on FirebaseException {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(MySnackBar(
                                       icon: const Icon(

@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/business-logic/cubit/usr_cubit.dart';
+import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/usr_model.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
@@ -57,15 +57,14 @@ class _OwnerCardState extends State<OwnerCard> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                MyColors.myred.withOpacity(1),
-                                MyColors.myred2.withOpacity(0.5),
-                                MyColors.myBlue.withOpacity(0.5),
-                                MyColors.myBlue2.withOpacity(1),
+                                MyColors.myred,
+                                MyColors.myred2.withAlpha(130),
+                                MyColors.myBlue.withAlpha(130),
+                                MyColors.myBlue2,
                               ],
                             ),
                           ),
                         ),
-
                         //!child
                         Padding(
                           padding: const EdgeInsets.all(15),
@@ -155,10 +154,10 @@ class _OwnerCardState extends State<OwnerCard> {
                                         child: CachedNetworkImage(
                                           placeholder: (context, url) =>
                                               const Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                            color: MyColors.mywhite,
-                                          )),
+                                            child: CircularProgressIndicator(
+                                              color: MyColors.mywhite,
+                                            ),
+                                          ),
                                           imageUrl: usr.img!,
                                           fit: BoxFit.cover,
                                         ),
@@ -203,11 +202,8 @@ class _OwnerCardState extends State<OwnerCard> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-
                                           const SizedBox(height: 25),
-
                                           //!call button
-
                                           GestureDetector(
                                             onTap: () async {
                                               final Uri phone = Uri(
@@ -218,56 +214,85 @@ class _OwnerCardState extends State<OwnerCard> {
                                                 await launchUrl(phone);
                                               } else {
                                                 ScaffoldMessenger.of(context)
-                                                    .showSnackBar(MySnackBar(
-                                                  icon: const Icon(
-                                                    Icons.error,
-                                                    color: MyColors.myred,
-                                                    size: 20,
+                                                    .showSnackBar(
+                                                  MySnackBar(
+                                                    icon: const Icon(
+                                                      Icons.error,
+                                                      color: MyColors.myred,
+                                                      size: 20,
+                                                    ),
+                                                    title: 'Error',
+                                                    message:
+                                                        'can\'t open phone number',
                                                   ),
-                                                  title: 'Error',
-                                                  message:
-                                                      'can\'t open phone number',
-                                                ));
+                                                );
                                               }
                                             },
                                             child: Container(
                                               width: 100,
                                               height: 30,
                                               decoration: BoxDecoration(
-                                                color: MyColors.myBlue2,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                boxShadow: const [
-                                                  //* right
-                                                  BoxShadow(
-                                                    color: MyColors.myBlue,
-                                                    offset: Offset(1, 0),
-                                                    blurRadius: 1,
-                                                    spreadRadius: 0.1,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                    colors: [
+                                                      MyColors.myBlue2
+                                                          .withAlpha(240),
+                                                      MyColors.myBlue2
+                                                          .withAlpha(180),
+                                                      MyColors.myBlue2
+                                                          .withAlpha(120),
+                                                      MyColors.myBlue2
+                                                          .withAlpha(60),
+                                                    ],
                                                   ),
-                                                  //* left
-                                                  BoxShadow(
-                                                    color: MyColors.myred2,
-                                                    offset: Offset(-2, 0),
-                                                    blurRadius: 1,
-                                                    spreadRadius: 0.1,
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      color: MyColors.myBlue2,
+                                                      offset: Offset(3, 4),
+                                                      blurRadius: 1,
+                                                      spreadRadius: 0.1,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: MyColors.myBlue,
+                                                      offset: Offset(0, 0),
+                                                      blurRadius: 2,
+                                                      spreadRadius: 1,
+                                                    ),
+                                                  ]
+                                                  // boxShadow: const [
+                                                  //   //* right
+                                                  //   BoxShadow(
+                                                  //     color: MyColors.myBlue2,
+                                                  //     offset: Offset(1, 0),
+                                                  //     blurRadius: 1,
+                                                  //     spreadRadius: 0.1,
+                                                  //   ),
+                                                  //   //* down
+                                                  //   BoxShadow(
+                                                  //     color: MyColors.myBlue2,
+                                                  //     offset: Offset(0, 1),
+                                                  //     blurRadius: 1,
+                                                  //     spreadRadius: 0.1,
+                                                  //   ),
+                                                  //   //* left
+                                                  //   BoxShadow(
+                                                  //     color: MyColors.myBlue2,
+                                                  //     offset: Offset(-2, 0),
+                                                  //     blurRadius: 1,
+                                                  //     spreadRadius: 0.1,
+                                                  //   ),
+                                                  //   //* top
+                                                  //   BoxShadow(
+                                                  //     color: MyColors.myBlue2,
+                                                  //     offset: Offset(0, -2),
+                                                  //     blurRadius: 0.5,
+                                                  //     spreadRadius: 0.1,
+                                                  //   ),
+                                                  // ],
                                                   ),
-                                                  //* down
-                                                  BoxShadow(
-                                                    color: MyColors.myBlue,
-                                                    offset: Offset(0, 1),
-                                                    blurRadius: 1,
-                                                    spreadRadius: 0.1,
-                                                  ),
-                                                  //* top
-                                                  BoxShadow(
-                                                    color: MyColors.myred2,
-                                                    offset: Offset(0, -2),
-                                                    blurRadius: 0.5,
-                                                    spreadRadius: 0.1,
-                                                  ),
-                                                ],
-                                              ),
                                               child: Center(
                                                 child: Text(
                                                   'Call',
@@ -294,22 +319,26 @@ class _OwnerCardState extends State<OwnerCard> {
                 ),
               ),
               Positioned(
-                  height: 200,
-                  width: 225,
-                  left: MediaQuery.sizeOf(context).width / 2.5,
-                  bottom: 80,
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(
+                height: 200,
+                width: 225,
+                left: MediaQuery.sizeOf(context).width / 2.5,
+                bottom: 80,
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(
                       color: MyColors.mywhite,
-                    )),
-                    imageUrl: widget.car.img,
-                  )),
+                    ),
+                  ),
+                  imageUrl: widget.car.img,
+                ),
+              ),
             ],
           );
         } else {
-          return const CircularProgressIndicator(
-            color: MyColors.mywhite,
+          return const Center(
+            child: CircularProgressIndicator(
+              color: MyColors.mywhite,
+            ),
           );
         }
       },

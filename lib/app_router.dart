@@ -1,12 +1,11 @@
-import 'package:drivolution/business-logic/cubit/cars_cubit.dart';
-import 'package:drivolution/business-logic/cubit/reservations_cubit.dart';
+import 'package:drivolution/logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cubit/favorite_cubit.dart';
+import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
-import 'package:drivolution/presentation/screens/date_range_picker.dart';
 import 'package:drivolution/presentation/screens/forget_password.dart';
-import 'package:drivolution/presentation/screens/location_picker.dart';
 import 'package:drivolution/presentation/screens/log_in_screen.dart';
 import 'package:drivolution/presentation/screens/map_screen.dart';
 import 'package:drivolution/presentation/screens/sign_up_screen.dart';
@@ -16,26 +15,29 @@ import 'package:drivolution/presentation/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'business-logic/cubit/usr_cubit.dart';
-
 class AppRouter {
   late CarsCubit carsCubit;
-  late UsrCubit usrCubit;
+  // late UsrCubit usrCubit;
   late ReservationsCubit resCubit;
+  late FavoriteCubit favoriteCarsCubit;
 
   AppRouter() {
     carsCubit = CarsCubit();
     resCubit = ReservationsCubit();
+    favoriteCarsCubit = FavoriteCubit();
   }
 
-  Route? generateRoute(RouteSettings settings) {
+  Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case welcomeScreen:
         return MaterialPageRoute(builder: (_) => const WelcomeScreen());
       case mainScreen:
         return PageTransition(
-          child: BlocProvider(
-            create: (BuildContext context) => carsCubit,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: carsCubit),
+              BlocProvider.value(value: favoriteCarsCubit),
+            ],
             child: const MainScreen(),
           ),
           type: PageTransitionType.leftToRight,
@@ -44,8 +46,15 @@ class AppRouter {
       case cardetailsscreen:
         final car = settings.arguments as Car;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                  value: resCubit,
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: resCubit,
+                    ),
+                    BlocProvider.value(
+                      value: favoriteCarsCubit,
+                    ),
+                  ],
                   child: CarDetailsScreen(car: car),
                 ));
       case loginscreen:
@@ -66,6 +75,14 @@ class AppRouter {
       case mapscreen:
         final car = settings.arguments as Car;
         return MaterialPageRoute(builder: (_) => MapScreen(car: car));
+      // case profiledetailsscreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider(
+      //       create: (context) => UsrCubit(),
+      //       // value: UsrCubit(),
+      //       child: const ProfileDetailsScreen(),
+      //     ),
+      //   );
       // case locationpickerscreen:
       //   return MaterialPageRoute(builder: (_) => LocationPicker());
       // case daterangepicker:
@@ -76,5 +93,11 @@ class AppRouter {
       //           ));
     }
     return null;
+  }
+
+  void dispose() {
+    carsCubit.close();
+    // usrCubit.close();
+    resCubit.close();
   }
 }

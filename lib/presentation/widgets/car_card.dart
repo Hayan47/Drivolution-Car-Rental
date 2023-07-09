@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
+import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/models/car_model.dart';
 
@@ -107,7 +109,7 @@ class CarCard extends StatelessWidget {
                               )
                             ],
                           ),
-                          //price
+                          //!price
                           Container(
                             padding: const EdgeInsets.all(6),
                             width: 125,
@@ -147,17 +149,40 @@ class CarCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Hero(
-                            tag: car.id!,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                'assets/icons/love.png',
-                                width: 30,
-                                height: 30,
-                                color: Colors.white,
-                              ),
-                            ),
+                          BlocBuilder<FavoriteCubit, FavoriteState>(
+                            builder: (context, state) {
+                              return Hero(
+                                tag: car.id!,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (state.favoriteCars.contains(car)) {
+                                        context
+                                            .read<FavoriteCubit>()
+                                            .removeCarFromFavorites(car);
+                                      } else {
+                                        context
+                                            .read<FavoriteCubit>()
+                                            .addCarToFavorites(car);
+                                      }
+                                    },
+                                    child: state.favoriteCars.contains(car)
+                                        ? Image.asset(
+                                            'assets/icons/love2.png',
+                                            width: 30,
+                                            height: 30,
+                                          )
+                                        : Image.asset(
+                                            'assets/icons/love.png',
+                                            width: 30,
+                                            height: 30,
+                                            color: Colors.white,
+                                          ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

@@ -1,5 +1,7 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/logic/cubit/favorite_cubit.dart';
+import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -27,21 +29,23 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               children: [
                 SizedBox(width: MediaQuery.sizeOf(context).width / 8),
                 const Text(
-                  'Favorite',
+                  'Favorites',
                 ),
               ],
             ),
           ),
-          // Expanded(
-          //   child: GetBuilder<FavoriteController>(
-          //     builder: (c) => ListView.builder(
-          //       itemCount: c.favoriteCars.length,
-          //       itemBuilder: (context, index) {
-          //         return CarCard(car: c.favoriteCars[index]);
-          //       },
-          //     ),
-          //   ),
-          // ),
+          Expanded(
+            child: BlocBuilder<FavoriteCubit, FavoriteState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.favoriteCars.length,
+                  itemBuilder: (context, index) {
+                    return CarCard(car: state.favoriteCars[index]);
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

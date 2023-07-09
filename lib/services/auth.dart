@@ -4,7 +4,6 @@ import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../data/models/usr_model.dart';
 
 class Auth {

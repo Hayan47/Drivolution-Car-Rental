@@ -1,11 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import 'package:drivolution/business-logic/cubit/reservations_cubit.dart';
+import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
 

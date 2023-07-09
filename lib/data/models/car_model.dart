@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 
-class Car {
+class Car extends Equatable {
   String? id;
   String logo;
   String img;
@@ -137,4 +138,30 @@ class Car {
       'ownerid': ownerid,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        logo,
+        img,
+        name,
+        model,
+        rent,
+        images,
+        geoPoint,
+        locationName,
+        type,
+        seats,
+        doors,
+        fuel,
+        features,
+        color,
+        interiorColor,
+        engine,
+        drivetrain,
+        kilometrage,
+        transmission,
+        ownerid,
+        description,
+      ];
 }

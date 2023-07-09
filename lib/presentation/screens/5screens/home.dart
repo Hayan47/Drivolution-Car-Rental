@@ -1,4 +1,4 @@
-import 'package:drivolution/business-logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cubit/cars_cubit.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:flutter/material.dart';
