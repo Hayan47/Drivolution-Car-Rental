@@ -1,4 +1,4 @@
-import 'package:drivolution/business-logic/cubit/usr_cubit.dart';
+import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +49,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               } else if (snapshot.hasError) {
                 return const Center(child: Text('Something went wrong'));
               } else if (snapshot.hasData) {
-                return BlocProvider.value(
-                  value: UsrCubit(),
+                return BlocProvider(
+                  create: (context) => UsrCubit(),
+                  // value: UsrCubit(),
                   child: const ProfileDetailsScreen(),
                 );
+                // Navigator.pushNamed(context, profiledetailsscreen);
+                // return Container(); // or any other widget
               } else {
                 return Expanded(
                   child: Column(

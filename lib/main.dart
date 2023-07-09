@@ -7,19 +7,19 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp(appRouter: AppRouter()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  final AppRouter appRouter;
-
-  const MyApp({Key? key, required this.appRouter}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  final AppRouter appRouter = AppRouter();
+
   @override
   void initState() {
     super.initState();
@@ -32,10 +32,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      onGenerateRoute: widget.appRouter.generateRoute,
+      onGenerateRoute: appRouter.onGenerateRoute,
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
       themeMode: currentTheme.currentTheme,
     );
+  }
+
+  @override
+  void dispose() {
+    appRouter.dispose();
+    super.dispose();
   }
 }

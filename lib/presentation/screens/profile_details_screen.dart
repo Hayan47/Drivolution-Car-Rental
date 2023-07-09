@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/business-logic/cubit/usr_cubit.dart';
+import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/data/models/usr_model.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:drivolution/services/auth.dart';
