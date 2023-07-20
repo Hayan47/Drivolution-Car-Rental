@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'usr_cubit.dart';
 
 @immutable
@@ -7,8 +8,12 @@ class UsrInitial extends UsrState {}
 
 class UsrLoaded extends UsrState {
   final Usr userInfo;
+  final List<Reservation> reservation;
 
-  UsrLoaded(this.userInfo);
+  UsrLoaded(
+    this.userInfo,
+    this.reservation,
+  );
 }
 
 class UsrError extends UsrState {

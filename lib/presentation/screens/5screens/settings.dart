@@ -14,9 +14,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return DecoratedBox(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/img/background2.jpg'),
-            fit: BoxFit.fill,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xff1E1E24),
+              Color(0xff243B55),
+              Color(0xff1E1E24),
+            ],
           ),
         ),
         child: ListView(

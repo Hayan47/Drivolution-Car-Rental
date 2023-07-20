@@ -1,6 +1,7 @@
 // ignore_for_file: library_prefixes
 
 import 'dart:typed_data';
+import 'package:drivolution/constants/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -107,6 +108,10 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: MyColors.myBlue,
+        title: const Text('Car Location'),
+      ),
       body: GoogleMap(
           initialCameraPosition: CameraPosition(
             target: LatLng(
@@ -122,10 +127,10 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton.extended(
+          backgroundColor: MyColors.myBlue,
           label: const Text('get your location'),
           onPressed: () async {
             Position position = await _getCurrentLocation();
-
             _googleMapController.animateCamera(
               CameraUpdate.newCameraPosition(
                 CameraPosition(

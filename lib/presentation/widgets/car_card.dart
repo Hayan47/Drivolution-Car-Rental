@@ -25,7 +25,8 @@ class CarCard extends StatelessWidget {
             padding: const EdgeInsets.only(
               right: 25,
               left: 15,
-              bottom: 50,
+              bottom: 40,
+              top: 10,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
@@ -38,27 +39,32 @@ class CarCard extends StatelessWidget {
 
                     BackdropFilter(
                       filter: ImageFilter.blur(
-                        sigmaX: 50,
-                        sigmaY: 50,
+                        sigmaX: 500,
+                        sigmaY: 500,
                       ),
-                      child: Container(),
+                      child: Container(
+                          // color: Colors.black.withOpacity(0.3),
+                          ),
                     ),
 
-                    //gradiant effect
+                    // gradiant effect
 
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     gradient: LinearGradient(
-                    //         begin: Alignment.topLeft,
-                    //         end: Alignment.bottomRight,
-                    //         colors: [
-                    //           MyColors.myred.withOpacity(1),
-                    //           MyColors.myred2.withOpacity(1),
-                    //           MyColors.myBlue.withOpacity(1),
-                    //           MyColors.myBlue2.withOpacity(1),
-                    //         ]),
-                    //   ),
-                    // ),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            // MyColors.myred.withOpacity(0.6),
+                            // MyColors.myred.withOpacity(0.6),
+                            // MyColors.myred2.withOpacity(0.2),
+                            MyColors.myBlue2.withOpacity(0.3),
+                            MyColors.myBlue.withOpacity(0.7),
+                            MyColors.myBlue2.withOpacity(0.3),
+                          ],
+                        ),
+                      ),
+                    ),
 
                     //!child
 
@@ -75,22 +81,29 @@ class CarCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   children: [
-                                    Flexible(
-                                      child: Hero(
-                                        tag: car.name,
-                                        child: Text(
-                                          '${car.name} ${car.model}',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                          softWrap: false,
-                                          style: GoogleFonts.karla(
-                                              decoration: TextDecoration.none,
-                                              color: MyColors.mywhite,
-                                              fontSize: 16),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Hero(
+                                            tag: car.name,
+                                            child: Text(
+                                              '${car.name} ${car.model}',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              softWrap: false,
+                                              style: GoogleFonts.karla(
+                                                decoration: TextDecoration.none,
+                                                color: MyColors.mywhite,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -108,46 +121,6 @@ class CarCard extends StatelessWidget {
                                 ),
                               )
                             ],
-                          ),
-                          //!price
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            width: 125,
-                            decoration: BoxDecoration(
-                              color: MyColors.myred.withOpacity(0.8),
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 15,
-                                  spreadRadius: 1,
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Price   ',
-                                  style: GoogleFonts.karla(
-                                    color: MyColors.mywhite,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  '${car.rent}\$',
-                                  style: GoogleFonts.karla(
-                                    color: MyColors.mywhite,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  '/D',
-                                  style: GoogleFonts.karla(
-                                    color: MyColors.mywhite,
-                                    fontSize: 16,
-                                  ),
-                                )
-                              ],
-                            ),
                           ),
                           BlocBuilder<FavoriteCubit, FavoriteState>(
                             builder: (context, state) {
@@ -193,18 +166,69 @@ class CarCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            height: 225,
-            width: 250,
             left: MediaQuery.sizeOf(context).width / 3,
-            top: 30,
-            child: Hero(
-              tag: car.img,
-              child: CachedNetworkImage(
-                placeholder: (context, url) => const Center(
+            top: 100,
+            child: Container(
+              height: 120,
+              width: 250,
+              // color: Colors.white,
+              child: Hero(
+                tag: car.img,
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(
-                  color: MyColors.mywhite,
-                )),
-                imageUrl: car.img,
+                      color: MyColors.mywhite,
+                    ),
+                  ),
+                  imageUrl: car.img,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
+          ),
+          //!price
+          Positioned(
+            left: 10,
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              width: 125,
+              decoration: BoxDecoration(
+                color: MyColors.myred4,
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    MyColors.myred.withOpacity(0.6),
+                    MyColors.myred2.withOpacity(1),
+                    MyColors.myred.withOpacity(0.6),
+                  ],
+                ),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    'Price   ',
+                    style: GoogleFonts.karla(
+                      color: MyColors.mywhite,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '${car.rent}\$',
+                    style: GoogleFonts.karla(
+                      color: MyColors.mywhite,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '/D',
+                    style: GoogleFonts.karla(
+                      color: MyColors.mywhite,
+                      fontSize: 16,
+                    ),
+                  )
+                ],
               ),
             ),
           ),

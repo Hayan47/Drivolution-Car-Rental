@@ -82,11 +82,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: TextFormField(
+                                    keyboardType: TextInputType.emailAddress,
                                     style: GoogleFonts.roboto(
                                       color: MyColors.mywhite,
                                       fontSize: 16,
                                     ),
-                                    keyboardType: TextInputType.emailAddress,
                                     controller: _emailcontroller,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -128,6 +128,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: TextFormField(
+                                    keyboardType: TextInputType.visiblePassword,
                                     obscureText: hide_password,
                                     style: GoogleFonts.roboto(
                                       color: MyColors.mywhite,

@@ -99,5 +99,6 @@ class AppRouter {
     carsCubit.close();
     // usrCubit.close();
     resCubit.close();
+    resCubit.close();
   }
 }

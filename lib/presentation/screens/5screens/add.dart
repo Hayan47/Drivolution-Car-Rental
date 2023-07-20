@@ -153,13 +153,14 @@ class _AddCarScreenState extends State<AddCarScreen> {
           //?gradiant effect
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xff1E1E24),
-                  Color(0xff243B55),
-                  Color(0xff1E1E24),
-                ]),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xff1E1E24),
+                Color(0xff243B55),
+                Color(0xff1E1E24),
+              ],
+            ),
           ),
 
           //?child
@@ -1043,21 +1044,51 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 ),
                               ),
                               const SizedBox(height: 15),
-                              TextButton(
-                                onPressed: () async {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) => const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 80),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (context) => const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                  for (int i = 0; i < carImages.length; i++) {
-                                    final file = carImages[i];
+                                    );
+                                    for (int i = 0; i < carImages.length; i++) {
+                                      final file = carImages[i];
+                                      final imageName =
+                                          '${_carNameController.text}$i.jpg';
+                                      final ref = FirebaseStorage.instance
+                                          .ref()
+                                          .child('cars')
+                                          .child(id)
+                                          .child(_carNameController.text)
+                                          .child(imageName);
+                                      try {
+                                        await ref.putData(file);
+                                        final imageUrl =
+                                            await ref.getDownloadURL();
+                                        carImagesLinks.add(imageUrl);
+                                        // print('Uploaded image $i: $imageUrl');
+                                      } on FirebaseException {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(MySnackBar(
+                                          icon: const Icon(
+                                            Icons.error,
+                                            color: MyColors.myred,
+                                            size: 20,
+                                          ),
+                                          title: 'Error',
+                                          message: 'uploading images failed',
+                                        ));
+                                      }
+                                    }
+                                    final file = carImage;
                                     final imageName =
-                                        '${_carNameController.text}$i.jpg';
+                                        '${_carNameController.text}_main_image.jpg';
                                     final ref = FirebaseStorage.instance
                                         .ref()
                                         .child('cars')
@@ -1065,11 +1096,8 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                         .child(_carNameController.text)
                                         .child(imageName);
                                     try {
-                                      await ref.putData(file);
-                                      final imageUrl =
-                                          await ref.getDownloadURL();
-                                      carImagesLinks.add(imageUrl);
-                                      // print('Uploaded image $i: $imageUrl');
+                                      await ref.putData(file!);
+                                      imageUrl = await ref.getDownloadURL();
                                     } on FirebaseException {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(MySnackBar(
@@ -1082,87 +1110,64 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                         message: 'uploading images failed',
                                       ));
                                     }
-                                  }
-                                  final file = carImage;
-                                  final imageName =
-                                      '${_carNameController.text}_main_image.jpg';
-                                  final ref = FirebaseStorage.instance
-                                      .ref()
-                                      .child('cars')
-                                      .child(id)
-                                      .child(_carNameController.text)
-                                      .child(imageName);
-                                  try {
-                                    await ref.putData(file!);
-                                    imageUrl = await ref.getDownloadURL();
-                                  } on FirebaseException {
+                                    context.read<CarsCubit>().addCar(
+                                          Car(
+                                            logo: carLogos[selectedlogo],
+                                            img: imageUrl!,
+                                            name: _carNameController.text,
+                                            model: _carModelController.text,
+                                            rent: int.parse(
+                                                _carRentController.text),
+                                            images: carImagesLinks,
+                                            geoPoint: GeoPoint(loc['latitude'],
+                                                loc['longitude']),
+                                            locationName:
+                                                loc['cityName'].toString(),
+                                            type: dropdownValue1,
+                                            seats: _currentValue2,
+                                            doors: _currentValue1,
+                                            fuel: dropdownValue2,
+                                            features: features,
+                                            color: _carColorController.text,
+                                            interiorColor:
+                                                _carInteriorColorController
+                                                    .text,
+                                            engine: _carEngineController.text,
+                                            drivetrain: dropdownValue4,
+                                            kilometrage: int.parse(
+                                                _carKilometrageController.text),
+                                            transmission: dropdownValue3,
+                                            ownerid: id,
+                                            description:
+                                                _carDescriptionController.text,
+                                          ),
+                                        );
+                                    Navigator.pop(context);
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(MySnackBar(
                                       icon: const Icon(
-                                        Icons.error,
-                                        color: MyColors.myred,
+                                        Icons.done,
+                                        color: Colors.green,
                                         size: 20,
                                       ),
-                                      title: 'Error',
-                                      message: 'uploading images failed',
+                                      title: 'Done',
+                                      message: 'car added successfuly',
                                     ));
-                                  }
-                                  context.read<CarsCubit>().addCar(
-                                        Car(
-                                          logo: carLogos[selectedlogo],
-                                          img: imageUrl!,
-                                          name: _carNameController.text,
-                                          model: _carModelController.text,
-                                          rent: int.parse(
-                                              _carRentController.text),
-                                          images: carImagesLinks,
-                                          geoPoint: GeoPoint(loc['latitude'],
-                                              loc['longitude']),
-                                          locationName:
-                                              loc['cityName'].toString(),
-                                          type: dropdownValue1,
-                                          seats: _currentValue2,
-                                          doors: _currentValue1,
-                                          fuel: dropdownValue2,
-                                          features: features,
-                                          color: _carColorController.text,
-                                          interiorColor:
-                                              _carInteriorColorController.text,
-                                          engine: _carEngineController.text,
-                                          drivetrain: dropdownValue4,
-                                          kilometrage: int.parse(
-                                              _carKilometrageController.text),
-                                          transmission: dropdownValue3,
-                                          ownerid: id,
-                                          description:
-                                              _carDescriptionController.text,
-                                        ),
-                                      );
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(MySnackBar(
-                                    icon: const Icon(
-                                      Icons.done,
-                                      color: Colors.green,
-                                      size: 20,
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        MyColors.myred),
+                                    fixedSize: MaterialStateProperty.all(
+                                      const Size(100, 20),
                                     ),
-                                    title: 'Done',
-                                    message: 'car added successfuly',
-                                  ));
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(MyColors.myred),
-                                  fixedSize: MaterialStateProperty.all(
-                                    const Size(100, 20),
                                   ),
-                                ),
-                                child: Text(
-                                  'Submit',
-                                  style: GoogleFonts.karla(
-                                    color: MyColors.mywhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                  child: Text(
+                                    'Submit',
+                                    style: GoogleFonts.karla(
+                                      color: MyColors.mywhite,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               )

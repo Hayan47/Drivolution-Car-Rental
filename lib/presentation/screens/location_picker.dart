@@ -1,3 +1,4 @@
+import 'package:drivolution/constants/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -68,6 +69,7 @@ class _LocationPickerState extends State<LocationPicker> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyColors.myBlue,
         title: const Text('Pick a location'),
         actions: [
           IconButton(
@@ -94,6 +96,7 @@ class _LocationPickerState extends State<LocationPicker> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton.extended(
+          backgroundColor: MyColors.myBlue,
           label: const Text('get your location'),
           onPressed: () async {
             Position position = await _getCurrentLocation();
