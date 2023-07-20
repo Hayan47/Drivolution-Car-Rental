@@ -14,12 +14,14 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _firstnamecontroller = TextEditingController();
   final _lastnamecontroller = TextEditingController();
+  final _phonecontroller = TextEditingController();
+
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   final _confirmpasswordcontroller = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  bool hide_password = true;
+  bool hidePassword = true;
 
   int dropDownValue = 19;
 
@@ -95,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10),
                                         child: TextFormField(
+                                          textInputAction: TextInputAction.next,
                                           textAlign: TextAlign.center,
                                           controller: _firstnamecontroller,
                                           autovalidateMode: AutovalidateMode
@@ -141,6 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10),
                                         child: TextFormField(
+                                          textInputAction: TextInputAction.next,
                                           textAlign: TextAlign.center,
                                           controller: _lastnamecontroller,
                                           style: const TextStyle(
@@ -167,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 30),
                             child: MyDropdown(
-                              icon: 'assets/icons/sedan.png',
+                              icon: 'assets/icons/age.png',
                               width: 80,
                               dropdownValue: dropDownValue,
                               label: 'age',
@@ -187,6 +191,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           const SizedBox(height: 15),
+                          //!Phone TextField
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: MyColors.myred2,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: TextFormField(
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.phone,
+                                    controller: _phonecontroller,
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (value) {
+                                      if (value == null || value.length < 10) {
+                                        return 'Enter a valid phone number';
+                                      }
+                                      return null;
+                                    },
+                                    style: const TextStyle(
+                                        color: MyColors.mywhite),
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Phone Number...',
+                                      hintStyle:
+                                          TextStyle(color: MyColors.mywhite),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 15),
                           //!Email TextField
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -203,6 +248,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: TextFormField(
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.emailAddress,
                                     controller: _emailcontroller,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -243,6 +290,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: TextFormField(
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.visiblePassword,
                                     controller: _passwordcontroller,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -254,16 +303,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     },
                                     style: const TextStyle(
                                         color: MyColors.mywhite),
-                                    obscureText: hide_password,
+                                    obscureText: hidePassword,
                                     decoration: InputDecoration(
                                       suffixIcon: IconButton(
                                         onPressed: () {
                                           setState(() {
-                                            hide_password = !hide_password;
+                                            hidePassword = !hidePassword;
                                           });
                                         },
                                         icon: Icon(
-                                          hide_password
+                                          hidePassword
                                               ? Icons.visibility_off
                                               : Icons.visibility,
                                           color: MyColors.mywhite,
@@ -297,6 +346,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: TextFormField(
+                                    textInputAction: TextInputAction.done,
+                                    keyboardType: TextInputType.visiblePassword,
                                     controller: _confirmpasswordcontroller,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -308,7 +359,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     },
                                     style: const TextStyle(
                                         color: MyColors.mywhite),
-                                    obscureText: hide_password,
+                                    obscureText: hidePassword,
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'confirm password...',
@@ -349,6 +400,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       _passwordcontroller.text.trim(),
                                       _firstnamecontroller.text.trim(),
                                       _lastnamecontroller.text.trim(),
+                                      _phonecontroller.text.trim(),
                                       dropDownValue,
                                     );
                                   },

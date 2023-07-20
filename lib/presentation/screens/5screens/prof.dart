@@ -20,73 +20,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/img/background2.jpg'),
-          fit: BoxFit.fill,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xff1E1E24),
+            Color(0xff243B55),
+            Color(0xff1E1E24),
+          ],
         ),
       ),
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          AppBar(
-            title: Row(
-              children: [
-                SizedBox(width: MediaQuery.sizeOf(context).width / 8),
-                const Text(
-                  'Profile',
-                ),
-              ],
-            ),
-          ),
-          StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.black,
-                ));
-              } else if (snapshot.hasError) {
-                return const Center(child: Text('Something went wrong'));
-              } else if (snapshot.hasData) {
-                return BlocProvider(
-                  create: (context) => UsrCubit(),
-                  // value: UsrCubit(),
-                  child: const ProfileDetailsScreen(),
-                );
-                // Navigator.pushNamed(context, profiledetailsscreen);
-                // return Container(); // or any other widget
-              } else {
-                return Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'Make Your Account Now!',
-                        style: GoogleFonts.karla(
-                          color: MyColors.myBlue,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Lottie.asset('assets/lottie/register.zip'),
-                      ElevatedButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, loginscreen),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(MyColors.myBlue),
-                            fixedSize:
-                                MaterialStateProperty.all(const Size(100, 20))),
-                        child: const Text('LogIn'),
-                      ),
-                    ],
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8, left: 8, bottom: 8),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AppBar(
+              title: Row(
+                children: [
+                  SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                  const Text(
+                    'Profile',
                   ),
-                );
-              }
-            },
-          ),
-        ],
+                ],
+              ),
+            ),
+            StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: MyColors.mywhite,
+                  ));
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Something went wrong'));
+                } else if (snapshot.hasData) {
+                  return BlocProvider(
+                    create: (context) => UsrCubit(),
+                    // value: UsrCubit(),
+                    child: const ProfileDetailsScreen(),
+                  );
+                  // Navigator.pushNamed(context, profiledetailsscreen);
+                  // return Container(); // or any other widget
+                } else {
+                  return Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'Make Your Account Now!',
+                          style: GoogleFonts.karla(
+                            color: MyColors.myBlue,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Lottie.asset('assets/lottie/register.zip'),
+                        ElevatedButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, loginscreen),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(MyColors.myBlue),
+                              fixedSize: MaterialStateProperty.all(
+                                  const Size(100, 20))),
+                          child: const Text('LogIn'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

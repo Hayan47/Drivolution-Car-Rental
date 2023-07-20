@@ -36,8 +36,8 @@ class _CarDetailsState extends State<CarDetails> {
       Map<String, dynamic> result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-              value: ReservationsCubit(),
+            builder: (context) => BlocProvider(
+              create: (context) => ReservationsCubit(),
               child: DateRangePicker(carid: widget.car.id!),
             ),
           ));

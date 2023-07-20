@@ -85,15 +85,17 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                     child: PageView(
                       controller: _controller,
                       children: List.generate(
-                          widget.car.images.length,
-                          (index) => CachedNetworkImage(
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(
-                                  color: MyColors.mywhite,
-                                )),
-                                imageUrl: widget.car.images[index],
-                                fit: BoxFit.cover,
-                              )),
+                        widget.car.images.length,
+                        (index) => CachedNetworkImage(
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(
+                              color: MyColors.mywhite,
+                            ),
+                          ),
+                          imageUrl: widget.car.images[index],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   Container(
@@ -108,7 +110,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                       count: widget.car.images.length,
                       controller: _controller,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

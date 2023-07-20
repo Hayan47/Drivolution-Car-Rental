@@ -39,4 +39,27 @@ class ReservationsServices {
       return [];
     }
   }
+
+  Future<List<Reservation>> getUserReservations(String userid) async {
+    List<Reservation> reservations = [];
+    try {
+      var snapshot = await _store
+          .collection('reservations')
+          .where('customerid', isEqualTo: userid)
+          .withConverter(
+            fromFirestore: Reservation.fromFirestore,
+            toFirestore: (res, options) => res.toFirestore(),
+          )
+          .get();
+      for (var doc in snapshot.docs) {
+        var reservation = doc.data();
+        reservations.add(reservation);
+      }
+      print(reservations);
+      return reservations;
+    } catch (e) {
+      print('EEEEEEEEEEEEEEEEEEE222$e');
+      return [];
+    }
+  }
 }

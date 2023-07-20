@@ -32,15 +32,17 @@ class Auth {
 
   //? sign up
   Future signUp(BuildContext context, String email, String password,
-      String firstName, String lastName, int age) async {
+      String firstName, String lastName, String phoneNumber, int age) async {
     try {
       //! create user
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
       //! add user details
-      addUserDetails(firstName, lastName, email, age, cred);
+      addUserDetails(firstName, lastName, phoneNumber, email, age, cred);
       Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context); 
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
@@ -56,13 +58,14 @@ class Auth {
   }
 
   //? add user details
-  Future addUserDetails(String firstName, String lastName, String email,
-      int age, UserCredential cred) async {
+  Future addUserDetails(String firstName, String lastName, String phoneNumber,
+      String email, int age, UserCredential cred) async {
     await _store.collection('users').doc(cred.user!.uid).set({
       'first name': firstName,
       'last name': lastName,
       'age': age,
       'email': email,
+      'phoneNumber': phoneNumber,
     });
   }
 

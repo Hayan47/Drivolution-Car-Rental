@@ -38,7 +38,10 @@ class _MyDropdownState<T> extends State<MyDropdown> {
             children: [
               Image.asset(
                 widget.icon,
-                color: MyColors.myBlue,
+                color: // MyColors.myBlue,
+                    widget.icon == 'assets/icons/age.png'
+                        ? null
+                        : MyColors.myBlue,
                 width: 25,
                 height: 25,
               ),
