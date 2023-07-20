@@ -8,6 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/logic/cubit/cars_cubit.dart';
 import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class AddCarScreen extends StatefulWidget {
 }
 
 class _AddCarScreenState extends State<AddCarScreen> {
-  String id = FirebaseAuth.instance.currentUser!.uid;
+  late String id;
   final _carNameController = TextEditingController();
   final _carModelController = TextEditingController();
   String dropdownValue1 = 'Sedan';
@@ -136,6 +137,10 @@ class _AddCarScreenState extends State<AddCarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return const ProfileScreen();
+    }
+    id = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       backgroundColor: MyColors.myBlue2,
       // appBar: AppBar(
@@ -1009,35 +1014,33 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   },
                                   child: SizedBox(
                                     height: 200,
-                                    child: Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: MyColors.myred,
-                                          ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: MyColors.myred,
                                         ),
-                                        child: GridView.count(
-                                          crossAxisCount: 3,
-                                          children: (carImages.isEmpty)
-                                              ? List.generate(
-                                                  9,
-                                                  (index) => Card(
-                                                    child: Image.asset(
-                                                        'assets/img/cars/carholder2.jpg'),
-                                                  ),
-                                                )
-                                              : List.generate(
-                                                  carImages.length,
-                                                  (index) {
-                                                    return Card(
-                                                      child: Image.memory(
-                                                        carImages[index],
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    );
-                                                  },
+                                      ),
+                                      child: GridView.count(
+                                        crossAxisCount: 3,
+                                        children: (carImages.isEmpty)
+                                            ? List.generate(
+                                                9,
+                                                (index) => Card(
+                                                  child: Image.asset(
+                                                      'assets/img/cars/carholder2.jpg'),
                                                 ),
-                                        ),
+                                              )
+                                            : List.generate(
+                                                carImages.length,
+                                                (index) {
+                                                  return Card(
+                                                    child: Image.memory(
+                                                      carImages[index],
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
                                       ),
                                     ),
                                   ),
