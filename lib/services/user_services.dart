@@ -1,12 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../data/models/usr_model.dart';
 
-class Auth {
+class UserServices {
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
 
@@ -42,7 +43,7 @@ class Auth {
       addUserDetails(firstName, lastName, phoneNumber, email, age, cred);
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.pop(context); 
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
@@ -110,6 +111,7 @@ class Auth {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   //? reset password
@@ -127,5 +129,49 @@ class Auth {
         message: e.message.toString(),
       ));
     }
+  }
+
+  //? add to favorite
+  Future addToFavorite(String carid, String userid) async {
+    try {
+      await _store.collection('users').doc(userid).update({
+        'favoriteCars': FieldValue.arrayUnion([carid])
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //? remove from favorite
+  Future removeFromFavorite(String carid, String userid) async {
+    try {
+      await _store.collection('users').doc(userid).update({
+        'favoriteCars': FieldValue.arrayRemove([carid])
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //?get favorite cars
+  Future<List<Car>> getFavoriteCars(List<String> favoriteCarsIds) async {
+    List<Car> favoriteCars = [];
+    var snapshot = await _store
+        .collection('cars')
+        .where(FieldPath.documentId, whereIn: favoriteCarsIds)
+        .withConverter<Car>(
+          fromFirestore: Car.fromFirestore,
+          toFirestore: (car, options) => car.toFirestore(),
+        )
+        .get();
+
+    for (var doc in snapshot.docs) {
+      var car = doc.data();
+      favoriteCars.add(car);
+    }
+    print('LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl');
+    print(favoriteCars);
+
+    return favoriteCars;
   }
 }

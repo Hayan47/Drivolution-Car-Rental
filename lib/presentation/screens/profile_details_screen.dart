@@ -9,7 +9,7 @@ import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/reservation_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_profile.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
-import 'package:drivolution/services/auth.dart';
+import 'package:drivolution/services/user_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class ProfileDetailsScreen extends StatefulWidget {
 
 class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   final user = FirebaseAuth.instance.currentUser!;
-  Usr usr = Usr();
+  late Usr usr;
   Uint8List? _image;
   List<Car> reservedCars = [];
   List<Car> myCars = [];
@@ -60,7 +60,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
       await ref.putData(_image!);
       Navigator.pop(context);
       final url = await ref.getDownloadURL();
-      await Auth().addImage(context, url, user.uid);
+      await UserServices().addImage(context, url, user.uid);
       // await context.read<UsrCubit>().getUserInfo(user.uid);
     } on PlatformException {
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
@@ -273,51 +273,57 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           ),
                           const SizedBox(height: 15),
                           //!user Reservations
-                          Column(
-                            children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    child: PageView(
-                                      controller: _controller2,
-                                      children: List.generate(
-                                          reservedCars.length, (index) {
-                                        List<Reservation> carReservations = [];
-                                        for (var reservation
-                                            in myReservations) {
-                                          if (reservation.carId ==
-                                              reservedCars[index].id) {
-                                            carReservations.add(reservation);
-                                          }
-                                        }
-                                        return ReservationCard(
-                                          car: reservedCars[index],
-                                          carReservations: carReservations,
-                                        );
-                                      }),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 125),
-                                      child: SmoothPageIndicator(
-                                        effect: const ExpandingDotsEffect(
-                                          activeDotColor: MyColors.myred2,
-                                          dotColor: Colors.white,
-                                          dotHeight: 5,
-                                          dotWidth: 5,
+                          reservedCars.isEmpty
+                              ? Container()
+                              : Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          height: 100,
+                                          child: PageView(
+                                            controller: _controller2,
+                                            children: List.generate(
+                                                reservedCars.length, (index) {
+                                              List<Reservation>
+                                                  carReservations = [];
+                                              for (var reservation
+                                                  in myReservations) {
+                                                if (reservation.carId ==
+                                                    reservedCars[index].id) {
+                                                  carReservations
+                                                      .add(reservation);
+                                                }
+                                              }
+                                              return ReservationCard(
+                                                car: reservedCars[index],
+                                                carReservations:
+                                                    carReservations,
+                                              );
+                                            }),
+                                          ),
                                         ),
-                                        count: reservedCars.length,
-                                        controller: _controller2,
-                                      ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 125),
+                                            child: SmoothPageIndicator(
+                                              effect: const ExpandingDotsEffect(
+                                                activeDotColor: MyColors.myred2,
+                                                dotColor: Colors.white,
+                                                dotHeight: 5,
+                                                dotWidth: 5,
+                                              ),
+                                              count: reservedCars.length,
+                                              controller: _controller2,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                  ],
+                                ),
                         ],
                       );
                     } else {

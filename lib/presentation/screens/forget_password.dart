@@ -2,7 +2,7 @@
 
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
-import 'package:drivolution/services/auth.dart';
+import 'package:drivolution/services/user_services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -88,7 +88,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             onPressed: () async {
                               final isValid = formKey3.currentState!.validate();
                               if (!isValid) return;
-                              await Auth().resetPassword(
+                              await UserServices().resetPassword(
                                 context,
                                 _forgotpasswordcontroller.text.trim(),
                               );

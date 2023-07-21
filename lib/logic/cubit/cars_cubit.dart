@@ -11,7 +11,7 @@ class CarsCubit extends Cubit<CarsState> {
 
   CarsCubit() : super(CarsInitial());
 
-  //! get cars
+  //? get cars
   List<Car> getAllCars() {
     CarServices().getAllCars().then((cars) {
       emit(CarsLoaded(cars));
@@ -20,7 +20,7 @@ class CarsCubit extends Cubit<CarsState> {
     return cars;
   }
 
-  //! add car
+  //? add car
   Future<void> addCar(Car car) async {
     await CarServices().addCar(car);
     // emit(CarsLoaded(cars));

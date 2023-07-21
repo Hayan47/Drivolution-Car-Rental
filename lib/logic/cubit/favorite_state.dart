@@ -1,12 +1,14 @@
 part of 'favorite_cubit.dart';
 
 @immutable
-class FavoriteState {
+abstract class FavoriteCarsState {
+  const FavoriteCarsState();
+}
+
+class FavoriteCarsLoading extends FavoriteCarsState {}
+
+class FavoriteCarsLoaded extends FavoriteCarsState {
   final List<Car> favoriteCars;
 
-  FavoriteState({required this.favoriteCars});
-
-  // @override
-  // // TODO: implement props
-  // List<Object?> get props => [favoriteCars];
+  const FavoriteCarsLoaded(this.favoriteCars);
 }

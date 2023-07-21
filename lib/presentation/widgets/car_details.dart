@@ -733,173 +733,223 @@ class _CarDetailsState extends State<CarDetails> {
                 ],
               ),
             ),
-            //owner
+            //!owner
             BlocProvider(
               create: (context) => UsrCubit(),
               child: OwnerCard(car: widget.car),
             ),
-            const SizedBox(height: 10),
-            Divider(
-              color: Theme.of(context).secondaryHeaderColor,
-            ),
-            //!book now
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
-                'Book Now!',
-                style: GoogleFonts.karla(
-                  color: MyColors.myBlue2,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            //!Date Pick
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: pickRange,
-                    child: Container(
-                      width: 125,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: MyColors.myred,
-                      ),
-                      child: Center(
-                          child: Text(
-                        '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
-                        style: GoogleFonts.karla(
-                          color: MyColors.mywhite,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+            const SizedBox(height: 20),
+
+            widget.car.ownerid == FirebaseAuth.instance.currentUser!.uid
+                //! delete
+                ? Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 160,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                MyColors.myred.withOpacity(0.6),
+                                MyColors.myred2.withOpacity(1),
+                                MyColors.myred.withOpacity(0.6),
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Delete Car',
+                              style: GoogleFonts.karla(
+                                color: MyColors.mywhite,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      )),
+                        const SizedBox(height: 20),
+                      ],
                     ),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: MyColors.myred,
-                  ),
-                  GestureDetector(
-                    onTap: pickRange,
-                    child: Container(
-                      width: 125,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: MyColors.myred,
+                  )
+                : Column(
+                    children: [
+                      Divider(
+                        color: Theme.of(context).secondaryHeaderColor,
                       ),
-                      child: Center(
+                      //!book now
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                         child: Text(
-                          '${range.end.year.toString()} / ${range.end.month.toString()} / ${range.end.day.toString()}',
+                          'Book Now!',
                           style: GoogleFonts.karla(
-                            color: MyColors.mywhite,
-                            fontSize: 15,
+                            color: MyColors.myBlue2,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //!Duration
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-              child: Text(
-                'Days: ${duration.inDays}',
-                style: GoogleFonts.karla(
-                  color: MyColors.myBlue2,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-              child: Text(
-                'price $price \$',
-                style: GoogleFonts.karla(
-                  color: MyColors.myBlue2,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        ),
-                      );
-                      try {
-                        context.read<ReservationsCubit>().addReservation(
-                              Reservation(
-                                carId: widget.car.id!,
-                                customerId:
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                startDate: range.start,
-                                endDate: range.end,
+                      //!Date Pick
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: pickRange,
+                              child: Container(
+                                width: 125,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: MyColors.myred,
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
+                                  style: GoogleFonts.karla(
+                                    color: MyColors.mywhite,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
                               ),
-                            );
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-                          icon: const Icon(
-                            Icons.done,
-                            color: Colors.green,
-                            size: 20,
-                          ),
-                          title: 'Done',
-                          message: 'Reservation Completed Successfuly',
-                        ));
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-                          icon: const Icon(
-                            Icons.error,
-                            color: MyColors.myred,
-                            size: 20,
-                          ),
-                          title: 'Error',
-                          message: 'Make Reservation Failed',
-                        ));
-                      }
-                    },
-                    child: Container(
-                      width: 75,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: MyColors.myred,
-                      ),
-                      child: Center(
-                          child: Text(
-                        'submit',
-                        style: GoogleFonts.karla(
-                          color: MyColors.mywhite,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: MyColors.myred,
+                            ),
+                            GestureDetector(
+                              onTap: pickRange,
+                              child: Container(
+                                width: 125,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: MyColors.myred,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${range.end.year.toString()} / ${range.end.month.toString()} / ${range.end.day.toString()}',
+                                    style: GoogleFonts.karla(
+                                      color: MyColors.mywhite,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      )),
-                    ),
+                      ),
+                      //!Duration
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 5),
+                        child: Text(
+                          'Days: ${duration.inDays}',
+                          style: GoogleFonts.karla(
+                            color: MyColors.myBlue2,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 5),
+                        child: Text(
+                          'price $price \$',
+                          style: GoogleFonts.karla(
+                            color: MyColors.myBlue2,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                                try {
+                                  context
+                                      .read<ReservationsCubit>()
+                                      .addReservation(
+                                        Reservation(
+                                          carId: widget.car.id!,
+                                          customerId: FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          startDate: range.start,
+                                          endDate: range.end,
+                                        ),
+                                      );
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(MySnackBar(
+                                    icon: const Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                      size: 20,
+                                    ),
+                                    title: 'Done',
+                                    message:
+                                        'Reservation Completed Successfuly',
+                                  ));
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(MySnackBar(
+                                    icon: const Icon(
+                                      Icons.error,
+                                      color: MyColors.myred,
+                                      size: 20,
+                                    ),
+                                    title: 'Error',
+                                    message: 'Make Reservation Failed',
+                                  ));
+                                }
+                              },
+                              child: Container(
+                                width: 75,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: MyColors.myred,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'submit',
+                                    style: GoogleFonts.karla(
+                                      color: MyColors.mywhite,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

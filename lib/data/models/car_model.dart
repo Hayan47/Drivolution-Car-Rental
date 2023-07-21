@@ -1,30 +1,29 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Car extends Equatable {
-  String? id;
-  String logo;
-  String img;
-  String name;
-  String model;
-  int rent;
-  List<String> images;
-  GeoPoint geoPoint;
-  String locationName;
-  String type;
-  int seats;
-  int doors;
-  String fuel;
-  List<String> features;
-  String color;
-  String interiorColor;
-  String engine;
-  String drivetrain;
-  int kilometrage;
-  String transmission;
-  String ownerid;
-  String description;
+  final String? id;
+  final String logo;
+  final String img;
+  final String name;
+  final String model;
+  final int rent;
+  final List<String> images;
+  final GeoPoint geoPoint;
+  final String locationName;
+  final String type;
+  final int seats;
+  final int doors;
+  final String fuel;
+  final List<String> features;
+  final String color;
+  final String interiorColor;
+  final String engine;
+  final String drivetrain;
+  final int kilometrage;
+  final String transmission;
+  final String ownerid;
+  final String description;
 
   //Owner? owner;
   //Review? review;

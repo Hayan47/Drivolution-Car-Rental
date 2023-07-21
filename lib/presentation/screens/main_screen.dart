@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/presentation/screens/5screens/fav.dart';
 import 'package:drivolution/presentation/screens/5screens/home.dart';

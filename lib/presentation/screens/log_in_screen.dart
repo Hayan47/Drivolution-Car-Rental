@@ -1,6 +1,6 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
-import 'package:drivolution/services/auth.dart';
+import 'package:drivolution/services/user_services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -215,7 +215,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                         ),
                                       ),
                                     );
-                                    await Auth().signIn(
+                                    await UserServices().signIn(
                                       context,
                                       _emailcontroller.text.trim(),
                                       _passwordcontroller.text.trim(),

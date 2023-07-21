@@ -1,7 +1,7 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import '../../services/auth.dart';
+import '../../services/user_services.dart';
 import '../widgets/dropdown.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -394,7 +394,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ),
                                       ),
                                     );
-                                    await Auth().signUp(
+                                    await UserServices().signUp(
                                       context,
                                       _emailcontroller.text.trim(),
                                       _passwordcontroller.text.trim(),
