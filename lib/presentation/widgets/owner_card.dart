@@ -173,7 +173,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                           Row(
                                             children: [
                                               Text(
-                                                usr.firstName!,
+                                                usr.firstName,
                                                 style: GoogleFonts.karla(
                                                   color: MyColors.myBlue2,
                                                   fontSize: 16,
@@ -182,7 +182,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                               ),
                                               const SizedBox(width: 5),
                                               Text(
-                                                usr.lastName!,
+                                                usr.lastName,
                                                 style: GoogleFonts.karla(
                                                   color: MyColors.myBlue2,
                                                   fontSize: 16,
@@ -195,7 +195,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                           const SizedBox(height: 5),
 
                                           Text(
-                                            usr.phoneNumber!,
+                                            usr.phoneNumber,
                                             style: GoogleFonts.karla(
                                               color: MyColors.myBlue2,
                                               fontSize: 16,

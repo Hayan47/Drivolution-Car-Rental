@@ -2,21 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Usr {
   int? userid;
-  String? firstName;
-  String? lastName;
-  String? email;
-  String? phoneNumber;
+  String firstName;
+  String lastName;
+  String email;
+  String phoneNumber;
   String? img;
-  int? age;
+  int age;
+  List<String>? favoriteCars;
 
-  Usr(
-      {this.userid,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.phoneNumber,
-      this.img,
-      this.age});
+  Usr({
+    this.userid,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.phoneNumber,
+    this.img,
+    required this.age,
+    this.favoriteCars,
+  });
 
   factory Usr.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -30,17 +33,19 @@ class Usr {
       age: data?['age'],
       img: data?['image'],
       phoneNumber: data?['phoneNumber'],
+      favoriteCars: List<String>.from(data?['favoriteCars'] ?? []),
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      if (firstName != null) "first_name": firstName,
-      if (lastName != null) "last_name": lastName,
-      if (email != null) "email": email,
-      if (age != null) "age": age,
+      "first_name": firstName,
+      "last_name": lastName,
+      "email": email,
+      "age": age,
+      "phoneNumber": phoneNumber,
       if (img != null) "image": img,
-      if (phoneNumber != null) "phoneNumber": phoneNumber,
+      if (favoriteCars != null) "favoriteCars": favoriteCars,
     };
   }
 }

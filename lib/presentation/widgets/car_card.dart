@@ -3,21 +3,29 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/logic/cubit/favorite_cubit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/models/car_model.dart';
 
-class CarCard extends StatelessWidget {
+class CarCard extends StatefulWidget {
   final Car car;
 
   const CarCard({required this.car, super.key});
 
   @override
+  State<CarCard> createState() => _CarCardState();
+}
+
+class _CarCardState extends State<CarCard> {
+  List<Car> favoritesCars = [];
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, cardetailsscreen, arguments: car);
+        Navigator.pushNamed(context, cardetailsscreen, arguments: widget.car);
       },
       child: Stack(
         children: [
@@ -88,9 +96,9 @@ class CarCard extends StatelessWidget {
                                       children: [
                                         Flexible(
                                           child: Hero(
-                                            tag: car.name,
+                                            tag: widget.car.name,
                                             child: Text(
-                                              '${car.name} ${car.model}',
+                                              '${widget.car.name} ${widget.car.model}',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               softWrap: false,
@@ -109,54 +117,86 @@ class CarCard extends StatelessWidget {
                                 ),
                               ),
                               Hero(
-                                tag: car.logo,
+                                tag: widget.car.logo,
                                 child: CachedNetworkImage(
                                   placeholder: (context, url) => const Center(
                                       child: CircularProgressIndicator(
                                     color: MyColors.mywhite,
                                   )),
-                                  imageUrl: car.logo,
+                                  imageUrl: widget.car.logo,
                                   width: 50,
                                   height: 50,
                                 ),
                               )
                             ],
                           ),
-                          BlocBuilder<FavoriteCubit, FavoriteState>(
-                            builder: (context, state) {
-                              return Hero(
-                                tag: car.id!,
-                                child: Padding(
+                          FirebaseAuth.instance.currentUser == null
+                              ? Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (state.favoriteCars.contains(car)) {
-                                        context
-                                            .read<FavoriteCubit>()
-                                            .removeCarFromFavorites(car);
-                                      } else {
-                                        context
-                                            .read<FavoriteCubit>()
-                                            .addCarToFavorites(car);
-                                      }
-                                    },
-                                    child: state.favoriteCars.contains(car)
-                                        ? Image.asset(
-                                            'assets/icons/love2.png',
-                                            width: 30,
-                                            height: 30,
-                                          )
-                                        : Image.asset(
-                                            'assets/icons/love.png',
-                                            width: 30,
-                                            height: 30,
-                                            color: Colors.white,
-                                          ),
+                                  child: Image.asset(
+                                    'assets/icons/love2.png',
+                                    width: 30,
+                                    height: 30,
+                                    color: Colors.grey.shade400,
                                   ),
-                                ),
-                              );
-                            },
-                          ),
+                                )
+                              : widget.car.ownerid ==
+                                      FirebaseAuth.instance.currentUser!.uid
+                                  ? Container()
+                                  : BlocBuilder<FavoriteCubit,
+                                      FavoriteCarsState>(
+                                      builder: (context, state) {
+                                        if (state is FavoriteCarsLoaded) {
+                                          favoritesCars = (state).favoriteCars;
+                                          return Hero(
+                                            tag: widget.car.id!,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  if (state.favoriteCars
+                                                      .contains(widget.car)) {
+                                                    context
+                                                        .read<FavoriteCubit>()
+                                                        .removeCarFromFavorites(
+                                                            widget.car,
+                                                            FirebaseAuth
+                                                                .instance
+                                                                .currentUser!
+                                                                .uid);
+                                                  } else {
+                                                    context
+                                                        .read<FavoriteCubit>()
+                                                        .addCarToFavorites(
+                                                            widget.car,
+                                                            FirebaseAuth
+                                                                .instance
+                                                                .currentUser!
+                                                                .uid);
+                                                  }
+                                                },
+                                                child: state.favoriteCars
+                                                        .contains(widget.car)
+                                                    ? Image.asset(
+                                                        'assets/icons/love2.png',
+                                                        width: 30,
+                                                        height: 30,
+                                                      )
+                                                    : Image.asset(
+                                                        'assets/icons/love.png',
+                                                        width: 30,
+                                                        height: 30,
+                                                        color: Colors.white,
+                                                      ),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return CircularProgressIndicator();
+                                        }
+                                      },
+                                    ),
                         ],
                       ),
                     ),
@@ -173,14 +213,14 @@ class CarCard extends StatelessWidget {
               width: 250,
               // color: Colors.white,
               child: Hero(
-                tag: car.img,
+                tag: widget.car.img,
                 child: CachedNetworkImage(
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(
                       color: MyColors.mywhite,
                     ),
                   ),
-                  imageUrl: car.img,
+                  imageUrl: widget.car.img,
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -215,7 +255,7 @@ class CarCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${car.rent}\$',
+                    '${widget.car.rent}\$',
                     style: GoogleFonts.karla(
                       color: MyColors.mywhite,
                       fontSize: 16,

@@ -4,6 +4,7 @@ import 'package:drivolution/data/models/car_model.dart';
 class CarServices {
   final _store = FirebaseFirestore.instance;
 
+  //?get all cars
   Future<List<Car>> getAllCars() async {
     List<Car> cars = [];
     var snapshot = await _store
@@ -21,6 +22,7 @@ class CarServices {
     return cars;
   }
 
+  //?add car
   Future<void> addCar(Car car) async {
     try {
       await _store

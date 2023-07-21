@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
-import 'package:drivolution/logic/cubit/reservations_cubit.dart';
-import 'package:drivolution/services/auth.dart';
+import 'package:drivolution/services/user_services.dart';
 import 'package:drivolution/services/reservations_services.dart';
 import 'package:meta/meta.dart';
 
@@ -15,24 +14,13 @@ class UsrCubit extends Cubit<UsrState> {
   //!get user ingo
   Future<void> getUserInfo(String userID) async {
     try {
-      final userInfo = await Auth().getUserInfo(userID);
+      final userInfo = await UserServices().getUserInfo(userID);
       List<Reservation> res =
           await ReservationsServices().getUserReservations(userID);
+      print('33333333333333333333');
       emit(UsrLoaded(userInfo!, res));
     } catch (e) {
       emit(UsrError('Failed to load user information'));
     }
   }
-
-//   //!get user reservations
-//   Future<void> getUserReservations(String userID) async {
-//     try {
-//       ReservationsServices().getUserReservations(userID).then((res) {
-//         emit(UsrLoaded(res));
-//       });
-//     } catch (error) {
-//       emit(ReservationError(error.toString()));
-//       print("EEEEEEEEEEEEEEEEERRRRRRRRRRRORRRRR");
-//     }
-//   }
 }

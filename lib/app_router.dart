@@ -3,6 +3,7 @@ import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
 import 'package:drivolution/presentation/screens/forget_password.dart';
@@ -17,7 +18,7 @@ import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
   late CarsCubit carsCubit;
-  // late UsrCubit usrCubit;
+  late UsrCubit usrCubit;
   late ReservationsCubit resCubit;
   late FavoriteCubit favoriteCarsCubit;
 
@@ -25,6 +26,7 @@ class AppRouter {
     carsCubit = CarsCubit();
     resCubit = ReservationsCubit();
     favoriteCarsCubit = FavoriteCubit();
+    usrCubit = UsrCubit();
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -35,6 +37,7 @@ class AppRouter {
         return PageTransition(
           child: MultiBlocProvider(
             providers: [
+              BlocProvider.value(value: usrCubit),
               BlocProvider.value(value: carsCubit),
               BlocProvider.value(value: favoriteCarsCubit),
             ],
@@ -97,7 +100,7 @@ class AppRouter {
 
   void dispose() {
     carsCubit.close();
-    // usrCubit.close();
+    usrCubit.close();
     resCubit.close();
     resCubit.close();
   }
