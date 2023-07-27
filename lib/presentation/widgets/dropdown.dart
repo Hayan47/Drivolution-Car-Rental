@@ -2,7 +2,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../constants/my_colors.dart';
 
 class MyDropdown extends StatefulWidget {
@@ -30,7 +29,7 @@ class _MyDropdownState<T> extends State<MyDropdown> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -60,9 +59,10 @@ class _MyDropdownState<T> extends State<MyDropdown> {
           // const SizedBox(width: 25),
           DropdownButtonHideUnderline(
             child: DropdownButton2(
-              style: const TextStyle(
+              style: TextStyle(
                 color: MyColors.myred,
                 fontWeight: FontWeight.bold,
+                fontSize: 13 * MediaQuery.of(context).textScaleFactor,
               ),
               value: widget.dropdownValue,
               items: widget.items,
@@ -71,7 +71,7 @@ class _MyDropdownState<T> extends State<MyDropdown> {
               //button style
               buttonStyleData: ButtonStyleData(
                 height: 40,
-                width: MediaQuery.sizeOf(context).width * 0.31,
+                width: MediaQuery.sizeOf(context).width * 0.4,
                 // elevation: 2,
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(

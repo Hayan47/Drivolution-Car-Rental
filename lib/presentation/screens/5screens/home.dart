@@ -5,6 +5,7 @@ import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import '../../../constants/my_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,10 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Car> searchedForCars = [];
   bool _isSearching = false;
   final _searchController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<CarsCubit>(context).getAllCars();
+
+  Future<void> refresh() async {
+    //?get cars
+    await Future.delayed(const Duration(seconds: 2));
+    await context.read<CarsCubit>().getAllCars();
   }
 
   @override
@@ -47,8 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       cursorColor: MyColors.mywhite,
-                      // ignore: prefer_const_constructors
-                      cursorRadius: Radius.circular(100),
+                      cursorRadius: const Radius.circular(100),
                       controller: _searchController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -66,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       onChanged: (value) {
                         searchedForCars = allCars
-                            .where((car) =>
-                                car.name.toLowerCase().startsWith(value))
+                            .where(
+                                (car) => car.name.toLowerCase().contains(value))
                             .toList();
                         setState(() {});
                       },
@@ -80,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           _searchController.clear();
                           Navigator.pop(context);
-                          //_isSearching = false;
                         },
                         icon: const Icon(
                           Icons.clear,
@@ -101,9 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   actions: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: IconButton(
-                        onPressed: () {
+                      padding: const EdgeInsets.only(right: 15, top: 5),
+                      child: GestureDetector(
+                        onTap: () {
                           ModalRoute.of(context)!
                               .addLocalHistoryEntry(LocalHistoryEntry(
                             onRemove: () {
@@ -117,9 +117,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             _isSearching = true;
                           });
                         },
-                        icon: const Icon(
-                          Icons.search,
-                          size: 32,
+                        child: Image.asset(
+                          'assets/icons/search.png',
+                          width: 35,
+                          height: 35,
+                          color: MyColors.mywhite,
                         ),
                       ),
                     ),
@@ -130,33 +132,53 @@ class _HomeScreenState extends State<HomeScreen> {
               if (state is CarsLoaded) {
                 allCars = (state).cars;
                 return Expanded(
-                  child: ListView.builder(
-                    itemCount: _searchController.text.isNotEmpty
-                        ? searchedForCars.length
-                        : allCars.length,
-                    itemBuilder: (context, index) {
-                      if (_searchController.text.isNotEmpty) {
-                        if (index == searchedForCars.length - 1) {
-                          //? Return the last item with some padding
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 55),
-                            child: CarCard(car: searchedForCars[index]),
-                          );
+                  child: LiquidPullToRefresh(
+                    onRefresh: refresh,
+                    animSpeedFactor: 1,
+                    springAnimationDurationInMilliseconds: 100,
+                    showChildOpacityTransition: false,
+                    height: 200,
+                    color: Colors.transparent,
+                    backgroundColor: MyColors.mywhite,
+                    child: ListView.builder(
+                      itemCount: _searchController.text.isNotEmpty
+                          ? searchedForCars.length
+                          : allCars.length,
+                      itemBuilder: (context, index) {
+                        if (_searchController.text.isNotEmpty) {
+                          if (index == searchedForCars.length - 1) {
+                            //? Return the last item with some padding
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 55),
+                              child: CarCard(car: searchedForCars[index]),
+                            );
+                          } else {
+                            return CarCard(car: searchedForCars[index]);
+                          }
                         } else {
-                          return CarCard(car: searchedForCars[index]);
+                          if (index == allCars.length - 1) {
+                            //? Return the last item with some padding
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 65),
+                              child: CarCard(car: allCars[index]),
+                            );
+                          } else {
+                            return CarCard(car: allCars[index]);
+                          }
                         }
-                      } else {
-                        if (index == allCars.length - 1) {
-                          //? Return the last item with some padding
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 65),
-                            child: CarCard(car: allCars[index]),
-                          );
-                        } else {
-                          return CarCard(car: allCars[index]);
-                        }
-                      }
-                    },
+                      },
+                    ),
+                  ),
+                );
+              } else if (state is CarsError) {
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: GoogleFonts.karla(
+                      decoration: TextDecoration.none,
+                      color: MyColors.mywhite,
+                      fontSize: 20,
+                    ),
                   ),
                 );
               } else {

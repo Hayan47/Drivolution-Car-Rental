@@ -12,15 +12,16 @@ class UsrCubit extends Cubit<UsrState> {
   UsrCubit() : super(UsrInitial());
 
   //!get user ingo
-  Future<void> getUserInfo(String userID) async {
+  Future<Usr?> getUserInfo(String userID) async {
     try {
       final userInfo = await UserServices().getUserInfo(userID);
       List<Reservation> res =
           await ReservationsServices().getUserReservations(userID);
-      print('33333333333333333333');
       emit(UsrLoaded(userInfo!, res));
+      return userInfo;
     } catch (e) {
       emit(UsrError('Failed to load user information'));
+      return null;
     }
   }
 }

@@ -135,6 +135,177 @@ class _AddCarScreenState extends State<AddCarScreen> {
     return img.encodeJpg(resizedImage, quality: 50);
   }
 
+  //? pick main image
+  pickMainImage() async {
+    try {
+      XFile? pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        final image = File(pickedFile.path);
+        final imageData = await image.readAsBytes();
+        final img = await removeBackground(imageData);
+        // final compressedImage =
+        //     compressImage(img, 815, 300);
+        setState(() {
+          carImage = img;
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'Image not picked correctly',
+      ));
+    }
+  }
+
+  //? pick images
+  pickImages() async {
+    try {
+      List<XFile> pickedFiles = await ImagePicker().pickMultiImage();
+      for (var pickedFile in pickedFiles) {
+        final image = File(pickedFile.path);
+        final imageData = await image.readAsBytes();
+        setState(() {
+          carImages.add(Uint8List.fromList(imageData));
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'Images not picked correctly',
+      ));
+    }
+  }
+
+  //? pick location
+  pickLocation() async {
+    try {
+      Map<String, dynamic> result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LocationPicker()),
+      );
+      setState(() {
+        loc = result;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'picking location failed',
+      ));
+    }
+  }
+
+  //? add car
+  addCar() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      ),
+    );
+    for (int i = 0; i < carImages.length; i++) {
+      final file = carImages[i];
+      final imageName = '${_carNameController.text}$i.jpg';
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('cars')
+          .child(id)
+          .child(_carNameController.text)
+          .child(imageName);
+      try {
+        await ref.putData(file);
+        final imageUrl = await ref.getDownloadURL();
+        carImagesLinks.add(imageUrl);
+        // print('Uploaded image $i: $imageUrl');
+      } on FirebaseException {
+        ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+          icon: const Icon(
+            Icons.error,
+            color: MyColors.myred,
+            size: 20,
+          ),
+          title: 'Error',
+          message: 'uploading images failed',
+        ));
+      }
+    }
+    final file = carImage;
+    final imageName = '${_carNameController.text}_main_image.jpg';
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('cars')
+        .child(id)
+        .child(_carNameController.text)
+        .child(imageName);
+    try {
+      await ref.putData(file!);
+      imageUrl = await ref.getDownloadURL();
+    } on FirebaseException {
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'uploading images failed',
+      ));
+    }
+    context.read<CarsCubit>().addCar(
+          Car(
+            logo: carLogos[selectedlogo],
+            img: imageUrl!,
+            name: _carNameController.text,
+            model: _carModelController.text,
+            rent: int.parse(_carRentController.text),
+            images: carImagesLinks,
+            geoPoint: GeoPoint(loc['latitude'], loc['longitude']),
+            locationName: loc['cityName'].toString(),
+            type: dropdownValue1,
+            seats: _currentValue2,
+            doors: _currentValue1,
+            fuel: dropdownValue2,
+            features: features,
+            color: _carColorController.text,
+            interiorColor: _carInteriorColorController.text,
+            engine: _carEngineController.text,
+            drivetrain: dropdownValue4,
+            kilometrage: int.parse(_carKilometrageController.text),
+            transmission: dropdownValue3,
+            ownerid: id,
+            description: _carDescriptionController.text,
+          ),
+        );
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+      icon: const Icon(
+        Icons.done,
+        color: Colors.green,
+        size: 20,
+      ),
+      title: 'Done',
+      message: 'car added successfuly',
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
@@ -143,16 +314,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
     id = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       backgroundColor: MyColors.myBlue2,
-      // appBar: AppBar(
-      //   title: Row(
-      //     children: [
-      //       SizedBox(width: MediaQuery.sizeOf(context).width / 8),
-      //       const Text(
-      //         'Add Car',
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: SafeArea(
         child: Container(
           //?gradiant effect
@@ -238,8 +399,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                             color: selectedlogo == index
                                                 ? MyColors.myBlue
                                                 : Colors.transparent,
-                                            // borderRadius:
-                                            //     BorderRadius.circular(12),
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
@@ -254,10 +413,11 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                             child: CachedNetworkImage(
                                               placeholder: (context, url) =>
                                                   const Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                color: MyColors.mywhite,
-                                              )),
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: MyColors.mywhite,
+                                                ),
+                                              ),
                                               imageUrl: carLogos[index],
                                               fit: BoxFit.contain,
                                               width: 50,
@@ -276,35 +436,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                               const SizedBox(height: 20),
                               //!pick main image
                               GestureDetector(
-                                onTap: () async {
-                                  try {
-                                    XFile? pickedFile = await ImagePicker()
-                                        .pickImage(source: ImageSource.gallery);
-                                    if (pickedFile != null) {
-                                      final image = File(pickedFile.path);
-                                      final imageData =
-                                          await image.readAsBytes();
-                                      final img =
-                                          await removeBackground(imageData);
-                                      // final compressedImage =
-                                      //     compressImage(img, 815, 300);
-                                      setState(() {
-                                        carImage = img;
-                                      });
-                                    }
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(MySnackBar(
-                                      icon: const Icon(
-                                        Icons.error,
-                                        color: MyColors.myred,
-                                        size: 20,
-                                      ),
-                                      title: 'Error',
-                                      message: 'Image not picked correctly',
-                                    ));
-                                  }
-                                },
+                                onTap: pickMainImage,
                                 child: SizedBox(
                                   height: 200,
                                   child: carImage != null
@@ -516,92 +648,98 @@ class _AddCarScreenState extends State<AddCarScreen> {
                               ),
                               const SizedBox(height: 10),
                               //!car type + fuel type
-                              Row(
-                                children: [
-                                  MyDropdown(
-                                    icon: 'assets/icons/sedan.png',
-                                    label: 'type',
-                                    dropdownValue: dropdownValue1,
-                                    items: carTypes
-                                        .map(
-                                          (e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e),
-                                          ),
-                                        )
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        dropdownValue1 = value;
-                                      });
-                                    },
-                                  ),
-                                  MyDropdown(
-                                    icon: 'assets/icons/gas.png',
-                                    label: 'fuel',
-                                    dropdownValue: dropdownValue2,
-                                    items: carFuel
-                                        .map(
-                                          (e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e),
-                                          ),
-                                        )
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        dropdownValue2 = value;
-                                      });
-                                    },
-                                  ),
-                                ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MyDropdown(
+                                      icon: 'assets/icons/sedan.png',
+                                      label: 'type',
+                                      dropdownValue: dropdownValue1,
+                                      items: carTypes
+                                          .map(
+                                            (e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          dropdownValue1 = value;
+                                        });
+                                      },
+                                    ),
+                                    MyDropdown(
+                                      icon: 'assets/icons/gas.png',
+                                      label: 'fuel',
+                                      dropdownValue: dropdownValue2,
+                                      items: carFuel
+                                          .map(
+                                            (e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          dropdownValue2 = value;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                               const SizedBox(height: 20),
-
                               //!car transmission + drivetrain
-                              Row(
-                                children: [
-                                  MyDropdown(
-                                    icon: 'assets/icons/gear.png',
-                                    label: 'transmission',
-                                    dropdownValue: dropdownValue3,
-                                    items: carTransmission
-                                        .map(
-                                          (e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e),
-                                          ),
-                                        )
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        dropdownValue3 = value;
-                                      });
-                                    },
-                                  ),
-                                  MyDropdown(
-                                    icon: 'assets/icons/wheel.png',
-                                    label: 'drivetrain',
-                                    dropdownValue: dropdownValue4,
-                                    items: carDrivetrain
-                                        .map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(
-                                              e,
-                                              style: TextStyle(
-                                                fontSize: 14 *
-                                                    MediaQuery.of(context)
-                                                        .textScaleFactor,
-                                              ),
-                                            )))
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        dropdownValue4 = value;
-                                      });
-                                    },
-                                  ),
-                                ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MyDropdown(
+                                      icon: 'assets/icons/gear.png',
+                                      label: 'transmission',
+                                      dropdownValue: dropdownValue3,
+                                      items: carTransmission
+                                          .map(
+                                            (e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          dropdownValue3 = value;
+                                        });
+                                      },
+                                    ),
+                                    MyDropdown(
+                                      icon: 'assets/icons/wheel.png',
+                                      label: 'drivetrain',
+                                      dropdownValue: dropdownValue4,
+                                      items: carDrivetrain
+                                          .map((e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(
+                                                e,
+                                              )))
+                                          .toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          dropdownValue4 = value;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                               const SizedBox(height: 10),
                               //!car doors
@@ -721,7 +859,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 35),
@@ -731,7 +868,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   itemCount: features.length + 1,
                                   itemBuilder: (context, index) {
                                     if (index == features.length) {
-                                      FocusNode _focusNode = FocusNode();
+                                      FocusNode focusNode = FocusNode();
                                       //? add input field
                                       return Row(
                                         children: [
@@ -745,7 +882,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                                     BorderRadius.circular(12),
                                               ),
                                               child: TextField(
-                                                focusNode: _focusNode,
+                                                focusNode: focusNode,
                                                 style: GoogleFonts.karla(
                                                   color: MyColors.mywhite,
                                                   fontSize: 16,
@@ -775,7 +912,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                                     _featureController.text);
                                               });
                                               _featureController.clear();
-                                              _focusNode.requestFocus();
+                                              focusNode.requestFocus();
                                             },
                                           ),
                                         ],
@@ -868,31 +1005,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () async {
-                                        try {
-                                          Map<String, dynamic> result =
-                                              await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LocationPicker()),
-                                          );
-                                          setState(() {
-                                            loc = result;
-                                          });
-                                        } catch (e) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(MySnackBar(
-                                            icon: const Icon(
-                                              Icons.error,
-                                              color: MyColors.myred,
-                                              size: 20,
-                                            ),
-                                            title: 'Error',
-                                            message: 'picking location failed',
-                                          ));
-                                        }
-                                      },
+                                      onTap: pickLocation,
                                       child: const Icon(
                                         Icons.location_on_outlined,
                                         color: MyColors.myBlue,
@@ -971,7 +1084,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       ],
                                     ),
                               const SizedBox(height: 15),
-
                               //!pick images
                               Text(
                                 'pick an album',
@@ -986,32 +1098,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 child: GestureDetector(
-                                  onTap: () async {
-                                    try {
-                                      List<XFile> pickedFiles =
-                                          await ImagePicker().pickMultiImage();
-                                      for (var pickedFile in pickedFiles) {
-                                        final image = File(pickedFile.path);
-                                        final imageData =
-                                            await image.readAsBytes();
-                                        setState(() {
-                                          carImages.add(
-                                              Uint8List.fromList(imageData));
-                                        });
-                                      }
-                                    } catch (e) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(MySnackBar(
-                                        icon: const Icon(
-                                          Icons.error,
-                                          color: MyColors.myred,
-                                          size: 20,
-                                        ),
-                                        title: 'Error',
-                                        message: 'Images not picked correctly',
-                                      ));
-                                    }
-                                  },
+                                  onTap: pickImages,
                                   child: SizedBox(
                                     height: 200,
                                     child: Container(
@@ -1047,116 +1134,11 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 ),
                               ),
                               const SizedBox(height: 15),
+                              //!submit
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 80),
                                 child: TextButton(
-                                  onPressed: () async {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (context) => const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    );
-                                    for (int i = 0; i < carImages.length; i++) {
-                                      final file = carImages[i];
-                                      final imageName =
-                                          '${_carNameController.text}$i.jpg';
-                                      final ref = FirebaseStorage.instance
-                                          .ref()
-                                          .child('cars')
-                                          .child(id)
-                                          .child(_carNameController.text)
-                                          .child(imageName);
-                                      try {
-                                        await ref.putData(file);
-                                        final imageUrl =
-                                            await ref.getDownloadURL();
-                                        carImagesLinks.add(imageUrl);
-                                        // print('Uploaded image $i: $imageUrl');
-                                      } on FirebaseException {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(MySnackBar(
-                                          icon: const Icon(
-                                            Icons.error,
-                                            color: MyColors.myred,
-                                            size: 20,
-                                          ),
-                                          title: 'Error',
-                                          message: 'uploading images failed',
-                                        ));
-                                      }
-                                    }
-                                    final file = carImage;
-                                    final imageName =
-                                        '${_carNameController.text}_main_image.jpg';
-                                    final ref = FirebaseStorage.instance
-                                        .ref()
-                                        .child('cars')
-                                        .child(id)
-                                        .child(_carNameController.text)
-                                        .child(imageName);
-                                    try {
-                                      await ref.putData(file!);
-                                      imageUrl = await ref.getDownloadURL();
-                                    } on FirebaseException {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(MySnackBar(
-                                        icon: const Icon(
-                                          Icons.error,
-                                          color: MyColors.myred,
-                                          size: 20,
-                                        ),
-                                        title: 'Error',
-                                        message: 'uploading images failed',
-                                      ));
-                                    }
-                                    context.read<CarsCubit>().addCar(
-                                          Car(
-                                            logo: carLogos[selectedlogo],
-                                            img: imageUrl!,
-                                            name: _carNameController.text,
-                                            model: _carModelController.text,
-                                            rent: int.parse(
-                                                _carRentController.text),
-                                            images: carImagesLinks,
-                                            geoPoint: GeoPoint(loc['latitude'],
-                                                loc['longitude']),
-                                            locationName:
-                                                loc['cityName'].toString(),
-                                            type: dropdownValue1,
-                                            seats: _currentValue2,
-                                            doors: _currentValue1,
-                                            fuel: dropdownValue2,
-                                            features: features,
-                                            color: _carColorController.text,
-                                            interiorColor:
-                                                _carInteriorColorController
-                                                    .text,
-                                            engine: _carEngineController.text,
-                                            drivetrain: dropdownValue4,
-                                            kilometrage: int.parse(
-                                                _carKilometrageController.text),
-                                            transmission: dropdownValue3,
-                                            ownerid: id,
-                                            description:
-                                                _carDescriptionController.text,
-                                          ),
-                                        );
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(MySnackBar(
-                                      icon: const Icon(
-                                        Icons.done,
-                                        color: Colors.green,
-                                        size: 20,
-                                      ),
-                                      title: 'Done',
-                                      message: 'car added successfuly',
-                                    ));
-                                  },
+                                  onPressed: addCar,
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         MyColors.myred),

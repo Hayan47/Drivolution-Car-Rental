@@ -66,9 +66,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           duration: Duration(milliseconds: 1500),
                         )
                       ],
-                      child: Lottie.asset(
-                        'assets/lottie/4.zip',
-                        height: 100,
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width * 0.2,
+                        height: MediaQuery.sizeOf(context).width * 0.2,
+                        child: Lottie.asset(
+                          'assets/lottie/4.zip',
+                          // height: 100,
+                        ),
                       ),
                     ),
                   ],

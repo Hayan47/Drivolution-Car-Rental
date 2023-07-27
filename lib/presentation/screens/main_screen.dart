@@ -1,9 +1,16 @@
 import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cubit/favorite_cubit.dart';
+import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/presentation/screens/5screens/fav.dart';
 import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/5screens/settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '5screens/add.dart';
@@ -16,23 +23,44 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  //Navigat arround the bottom nav bar
   int _selectedIndex = 0;
-  // ignore: non_constant_identifier_names
-  void _NavigateBottomNavBar(int index) {
+  List<Car> favCars = [];
+  List<String> favCarsIds = [];
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    FavoriteScreen(),
+    const AddCarScreen(),
+    const SettingsScreen(),
+    const ProfileScreen(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    //?get cars
+    await BlocProvider.of<CarsCubit>(context).getAllCars();
+    //?get user info
+    if (FirebaseAuth.instance.currentUser != null) {
+      String id = FirebaseAuth.instance.currentUser!.uid;
+      final usr = await context.read<UsrCubit>().getUserInfo(id);
+      //?get favorite cars
+      if (usr!.favoriteCars != null) {
+        favCarsIds = usr.favoriteCars!;
+        await context.read<FavoriteCubit>().getFavoriteCars(favCarsIds);
+      }
+    }
+  }
+
+  void navigateBottomNavBar(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  // different pages to navigate to
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const FavoriteScreen(),
-    const AddCarScreen(),
-    const SettingsScreen(),
-    const ProfileScreen(),
-  ];
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -43,37 +71,6 @@ class _MainScreenState extends State<MainScreen> {
           body: _screens[_selectedIndex],
           //?bottom nav bar
         ),
-
-        //!Curved Example
-        // Align(
-        //   alignment: Alignment.center,
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(15),
-        //     child: Container(
-        //       decoration: BoxDecoration(
-        //         color: const Color.fromARGB(255, 36, 114, 121),
-        //         borderRadius: BorderRadius.circular(14),
-        //       ),
-        //       child: Padding(
-        //         padding: const EdgeInsets.all(15),
-        //         child: CurvedNavigationBar(
-        //           backgroundColor: Colors.transparent,
-        //           color: const Color.fromARGB(255, 36, 114, 121),
-        //           animationDuration: const Duration(milliseconds: 250),
-        //           height: 30,
-        //           onTap: _NavigateBottomNavBar,
-        //           items: const [
-        //             Icon(Icons.home, color: MyColors.mywhite, size: 25),
-        //             Icon(Icons.favorite, color: MyColors.mywhite, size: 25),
-        //             Icon(Icons.message, color: MyColors.mywhite, size: 25),
-        //             Icon(Icons.settings, color: MyColors.mywhite, size: 25),
-        //             Icon(Icons.person, color: MyColors.mywhite, size: 25),
-        //           ],
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
 
         //!Google Nav Example
         Align(
@@ -90,9 +87,9 @@ class _MainScreenState extends State<MainScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                 child: GNav(
-                  gap: 6,
+                  gap: 9,
                   haptic: false,
-                  iconSize: 25,
+                  iconSize: 20,
                   padding: const EdgeInsets.all(13),
                   //cc
                   backgroundColor: const Color.fromARGB(255, 36, 114, 121),
@@ -106,13 +103,13 @@ class _MainScreenState extends State<MainScreen> {
                   ),
 
                   tabs: const [
-                    GButton(icon: Icons.home, text: 'home'),
-                    GButton(icon: Icons.favorite, text: 'favorite'),
-                    GButton(icon: Icons.add_circle_outline, text: 'add car'),
-                    GButton(icon: Icons.settings, text: 'settings'),
-                    GButton(icon: Icons.person, text: 'profile'),
+                    GButton(icon: FontAwesomeIcons.house, text: 'home'),
+                    GButton(icon: FontAwesomeIcons.heart, text: 'favorite'),
+                    GButton(icon: FontAwesomeIcons.car, text: 'add car'),
+                    GButton(icon: FontAwesomeIcons.gear, text: 'settings'),
+                    GButton(icon: FontAwesomeIcons.user, text: 'profile'),
                   ],
-                  onTabChange: _NavigateBottomNavBar,
+                  onTabChange: navigateBottomNavBar,
                   curve: Curves.fastOutSlowIn,
                   duration: const Duration(milliseconds: 300),
                 ),

@@ -23,7 +23,7 @@ class MyTextField extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Container(
         height: 44,
-        width: 160,
+        width: MediaQuery.sizeOf(context).width * 0.4,
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.4),
           borderRadius: BorderRadius.circular(12),

@@ -1,8 +1,6 @@
-import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,17 +55,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 } else if (snapshot.hasError) {
                   return const Center(child: Text('Something went wrong'));
                 } else if (snapshot.hasData) {
-                  return BlocProvider(
-                    create: (context) => UsrCubit(),
-                    // value: UsrCubit(),
-                    child: const ProfileDetailsScreen(),
-                  );
+                  return const ProfileDetailsScreen();
                   // Navigator.pushNamed(context, profiledetailsscreen);
                   // return Container(); // or any other widget
                 } else {
                   return Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Make Your Account Now!',
@@ -77,7 +71,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Lottie.asset('assets/lottie/register.zip'),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.4,
+                          child: Lottie.asset('assets/lottie/register.zip'),
+                        ),
                         ElevatedButton(
                           onPressed: () =>
                               Navigator.pushNamed(context, loginscreen),
@@ -88,6 +85,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const Size(100, 20))),
                           child: const Text('LogIn'),
                         ),
+                        SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.01),
                       ],
                     ),
                   );
