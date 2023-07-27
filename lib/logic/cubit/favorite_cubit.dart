@@ -12,7 +12,6 @@ class FavoriteCubit extends Cubit<FavoriteCarsState> {
   //?add to favorites
   void addCarToFavorites(Car car, String userid) async {
     await UserServices().addToFavorite(car.id!, userid);
-    print("CAR ID ADED");
     favoriteCars.add(car);
     emit(FavoriteCarsLoaded(favoriteCars));
   }
@@ -20,14 +19,18 @@ class FavoriteCubit extends Cubit<FavoriteCarsState> {
   //?remove from favorites
   void removeCarFromFavorites(Car car, String userid) async {
     await UserServices().removeFromFavorite(car.id!, userid);
-    print("CAR ID REMOVED");
     favoriteCars.remove(car);
     emit(FavoriteCarsLoaded(favoriteCars));
   }
 
   //? get favorite cars
-  List<Car> getFavoriteCars(List<String> favoriteCarsIds) {
-    UserServices().getFavoriteCars(favoriteCarsIds).then((favoriteCars) {
+  Future<List<Car>> getFavoriteCars(List<String> favoriteCarsIds) async {
+    emit(FavoriteCarsLoading());
+    if (favoriteCarsIds.isEmpty) {
+      emit(const FavoriteCarsLoaded([]));
+      return [];
+    }
+    await UserServices().getFavoriteCars(favoriteCarsIds).then((favoriteCars) {
       emit(FavoriteCarsLoaded(favoriteCars));
       this.favoriteCars = favoriteCars;
     });

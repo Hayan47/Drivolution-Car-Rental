@@ -6,17 +6,16 @@ class AllCarsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
+    return Expanded(
       child: Shimmer.fromColors(
         baseColor: Colors.black54,
         highlightColor: Colors.white10,
         period: const Duration(milliseconds: 500),
         child: ListView.builder(
           shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
-          itemCount: 3,
+          itemCount: 5,
           itemBuilder: (context, index) => Stack(
             children: [
               Padding(

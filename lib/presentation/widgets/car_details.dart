@@ -740,7 +740,8 @@ class _CarDetailsState extends State<CarDetails> {
             ),
             const SizedBox(height: 20),
 
-            widget.car.ownerid == FirebaseAuth.instance.currentUser!.uid
+            FirebaseAuth.instance.currentUser != null &&
+                    widget.car.ownerid == FirebaseAuth.instance.currentUser!.uid
                 //! delete
                 ? Center(
                     child: Column(
@@ -880,50 +881,52 @@ class _CarDetailsState extends State<CarDetails> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (context) => const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
+                                if (FirebaseAuth.instance.currentUser != null) {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => const Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                );
-                                try {
-                                  context
-                                      .read<ReservationsCubit>()
-                                      .addReservation(
-                                        Reservation(
-                                          carId: widget.car.id!,
-                                          customerId: FirebaseAuth
-                                              .instance.currentUser!.uid,
-                                          startDate: range.start,
-                                          endDate: range.end,
-                                        ),
-                                      );
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(MySnackBar(
-                                    icon: const Icon(
-                                      Icons.done,
-                                      color: Colors.green,
-                                      size: 20,
-                                    ),
-                                    title: 'Done',
-                                    message:
-                                        'Reservation Completed Successfuly',
-                                  ));
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(MySnackBar(
-                                    icon: const Icon(
-                                      Icons.error,
-                                      color: MyColors.myred,
-                                      size: 20,
-                                    ),
-                                    title: 'Error',
-                                    message: 'Make Reservation Failed',
-                                  ));
+                                  );
+                                  try {
+                                    context
+                                        .read<ReservationsCubit>()
+                                        .addReservation(
+                                          Reservation(
+                                            carId: widget.car.id!,
+                                            customerId: FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            startDate: range.start,
+                                            endDate: range.end,
+                                          ),
+                                        );
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(MySnackBar(
+                                      icon: const Icon(
+                                        Icons.done,
+                                        color: Colors.green,
+                                        size: 20,
+                                      ),
+                                      title: 'Done',
+                                      message:
+                                          'Reservation Completed Successfuly',
+                                    ));
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(MySnackBar(
+                                      icon: const Icon(
+                                        Icons.error,
+                                        color: MyColors.myred,
+                                        size: 20,
+                                      ),
+                                      title: 'Error',
+                                      message: 'Make Reservation Failed',
+                                    ));
+                                  }
                                 }
                               },
                               child: Container(
@@ -931,7 +934,10 @@ class _CarDetailsState extends State<CarDetails> {
                                 height: 35,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(3),
-                                  color: MyColors.myred,
+                                  color:
+                                      FirebaseAuth.instance.currentUser == null
+                                          ? Colors.grey.shade400
+                                          : MyColors.myred,
                                 ),
                                 child: Center(
                                   child: Text(

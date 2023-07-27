@@ -10,3 +10,9 @@ class CarsLoaded extends CarsState {
 
   CarsLoaded(this.cars);
 }
+
+class CarsError extends CarsState {
+  final String message;
+
+  CarsError(this.message);
+}

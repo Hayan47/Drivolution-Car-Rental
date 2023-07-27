@@ -120,8 +120,10 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                                 child: GestureDetector(
                                   onTap: uploadProfilePicture,
                                   child: SizedBox(
-                                    width: 150,
-                                    height: 150,
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.3,
+                                    height:
+                                        MediaQuery.sizeOf(context).width * 0.3,
                                     child: (usr.img != null)
                                         ? CachedNetworkImage(
                                             placeholder: (context, url) =>
@@ -173,7 +175,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           text: TextSpan(
                             style: GoogleFonts.karla(
                               color: MyColors.mywhite,
-                              fontSize: 34,
+                              fontSize:
+                                  30 * MediaQuery.of(context).textScaleFactor,
                               fontWeight: FontWeight.bold,
                             ),
                             children: [
@@ -214,10 +217,13 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 BlocBuilder<CarsCubit, CarsState>(
                   builder: (context, state) {
                     if (state is CarsLoaded) {
+                      print("ss");
                       for (var car in (state).cars) {
                         //?add user cars to my cars list
                         if (car.ownerid == user.uid) {
-                          myCars.add(car);
+                          if (!myCars.contains(car)) {
+                            myCars.add(car);
+                          }
                         } else {
                           //?add reserved cars to reserserved cars list
                           for (var reservation in myReservations) {
@@ -228,7 +234,9 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                             }
                           }
                         }
+                        print(car.name);
                       }
+                      print(myCars.length);
                       return Column(
                         children: [
                           Stack(

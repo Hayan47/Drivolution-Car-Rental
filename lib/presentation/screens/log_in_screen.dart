@@ -82,6 +82,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: TextFormField(
+                                    textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.emailAddress,
                                     style: GoogleFonts.roboto(
                                       color: MyColors.mywhite,

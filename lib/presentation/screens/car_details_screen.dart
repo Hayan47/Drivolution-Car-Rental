@@ -98,6 +98,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               title: Hero(
                 tag: widget.car.name,
                 child: Text(
+                  textAlign: TextAlign.center,
                   widget.car.name,
                   style: GoogleFonts.karla(),
                 ),

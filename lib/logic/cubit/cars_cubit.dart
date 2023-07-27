@@ -12,12 +12,17 @@ class CarsCubit extends Cubit<CarsState> {
   CarsCubit() : super(CarsInitial());
 
   //? get cars
-  List<Car> getAllCars() {
-    CarServices().getAllCars().then((cars) {
-      emit(CarsLoaded(cars));
-      this.cars = cars;
-    });
-    return cars;
+  Future<List<Car>> getAllCars() async {
+    try {
+      await CarServices().getAllCars().then((cars) {
+        emit(CarsLoaded(cars));
+        this.cars = cars;
+      });
+      return cars;
+    } catch (e) {
+      emit(CarsError(e.toString()));
+      return [];
+    }
   }
 
   //? add car

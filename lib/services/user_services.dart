@@ -169,7 +169,6 @@ class UserServices {
       var car = doc.data();
       favoriteCars.add(car);
     }
-    print('LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl');
     print(favoriteCars);
 
     return favoriteCars;
