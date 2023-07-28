@@ -43,19 +43,17 @@ class _CarCardState extends State<CarCard> {
                 height: 180,
                 child: Stack(
                   children: [
-                    //blur effect
+                    //?blur effect
 
                     BackdropFilter(
                       filter: ImageFilter.blur(
                         sigmaX: 500,
                         sigmaY: 500,
                       ),
-                      child: Container(
-                          // color: Colors.black.withOpacity(0.3),
-                          ),
+                      child: Container(),
                     ),
 
-                    // gradiant effect
+                    //?gradiant effect
 
                     Container(
                       decoration: BoxDecoration(
@@ -63,9 +61,6 @@ class _CarCardState extends State<CarCard> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            // MyColors.myred.withOpacity(0.6),
-                            // MyColors.myred.withOpacity(0.6),
-                            // MyColors.myred2.withOpacity(0.2),
                             MyColors.myBlue2.withOpacity(0.3),
                             MyColors.myBlue.withOpacity(0.7),
                             MyColors.myBlue2.withOpacity(0.3),
@@ -74,12 +69,10 @@ class _CarCardState extends State<CarCard> {
                       ),
                     ),
 
-                    //!child
-
+                    //?child
                     Padding(
                       padding: const EdgeInsets.all(15),
                       //?main colimn
-
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -193,7 +186,7 @@ class _CarCardState extends State<CarCard> {
                                             ),
                                           );
                                         } else {
-                                          return CircularProgressIndicator();
+                                          return Container();
                                         }
                                       },
                                     ),
@@ -208,10 +201,9 @@ class _CarCardState extends State<CarCard> {
           Positioned(
             left: MediaQuery.sizeOf(context).width / 3,
             top: 100,
-            child: Container(
+            child: SizedBox(
               height: 120,
-              width: 250,
-              // color: Colors.white,
+              width: MediaQuery.sizeOf(context).width * 0.6,
               child: Hero(
                 tag: widget.car.img,
                 child: CachedNetworkImage(

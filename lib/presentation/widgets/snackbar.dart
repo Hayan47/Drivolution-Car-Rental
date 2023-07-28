@@ -8,6 +8,7 @@ class MySnackBar extends SnackBar {
     required Icon icon,
     required String title,
     required String message,
+    required double margin,
   }) : super(
           key: key,
           content:
@@ -28,6 +29,7 @@ class MySnackBar extends SnackBar {
               ),
             ),
           ]),
+          margin: EdgeInsets.symmetric(vertical: margin, horizontal: 20),
           elevation: 50,
           duration: const Duration(seconds: 8),
           backgroundColor: Colors.black.withOpacity(0.8),

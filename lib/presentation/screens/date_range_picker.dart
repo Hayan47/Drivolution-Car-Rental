@@ -164,6 +164,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
                             ),
                             title: 'Error',
                             message: 'selected range contains taken dates',
+                            margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
                           ));
                         }
                       },

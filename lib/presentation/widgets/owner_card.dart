@@ -224,6 +224,8 @@ class _OwnerCardState extends State<OwnerCard> {
                                                     title: 'Error',
                                                     message:
                                                         'can\'t open phone number',
+                                                    margin:
+                                                        0, //MediaQuery.sizeOf(context).width * 0.2,
                                                   ),
                                                 );
                                               }

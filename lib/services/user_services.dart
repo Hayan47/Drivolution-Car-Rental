@@ -27,6 +27,7 @@ class UserServices {
         ),
         title: 'Error',
         message: e.message.toString(),
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }
@@ -54,6 +55,7 @@ class UserServices {
         ),
         title: 'Error',
         message: e.message.toString(),
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }
@@ -84,6 +86,7 @@ class UserServices {
         ),
         title: 'Done',
         message: 'Image Edited',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
@@ -94,6 +97,7 @@ class UserServices {
         ),
         title: 'Error',
         message: 'Image not edited',
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }
@@ -127,6 +131,7 @@ class UserServices {
         ),
         title: 'Error',
         message: e.message.toString(),
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }

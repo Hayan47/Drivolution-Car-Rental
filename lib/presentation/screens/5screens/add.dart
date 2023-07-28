@@ -118,6 +118,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
         ),
         title: 'Error',
         message: 'image upload failed',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
       throw Exception('Failed to remove background: ${response.body}');
     }
@@ -159,6 +160,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
         ),
         title: 'Error',
         message: 'Image not picked correctly',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }
@@ -183,6 +185,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
         ),
         title: 'Error',
         message: 'Images not picked correctly',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }
@@ -206,12 +209,170 @@ class _AddCarScreenState extends State<AddCarScreen> {
         ),
         title: 'Error',
         message: 'picking location failed',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }
 
   //? add car
   addCar() async {
+    print(MediaQuery.sizeOf(context).width);
+    //! check car logo
+    if (selectedlogo == -1) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'choose car logo',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car image
+    if (imageUrl == null) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car image',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car name
+    if (_carNameController.text.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car name',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car model
+    if (_carModelController.text.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car model',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car rent price
+    if (_carRentController.text.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car rent price',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car images
+    if (carImagesLinks.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car image album',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car location
+    if (loc['latitude'] == 0 || loc['longitude'] == 0) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car location',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car images
+    if (carImagesLinks.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car image album',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car color
+    if (_carColorController.text.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car color',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car interior color
+    if (_carInteriorColorController.text.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car interior color',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car engie
+    if (_carEngineController.text.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car engine size',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+    //! check car kilometrage
+    if (_carKilometrageController.text.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'add car kilometrage',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -244,6 +405,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
           ),
           title: 'Error',
           message: 'uploading images failed',
+          margin: MediaQuery.sizeOf(context).width * 0.2,
         ));
       }
     }
@@ -267,6 +429,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
         ),
         title: 'Error',
         message: 'uploading images failed',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
     context.read<CarsCubit>().addCar(
@@ -303,6 +466,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
       ),
       title: 'Done',
       message: 'car added successfuly',
+      margin: MediaQuery.sizeOf(context).width * 0.2,
     ));
   }
 
