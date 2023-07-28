@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,7 +81,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     },
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const AllCarsLoading();
                 }
               },
             ),

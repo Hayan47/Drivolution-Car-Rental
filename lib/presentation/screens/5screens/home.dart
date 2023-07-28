@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (index == searchedForCars.length - 1) {
                             //? Return the last item with some padding
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 55),
+                              padding: const EdgeInsets.only(bottom: 65),
                               child: CarCard(car: searchedForCars[index]),
                             );
                           } else {

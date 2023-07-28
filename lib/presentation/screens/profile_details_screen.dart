@@ -71,6 +71,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
         ),
         title: 'Error',
         message: 'failed to pick image',
+        margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
   }
@@ -217,7 +218,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 BlocBuilder<CarsCubit, CarsState>(
                   builder: (context, state) {
                     if (state is CarsLoaded) {
-                      print("ss");
                       for (var car in (state).cars) {
                         //?add user cars to my cars list
                         if (car.ownerid == user.uid) {

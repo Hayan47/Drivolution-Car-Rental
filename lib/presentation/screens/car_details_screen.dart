@@ -87,7 +87,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                                 ),
                               );
                             } else {
-                              return CircularProgressIndicator();
+                              return Container();
                             }
                           },
                         )

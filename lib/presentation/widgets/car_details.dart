@@ -3,6 +3,7 @@ import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/presentation/screens/date_range_picker.dart';
+import 'package:drivolution/presentation/widgets/confirm_reservation_card.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +26,12 @@ class CarDetails extends StatefulWidget {
 
 class _CarDetailsState extends State<CarDetails> {
   bool _showAllFeatures = false;
-
   DateTimeRange range =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
   Duration duration = const Duration();
   int price = 0;
-  //!pick Range
+
+  //? pick Range
   Future pickRange() async {
     try {
       Map<String, dynamic> result = await Navigator.push(
@@ -48,6 +49,66 @@ class _CarDetailsState extends State<CarDetails> {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  //? submit button
+  submit() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return ConfirmReservation(
+              car: widget.car, range: range, price: price, confirm: confirm);
+        },
+      );
+    }
+  }
+
+  //? confirm button
+  confirm() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      ),
+    );
+    try {
+      context.read<ReservationsCubit>().addReservation(
+            Reservation(
+              carId: widget.car.id!,
+              customerId: FirebaseAuth.instance.currentUser!.uid,
+              startDate: range.start,
+              endDate: range.end,
+            ),
+          );
+      Navigator.pop(context);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.done,
+          color: Colors.green,
+          size: 20,
+        ),
+        title: 'Done',
+        message: 'Reservation Completed Successfuly',
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    } catch (e) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: 'Make Reservation Failed',
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
+      ));
     }
   }
 
@@ -173,22 +234,6 @@ class _CarDetailsState extends State<CarDetails> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // RichText(
-                  //   text: TextSpan(
-                  //     children: [
-                  //       TextSpan(
-                  //         text: widget.car.rent.toString(),
-                  //         style: GoogleFonts.karla(
-                  //             color: MyColors.myBlue, fontSize: 20),
-                  //       ),
-                  //       TextSpan(
-                  //         text: ' \$/D',
-                  //         style: GoogleFonts.karla(
-                  //             color: MyColors.myred2, fontSize: 20),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   Text(
                     '${widget.car.rent.toString()} \$/D',
                     style:
@@ -874,61 +919,14 @@ class _CarDetailsState extends State<CarDetails> {
                           ),
                         ),
                       ),
+                      //!submit
                       Padding(
                         padding: const EdgeInsets.all(25),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                if (FirebaseAuth.instance.currentUser != null) {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) => const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  );
-                                  try {
-                                    context
-                                        .read<ReservationsCubit>()
-                                        .addReservation(
-                                          Reservation(
-                                            carId: widget.car.id!,
-                                            customerId: FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            startDate: range.start,
-                                            endDate: range.end,
-                                          ),
-                                        );
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(MySnackBar(
-                                      icon: const Icon(
-                                        Icons.done,
-                                        color: Colors.green,
-                                        size: 20,
-                                      ),
-                                      title: 'Done',
-                                      message:
-                                          'Reservation Completed Successfuly',
-                                    ));
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(MySnackBar(
-                                      icon: const Icon(
-                                        Icons.error,
-                                        color: MyColors.myred,
-                                        size: 20,
-                                      ),
-                                      title: 'Error',
-                                      message: 'Make Reservation Failed',
-                                    ));
-                                  }
-                                }
-                              },
+                              onTap: submit,
                               child: Container(
                                 width: 75,
                                 height: 35,

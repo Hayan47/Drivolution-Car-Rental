@@ -101,6 +101,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 ),
                                 title: 'Done',
                                 message: 'Password reset successfuly',
+                                margin:
+                                    0, //MediaQuery.sizeOf(context).width * 0.2,
                               ));
                             },
                             style: ButtonStyle(

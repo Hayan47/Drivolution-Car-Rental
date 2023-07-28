@@ -20,6 +20,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.sizeOf(context).width * 0.05);
     return DecoratedBox(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -53,7 +54,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       style: GoogleFonts.amiri(
                         decoration: TextDecoration.none,
                         color: MyColors.myred,
-                        fontSize: 28,
+                        fontSize: MediaQuery.sizeOf(context).width * 0.07,
                       ),
                     ),
                     Animate(
@@ -66,12 +67,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           duration: Duration(milliseconds: 1500),
                         )
                       ],
-                      child: Container(
+                      child: SizedBox(
                         width: MediaQuery.sizeOf(context).width * 0.2,
                         height: MediaQuery.sizeOf(context).width * 0.2,
                         child: Lottie.asset(
                           'assets/lottie/4.zip',
-                          // height: 100,
                         ),
                       ),
                     ),
