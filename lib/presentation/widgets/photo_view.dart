@@ -14,18 +14,9 @@ class PhotoViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Scaffold(
-        //   extendBodyBehindAppBar: true,
-        //   appBar: AppBar(
-        //     iconTheme: const IconThemeData(color: Colors.white),
-        //     elevation: 0,
-        //     backgroundColor: Colors.transparent,
-        //   ),
-        //   body:
-        AlertDialog(
+    return AlertDialog(
       content: PhotoViewGallery.builder(
-        backgroundDecoration: BoxDecoration(color: Colors.black),
+        backgroundDecoration: const BoxDecoration(color: Colors.black),
         itemCount: imagesCount,
         builder: (context, index) {
           return PhotoViewGalleryPageOptions(
@@ -36,7 +27,6 @@ class PhotoViewPage extends StatelessWidget {
           );
         },
       ),
-      //),
     );
   }
 }

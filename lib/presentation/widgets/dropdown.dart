@@ -47,11 +47,10 @@ class _MyDropdownState<T> extends State<MyDropdown> {
               const SizedBox(width: 8),
               Text(
                 widget.label,
-                style: GoogleFonts.karla(
-                  color: MyColors.myred2,
-                  fontSize: 15 * MediaQuery.of(context).textScaleFactor,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: MyColors.myred2,
+                      fontSize: 15,
+                    ),
               ),
             ],
           ),
@@ -59,11 +58,10 @@ class _MyDropdownState<T> extends State<MyDropdown> {
           // const SizedBox(width: 25),
           DropdownButtonHideUnderline(
             child: DropdownButton2(
-              style: TextStyle(
-                color: MyColors.myred,
-                fontWeight: FontWeight.bold,
-                fontSize: 13 * MediaQuery.of(context).textScaleFactor,
-              ),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myred2,
+                    fontSize: 14,
+                  ),
               value: widget.dropdownValue,
               items: widget.items,
               onChanged: widget.onChanged,

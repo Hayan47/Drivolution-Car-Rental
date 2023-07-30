@@ -95,12 +95,12 @@ class _CarCardState extends State<CarCard> {
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               softWrap: false,
-                                              style: GoogleFonts.karla(
-                                                decoration: TextDecoration.none,
-                                                color: MyColors.mywhite,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .copyWith(
+                                                    color: MyColors.mywhite,
+                                                  ),
                                             ),
                                           ),
                                         ),
@@ -241,24 +241,22 @@ class _CarCardState extends State<CarCard> {
                 children: [
                   Text(
                     'Price   ',
-                    style: GoogleFonts.karla(
-                      color: MyColors.mywhite,
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: MyColors.mywhite,
+                          fontSize: 16,
+                        ),
                   ),
                   Text(
-                    '${widget.car.rent}\$',
-                    style: GoogleFonts.karla(
-                      color: MyColors.mywhite,
-                      fontSize: 16,
-                    ),
+                    '${widget.car.rent} \$',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.mywhite,
+                        ),
                   ),
                   Text(
                     '/D',
-                    style: GoogleFonts.karla(
-                      color: MyColors.mywhite,
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.mywhite,
+                        ),
                   )
                 ],
               ),

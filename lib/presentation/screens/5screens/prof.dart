@@ -61,32 +61,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 } else {
                   return Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
                           'Make Your Account Now!',
-                          style: GoogleFonts.karla(
-                            color: MyColors.myBlue,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue,
+                                    fontSize: 26,
+                                  ),
                         ),
                         SizedBox(
                           height: MediaQuery.sizeOf(context).height * 0.4,
                           child: Lottie.asset('assets/lottie/register.zip'),
                         ),
-                        ElevatedButton(
-                          onPressed: () =>
+                        GestureDetector(
+                          onTap: () =>
                               Navigator.pushNamed(context, loginscreen),
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(MyColors.myBlue),
-                              fixedSize: MaterialStateProperty.all(
-                                  const Size(100, 20))),
-                          child: const Text('LogIn'),
+                          child: Container(
+                            width: 160,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: MyColors.myBlue,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'LogIn',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 18,
+                                    ),
+                              ),
+                            ),
+                          ),
                         ),
-                        SizedBox(
-                            height: MediaQuery.sizeOf(context).height * 0.01),
+                        const SizedBox(),
                       ],
                     ),
                   );

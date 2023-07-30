@@ -45,9 +45,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Icons.toggle_off_outlined,
                     color: MyColors.myred,
                   )),
-              title: const Text(
+              title: Text(
                 'Change Theme',
-                style: TextStyle(color: Colors.white),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: MyColors.mywhite,
+                      fontSize: 18,
+                    ),
               ),
             )
           ],

@@ -54,17 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Find A Car...',
-                        hintStyle: GoogleFonts.karla(
-                          decoration: TextDecoration.none,
-                          color: MyColors.mywhite,
-                          fontSize: 22,
-                        ),
+                        hintStyle:
+                            Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  color: MyColors.mywhite,
+                                  fontSize: 22,
+                                ),
                       ),
-                      style: GoogleFonts.karla(
-                        decoration: TextDecoration.none,
-                        color: MyColors.mywhite,
-                        fontSize: 20,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: MyColors.mywhite,
+                            fontSize: 22,
+                          ),
                       onChanged: (value) {
                         searchedForCars = allCars
                             .where(
@@ -174,11 +173,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Center(
                   child: Text(
                     state.message,
-                    style: GoogleFonts.karla(
-                      decoration: TextDecoration.none,
-                      color: MyColors.mywhite,
-                      fontSize: 20,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myred,
+                          fontSize: 22,
+                        ),
                   ),
                 );
               } else {

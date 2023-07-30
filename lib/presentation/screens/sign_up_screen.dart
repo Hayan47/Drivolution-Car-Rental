@@ -53,25 +53,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //?first column
-                      const Column(
+                      Column(
                         children: [
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           Text(
                             //!first message
                             'Join Us',
-                            style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: MyColors.myred),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myred,
+                                      fontSize: 38,
+                                    ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             //!second message
                             'Sign up and explore',
                             style:
-                                TextStyle(fontSize: 16, color: MyColors.myred2),
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myred2,
+                                      fontSize: 18,
+                                    ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                         ],
                       ),
                       //?second column
@@ -108,16 +112,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             }
                                             return null;
                                           },
-                                          style: const TextStyle(
-                                            color: MyColors.mywhite,
-                                          ),
-                                          decoration: const InputDecoration(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                                color: MyColors.mywhite,
+                                              ),
+                                          decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: 'First Name',
                                             helperText: '',
-                                            hintStyle: TextStyle(
-                                              color: MyColors.mywhite,
-                                            ),
+                                            hintStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                  color: MyColors.mywhite,
+                                                ),
                                           ),
                                         ),
                                       ),
@@ -147,16 +157,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           textInputAction: TextInputAction.next,
                                           textAlign: TextAlign.center,
                                           controller: _lastnamecontroller,
-                                          style: const TextStyle(
-                                            color: MyColors.mywhite,
-                                          ),
-                                          decoration: const InputDecoration(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                                color: MyColors.mywhite,
+                                              ),
+                                          decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: 'Last Name',
                                             helperText: '',
-                                            hintStyle: TextStyle(
-                                              color: MyColors.mywhite,
-                                            ),
+                                            hintStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                  color: MyColors.mywhite,
+                                                ),
                                           ),
                                         ),
                                       ),
@@ -218,13 +234,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       }
                                       return null;
                                     },
-                                    style: const TextStyle(
-                                        color: MyColors.mywhite),
-                                    decoration: const InputDecoration(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                        ),
+                                    decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Phone Number...',
-                                      hintStyle:
-                                          TextStyle(color: MyColors.mywhite),
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -260,13 +284,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       }
                                       return null;
                                     },
-                                    style: const TextStyle(
-                                        color: MyColors.mywhite),
-                                    decoration: const InputDecoration(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                        ),
+                                    decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Email...',
-                                      hintStyle:
-                                          TextStyle(color: MyColors.mywhite),
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -301,8 +333,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       }
                                       return null;
                                     },
-                                    style: const TextStyle(
-                                        color: MyColors.mywhite),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                        ),
                                     obscureText: hidePassword,
                                     decoration: InputDecoration(
                                       suffixIcon: IconButton(
@@ -320,9 +356,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                       border: InputBorder.none,
                                       hintText: 'password...',
-                                      hintStyle: const TextStyle(
-                                        color: MyColors.mywhite,
-                                      ),
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -357,15 +396,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       }
                                       return null;
                                     },
-                                    style: const TextStyle(
-                                        color: MyColors.mywhite),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                        ),
                                     obscureText: hidePassword,
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'confirm password...',
-                                      hintStyle: TextStyle(
-                                        color: MyColors.mywhite,
-                                      ),
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -414,9 +460,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       backgroundColor:
                                           MaterialStateProperty.all(
                                               MyColors.myred2)),
-                                  child: const Text(
+                                  child: Text(
                                     'Sign Up',
-                                    style: TextStyle(color: MyColors.mywhite),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 14,
+                                        ),
                                   ),
                                 ),
                               ),
@@ -428,23 +480,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             'Any proplem?',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: MyColors.myred2,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myred2,
+                                    ),
                           ),
                           const SizedBox(
                             width: 5,
                           ),
                           GestureDetector(
-                            child: const Text(
+                            child: Text(
                               'Contact Us',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: MyColors.myred2,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: MyColors.myred,
+                                    fontSize: 18,
+                                  ),
                             ),
                           ),
                         ],

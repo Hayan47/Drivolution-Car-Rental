@@ -98,13 +98,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       const Size(100, 20),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Continue',
-                    style: TextStyle(
-                      color: MyColors.mywhite,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: MyColors.mywhite,
+                          fontSize: 16,
+                        ),
                   ),
                 ),
               ],

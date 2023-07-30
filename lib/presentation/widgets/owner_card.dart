@@ -114,25 +114,23 @@ class _OwnerCardState extends State<OwnerCard> {
                                   children: [
                                     Text(
                                       'Price   ',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.mywhite,
-                                        fontSize: 16,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                            fontSize: 16,
+                                          ),
                                     ),
                                     Text(
-                                      '${widget.car.rent}\$',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.mywhite,
-                                        fontSize: 16,
-                                      ),
+                                      '${widget.car.rent} \$/D',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                          ),
                                     ),
-                                    Text(
-                                      '/D',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.mywhite,
-                                        fontSize: 16,
-                                      ),
-                                    )
                                   ],
                                 ),
                               ),
@@ -173,34 +171,25 @@ class _OwnerCardState extends State<OwnerCard> {
                                           Row(
                                             children: [
                                               Text(
-                                                usr.firstName,
-                                                style: GoogleFonts.karla(
-                                                  color: MyColors.myBlue2,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              const SizedBox(width: 5),
-                                              Text(
-                                                usr.lastName,
-                                                style: GoogleFonts.karla(
-                                                  color: MyColors.myBlue2,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                                '${usr.firstName} ${usr.lastName}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                      color: MyColors.myBlue2,
+                                                    ),
                                               ),
                                             ],
                                           ),
-
                                           const SizedBox(height: 5),
-
                                           Text(
                                             usr.phoneNumber,
-                                            style: GoogleFonts.karla(
-                                              color: MyColors.myBlue2,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                  color: MyColors.myBlue2,
+                                                ),
                                           ),
                                           const SizedBox(height: 25),
                                           //!call button
@@ -298,10 +287,13 @@ class _OwnerCardState extends State<OwnerCard> {
                                               child: Center(
                                                 child: Text(
                                                   'Call',
-                                                  style: GoogleFonts.karla(
-                                                    color: MyColors.mywhite,
-                                                    fontSize: 16,
-                                                  ),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                        color: MyColors.mywhite,
+                                                        fontSize: 16,
+                                                      ),
                                                 ),
                                               ),
                                             ),
@@ -321,17 +313,19 @@ class _OwnerCardState extends State<OwnerCard> {
                 ),
               ),
               Positioned(
-                height: 200,
-                width: 225,
-                left: MediaQuery.sizeOf(context).width / 2.5,
+                left: MediaQuery.sizeOf(context).width * 0.45,
                 bottom: 80,
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(
-                      color: MyColors.mywhite,
+                child: SizedBox(
+                  height: 200,
+                  width: MediaQuery.sizeOf(context).width * 0.5,
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(
+                        color: MyColors.mywhite,
+                      ),
                     ),
+                    imageUrl: widget.car.img,
                   ),
-                  imageUrl: widget.car.img,
                 ),
               ),
             ],

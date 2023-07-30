@@ -523,11 +523,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                               Center(
                                 child: Text(
                                   'Add Car',
-                                  style: GoogleFonts.karla(
-                                    color: MyColors.myred2,
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: MyColors.myred2,
+                                        fontSize: 28,
+                                      ),
                                 ),
                               ),
                               const SizedBox(height: 10),
@@ -642,11 +644,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Car Name',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     MyTextField(
                                       hint: 'bmw 3series',
@@ -667,11 +671,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Car Model',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     MyTextField(
                                       hint: '2023',
@@ -692,11 +698,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Color',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     MyTextField(
                                       hint: 'grey',
@@ -717,11 +725,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Interior Color',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     MyTextField(
                                       hint: 'Black',
@@ -743,11 +753,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Engine',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     MyTextField(
                                       hint: 'v6 3500cc',
@@ -769,11 +781,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Kilometrage',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     MyTextField(
                                       hint: '75',
@@ -795,11 +809,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Rent per day \$',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     MyTextField(
                                       hint: '50',
@@ -916,28 +932,35 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Doors',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     NumberPicker(
-                                      textStyle: GoogleFonts.karla(
-                                        color: MyColors.myBlue,
-                                        fontSize: 16,
-                                      ),
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myBlue,
+                                            fontSize: 16,
+                                          ),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(25),
                                         border:
                                             Border.all(color: MyColors.myBlue2),
                                         // color: Colors.white,
                                       ),
-                                      selectedTextStyle: GoogleFonts.karla(
-                                        color: MyColors.mywhite,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
+                                      selectedTextStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                            fontSize: 20,
+                                          ),
                                       axis: Axis.horizontal,
                                       itemWidth: 30,
                                       haptics: false,
@@ -961,28 +984,35 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Seats',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     NumberPicker(
-                                      textStyle: GoogleFonts.karla(
-                                        color: MyColors.myBlue,
-                                        fontSize: 16,
-                                      ),
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myBlue,
+                                            fontSize: 16,
+                                          ),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(25),
                                         border:
                                             Border.all(color: MyColors.myBlue2),
                                         // color: Colors.white,
                                       ),
-                                      selectedTextStyle: GoogleFonts.karla(
-                                        color: MyColors.mywhite,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
+                                      selectedTextStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                            fontSize: 20,
+                                          ),
                                       axis: Axis.horizontal,
                                       itemWidth: 30,
                                       haptics: false,
@@ -1013,11 +1043,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'Features',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -1047,10 +1079,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                               ),
                                               child: TextField(
                                                 focusNode: focusNode,
-                                                style: GoogleFonts.karla(
-                                                  color: MyColors.mywhite,
-                                                  fontSize: 16,
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                      color: MyColors.mywhite,
+                                                      fontSize: 16,
+                                                    ),
                                                 textAlign: TextAlign.center,
                                                 controller: _featureController,
                                                 decoration: InputDecoration(
@@ -1087,10 +1122,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                         dense: true,
                                         title: Text(
                                           features[index],
-                                          style: const TextStyle(
-                                            color: MyColors.mywhite,
-                                            fontSize: 14,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                                color: MyColors.mywhite,
+                                                fontSize: 14,
+                                              ),
                                         ),
                                         trailing: IconButton(
                                           icon: const Icon(
@@ -1126,20 +1164,22 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       color: MyColors.mywhite,
                                       fontSize: 16,
                                     ),
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       hintText: "Add description",
-                                      hintStyle: TextStyle(
-                                        color: MyColors.myred2,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 14,
+                                          ),
+                                      focusedBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
                                           color: MyColors.myBlue,
                                         ),
                                       ),
-                                      enabledBorder: OutlineInputBorder(
+                                      enabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                           width: 1,
                                           color: MyColors.myred3,
@@ -1162,11 +1202,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   children: [
                                     Text(
                                       'car location',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.myred2,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.myred2,
+                                            fontSize: 18,
+                                          ),
                                     ),
                                     GestureDetector(
                                       onTap: pickLocation,
@@ -1185,10 +1227,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                       children: [
                                         RichText(
                                           text: TextSpan(
-                                            style: GoogleFonts.karla(
-                                              fontSize: 14,
-                                              color: MyColors.myred2,
-                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                  color: MyColors.myred2,
+                                                  fontSize: 14,
+                                                ),
                                             children: [
                                               const TextSpan(
                                                 text: 'latitude: ',
@@ -1196,9 +1241,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                               TextSpan(
                                                 text:
                                                     loc['latitude'].toString(),
-                                                style: GoogleFonts.karla(
-                                                  color: MyColors.mywhite,
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                      color: MyColors.mywhite,
+                                                      fontSize: 14,
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -1206,10 +1255,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                         const SizedBox(height: 7),
                                         RichText(
                                           text: TextSpan(
-                                            style: GoogleFonts.karla(
-                                              fontSize: 14,
-                                              color: MyColors.myred2,
-                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                  color: MyColors.myred2,
+                                                  fontSize: 14,
+                                                ),
                                             children: [
                                               const TextSpan(
                                                 text: 'longitude: ',
@@ -1217,9 +1269,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                               TextSpan(
                                                 text:
                                                     loc['longitude'].toString(),
-                                                style: GoogleFonts.karla(
-                                                  color: MyColors.mywhite,
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                      color: MyColors.mywhite,
+                                                      fontSize: 14,
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -1227,10 +1283,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                         const SizedBox(height: 7),
                                         RichText(
                                           text: TextSpan(
-                                            style: GoogleFonts.karla(
-                                              fontSize: 14,
-                                              color: MyColors.myred2,
-                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                  color: MyColors.myred2,
+                                                  fontSize: 18,
+                                                ),
                                             children: [
                                               const TextSpan(
                                                 text: 'city: ',
@@ -1238,9 +1297,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                               TextSpan(
                                                 text:
                                                     loc['cityName'].toString(),
-                                                style: GoogleFonts.karla(
-                                                  color: MyColors.mywhite,
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                      color: MyColors.mywhite,
+                                                      fontSize: 18,
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -1251,11 +1314,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                               //!pick images
                               Text(
                                 'pick an album',
-                                style: GoogleFonts.karla(
-                                  color: MyColors.myred2,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: MyColors.myred2,
+                                      fontSize: 18,
+                                    ),
                               ),
                               const SizedBox(height: 15),
                               Padding(
@@ -1312,11 +1377,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   ),
                                   child: Text(
                                     'Submit',
-                                    style: GoogleFonts.karla(
-                                      color: MyColors.mywhite,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 18,
+                                        ),
                                   ),
                                 ),
                               )

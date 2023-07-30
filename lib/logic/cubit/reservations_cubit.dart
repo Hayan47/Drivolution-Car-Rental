@@ -9,11 +9,11 @@ class ReservationsCubit extends Cubit<ReservationsState> {
   ReservationsCubit() : super(ReservationsInitial());
 
   //!get car reservations
-  List<Reservation> getCarReservations(String carid) {
+  Future<List<Reservation>> getCarReservations(String carid) async {
     try {
       // print('Car Id: ' + carid);
       // emit(ReservationsLoading());
-      ReservationsServices().getCarReservations(carid).then((res) {
+      await ReservationsServices().getCarReservations(carid).then((res) {
         emit(ReservationsLoaded(res));
         reservations = res;
       });
