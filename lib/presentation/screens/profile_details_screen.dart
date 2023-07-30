@@ -174,12 +174,11 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                         const SizedBox(width: 20),
                         RichText(
                           text: TextSpan(
-                            style: GoogleFonts.karla(
-                              color: MyColors.mywhite,
-                              fontSize:
-                                  30 * MediaQuery.of(context).textScaleFactor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 30,
+                                    ),
                             children: [
                               TextSpan(
                                 text: usr.firstName,
@@ -206,11 +205,10 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 Center(
                   child: Text(
                     'Your Cars',
-                    style: GoogleFonts.karla(
-                      color: MyColors.mywhite,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.mywhite,
+                          fontSize: 28,
+                        ),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -272,11 +270,13 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           Center(
                             child: Text(
                               'Your Reservations',
-                              style: GoogleFonts.karla(
-                                color: MyColors.mywhite,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 28,
+                                  ),
                             ),
                           ),
                           const SizedBox(height: 15),
@@ -351,6 +351,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                         const EdgeInsets.only(right: 20, left: 20, bottom: 100),
                     child: Container(
                       height: 40,
+                      width: 100,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         gradient: LinearGradient(
@@ -366,11 +367,11 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                       child: Center(
                         child: Text(
                           'Sign out',
-                          style: GoogleFonts.karla(
-                            color: MyColors.mywhite,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 22,
+                                  ),
                         ),
                       ),
                     ),

@@ -46,21 +46,24 @@ class _LogInScreenState extends State<LogInScreen> {
                         children: [
                           const SizedBox(height: 15),
                           //!first message
-                          Text('Hello Again!',
-                              style: GoogleFonts.roboto(
-                                color: MyColors.myred,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                              )),
+                          Text(
+                            'Hello Again!',
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myred,
+                                      fontSize: 38,
+                                    ),
+                          ),
 
                           const SizedBox(height: 10),
                           //!second message
                           Text(
                             'welcome back, you have been missed!',
-                            style: GoogleFonts.roboto(
-                              color: MyColors.myred2,
-                              fontSize: 16,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myred2,
+                                      fontSize: 18,
+                                    ),
                           ),
                         ],
                       ),
@@ -84,10 +87,12 @@ class _LogInScreenState extends State<LogInScreen> {
                                   child: TextFormField(
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.emailAddress,
-                                    style: GoogleFonts.roboto(
-                                      color: MyColors.mywhite,
-                                      fontSize: 16,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                        ),
                                     controller: _emailcontroller,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -101,18 +106,19 @@ class _LogInScreenState extends State<LogInScreen> {
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Email...',
-                                      hintStyle: GoogleFonts.roboto(
-                                        color: MyColors.mywhite,
-                                        fontSize: 16,
-                                      ),
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                          ),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          // ignore: prefer_const_constructors
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           //!password TextField
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -131,10 +137,12 @@ class _LogInScreenState extends State<LogInScreen> {
                                   child: TextFormField(
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: hide_password,
-                                    style: GoogleFonts.roboto(
-                                      color: MyColors.mywhite,
-                                      fontSize: 16,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                        ),
                                     controller: _passwordcontroller,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -159,10 +167,12 @@ class _LogInScreenState extends State<LogInScreen> {
                                           )),
                                       border: InputBorder.none,
                                       hintText: 'Password...',
-                                      hintStyle: GoogleFonts.roboto(
-                                        color: MyColors.mywhite,
-                                        fontSize: 16,
-                                      ),
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -181,15 +191,19 @@ class _LogInScreenState extends State<LogInScreen> {
                                       context, forgetpasswordscreen),
                                   child: Text(
                                     'Forget password?',
-                                    style: GoogleFonts.roboto(
-                                      color: MyColors.myred2,
-                                      fontSize: 14,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.myred2,
+                                          fontSize: 14,
+                                        ),
                                   ),
                                 )
                               ],
                             ),
                           ),
+                          const SizedBox(height: 5),
                           //!login Button
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -199,11 +213,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                     const EdgeInsets.symmetric(horizontal: 30),
                                 child: TextButton(
                                   onPressed: () async {
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    //   const SnackBar(
-                                    //     content: Text('dsadas'),
-                                    //   ),
-                                    // );
                                     final isValid =
                                         formKey2.currentState!.validate();
                                     if (!isValid) return;
@@ -233,11 +242,16 @@ class _LogInScreenState extends State<LogInScreen> {
                                       MyColors.myred2,
                                     ),
                                   ),
-                                  child: Text('log in',
-                                      style: GoogleFonts.roboto(
-                                        color: MyColors.mywhite,
-                                        fontSize: 14,
-                                      )),
+                                  child: Text(
+                                    'log in',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 14,
+                                        ),
+                                  ),
                                 ),
                               )
                             ],
@@ -248,20 +262,26 @@ class _LogInScreenState extends State<LogInScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           //!sign up message
-                          const Text(
+                          Text(
                             'ain\'t member yet?',
                             style:
-                                TextStyle(fontSize: 16, color: MyColors.myred2),
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myred2,
+                                    ),
                           ),
                           const SizedBox(width: 5),
                           GestureDetector(
                             onTap: () =>
                                 Navigator.pushNamed(context, signupscreen),
-                            child: const Text(
+                            child: Text(
                               'Sign Up',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColors.myred),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: MyColors.myred,
+                                    fontSize: 18,
+                                  ),
                             ),
                           ),
                         ],

@@ -29,8 +29,9 @@ class _DateRangePickerState extends State<DateRangePicker> {
 
   //!get reservations
   Future getReservations() async {
-    reservations =
-        context.read<ReservationsCubit>().getCarReservations(widget.carid);
+    reservations = await context
+        .read<ReservationsCubit>()
+        .getCarReservations(widget.carid);
     for (Reservation reservation in reservations) {
       DateTime startDate = reservation.startDate;
       DateTime endDate = reservation.endDate;
@@ -130,21 +131,22 @@ class _DateRangePickerState extends State<DateRangePicker> {
                             MediaQuery.sizeOf(context).height * 0.05,
                         viewHeaderStyle: DateRangePickerViewHeaderStyle(
                           backgroundColor: MyColors.myBlue2.withOpacity(0.9),
-                          textStyle: GoogleFonts.karla(
-                            color: MyColors.mywhite,
-                            fontSize: 16,
-                          ),
+                          textStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 16,
+                                  ),
                         ),
                       ),
                       //!Header Style
                       headerHeight: MediaQuery.sizeOf(context).height * 0.1,
                       headerStyle: DateRangePickerHeaderStyle(
                         backgroundColor: MyColors.myBlue2.withOpacity(0.8),
-                        textStyle: GoogleFonts.karla(
-                          color: MyColors.mywhite,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        textStyle:
+                            Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  color: MyColors.mywhite,
+                                  fontSize: 32,
+                                ),
                       ),
                       onCancel: () {
                         Navigator.pop(context);
@@ -171,14 +173,15 @@ class _DateRangePickerState extends State<DateRangePicker> {
                       todayHighlightColor: MyColors.myBlue,
                       //!Day Style
                       monthCellStyle: DateRangePickerMonthCellStyle(
-                        blackoutDateTextStyle: GoogleFonts.karla(
-                          color: MyColors.mywhite,
-                          decoration: TextDecoration.lineThrough,
-                          decorationColor: MyColors.myred,
-                          decorationStyle: TextDecorationStyle.dashed,
-                          decorationThickness: 7,
-                          fontSize: 16,
-                        ),
+                        blackoutDateTextStyle:
+                            Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  color: MyColors.mywhite,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.lineThrough,
+                                  decorationColor: MyColors.myred,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 7,
+                                ),
                         blackoutDatesDecoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: LinearGradient(colors: [
@@ -192,11 +195,11 @@ class _DateRangePickerState extends State<DateRangePicker> {
                         ),
                       ),
                       //!Selected Day Style
-                      selectionTextStyle: GoogleFonts.karla(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                      selectionTextStyle:
+                          Theme.of(context).textTheme.bodySmall!.copyWith(
+                                color: MyColors.mywhite,
+                                fontSize: 20,
+                              ),
                       //!Selected Days in Range Style
                       rangeTextStyle: GoogleFonts.karla(
                         color: Colors.white,

@@ -56,11 +56,10 @@ class ReservationCard extends StatelessWidget {
                       children: [
                         Text(
                           car.name,
-                          style: GoogleFonts.karla(
-                            color: MyColors.mywhite,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                  ),
                         ),
                         CachedNetworkImage(
                           imageUrl: car.img,
@@ -101,11 +100,13 @@ class ReservationCard extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${carReservations[index].startDate.month.toString()} - ${carReservations[index].startDate.day.toString()} ',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.mywhite,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                            fontSize: 14,
+                                          ),
                                     ),
                                     const Padding(
                                       padding:
@@ -117,11 +118,13 @@ class ReservationCard extends StatelessWidget {
                                     ),
                                     Text(
                                       '${carReservations[index].endDate.month.toString()} - ${carReservations[index].endDate.day.toString()} ',
-                                      style: GoogleFonts.karla(
-                                        color: MyColors.mywhite,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: MyColors.mywhite,
+                                            fontSize: 14,
+                                          ),
                                     ),
                                   ],
                                 ),

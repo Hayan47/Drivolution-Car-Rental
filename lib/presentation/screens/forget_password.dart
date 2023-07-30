@@ -34,13 +34,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 key: formKey3,
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       'Enter Your Email',
-                      style: TextStyle(
-                        fontSize: 32,
-                        color: MyColors.myred,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: MyColors.myred2,
+                            fontSize: 32,
+                          ),
                     ),
                     const SizedBox(height: 25),
                     Padding(
@@ -67,7 +66,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 }
                                 return null;
                               },
-                              style: const TextStyle(color: MyColors.mywhite),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 16,
+                                  ),
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Email...',
@@ -84,8 +89,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
-                          child: OutlinedButton(
-                            onPressed: () async {
+                          child: GestureDetector(
+                            onTap: () async {
                               final isValid = formKey3.currentState!.validate();
                               if (!isValid) return;
                               await UserServices().resetPassword(
@@ -101,24 +106,30 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 ),
                                 title: 'Done',
                                 message: 'Password reset successfuly',
-                                margin:
-                                    0, //MediaQuery.sizeOf(context).width * 0.2,
+                                margin: 0,
                               ));
                             },
-                            style: ButtonStyle(
-                                side: MaterialStateProperty.all(
-                                    const BorderSide(color: MyColors.myred)),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                fixedSize: MaterialStateProperty.all(
-                                    const Size(140, 40)),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Theme.of(context).secondaryHeaderColor)),
-                            child: const Text(
-                              'Reset Password',
-                              style: TextStyle(color: MyColors.myred),
+                            child: Container(
+                              width: 140,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: MyColors.myred2,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Reset Password',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: MyColors.myred2,
+                                        fontSize: 14,
+                                      ),
+                                ),
+                              ),
                             ),
                           ),
                         ),

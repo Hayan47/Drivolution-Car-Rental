@@ -56,6 +56,7 @@ class _CarDetailsState extends State<CarDetails> {
   submit() {
     if (FirebaseAuth.instance.currentUser != null) {
       showDialog(
+        barrierColor: Colors.transparent,
         context: context,
         builder: (_) {
           return ConfirmReservation(
@@ -95,8 +96,9 @@ class _CarDetailsState extends State<CarDetails> {
         ),
         title: 'Done',
         message: 'Reservation Completed Successfuly',
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
+        margin: 0,
       ));
+      range = DateTimeRange(start: DateTime.now(), end: DateTime.now());
     } catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
@@ -107,7 +109,7 @@ class _CarDetailsState extends State<CarDetails> {
         ),
         title: 'Error',
         message: 'Make Reservation Failed',
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
+        margin: 0,
       ));
     }
   }
@@ -154,15 +156,17 @@ class _CarDetailsState extends State<CarDetails> {
                           child: Container(
                             padding: const EdgeInsets.only(right: 10),
                             child: Text(
-                              widget.car.name,
+                              widget.car.name.toUpperCase(),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               softWrap: false,
-                              style: GoogleFonts.karla(
-                                color: MyColors.myBlue2,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 20,
+                                  ),
                             ),
                           ),
                         ),
@@ -171,8 +175,10 @@ class _CarDetailsState extends State<CarDetails> {
                   ),
                   Text(
                     widget.car.model,
-                    style:
-                        GoogleFonts.karla(color: MyColors.myBlue, fontSize: 20),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 20,
+                        ),
                   ),
                 ],
               ),
@@ -192,19 +198,20 @@ class _CarDetailsState extends State<CarDetails> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             softWrap: false,
-                            style: GoogleFonts.karla(
-                              color: MyColors.myBlue2,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myBlue2,
+                                      fontSize: 20,
+                                    ),
                           ),
                         ),
                         Text(
                           widget.car.locationName,
-                          style: GoogleFonts.karla(
-                            color: MyColors.myBlue2,
-                            fontSize: 18,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 18,
+                                  ),
                         ),
                       ],
                     ),
@@ -228,16 +235,17 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Rent',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 20,
+                        ),
                   ),
                   Text(
                     '${widget.car.rent.toString()} \$/D',
-                    style:
-                        GoogleFonts.karla(color: MyColors.myBlue, fontSize: 20),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 20,
+                        ),
                   ),
                 ],
               ),
@@ -253,17 +261,18 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Type',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 20,
+                        ),
                   ),
                   const SizedBox(width: 10),
                   Text(
                     widget.car.type,
-                    style:
-                        GoogleFonts.karla(color: MyColors.myBlue, fontSize: 20),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 20,
+                        ),
                   ),
                   const SizedBox(width: 10),
                   if (widget.car.type == 'Sedan')
@@ -330,19 +339,11 @@ class _CarDetailsState extends State<CarDetails> {
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
-                      boxShadow: const [
-                        //*boorom right dark
+                      boxShadow: [
+                        //*botom right dark
                         BoxShadow(
-                          color: MyColors.myBlue2,
-                          offset: Offset(5, 5),
-                          blurRadius: 15,
-                          spreadRadius: 1,
-                        ),
-                        //*top left light
-                        BoxShadow(
-                          color: MyColors.myBlue,
-                          offset: Offset(-5, -5),
-                          blurRadius: 15,
+                          color: MyColors.myBlue2.withOpacity(0.2),
+                          offset: const Offset(2, 2),
                           spreadRadius: 1,
                         ),
                       ],
@@ -359,8 +360,12 @@ class _CarDetailsState extends State<CarDetails> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          '${widget.car.seats.toString()} ' 'seats',
-                          style: GoogleFonts.karla(color: MyColors.myBlue2),
+                          '${widget.car.seats.toString()} seats',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 16,
+                                  ),
                         )
                       ],
                     ),
@@ -371,17 +376,11 @@ class _CarDetailsState extends State<CarDetails> {
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
-                      boxShadow: const [
+                      boxShadow: [
+                        //*botom right dark
                         BoxShadow(
-                          color: MyColors.myBlue2,
-                          offset: Offset(5, 5),
-                          blurRadius: 15,
-                          spreadRadius: 1,
-                        ),
-                        BoxShadow(
-                          color: MyColors.myBlue,
-                          offset: Offset(-3, -3),
-                          blurRadius: 15,
+                          color: MyColors.myBlue2.withOpacity(0.2),
+                          offset: const Offset(2, 2),
                           spreadRadius: 1,
                         ),
                       ],
@@ -398,8 +397,12 @@ class _CarDetailsState extends State<CarDetails> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          '${widget.car.doors.toString()} ' 'doors',
-                          style: GoogleFonts.karla(color: MyColors.myBlue2),
+                          '${widget.car.doors.toString()} doors',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 16,
+                                  ),
                         )
                       ],
                     ),
@@ -410,17 +413,11 @@ class _CarDetailsState extends State<CarDetails> {
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
-                      boxShadow: const [
+                      boxShadow: [
+                        //*botom right dark
                         BoxShadow(
-                          color: MyColors.myBlue2,
-                          offset: Offset(5, 5),
-                          blurRadius: 15,
-                          spreadRadius: 1,
-                        ),
-                        BoxShadow(
-                          color: MyColors.myBlue2,
-                          offset: Offset(-5, -5),
-                          blurRadius: 15,
+                          color: MyColors.myBlue2.withOpacity(0.2),
+                          offset: const Offset(2, 2),
                           spreadRadius: 1,
                         ),
                       ],
@@ -453,7 +450,11 @@ class _CarDetailsState extends State<CarDetails> {
                         const SizedBox(height: 5),
                         Text(
                           widget.car.fuel,
-                          style: GoogleFonts.karla(color: MyColors.myBlue2),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 16,
+                                  ),
                         )
                       ],
                     ),
@@ -472,11 +473,10 @@ class _CarDetailsState extends State<CarDetails> {
               ),
               child: Text(
                 'Features',
-                style: GoogleFonts.karla(
-                  color: MyColors.myBlue2,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: MyColors.myBlue2,
+                      fontSize: 20,
+                    ),
               ),
             ),
             AnimatedSize(
@@ -503,11 +503,11 @@ class _CarDetailsState extends State<CarDetails> {
                           ),
                           title: Text(
                             widget.car.features[index],
-                            style: GoogleFonts.karla(
-                              color: MyColors.myBlue2,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myBlue2,
+                                      fontSize: 16,
+                                    ),
                           ),
                         ),
                         const Padding(
@@ -527,13 +527,20 @@ class _CarDetailsState extends State<CarDetails> {
                         _showAllFeatures = true;
                       });
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.arrow_drop_down),
-                          Text('Show all features'),
+                          const Icon(Icons.arrow_drop_down),
+                          Text(
+                            'Show all features',
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myBlue2,
+                                      fontSize: 16,
+                                    ),
+                          ),
                         ],
                       ),
                     ),
@@ -563,11 +570,10 @@ class _CarDetailsState extends State<CarDetails> {
               padding: const EdgeInsets.all(20),
               child: Text(
                 'Details',
-                style: GoogleFonts.karla(
-                  color: MyColors.myBlue2,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: MyColors.myBlue2,
+                      fontSize: 22,
+                    ),
               ),
             ),
             //!1 color
@@ -578,18 +584,17 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Color',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 18,
+                        ),
                   ),
                   Text(
                     widget.car.color,
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 18,
+                        ),
                   )
                 ],
               ),
@@ -605,18 +610,17 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Interior Color',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 18,
+                        ),
                   ),
                   Text(
                     widget.car.interiorColor,
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 18,
+                        ),
                   )
                 ],
               ),
@@ -632,18 +636,17 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Engine',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 18,
+                        ),
                   ),
                   Text(
                     widget.car.engine,
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 18,
+                        ),
                   )
                 ],
               ),
@@ -659,18 +662,17 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Transmission',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 18,
+                        ),
                   ),
                   Text(
                     widget.car.transmission,
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 18,
+                        ),
                   )
                 ],
               ),
@@ -686,18 +688,17 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Drivetrain',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 18,
+                        ),
                   ),
                   Text(
                     widget.car.drivetrain,
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 18,
+                        ),
                   )
                 ],
               ),
@@ -713,18 +714,17 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'kilometrage',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 18,
+                        ),
                   ),
                   Text(
                     widget.car.kilometrage.toString(),
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue,
+                          fontSize: 18,
+                        ),
                   )
                 ],
               ),
@@ -740,39 +740,42 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Discription',
-                    style: GoogleFonts.karla(
-                      color: MyColors.myBlue2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyColors.myBlue2,
+                          fontSize: 18,
+                        ),
                   ),
                   const SizedBox(height: 10),
                   widget.car.description != ''
                       ? ReadMoreText(
                           widget.car.description,
-                          style: GoogleFonts.karla(
-                            color: MyColors.mywhite,
-                            fontSize: 15,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 15,
+                                  ),
                           trimMode: TrimMode.Line,
                           trimLines: 2,
-                          moreStyle: GoogleFonts.karla(
-                            color: MyColors.myBlue,
-                            fontSize: 15,
-                          ),
-                          lessStyle: GoogleFonts.karla(
-                            color: MyColors.myBlue,
-                            fontSize: 15,
-                          ),
+                          moreStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 15,
+                                  ),
+                          lessStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 15,
+                                  ),
                         )
                       : Center(
                           child: Text(
                             'No Description',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.karla(
-                              color: MyColors.mywhite.withOpacity(0.8),
-                              fontSize: 18,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 15,
+                                    ),
                           ),
                         ),
                 ],
@@ -784,7 +787,6 @@ class _CarDetailsState extends State<CarDetails> {
               child: OwnerCard(car: widget.car),
             ),
             const SizedBox(height: 20),
-
             FirebaseAuth.instance.currentUser != null &&
                     widget.car.ownerid == FirebaseAuth.instance.currentUser!.uid
                 //! delete
@@ -809,11 +811,13 @@ class _CarDetailsState extends State<CarDetails> {
                           child: Center(
                             child: Text(
                               'Delete Car',
-                              style: GoogleFonts.karla(
-                                color: MyColors.mywhite,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 22,
+                                  ),
                             ),
                           ),
                         ),
@@ -832,11 +836,11 @@ class _CarDetailsState extends State<CarDetails> {
                             horizontal: 20, vertical: 10),
                         child: Text(
                           'Book Now!',
-                          style: GoogleFonts.karla(
-                            color: MyColors.myBlue2,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 18,
+                                  ),
                         ),
                       ),
                       //!Date Pick
@@ -856,14 +860,17 @@ class _CarDetailsState extends State<CarDetails> {
                                   color: MyColors.myred,
                                 ),
                                 child: Center(
-                                    child: Text(
-                                  '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
-                                  style: GoogleFonts.karla(
-                                    color: MyColors.mywhite,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                                  child: Text(
+                                    '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 15,
+                                        ),
                                   ),
-                                )),
+                                ),
                               ),
                             ),
                             const Icon(
@@ -882,11 +889,13 @@ class _CarDetailsState extends State<CarDetails> {
                                 child: Center(
                                   child: Text(
                                     '${range.end.year.toString()} / ${range.end.month.toString()} / ${range.end.day.toString()}',
-                                    style: GoogleFonts.karla(
-                                      color: MyColors.mywhite,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 15,
+                                        ),
                                   ),
                                 ),
                               ),
@@ -900,11 +909,11 @@ class _CarDetailsState extends State<CarDetails> {
                             horizontal: 30, vertical: 5),
                         child: Text(
                           'Days: ${duration.inDays}',
-                          style: GoogleFonts.karla(
-                            color: MyColors.myBlue2,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 18,
+                                  ),
                         ),
                       ),
                       Padding(
@@ -912,11 +921,11 @@ class _CarDetailsState extends State<CarDetails> {
                             horizontal: 30, vertical: 5),
                         child: Text(
                           'price $price \$',
-                          style: GoogleFonts.karla(
-                            color: MyColors.myBlue2,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.myBlue2,
+                                    fontSize: 18,
+                                  ),
                         ),
                       ),
                       //!submit
@@ -940,11 +949,13 @@ class _CarDetailsState extends State<CarDetails> {
                                 child: Center(
                                   child: Text(
                                     'submit',
-                                    style: GoogleFonts.karla(
-                                      color: MyColors.mywhite,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 15,
+                                        ),
                                   ),
                                 ),
                               ),

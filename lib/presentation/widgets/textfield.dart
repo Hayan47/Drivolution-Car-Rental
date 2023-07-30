@@ -36,17 +36,16 @@ class MyTextField extends StatelessWidget {
           child: TextField(
             maxLines: null,
             textAlign: TextAlign.center,
-            style: GoogleFonts.karla(
-              color: MyColors.mywhite,
-              fontSize: 16,
-            ),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: MyColors.mywhite,
+                ),
             controller: controller,
             decoration: InputDecoration(
               //!hint style
-              hintStyle: GoogleFonts.karla(
-                color: MyColors.mywhite.withOpacity(0.5),
-                fontSize: 14,
-              ),
+              hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.mywhite.withOpacity(0.5),
+                    fontSize: 14,
+                  ),
               //!1 enabled border
               // enabledBorder: OutlineInputBorder(
               //   borderRadius: BorderRadius.circular(12),
@@ -66,10 +65,9 @@ class MyTextField extends StatelessWidget {
               //!hint
               hintText: hint,
               floatingLabelStyle: const TextStyle(color: MyColors.myBlue2),
-              labelStyle: GoogleFonts.karla(
-                color: MyColors.mywhite,
-                fontSize: 16,
-              ),
+              labelStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.mywhite,
+                  ),
               floatingLabelAlignment: FloatingLabelAlignment.start,
             ),
             cursorHeight: 18,

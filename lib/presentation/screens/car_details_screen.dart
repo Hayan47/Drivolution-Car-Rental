@@ -100,7 +100,10 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 child: Text(
                   textAlign: TextAlign.center,
                   widget.car.name,
-                  style: GoogleFonts.karla(),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: MyColors.mywhite,
+                        fontSize: 18,
+                      ),
                 ),
               ),
               centerTitle: true,

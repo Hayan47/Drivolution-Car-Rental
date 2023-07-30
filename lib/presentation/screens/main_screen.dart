@@ -79,7 +79,6 @@ class _MainScreenState extends State<MainScreen> {
             padding: const EdgeInsets.all(15),
             child: Container(
               decoration: BoxDecoration(
-                //cc
                 color: const Color.fromARGB(255, 36, 114, 121),
                 borderRadius: BorderRadius.circular(45),
               ),
@@ -91,7 +90,6 @@ class _MainScreenState extends State<MainScreen> {
                   haptic: false,
                   iconSize: 20,
                   padding: const EdgeInsets.all(13),
-                  //cc
                   backgroundColor: const Color.fromARGB(255, 36, 114, 121),
                   color: MyColors.mywhite,
                   activeColor: MyColors.mywhite,
@@ -101,7 +99,10 @@ class _MainScreenState extends State<MainScreen> {
                       MyColors.myBlue2.withOpacity(0.3),
                     ],
                   ),
-
+                  textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: MyColors.mywhite,
+                        fontSize: 16,
+                      ),
                   tabs: const [
                     GButton(icon: FontAwesomeIcons.house, text: 'home'),
                     GButton(icon: FontAwesomeIcons.heart, text: 'favorite'),
