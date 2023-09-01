@@ -5,6 +5,7 @@ import 'package:drivolution/data/models/reservation_model.dart';
 import 'package:drivolution/logic/cubit/cars_cubit.dart';
 import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/data/models/usr_model.dart';
+import 'package:drivolution/presentation/widgets/add_phone_number.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/reservation_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_profile.dart';
@@ -15,7 +16,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants/my_colors.dart';
@@ -186,7 +186,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                               const TextSpan(text: '\n \t'),
                               TextSpan(
                                 text: usr.lastName,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -194,6 +194,72 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                     ),
                   ),
                 ),
+                //!phone number
+                usr.phoneNumber == ""
+                    ? Padding(
+                        padding:
+                            const EdgeInsets.only(top: 8, right: 12, left: 12),
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              barrierColor: Colors.transparent,
+                              context: context,
+                              builder: (context) {
+                                return AddPhoneNumber(id: user.uid);
+                              },
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'add phone number',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 18,
+                                    ),
+                              ),
+                              const SizedBox(width: 4),
+                              const Icon(
+                                Icons.add_circle_outline,
+                                color: MyColors.mywhite,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        padding:
+                            const EdgeInsets.only(top: 8, right: 12, left: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'phone number :',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 18,
+                                  ),
+                            ),
+                            Text(
+                              usr.phoneNumber,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 18,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
                 //!divider
                 const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -202,15 +268,18 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   ),
                 ),
                 //!firste text
-                Center(
-                  child: Text(
-                    'Your Cars',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.mywhite,
-                          fontSize: 28,
+                myCars.length == 0
+                    ? Container()
+                    : Center(
+                        child: Text(
+                          'Your Cars',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 28,
+                                  ),
                         ),
-                  ),
-                ),
+                      ),
                 const SizedBox(height: 15),
                 //!user cars
                 BlocBuilder<CarsCubit, CarsState>(
@@ -235,105 +304,115 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                         print(car.name);
                       }
                       print(myCars.length);
-                      return Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: 240,
-                                child: PageView(
-                                  controller: _controller,
-                                  children: List.generate(myCars.length,
-                                      (index) => CarCard(car: myCars[index])),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 230),
-                                  child: SmoothPageIndicator(
-                                    effect: const ExpandingDotsEffect(
-                                      activeDotColor: MyColors.myred2,
-                                      dotColor: Colors.white,
-                                      dotHeight: 5,
-                                      dotWidth: 5,
-                                    ),
-                                    count: myCars.length,
-                                    controller: _controller,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          //!second text
-                          Center(
-                            child: Text(
-                              'Your Reservations',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 28,
-                                  ),
-                            ),
-                          ),
-                          const SizedBox(height: 15),
-                          //!user Reservations
-                          reservedCars.isEmpty
-                              ? Container()
-                              : Column(
+                      return myCars.length == 0
+                          ? Container()
+                          : Column(
+                              children: [
+                                Stack(
                                   children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          height: 100,
-                                          child: PageView(
-                                            controller: _controller2,
-                                            children: List.generate(
-                                                reservedCars.length, (index) {
-                                              List<Reservation>
-                                                  carReservations = [];
-                                              for (var reservation
-                                                  in myReservations) {
-                                                if (reservation.carId ==
-                                                    reservedCars[index].id) {
-                                                  carReservations
-                                                      .add(reservation);
-                                                }
-                                              }
-                                              return ReservationCard(
-                                                car: reservedCars[index],
-                                                carReservations:
-                                                    carReservations,
-                                              );
-                                            }),
+                                    Container(
+                                      height: 240,
+                                      child: PageView(
+                                        controller: _controller,
+                                        children: List.generate(
+                                            myCars.length,
+                                            (index) =>
+                                                CarCard(car: myCars[index])),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 230),
+                                        child: SmoothPageIndicator(
+                                          effect: const ExpandingDotsEffect(
+                                            activeDotColor: MyColors.myred2,
+                                            dotColor: Colors.white,
+                                            dotHeight: 5,
+                                            dotWidth: 5,
                                           ),
+                                          count: myCars.length,
+                                          controller: _controller,
                                         ),
-                                        Align(
-                                          alignment: Alignment.center,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 125),
-                                            child: SmoothPageIndicator(
-                                              effect: const ExpandingDotsEffect(
-                                                activeDotColor: MyColors.myred2,
-                                                dotColor: Colors.white,
-                                                dotHeight: 5,
-                                                dotWidth: 5,
-                                              ),
-                                              count: reservedCars.length,
-                                              controller: _controller2,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                        ],
-                      );
+                                const SizedBox(height: 15),
+                                //!second text
+                                Center(
+                                  child: Text(
+                                    'Your Reservations',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 28,
+                                        ),
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                                //!user Reservations
+                                reservedCars.isEmpty
+                                    ? Container()
+                                    : Column(
+                                        children: [
+                                          Stack(
+                                            children: [
+                                              Container(
+                                                height: 100,
+                                                child: PageView(
+                                                  controller: _controller2,
+                                                  children: List.generate(
+                                                      reservedCars.length,
+                                                      (index) {
+                                                    List<Reservation>
+                                                        carReservations = [];
+                                                    for (var reservation
+                                                        in myReservations) {
+                                                      if (reservation.carId ==
+                                                          reservedCars[index]
+                                                              .id) {
+                                                        carReservations
+                                                            .add(reservation);
+                                                      }
+                                                    }
+                                                    return ReservationCard(
+                                                      car: reservedCars[index],
+                                                      carReservations:
+                                                          carReservations,
+                                                    );
+                                                  }),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 125),
+                                                  child: SmoothPageIndicator(
+                                                    effect:
+                                                        const ExpandingDotsEffect(
+                                                      activeDotColor:
+                                                          MyColors.myred2,
+                                                      dotColor: Colors.white,
+                                                      dotHeight: 5,
+                                                      dotWidth: 5,
+                                                    ),
+                                                    count: reservedCars.length,
+                                                    controller: _controller2,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                              ],
+                            );
                     } else {
                       return const Center(
                         child: CircularProgressIndicator(
@@ -376,7 +455,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           );

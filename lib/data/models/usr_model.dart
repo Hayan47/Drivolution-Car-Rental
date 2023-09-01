@@ -7,7 +7,7 @@ class Usr {
   String email;
   String phoneNumber;
   String? img;
-  int age;
+  int? age;
   List<String>? favoriteCars;
 
   Usr({
@@ -17,7 +17,7 @@ class Usr {
     required this.email,
     required this.phoneNumber,
     this.img,
-    required this.age,
+    this.age,
     this.favoriteCars,
   });
 
@@ -42,7 +42,7 @@ class Usr {
       "first_name": firstName,
       "last_name": lastName,
       "email": email,
-      "age": age,
+      if (age != null) "age": age,
       "phoneNumber": phoneNumber,
       if (img != null) "image": img,
       if (favoriteCars != null) "favoriteCars": favoriteCars,

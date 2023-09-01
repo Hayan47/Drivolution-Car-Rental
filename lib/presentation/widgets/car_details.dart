@@ -8,7 +8,6 @@ import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import '../../logic/cubit/usr_cubit.dart';
 import '../../data/models/car_model.dart';
@@ -551,13 +550,20 @@ class _CarDetailsState extends State<CarDetails> {
                         _showAllFeatures = false;
                       });
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.arrow_drop_up),
-                          Text('Show less'),
+                          const Icon(Icons.arrow_drop_up),
+                          Text(
+                            'Show less',
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.myBlue2,
+                                      fontSize: 16,
+                                    ),
+                          ),
                         ],
                       ),
                     ),

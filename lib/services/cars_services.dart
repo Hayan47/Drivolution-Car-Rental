@@ -6,20 +6,25 @@ class CarServices {
 
   //?get all cars
   Future<List<Car>> getAllCars() async {
-    List<Car> cars = [];
-    var snapshot = await _store
-        .collection('cars')
-        .withConverter<Car>(
-          fromFirestore: Car.fromFirestore,
-          toFirestore: (car, options) => car.toFirestore(),
-        )
-        .get();
+    print("HAYANNNNNNNNNNNNNNNNNNN");
+    try {
+      List<Car> cars = [];
+      var snapshot = await _store
+          .collection('cars')
+          .withConverter<Car>(
+            fromFirestore: Car.fromFirestore,
+            toFirestore: (car, options) => car.toFirestore(),
+          )
+          .get();
 
-    for (var doc in snapshot.docs) {
-      var car = doc.data();
-      cars.add(car);
+      for (var doc in snapshot.docs) {
+        var car = doc.data();
+        cars.add(car);
+      }
+      return cars;
+    } catch (e) {
+      return [];
     }
-    return cars;
   }
 
   //?add car
