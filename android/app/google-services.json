@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "51613972745-pj284dif5o6eqcckfdi5epu8fi6hkgou.apps.googleusercontent.com",
+          "client_id": "51613972745-hidknc17q700o2mbohpcnuj6fbug0ler.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.drivolution",
+            "certificate_hash": "238f7da6a2f1441142ffea2e36c37546daa72a8f"
+          }
+        },
+        {
+          "client_id": "51613972745-dv63cqah312ma8gmeqcfbqua9k6v15d7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,14 +35,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "51613972745-pj284dif5o6eqcckfdi5epu8fi6hkgou.apps.googleusercontent.com",
+              "client_id": "51613972745-dv63cqah312ma8gmeqcfbqua9k6v15d7.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "51613972745-c3g9e5bnpj6d386abhdo2l4lahtfdjjd.apps.googleusercontent.com",
+              "client_id": "51613972745-a51ug4etfhdsehrbqifj4negjcs6hn1b.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.firebase"
+                "bundle_id": "com.example.drivolution.RunnerTests"
               }
             }
           ]
@@ -50,7 +58,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "51613972745-pj284dif5o6eqcckfdi5epu8fi6hkgou.apps.googleusercontent.com",
+          "client_id": "51613972745-dv63cqah312ma8gmeqcfbqua9k6v15d7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -63,14 +71,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "51613972745-pj284dif5o6eqcckfdi5epu8fi6hkgou.apps.googleusercontent.com",
+              "client_id": "51613972745-dv63cqah312ma8gmeqcfbqua9k6v15d7.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "51613972745-c3g9e5bnpj6d386abhdo2l4lahtfdjjd.apps.googleusercontent.com",
+              "client_id": "51613972745-a51ug4etfhdsehrbqifj4negjcs6hn1b.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.firebase"
+                "bundle_id": "com.example.drivolution.RunnerTests"
               }
             }
           ]

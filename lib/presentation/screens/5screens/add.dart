@@ -492,7 +492,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
               ],
             ),
           ),
-
           //?child
           child: ListView(
             children: [
@@ -505,7 +504,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                     child: Stack(
                       children: [
                         //*blur effect
-
                         BackdropFilter(
                           filter: ImageFilter.blur(
                             sigmaX: 50,
@@ -515,7 +513,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                         ),
 
                         //*child
-
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(

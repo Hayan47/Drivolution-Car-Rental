@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/cubit/favorite_cubit.dart';
+import 'package:drivolution/presentation/widgets/photo_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/car_details.dart';
 
@@ -115,14 +115,27 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                       controller: _controller,
                       children: List.generate(
                         widget.car.images.length,
-                        (index) => CachedNetworkImage(
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(
-                              color: MyColors.mywhite,
+                        (index) => GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return PhotoViewPage(
+                                  imagesUrl: widget.car.images,
+                                  imagesCount: widget.car.images.length,
+                                );
+                              },
+                            );
+                          },
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(
+                                color: MyColors.mywhite,
+                              ),
                             ),
+                            imageUrl: widget.car.images[index],
+                            fit: BoxFit.cover,
                           ),
-                          imageUrl: widget.car.images[index],
-                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

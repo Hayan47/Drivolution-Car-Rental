@@ -50,6 +50,7 @@ class DefaultFirebaseOptions {
     projectId: 'drivolution',
     authDomain: 'drivolution.firebaseapp.com',
     storageBucket: 'drivolution.appspot.com',
+    measurementId: 'G-RCEMJZH6LT',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -66,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '51613972745',
     projectId: 'drivolution',
     storageBucket: 'drivolution.appspot.com',
+    androidClientId: '51613972745-hidknc17q700o2mbohpcnuj6fbug0ler.apps.googleusercontent.com',
     iosClientId: '51613972745-nj5rcgup0qsekp7vq43thrcvvdg68qig.apps.googleusercontent.com',
     iosBundleId: 'com.example.drivolution',
   );
@@ -76,6 +78,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '51613972745',
     projectId: 'drivolution',
     storageBucket: 'drivolution.appspot.com',
+    androidClientId: '51613972745-hidknc17q700o2mbohpcnuj6fbug0ler.apps.googleusercontent.com',
     iosClientId: '51613972745-a51ug4etfhdsehrbqifj4negjcs6hn1b.apps.googleusercontent.com',
     iosBundleId: 'com.example.drivolution.RunnerTests',
   );

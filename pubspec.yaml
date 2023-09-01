@@ -36,8 +36,10 @@ dependencies:
   dropdown_button2: ^2.0.0
   email_validator: ^2.1.17
   equatable: ^2.0.5
+  firebase_analytics: ^10.4.5
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
+  firebase_messaging: ^14.6.7
   firebase_storage: ^11.2.3
   flutter:
     sdk: flutter
@@ -50,6 +52,7 @@ dependencies:
   google_fonts: ^4.0.3
   google_maps_flutter: ^2.3.1
   google_nav_bar: ^5.0.6
+  google_sign_in: ^6.1.4
   image: ^4.0.17
   image_picker: ^0.8.9
   image_to_byte: ^1.0.0

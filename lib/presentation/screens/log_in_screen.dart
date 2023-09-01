@@ -1,9 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/services/user_services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -13,10 +14,11 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  bool hide_password = true;
+  bool hidePassword = true;
 
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
+  final _phonecontroller = TextEditingController();
   final formKey2 = GlobalKey<FormState>();
 
   @override
@@ -136,7 +138,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       horizontal: 10),
                                   child: TextFormField(
                                     keyboardType: TextInputType.visiblePassword,
-                                    obscureText: hide_password,
+                                    obscureText: hidePassword,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
@@ -156,11 +158,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                       suffixIcon: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              hide_password = !hide_password;
+                                              hidePassword = !hidePassword;
                                             });
                                           },
                                           icon: Icon(
-                                            hide_password
+                                            hidePassword
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
                                             color: MyColors.mywhite,
@@ -253,9 +255,35 @@ class _LogInScreenState extends State<LogInScreen> {
                                         ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            child: Text(
+                              'or continue with',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: MyColors.myred2,
+                                    fontSize: 14,
+                                  ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              await UserServices().signInWithGoogle(context);
+                            },
+                            child: Container(
+                              height: 60,
+                              width: 60,
+                              child: Image.asset(
+                                'assets/img/logo/google.png',
+                              ),
+                            ),
+                          )
                         ],
                       ),
                       Row(

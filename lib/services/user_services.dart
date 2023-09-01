@@ -5,6 +5,7 @@ import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../data/models/usr_model.dart';
 
 class UserServices {
@@ -32,6 +33,73 @@ class UserServices {
     }
   }
 
+  //? sign in with Google
+  Future signInWithGoogle(BuildContext context) async {
+    try {
+      await GoogleSignIn().signOut();
+      //! begin interactive sign in process
+      final GoogleSignInAccount? googleSignInAccount =
+          await GoogleSignIn().signIn();
+      //! obtain auth details from requests
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
+      //! create new credential for user
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      final fullname = googleSignInAccount.displayName;
+      final firstName = fullname!.split(' ')[0];
+      final lastName = fullname.split(' ')[1];
+
+      //! finaly sign in
+      UserCredential cred = await _auth.signInWithCredential(credential);
+
+      //! add user details
+      addUserDetails(firstName, lastName, "", googleSignInAccount.email, null,
+          cred.user!.uid);
+
+      //! add img
+      if (googleSignInAccount.photoUrl != null) {
+        addImage(context, googleSignInAccount.photoUrl!, cred.user!.uid);
+      }
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: e.message.toString(),
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+  }
+
+  //? add phone number
+  Future addPhoneNumber(
+      String phoneNumber, String id, BuildContext context) async {
+    try {
+      await _store.collection('users').doc(id).update({
+        'phoneNumber': phoneNumber,
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        icon: const Icon(
+          Icons.error,
+          color: MyColors.myred,
+          size: 20,
+        ),
+        title: 'Error',
+        message: e.toString(),
+        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
+      ));
+    }
+  }
+
   //? sign up
   Future signUp(BuildContext context, String email, String password,
       String firstName, String lastName, String phoneNumber, int age) async {
@@ -41,7 +109,8 @@ class UserServices {
           email: email, password: password);
 
       //! add user details
-      addUserDetails(firstName, lastName, phoneNumber, email, age, cred);
+      addUserDetails(
+          firstName, lastName, phoneNumber, email, age, cred.user!.uid);
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
@@ -62,8 +131,8 @@ class UserServices {
 
   //? add user details
   Future addUserDetails(String firstName, String lastName, String phoneNumber,
-      String email, int age, UserCredential cred) async {
-    await _store.collection('users').doc(cred.user!.uid).set({
+      String email, int? age, String id) async {
+    await _store.collection('users').doc(id).set({
       'first name': firstName,
       'last name': lastName,
       'age': age,

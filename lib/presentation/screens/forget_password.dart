@@ -105,7 +105,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   size: 20,
                                 ),
                                 title: 'Done',
-                                message: 'Password reset successfuly',
+                                message: 'Password reset email sent',
                                 margin: 0,
                               ));
                             },

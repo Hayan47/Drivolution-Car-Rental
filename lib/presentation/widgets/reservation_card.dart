@@ -2,7 +2,6 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import '../../data/models/car_model.dart';
 import '../../data/models/reservation_model.dart';
@@ -41,8 +40,9 @@ class ReservationCard extends StatelessWidget {
                   end: Alignment.centerRight,
                   colors: [
                     MyColors.mywhite.withOpacity(0.3),
-                    MyColors.mywhite.withOpacity(0.7),
+                    MyColors.mywhite.withOpacity(0.9),
                     MyColors.mywhite.withOpacity(0.3),
+                    MyColors.myred,
                   ],
                 ),
               ),
