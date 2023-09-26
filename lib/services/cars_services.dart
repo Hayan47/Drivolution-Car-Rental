@@ -41,4 +41,27 @@ class CarServices {
       print(e);
     }
   }
+
+  //?delete car
+  Future<void> deleteCar(Car car) async {
+    try {
+      await _store
+          .collection('deletedCars')
+          .withConverter<Car>(
+            fromFirestore: Car.fromFirestore,
+            toFirestore: (car, options) => car.toFirestore(),
+          )
+          .add(car);
+      await _store
+          .collection('cars')
+          .withConverter<Car>(
+            fromFirestore: Car.fromFirestore,
+            toFirestore: (car, options) => car.toFirestore(),
+          )
+          .doc(car.id)
+          .delete();
+    } catch (e) {
+      print(e);
+    }
+  }
 }

@@ -5,8 +5,8 @@ import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/services/user_services.dart';
 
 class AddPhoneNumber extends StatefulWidget {
-  String id;
-  AddPhoneNumber({
+  final String id;
+  const AddPhoneNumber({
     Key? key,
     required this.id,
   }) : super(key: key);
