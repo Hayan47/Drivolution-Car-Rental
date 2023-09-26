@@ -23,21 +23,11 @@ class _MyAppState extends State<MyApp> {
   final AppRouter appRouter = AppRouter();
 
   @override
-  void initState() {
-    super.initState();
-    currentTheme.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
-      theme: CustomTheme.lightTheme,
-      darkTheme: CustomTheme.darkTheme,
-      themeMode: currentTheme.currentTheme,
+      theme: CustomTheme.appTheme,
     );
   }
 

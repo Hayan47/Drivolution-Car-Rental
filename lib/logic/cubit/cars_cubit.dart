@@ -30,4 +30,10 @@ class CarsCubit extends Cubit<CarsState> {
     await CarServices().addCar(car);
     // emit(CarsLoaded(cars));
   }
+
+  //? delete car
+  Future<void> deleteCar(Car car) async {
+    await CarServices().deleteCar(car);
+    // emit(CarsLoaded(cars));
+  }
 }

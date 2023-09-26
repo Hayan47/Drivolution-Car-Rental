@@ -18,7 +18,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
-  final _phonecontroller = TextEditingController();
   final formKey2 = GlobalKey<FormState>();
 
   @override

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:drivolution/logic/cubit/cars_cubit.dart';
 import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/presentation/screens/date_range_picker.dart';
+import 'package:drivolution/presentation/widgets/alert_dialog.dart';
 import 'package:drivolution/presentation/widgets/confirm_reservation_card.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -799,31 +801,51 @@ class _CarDetailsState extends State<CarDetails> {
                 ? Center(
                     child: Column(
                       children: [
-                        Container(
-                          height: 40,
-                          width: 160,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                MyColors.myred.withOpacity(0.6),
-                                MyColors.myred2.withOpacity(1),
-                                MyColors.myred.withOpacity(0.6),
-                              ],
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MyAlertDialog(
+                                  onPressed: () {
+                                    context
+                                        .read<CarsCubit>()
+                                        .deleteCar(widget.car);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  text:
+                                      'are you sure you want to delete this car?',
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 160,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  MyColors.myred.withOpacity(0.6),
+                                  MyColors.myred2.withOpacity(1),
+                                  MyColors.myred.withOpacity(0.6),
+                                ],
+                              ),
                             ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Delete Car',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 22,
-                                  ),
+                            child: Center(
+                              child: Text(
+                                'Delete Car',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 22,
+                                    ),
+                              ),
                             ),
                           ),
                         ),

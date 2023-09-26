@@ -361,30 +361,38 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                                         children: [
                                           Stack(
                                             children: [
-                                              Container(
-                                                height: 100,
-                                                child: PageView(
-                                                  controller: _controller2,
-                                                  children: List.generate(
-                                                      reservedCars.length,
-                                                      (index) {
-                                                    List<Reservation>
-                                                        carReservations = [];
-                                                    for (var reservation
-                                                        in myReservations) {
-                                                      if (reservation.carId ==
-                                                          reservedCars[index]
-                                                              .id) {
-                                                        carReservations
-                                                            .add(reservation);
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: Container(
+                                                  height: 150,
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.7,
+                                                  child: PageView(
+                                                    controller: _controller2,
+                                                    children: List.generate(
+                                                        reservedCars.length,
+                                                        (index) {
+                                                      List<Reservation>
+                                                          carReservations = [];
+                                                      for (var reservation
+                                                          in myReservations) {
+                                                        if (reservation.carId ==
+                                                            reservedCars[index]
+                                                                .id) {
+                                                          carReservations
+                                                              .add(reservation);
+                                                        }
                                                       }
-                                                    }
-                                                    return ReservationCard(
-                                                      car: reservedCars[index],
-                                                      carReservations:
-                                                          carReservations,
-                                                    );
-                                                  }),
+                                                      return ReservationCard(
+                                                        car:
+                                                            reservedCars[index],
+                                                        carReservations:
+                                                            carReservations,
+                                                      );
+                                                    }),
+                                                  ),
                                                 ),
                                               ),
                                               Align(
@@ -392,7 +400,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          top: 125),
+                                                          top: 150),
                                                   child: SmoothPageIndicator(
                                                     effect:
                                                         const ExpandingDotsEffect(
