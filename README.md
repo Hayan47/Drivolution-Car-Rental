@@ -1,16 +1,41 @@
-# drivolution
+# Drivolution
 
-A new Flutter project.
+Drivolution is an Android application built with BLoC state management that allows users to browse available cars for rental, search for specific cars, view car details, and add them to their favorites list. The app utilizes Google Maps for location-based services and is powered by Firebase for user authentication and data storage.
 
-## Getting Started
+## Features
+- Car Rental: Users can browse a list of available cars for rental.
+- Car Search: Users can search for specific cars based on their preferences.
+- Car Details: Users can view detailed information about a specific car, including its make, model, year, and rental rates.
+- Rent Car: Users can rent cars from other users for a specified duration.
+- Add Car: Users can add their own cars to the platform for others to rent.
+- Favorites List: Users can add cars to their favorites list for quick access.
+- Location Services: Integration with Google Maps allows users to view car locations, get directions, and estimate distances.
 
-This project is a starting point for a Flutter application.
+## Architecture
 
-A few resources to get you started if this is your first Flutter project:
+Drivolution is built with BLoC state management, which provides a scalable and testable architecture for building complex applications. The BLoC pattern separates the business logic of an application from its presentation, making it easier to manage and scale over time.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The application is divided into three main layers:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Presentation layer: This layer is responsible for rendering the UI and handling user interactions. The presentation layer communicates with the BLoC layer to retrieve data and update the UI based on the current state.
+- BLoC layer: This layer contains the business logic of the application and manages the state of the application. The BLoC layer communicates with the data layer to retrieve data and emits new states based on the current state and user actions.
+- Data layer: This layer is responsible for retrieving data from external APIs or local storage. In the case of Drivolution, the data layer communicates with Firebase to retrieve data.
+
+## Technologies Used
+
+- Flutter: Flutter is a mobile app SDK for building high-performance, high-fidelity, apps for iOS, Android, and web, from a single codebase.
+- BLoC state management: The BLoC pattern is a state management pattern for Flutter that separates the business logic of an application from its presentation.
+- Firebase: Firebase powers the backend infrastructure of Drivolution, providing user authentication and data storage for a seamless and secure car rental experience.
+
+## Screenshots
+
+<p float="left">
+<img src="https://github.com/Hayan47/Hayan47/blob/main/movie1.jpg" width="200" height="400" />
+  $~~~~~~~~~~$
+<img src="https://github.com/Hayan47/Hayan47/blob/main/movie3.jpg" width="200" height="400" />
+  $~~~~~~~~~~$
+<img src="https://github.com/Hayan47/Hayan47/blob/main/movie2.jpg" width="200" height="400" />
+</p>
+
+
+You can download the APK file for Drivolution from this link: https://www.mediafire.com/file/qkoigqn893n1fzn/Movio.apk/file.
