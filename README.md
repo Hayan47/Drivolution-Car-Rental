@@ -30,11 +30,11 @@ The application is divided into three main layers:
 ## Screenshots
 
 <p float="left">
-<img src="https://github.com/Hayan47/Hayan47/blob/main/movie1.jpg" width="200" height="400" />
+<img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars10.jpg" width="200" height="400" />
   $~~~~~~~~~~$
-<img src="https://github.com/Hayan47/Hayan47/blob/main/movie3.jpg" width="200" height="400" />
+<img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars10.jpg" width="200" height="400" />
   $~~~~~~~~~~$
-<img src="https://github.com/Hayan47/Hayan47/blob/main/movie2.jpg" width="200" height="400" />
+<img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars10.jpg" width="200" height="400" />
 </p>
 
 
