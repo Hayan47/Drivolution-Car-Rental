@@ -55,10 +55,13 @@ class UserServices {
       //! finaly sign in
       UserCredential cred = await _auth.signInWithCredential(credential);
 
-      //! add user details
-      addUserDetails(firstName, lastName, "", googleSignInAccount.email, null,
-          cred.user!.uid);
-
+      //! add google details
+      addGoogleDetails(
+        firstName: firstName,
+        lastName: lastName,
+        email: googleSignInAccount.email,
+        id: cred.user!.uid,
+      );
       //! add img
       if (googleSignInAccount.photoUrl != null) {
         addImage(context, googleSignInAccount.photoUrl!, cred.user!.uid);
@@ -110,7 +113,12 @@ class UserServices {
 
       //! add user details
       addUserDetails(
-          firstName, lastName, phoneNumber, email, age, cred.user!.uid);
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          email: email,
+          age: age,
+          id: cred.user!.uid);
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
@@ -130,14 +138,34 @@ class UserServices {
   }
 
   //? add user details
-  Future addUserDetails(String firstName, String lastName, String phoneNumber,
-      String email, int? age, String id) async {
+  Future addUserDetails({
+    required String firstName,
+    required String lastName,
+    String? phoneNumber,
+    required String email,
+    int? age,
+    required String id,
+  }) async {
     await _store.collection('users').doc(id).set({
       'first name': firstName,
       'last name': lastName,
       'age': age,
       'email': email,
       'phoneNumber': phoneNumber,
+    });
+  }
+
+  //? add google details
+  Future addGoogleDetails({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String id,
+  }) async {
+    await _store.collection('users').doc(id).update({
+      'first name': firstName,
+      'last name': lastName,
+      'email': email,
     });
   }
 

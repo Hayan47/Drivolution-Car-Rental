@@ -268,7 +268,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   ),
                 ),
                 //!firste text
-                myCars.length == 0
+                myCars.isEmpty
                     ? Container()
                     : Center(
                         child: Text(
@@ -301,16 +301,14 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                             }
                           }
                         }
-                        print(car.name);
                       }
-                      print(myCars.length);
-                      return myCars.length == 0
+                      return myCars.isEmpty
                           ? Container()
                           : Column(
                               children: [
                                 Stack(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: 240,
                                       child: PageView(
                                         controller: _controller,
@@ -363,7 +361,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                                             children: [
                                               Align(
                                                 alignment: Alignment.center,
-                                                child: Container(
+                                                child: SizedBox(
                                                   height: 150,
                                                   width:
                                                       MediaQuery.sizeOf(context)
@@ -432,7 +430,102 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 ),
                 const SizedBox(height: 15),
                 GestureDetector(
-                  onTap: () => FirebaseAuth.instance.signOut(),
+                  onTap: () => showDialog(
+                    barrierColor: Colors.transparent,
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        backgroundColor: MyColors.mywhite,
+                        elevation: 0,
+                        insetPadding:
+                            const EdgeInsets.symmetric(horizontal: 25),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        content: Text(
+                          'are you sure you want to sign out ?',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: MyColors.myred,
+                                    fontSize: 19,
+                                  ),
+                        ),
+                        actions: [
+                          //!yes
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: 20, bottom: 15),
+                            child: GestureDetector(
+                              onTap: () async {
+                                FirebaseAuth.instance.signOut();
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                width: 60,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  color: MyColors.myred2,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 36, 114, 121),
+                                      width: 2),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'yes',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 18,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          //!no
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: 20, bottom: 15),
+                            child: GestureDetector(
+                              onTap: () async {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                width: 60,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  color: MyColors.myred2,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 36, 114, 121),
+                                      width: 2),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'no',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 18,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
                   child: Padding(
                     padding:
                         const EdgeInsets.only(right: 20, left: 20, bottom: 100),
