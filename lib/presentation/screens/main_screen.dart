@@ -23,12 +23,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  PageController _pageController = PageController();
   List<Car> favCars = [];
   List<String> favCarsIds = [];
   final List<Widget> _screens = [
     const HomeScreen(),
-    FavoriteScreen(),
+    const FavoriteScreen(),
     const AddCarScreen(),
     const SettingsScreen(),
     const ProfileScreen(),
@@ -37,7 +37,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
     loadData();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   Future<void> loadData() async {
@@ -57,7 +64,11 @@ class _MainScreenState extends State<MainScreen> {
 
   void navigateBottomNavBar(int index) {
     setState(() {
-      _selectedIndex = index;
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.fastLinearToSlowEaseIn,
+      );
     });
   }
 
@@ -68,8 +79,15 @@ class _MainScreenState extends State<MainScreen> {
         Scaffold(
           backgroundColor: Colors.transparent,
           //?body
-          body: _screens[_selectedIndex],
-          //?bottom nav bar
+          // body: _screens[_selectedIndex],
+          body: SizedBox.expand(
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              onPageChanged: (index) {},
+              children: _screens,
+            ),
+          ),
         ),
 
         //!Google Nav Example

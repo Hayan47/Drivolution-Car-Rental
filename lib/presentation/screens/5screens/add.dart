@@ -105,7 +105,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
         'image_file_b64': base64.encode(imageFile),
       },
     );
-
     if (response.statusCode == 200) {
       Uint8List imageBytes = response.bodyBytes;
       return imageBytes;
@@ -152,16 +151,18 @@ class _AddCarScreenState extends State<AddCarScreen> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.error,
-          color: MyColors.myred,
-          size: 20,
+      ScaffoldMessenger.of(context).showSnackBar(
+        MySnackBar(
+          icon: const Icon(
+            Icons.error,
+            color: MyColors.myred,
+            size: 20,
+          ),
+          title: 'Error',
+          message: 'Image not picked correctly',
+          margin: MediaQuery.sizeOf(context).width * 0.2,
         ),
-        title: 'Error',
-        message: 'Image not picked correctly',
-        margin: MediaQuery.sizeOf(context).width * 0.2,
-      ));
+      );
     }
   }
 
@@ -231,7 +232,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
       ));
     }
     //! check car image
-    if (imageUrl == null) {
+    if (carImage == null) {
       return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
         icon: const Icon(
           Icons.error,
@@ -347,7 +348,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
         margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     }
-    //! check car engie
+    //! check car engine
     if (_carEngineController.text.isEmpty) {
       return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
         icon: const Icon(
@@ -1103,6 +1104,8 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                               color: MyColors.myBlue,
                                             ),
                                             onPressed: () {
+                                              if (_featureController
+                                                  .text.isEmpty) return;
                                               setState(() {
                                                 features.add(
                                                     _featureController.text);
