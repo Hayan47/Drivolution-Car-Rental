@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
-import 'package:drivolution/services/user_services.dart';
-import 'package:drivolution/services/reservations_services.dart';
+import 'package:drivolution/data/services/user_services.dart';
+import 'package:drivolution/data/services/reservations_services.dart';
 import 'package:meta/meta.dart';
 
 import '../../data/models/usr_model.dart';

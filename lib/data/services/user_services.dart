@@ -6,7 +6,7 @@ import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../data/models/usr_model.dart';
+import '../models/usr_model.dart';
 
 class UserServices {
   final _auth = FirebaseAuth.instance;

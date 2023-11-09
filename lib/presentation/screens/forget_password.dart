@@ -2,7 +2,7 @@
 
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
-import 'package:drivolution/services/user_services.dart';
+import 'package:drivolution/data/services/user_services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 

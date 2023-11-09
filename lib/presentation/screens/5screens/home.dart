@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> refresh() async {
     //?get cars
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     await context.read<CarsCubit>().getAllCars();
   }
 
@@ -43,50 +43,66 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           _isSearching
-              ? AppBar(
-                  title: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      cursorColor: MyColors.mywhite,
-                      cursorRadius: const Radius.circular(100),
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Find A Car...',
-                        hintStyle:
-                            Theme.of(context).textTheme.bodySmall!.copyWith(
-                                  color: MyColors.mywhite,
-                                  fontSize: 22,
-                                ),
+              ? SafeArea(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          MyColors.myred.withOpacity(0.6),
+                          MyColors.myred2.withOpacity(1),
+                          MyColors.myred.withOpacity(0.6),
+                        ],
                       ),
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: MyColors.mywhite,
-                            fontSize: 22,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: AppBar(
+                      title: TextField(
+                        cursorColor: MyColors.mywhite,
+                        cursorRadius: const Radius.circular(100),
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'find a car...',
+                          hintStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                        ),
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: MyColors.mywhite,
+                              fontSize: 22,
+                              fontWeight: FontWeight.normal,
+                            ),
+                        onChanged: (value) {
+                          searchedForCars = allCars
+                              .where((car) =>
+                                  car.name.toLowerCase().contains(value))
+                              .toList();
+                          setState(() {});
+                        },
+                      ),
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: IconButton(
+                            onPressed: () {
+                              _searchController.clear();
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.clear,
+                              size: 32,
+                            ),
                           ),
-                      onChanged: (value) {
-                        searchedForCars = allCars
-                            .where(
-                                (car) => car.name.toLowerCase().contains(value))
-                            .toList();
-                        setState(() {});
-                      },
+                        )
+                      ],
                     ),
                   ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: IconButton(
-                        onPressed: () {
-                          _searchController.clear();
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.clear,
-                          size: 32,
-                        ),
-                      ),
-                    )
-                  ],
                 )
               : AppBar(
                   title: Row(

@@ -84,7 +84,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     setState(() {
-                      _toggle = !_toggle;
+                      _toggle = true;
                     });
                     // await CarServices().getAllCars();
 
