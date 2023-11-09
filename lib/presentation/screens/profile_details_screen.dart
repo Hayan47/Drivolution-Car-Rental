@@ -10,7 +10,7 @@ import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/reservation_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_profile.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
-import 'package:drivolution/services/user_services.dart';
+import 'package:drivolution/data/services/user_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';

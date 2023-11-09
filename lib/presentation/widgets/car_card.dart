@@ -6,6 +6,7 @@ import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import '../../data/models/car_model.dart';
 
 class CarCard extends StatefulWidget {
@@ -19,6 +20,8 @@ class CarCard extends StatefulWidget {
 
 class _CarCardState extends State<CarCard> {
   List<Car> favoritesCars = [];
+  bool loading_add = false;
+  bool loading_remove = false;
 
   @override
   Widget build(BuildContext context) {
@@ -143,13 +146,15 @@ class _CarCardState extends State<CarCard> {
                                           return Hero(
                                             tag: widget.car.id!,
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(8),
                                               child: GestureDetector(
-                                                onTap: () {
+                                                onTap: () async {
                                                   if (state.favoriteCars
                                                       .contains(widget.car)) {
-                                                    context
+                                                    setState(() {
+                                                      loading_remove = true;
+                                                    });
+                                                    await context
                                                         .read<FavoriteCubit>()
                                                         .removeCarFromFavorites(
                                                             widget.car,
@@ -157,8 +162,17 @@ class _CarCardState extends State<CarCard> {
                                                                 .instance
                                                                 .currentUser!
                                                                 .uid);
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 2));
+                                                    setState(() {
+                                                      loading_remove = false;
+                                                    });
                                                   } else {
-                                                    context
+                                                    setState(() {
+                                                      loading_add = true;
+                                                    });
+                                                    await context
                                                         .read<FavoriteCubit>()
                                                         .addCarToFavorites(
                                                             widget.car,
@@ -166,26 +180,55 @@ class _CarCardState extends State<CarCard> {
                                                                 .instance
                                                                 .currentUser!
                                                                 .uid);
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 2));
+                                                    setState(() {
+                                                      loading_add = false;
+                                                    });
                                                   }
                                                 },
-                                                child: state.favoriteCars
-                                                        .contains(widget.car)
-                                                    ? Image.asset(
-                                                        'assets/icons/love2.png',
+                                                child: loading_remove
+                                                    ? Lottie.asset(
+                                                        'assets/lottie/heart_break.json',
                                                         width: 30,
                                                         height: 30,
+                                                        repeat: false,
                                                       )
-                                                    : Image.asset(
-                                                        'assets/icons/love.png',
-                                                        width: 30,
-                                                        height: 30,
-                                                        color: Colors.white,
-                                                      ),
+                                                    : loading_add
+                                                        ? Lottie.asset(
+                                                            'assets/lottie/heart_fill.json',
+                                                            width: 30,
+                                                            height: 30,
+                                                            repeat: false,
+                                                          )
+                                                        : state.favoriteCars
+                                                                .contains(
+                                                                    widget.car)
+                                                            ? Image.asset(
+                                                                'assets/icons/love2.png',
+                                                                width: 30,
+                                                                height: 30,
+                                                              )
+                                                            : Image.asset(
+                                                                'assets/icons/love.png',
+                                                                width: 30,
+                                                                height: 30,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
                                               ),
                                             ),
                                           );
                                         } else {
-                                          return Container();
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Lottie.asset(
+                                              'assets/lottie/heart_loading.json',
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                          );
                                         }
                                       },
                                     ),

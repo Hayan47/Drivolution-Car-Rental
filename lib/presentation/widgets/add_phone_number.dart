@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/services/user_services.dart';
+import 'package:drivolution/data/services/user_services.dart';
 
 class AddPhoneNumber extends StatefulWidget {
   final String id;

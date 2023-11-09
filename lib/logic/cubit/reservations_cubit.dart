@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:drivolution/services/reservations_services.dart';
+import 'package:drivolution/data/services/reservations_services.dart';
 import 'package:meta/meta.dart';
 import '../../data/models/reservation_model.dart';
 part 'reservations_state.dart';
