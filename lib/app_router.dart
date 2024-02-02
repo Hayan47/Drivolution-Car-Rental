@@ -5,6 +5,7 @@ import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
+import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
 import 'package:drivolution/presentation/screens/forget_password.dart';
 import 'package:drivolution/presentation/screens/log_in_screen.dart';
@@ -45,18 +46,13 @@ class AppRouter {
           ),
           type: PageTransitionType.leftToRight,
         );
-
       case cardetailsscreen:
         final car = settings.arguments as Car;
         return MaterialPageRoute(
             builder: (_) => MultiBlocProvider(
                   providers: [
-                    BlocProvider.value(
-                      value: resCubit,
-                    ),
-                    BlocProvider.value(
-                      value: favoriteCarsCubit,
-                    ),
+                    BlocProvider.value(value: resCubit),
+                    BlocProvider.value(value: favoriteCarsCubit),
                   ],
                   child: CarDetailsScreen(car: car),
                 ));
@@ -68,32 +64,18 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       case profilescreen:
         return MaterialPageRoute(
-          builder: (_) =>
-              // BlocProvider.value(
-              // value: usrCubit,
-              // child:
-              const ProfileScreen(),
-          // )
+          builder: (_) => const ProfileScreen(),
         );
       case mapscreen:
         final car = settings.arguments as Car;
         return MaterialPageRoute(builder: (_) => MapScreen(car: car));
-      // case profiledetailsscreen:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider(
-      //       create: (context) => UsrCubit(),
-      //       // value: UsrCubit(),
-      //       child: const ProfileDetailsScreen(),
-      //     ),
-      //   );
-      // case locationpickerscreen:
-      //   return MaterialPageRoute(builder: (_) => LocationPicker());
-      // case daterangepicker:
-      //   return MaterialPageRoute(
-      //       builder: (_) => BlocProvider.value(
-      //             value: resCubit,
-      //             child: const DateRangePicker(),
-      //           ));
+      case addcarscreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: carsCubit,
+            child: const AddCarScreen(),
+          ),
+        );
     }
     return null;
   }

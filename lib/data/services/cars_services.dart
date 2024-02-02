@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/data/services/error_handling.dart';
 
 class CarServices {
   final _store = FirebaseFirestore.instance;
+  final ErrorHandling _errorHandling = ErrorHandling();
 
   //?get all cars
   Future<List<Car>> getAllCars() async {
-    print("HAYANNNNNNNNNNNNNNNNNNN");
     try {
       List<Car> cars = [];
       var snapshot = await _store

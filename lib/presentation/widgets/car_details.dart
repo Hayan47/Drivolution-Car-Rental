@@ -90,9 +90,10 @@ class _CarDetailsState extends State<CarDetails> {
       Navigator.pop(context);
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        color: Colors.green,
         icon: const Icon(
           Icons.done,
-          color: Colors.green,
+          color: MyColors.mywhite,
           size: 20,
         ),
         title: 'Done',
@@ -103,9 +104,10 @@ class _CarDetailsState extends State<CarDetails> {
     } catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        color: MyColors.myred,
         icon: const Icon(
           Icons.error,
-          color: MyColors.myred,
+          color: MyColors.mywhite,
           size: 20,
         ),
         title: 'Error',

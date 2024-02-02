@@ -23,12 +23,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   List<String> favCarsIds = [];
   List<Car> favCars = [];
 
-  @override
-  void initState() {
-    super.initState();
-    getFavoriteCars();
-  }
-
   Future<void> getFavoriteCars() async {
     if (FirebaseAuth.instance.currentUser != null) {
       String id = FirebaseAuth.instance.currentUser!.uid;
@@ -71,45 +65,56 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: BlocBuilder<FavoriteCubit, FavoriteCarsState>(
-              builder: (context, state) {
-                if (state is FavoriteCarsLoaded) {
-                  if (favCars.isEmpty) {
-                    return Column(
-                      children: [
-                        Image.asset('assets/lottie/favorite_cars.png'),
-                        Text(
-                          'add cars to your favorite list!',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.myBlue,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                        ),
-                      ],
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: favCars.length,
-                    itemBuilder: (context, index) {
-                      if (index == favCars.length - 1) {
-                        //? Return the last item with some padding
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 65),
-                          child: CarCard(car: favCars[index]),
+          FutureBuilder(
+            future: getFavoriteCars(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const AllCarsLoading();
+              } else {
+                return Expanded(
+                  child: BlocBuilder<FavoriteCubit, FavoriteCarsState>(
+                    builder: (context, state) {
+                      if (state is FavoriteCarsLoaded) {
+                        if (favCars.isEmpty) {
+                          return Column(
+                            children: [
+                              Image.asset('assets/lottie/favorite_cars.png'),
+                              Text(
+                                'add cars to your favorite list!',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: MyColors.myBlue,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                              ),
+                            ],
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: favCars.length,
+                          itemBuilder: (context, index) {
+                            if (index == favCars.length - 1) {
+                              //? Return the last item with some padding
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 65),
+                                child: CarCard(car: favCars[index]),
+                              );
+                            } else {
+                              return CarCard(car: favCars[index]);
+                            }
+                          },
                         );
                       } else {
-                        return CarCard(car: favCars[index]);
+                        return const AllCarsLoading();
                       }
                     },
-                  );
-                } else {
-                  return const AllCarsLoading();
-                }
-              },
-            ),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),
