@@ -3,6 +3,7 @@ import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/cubit/cars_cubit.dart';
 import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:drivolution/logic/cubit/usr_cubit.dart';
+import 'package:drivolution/presentation/screens/5screens/add.dart';
 import 'package:drivolution/presentation/screens/5screens/fav.dart';
 import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
@@ -12,8 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
-import '5screens/add.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -29,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const FavoriteScreen(),
-    const AddCarScreen(),
+    const AddScreen(),
     const SettingsScreen(),
     const ProfileScreen(),
   ];

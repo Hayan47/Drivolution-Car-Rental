@@ -204,9 +204,10 @@ class _OwnerCardState extends State<OwnerCard> {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   MySnackBar(
+                                                    color: MyColors.myred,
                                                     icon: const Icon(
                                                       Icons.error,
-                                                      color: MyColors.myred,
+                                                      color: MyColors.mywhite,
                                                       size: 20,
                                                     ),
                                                     title: 'Error',

@@ -25,36 +25,7 @@ class Car extends Equatable {
   final String ownerid;
   final String description;
 
-  //Owner? owner;
-  //Review? review;
-
-  // Car.fromJson(Map<String, dynamic> json) {
-  //   id = json["id"];
-  //   logo = json["logo"];
-  //   img = json["img"];
-  //   name = json["name"];
-  //   model = json["model"];
-  //   rentd = json["rentd"];
-  //   imgs = json["imgs"].cast<String>();
-  //   location1 = json["location1"];
-  //   location2 = json["location2"];
-  //   location = json["location"];
-  //   type = json["type"];
-  //   seats = json["seats"];
-  //   doors = json["doors"];
-  //   fuel = json["fuel"];
-  //   features = json["features"].cast<String>();
-  //   color = json["color"];
-  //   interiorColor = json["interiorColor"];
-  //   drivetrain = json["drivetrain"];
-  //   engine = json["engine"];
-  //   kilometrage = json["kilometrage"];
-  //   transmission = json["transmission"];
-  //   userid = json["userid"];
-  //   description = json["description"];
-  // }
-
-  Car({
+  const Car({
     this.id,
     required this.logo,
     required this.img,

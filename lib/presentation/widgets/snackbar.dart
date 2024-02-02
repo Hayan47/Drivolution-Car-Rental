@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 class MySnackBar extends SnackBar {
   MySnackBar({
     Key? key,
+    required Color color,
     required Icon icon,
     required String title,
     required String message,
@@ -29,12 +30,12 @@ class MySnackBar extends SnackBar {
               ),
             ),
           ]),
-          margin: EdgeInsets.symmetric(vertical: margin, horizontal: 20),
-          elevation: 50,
+          margin: EdgeInsets.symmetric(vertical: margin, horizontal: 5),
+          elevation: 0,
           duration: const Duration(seconds: 8),
-          backgroundColor: Colors.black.withOpacity(0.8),
+          backgroundColor: color,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           action: SnackBarAction(
             label: 'Dismiss',
             textColor: Colors.white,

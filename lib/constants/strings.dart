@@ -9,6 +9,8 @@ const cardetailsscreen = '/cardetailsscreen';
 const mapscreen = '/mapscreen';
 const locationpickerscreen = '/locationpickerscreen';
 const daterangepicker = '/daterangepicker';
+const addcarscreen = '/addcarscreen';
+
 
 
 //fonts

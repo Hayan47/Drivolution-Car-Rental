@@ -64,9 +64,10 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
       // await context.read<UsrCubit>().getUserInfo(user.uid);
     } on PlatformException {
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        color: MyColors.myred,
         icon: const Icon(
           Icons.error,
-          color: MyColors.myred,
+          color: MyColors.mywhite,
           size: 20,
         ),
         title: 'Error',

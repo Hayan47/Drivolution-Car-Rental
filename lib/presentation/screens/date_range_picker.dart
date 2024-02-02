@@ -126,7 +126,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
                         enableSwipeSelection: false,
                         blackoutDates: disabledDates,
                         showTrailingAndLeadingDates: true,
-                        weekendDays: [5, 6],
+                        weekendDays: const [5, 6],
                         viewHeaderHeight:
                             MediaQuery.sizeOf(context).height * 0.05,
                         viewHeaderStyle: DateRangePickerViewHeaderStyle(
@@ -153,20 +153,20 @@ class _DateRangePickerState extends State<DateRangePicker> {
                       },
                       onSubmit: (p0) {
                         if (isValid) {
-                          print(_selectedDateRange);
                           Navigator.of(context).pop({
                             'selectedRange': _selectedDateRange,
                           });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+                            color: MyColors.myred,
                             icon: const Icon(
                               Icons.error,
-                              color: MyColors.myred,
+                              color: MyColors.mywhite,
                               size: 20,
                             ),
                             title: 'Error',
                             message: 'selected range contains taken dates',
-                            margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
+                            margin: 0,
                           ));
                         }
                       },

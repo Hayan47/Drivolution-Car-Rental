@@ -8,4 +8,5 @@ class MyColors {
   static const mywhite = Color(0xfff7f8f3);
   static const myBlue = Color(0xff78bcc4);
   static const myBlue2 = Color(0xff002c3e);
+  static const myBlue3 = Color(0xff247279);
 }

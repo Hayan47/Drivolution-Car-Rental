@@ -99,9 +99,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(MySnackBar(
+                                color: Colors.green,
                                 icon: const Icon(
                                   Icons.done,
-                                  color: Colors.green,
+                                  color: Colors.white,
                                   size: 20,
                                 ),
                                 title: 'Done',

@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/data/services/error_handling.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class UserServices {
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
 
+  final ErrorHandling _errorHandling = ErrorHandling();
+
   //? sign in
   Future signIn(BuildContext context, String email, String password) async {
     try {
@@ -20,16 +23,7 @@ class UserServices {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.error,
-          color: MyColors.myred,
-          size: 20,
-        ),
-        title: 'Error',
-        message: e.message.toString(),
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
-      ));
+      _errorHandling.showError(e.message.toString(), context);
     }
   }
 
@@ -69,16 +63,7 @@ class UserServices {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.error,
-          color: MyColors.myred,
-          size: 20,
-        ),
-        title: 'Error',
-        message: e.message.toString(),
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
-      ));
+      _errorHandling.showError(e.message.toString(), context);
     }
   }
 
@@ -90,16 +75,7 @@ class UserServices {
         'phoneNumber': phoneNumber,
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.error,
-          color: MyColors.myred,
-          size: 20,
-        ),
-        title: 'Error',
-        message: e.toString(),
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
-      ));
+      _errorHandling.showError(e.toString(), context);
     }
   }
 
@@ -124,16 +100,7 @@ class UserServices {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.error,
-          color: MyColors.myred,
-          size: 20,
-        ),
-        title: 'Error',
-        message: e.message.toString(),
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
-      ));
+      _errorHandling.showError(e.message.toString(), context);
     }
   }
 
@@ -176,9 +143,10 @@ class UserServices {
         'image': url,
       });
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
+        color: Colors.green,
         icon: const Icon(
           Icons.done,
-          color: Colors.green,
+          color: MyColors.mywhite,
           size: 20,
         ),
         title: 'Done',
@@ -186,16 +154,7 @@ class UserServices {
         margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.error,
-          color: MyColors.myred,
-          size: 20,
-        ),
-        title: 'Error',
-        message: 'Image not edited',
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
-      ));
+      _errorHandling.showError('image not edited', context);
     }
   }
 
@@ -220,16 +179,7 @@ class UserServices {
     try {
       _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.error,
-          color: MyColors.myred,
-          size: 20,
-        ),
-        title: 'Error',
-        message: e.message.toString(),
-        margin: 0, //MediaQuery.sizeOf(context).width * 0.2,
-      ));
+      _errorHandling.showError(e.message.toString(), context);
     }
   }
 
