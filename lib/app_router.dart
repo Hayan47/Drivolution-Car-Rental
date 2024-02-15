@@ -4,6 +4,12 @@ import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/cubit/usr_cubit.dart';
+import 'package:drivolution/logic/dropdown_bloc/dropdown_bloc.dart';
+import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
+import 'package:drivolution/logic/image_bloc/image_bloc.dart';
+import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
+import 'package:drivolution/presentation/screens/5screens/add.dart';
+import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
@@ -22,12 +28,20 @@ class AppRouter {
   late UsrCubit usrCubit;
   late ReservationsCubit resCubit;
   late FavoriteCubit favoriteCarsCubit;
+  late ImageBloc imageBloc;
+  late LogoBloc logoBloc;
+  late DropdownBloc dropdownBloc;
+  late AllFieldsFormBloc allFieldsFormBloc;
 
   AppRouter() {
     carsCubit = CarsCubit();
     resCubit = ReservationsCubit();
     favoriteCarsCubit = FavoriteCubit();
     usrCubit = UsrCubit();
+    imageBloc = ImageBloc();
+    logoBloc = LogoBloc();
+    dropdownBloc = DropdownBloc();
+    allFieldsFormBloc = AllFieldsFormBloc();
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -71,8 +85,14 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => MapScreen(car: car));
       case addcarscreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: carsCubit,
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: carsCubit),
+              BlocProvider.value(value: imageBloc),
+              BlocProvider.value(value: logoBloc),
+              BlocProvider.value(value: dropdownBloc),
+              BlocProvider.value(value: allFieldsFormBloc),
+            ],
             child: const AddCarScreen(),
           ),
         );

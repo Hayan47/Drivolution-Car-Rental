@@ -6,7 +6,7 @@ class CustomTheme {
   static ThemeData get appTheme {
     return ThemeData(
       //stretch
-      androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
+      // androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
       //back color
       backgroundColor: MyColors.mywhite,
       //scaff back color
