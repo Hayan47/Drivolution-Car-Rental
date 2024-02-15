@@ -32,7 +32,7 @@ class MySnackBar extends SnackBar {
           ]),
           margin: EdgeInsets.symmetric(vertical: margin, horizontal: 5),
           elevation: 0,
-          duration: const Duration(seconds: 8),
+          duration: const Duration(seconds: 4),
           backgroundColor: color,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
