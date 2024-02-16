@@ -1,5 +1,7 @@
 // import 'dart:ffi';
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.sizeOf(context).width * 0.05);
     return DecoratedBox(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -32,13 +33,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Column(
               children: [
                 const SizedBox(height: 50),
-                Image.asset(
-                  'assets/img/logo/drivolution.png',
-                ),
+                Image.asset('assets/img/logo/drivolution.png'),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -79,34 +79,43 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ],
             ),
-            Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      _toggle = true;
-                    });
-                    // await CarServices().getAllCars();
-
-                    await Future.delayed(const Duration(seconds: 1));
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacementNamed(context, mainScreen);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(MyColors.myred),
-                    fixedSize: MaterialStateProperty.all(
-                      const Size(100, 20),
+            Container(
+              width: MediaQuery.sizeOf(context).width / 2,
+              child: Stack(
+                children: [
+                  Positioned(
+                    // right: 25,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'continue',
+                        style: GoogleFonts.amiri(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: MyColors.mywhite,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    'Continue',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: MyColors.mywhite,
-                          fontSize: 16,
-                        ),
+                  Positioned(
+                    left: 78,
+                    child: GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          _toggle = true;
+                        });
+                        // await CarServices().getAllCars();
+                        await Future.delayed(const Duration(seconds: 1));
+                        Navigator.pushReplacementNamed(context, mainScreen);
+                      },
+                      child: Image.asset(
+                        'assets/icons/arrow_right2.png',
+                        // scale: 0.7,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

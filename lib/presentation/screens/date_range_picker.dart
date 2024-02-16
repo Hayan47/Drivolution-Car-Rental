@@ -158,13 +158,11 @@ class _DateRangePickerState extends State<DateRangePicker> {
                           });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-                            color: MyColors.myred,
                             icon: const Icon(
                               Icons.error,
-                              color: MyColors.mywhite,
+                              color: MyColors.myred2,
                               size: 20,
                             ),
-                            title: 'Error',
                             message: 'selected range contains taken dates',
                             margin: 0,
                           ));

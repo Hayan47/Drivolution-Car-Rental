@@ -285,7 +285,7 @@ class _CarCardState extends State<CarCard> {
                     'Price   ',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: MyColors.mywhite,
-                          fontSize: 16,
+                          fontSize: 15,
                         ),
                   ),
                   Text(

@@ -96,7 +96,8 @@ class _MainScreenState extends State<MainScreen> {
             padding: const EdgeInsets.all(15),
             child: Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 36, 114, 121),
+                color: const Color(
+                    0xff1E1E24), //const Color.fromARGB(255, 36, 114, 121),
                 borderRadius: BorderRadius.circular(45),
               ),
               child: Padding(
@@ -107,15 +108,18 @@ class _MainScreenState extends State<MainScreen> {
                   haptic: false,
                   iconSize: 20,
                   padding: const EdgeInsets.all(13),
-                  backgroundColor: const Color.fromARGB(255, 36, 114, 121),
+                  backgroundColor: const Color(
+                      0xff1E1E24), //const Color.fromARGB(255, 36, 114, 121),
                   color: MyColors.mywhite,
                   activeColor: MyColors.mywhite,
-                  tabBackgroundGradient: LinearGradient(
-                    colors: [
-                      MyColors.myBlue2.withOpacity(0.87),
-                      MyColors.myBlue2.withOpacity(0.3),
-                    ],
-                  ),
+                  // tabBackgroundGradient: LinearGradient(
+                  //   colors: [
+                  //     // MyColors.myBlue2.withOpacity(0.87),
+                  //     // MyColors.myBlue2.withOpacity(0.3),
+                  //     // Color(0xfff7444e),
+                  //     // Color(0xff1E1E24),
+                  //   ],
+                  // ),
                   textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: MyColors.mywhite,
                         fontSize: 16,

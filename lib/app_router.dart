@@ -8,8 +8,6 @@ import 'package:drivolution/logic/dropdown_bloc/dropdown_bloc.dart';
 import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
 import 'package:drivolution/logic/image_bloc/image_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
-import 'package:drivolution/presentation/screens/5screens/add.dart';
-import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
@@ -32,7 +30,6 @@ class AppRouter {
   late LogoBloc logoBloc;
   late DropdownBloc dropdownBloc;
   late AllFieldsFormBloc allFieldsFormBloc;
-
   AppRouter() {
     carsCubit = CarsCubit();
     resCubit = ReservationsCubit();

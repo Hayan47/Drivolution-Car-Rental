@@ -166,11 +166,28 @@ class _OwnerCardState extends State<OwnerCard> {
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
+                                          Column(
                                             children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${usr.firstName} ${usr.lastName}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          color:
+                                                              MyColors.myBlue2,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5),
                                               Text(
-                                                '${usr.firstName} ${usr.lastName}',
+                                                usr.phoneNumber,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall!
@@ -180,17 +197,6 @@ class _OwnerCardState extends State<OwnerCard> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            usr.phoneNumber,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall!
-                                                .copyWith(
-                                                  color: MyColors.myBlue2,
-                                                ),
-                                          ),
-                                          const SizedBox(height: 25),
                                           //!call button
                                           GestureDetector(
                                             onTap: () async {
@@ -204,13 +210,11 @@ class _OwnerCardState extends State<OwnerCard> {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   MySnackBar(
-                                                    color: MyColors.myred,
                                                     icon: const Icon(
                                                       Icons.error,
-                                                      color: MyColors.mywhite,
+                                                      color: MyColors.myred2,
                                                       size: 20,
                                                     ),
-                                                    title: 'Error',
                                                     message:
                                                         'can\'t open phone number',
                                                     margin:
@@ -221,7 +225,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                             },
                                             child: Container(
                                               width: 100,
-                                              height: 30,
+                                              height: 25,
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(12),
@@ -252,38 +256,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                                       blurRadius: 2,
                                                       spreadRadius: 1,
                                                     ),
-                                                  ]
-                                                  // boxShadow: const [
-                                                  //   //* right
-                                                  //   BoxShadow(
-                                                  //     color: MyColors.myBlue2,
-                                                  //     offset: Offset(1, 0),
-                                                  //     blurRadius: 1,
-                                                  //     spreadRadius: 0.1,
-                                                  //   ),
-                                                  //   //* down
-                                                  //   BoxShadow(
-                                                  //     color: MyColors.myBlue2,
-                                                  //     offset: Offset(0, 1),
-                                                  //     blurRadius: 1,
-                                                  //     spreadRadius: 0.1,
-                                                  //   ),
-                                                  //   //* left
-                                                  //   BoxShadow(
-                                                  //     color: MyColors.myBlue2,
-                                                  //     offset: Offset(-2, 0),
-                                                  //     blurRadius: 1,
-                                                  //     spreadRadius: 0.1,
-                                                  //   ),
-                                                  //   //* top
-                                                  //   BoxShadow(
-                                                  //     color: MyColors.myBlue2,
-                                                  //     offset: Offset(0, -2),
-                                                  //     blurRadius: 0.5,
-                                                  //     spreadRadius: 0.1,
-                                                  //   ),
-                                                  // ],
-                                                  ),
+                                                  ]),
                                               child: Center(
                                                 child: Text(
                                                   'Call',

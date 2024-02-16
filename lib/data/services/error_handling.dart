@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 class ErrorHandling {
   //?show error
   showError(String message, BuildContext context) {
-    return ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-      color: MyColors.myred,
-      icon: const Icon(Icons.error, color: Colors.white, size: 18),
-      title: 'Error',
-      message: message,
-      margin: 5,
-    ));
+    return ScaffoldMessenger.of(context).showSnackBar(
+      MySnackBar(
+        icon: const Icon(Icons.error, color: MyColors.myred2, size: 18),
+        message: message,
+        margin: 0,
+      ),
+    );
   }
 }
