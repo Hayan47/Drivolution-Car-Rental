@@ -143,13 +143,11 @@ class UserServices {
         'image': url,
       });
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        color: Colors.green,
         icon: const Icon(
           Icons.done,
-          color: MyColors.mywhite,
+          color: Colors.green,
           size: 20,
         ),
-        title: 'Done',
         message: 'Image Edited',
         margin: MediaQuery.sizeOf(context).width * 0.2,
       ));

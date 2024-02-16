@@ -90,13 +90,11 @@ class _CarDetailsState extends State<CarDetails> {
       Navigator.pop(context);
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        color: Colors.green,
         icon: const Icon(
           Icons.done,
-          color: MyColors.mywhite,
+          color: Colors.green,
           size: 20,
         ),
-        title: 'Done',
         message: 'Reservation Completed Successfuly',
         margin: 0,
       ));
@@ -104,13 +102,11 @@ class _CarDetailsState extends State<CarDetails> {
     } catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        color: MyColors.myred,
         icon: const Icon(
           Icons.error,
-          color: MyColors.mywhite,
+          color: MyColors.myred2,
           size: 20,
         ),
-        title: 'Error',
         message: 'Make Reservation Failed',
         margin: 0,
       ));
@@ -824,9 +820,10 @@ class _CarDetailsState extends State<CarDetails> {
                           },
                           child: Container(
                             height: 40,
-                            width: 160,
+                            width: 140,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: MyColors.myBlue),
+                              borderRadius: BorderRadius.circular(10),
                               gradient: LinearGradient(
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
@@ -837,17 +834,25 @@ class _CarDetailsState extends State<CarDetails> {
                                 ],
                               ),
                             ),
-                            child: Center(
-                              child: Text(
-                                'Delete Car',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 22,
-                                    ),
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  'delete car',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: MyColors.mywhite,
+                                        fontSize: 20,
+                                      ),
+                                ),
+                                Image.asset(
+                                  'assets/icons/delete.png',
+                                  width: 25,
+                                  height: 25,
+                                )
+                              ],
                             ),
                           ),
                         ),

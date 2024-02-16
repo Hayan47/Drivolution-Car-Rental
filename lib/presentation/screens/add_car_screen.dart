@@ -190,13 +190,11 @@ class _AddCarScreenState extends State<AddCarScreen> {
         );
     Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-      color: Colors.green,
       icon: const Icon(
         Icons.done,
         color: Colors.green,
         size: 20,
       ),
-      title: 'Done',
       message: 'car added successfuly',
       margin: 0,
     ));
@@ -320,10 +318,8 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                 if (state is ImageError) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     MySnackBar(
-                                      color: MyColors.myred,
                                       icon: const Icon(Icons.error,
-                                          color: Colors.white, size: 18),
-                                      title: 'Error',
+                                          color: MyColors.myred2, size: 18),
                                       message: state.errorMessage,
                                       margin: 5,
                                     ),
@@ -1258,17 +1254,22 @@ class _AddCarScreenState extends State<AddCarScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                      onPressed: () {
-                        if (_currentPage > 0) {
-                          _currentPage--;
-                        }
-                        _pageController.animateToPage(
-                          _currentPage,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease,
-                        );
-                      },
-                      child: Text('previuos')),
+                    onPressed: () {
+                      if (_currentPage > 0) {
+                        _currentPage--;
+                      }
+                      _pageController.animateToPage(
+                        _currentPage,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/icons/arrow_left.png',
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
                   _currentPage == 3
                       ? Container()
                       : TextButton(
@@ -1333,7 +1334,12 @@ class _AddCarScreenState extends State<AddCarScreen> {
                               curve: Curves.ease,
                             );
                           },
-                          child: Text('next')),
+                          child: Image.asset(
+                            'assets/icons/arrow_right.png',
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
                 ],
               ),
             )

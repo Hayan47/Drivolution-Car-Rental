@@ -64,13 +64,11 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
       // await context.read<UsrCubit>().getUserInfo(user.uid);
     } on PlatformException {
       ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        color: MyColors.myred,
         icon: const Icon(
           Icons.error,
-          color: MyColors.mywhite,
+          color: MyColors.myred2,
           size: 20,
         ),
-        title: 'Error',
         message: 'failed to pick image',
         margin: MediaQuery.sizeOf(context).width * 0.2,
       ));
