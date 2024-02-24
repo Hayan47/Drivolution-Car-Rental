@@ -17,8 +17,8 @@ class MySnackBar extends SnackBar {
               borderRadius: BorderRadius.circular(10),
               gradient: const LinearGradient(
                 colors: [
-                  Color(0xff1E1E24),
-                  Color(0xfff7444e),
+                  MyColors.myGrey,
+                  MyColors.myred2,
                 ],
               ),
               boxShadow: const [

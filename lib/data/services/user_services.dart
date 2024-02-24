@@ -219,8 +219,6 @@ class UserServices {
       var car = doc.data();
       favoriteCars.add(car);
     }
-    print(favoriteCars);
-
     return favoriteCars;
   }
 }

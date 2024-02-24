@@ -12,9 +12,9 @@ final class ImageInitial extends ImageState {}
 class ImageLoading extends ImageState {}
 
 class ImageChanged extends ImageState {
-  Uint8List image;
+  final Uint8List image;
 
-  ImageChanged(this.image);
+  const ImageChanged(this.image);
 }
 
 class ImageError extends ImageState {

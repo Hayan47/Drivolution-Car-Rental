@@ -128,11 +128,11 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                             );
                           },
                           child: CachedNetworkImage(
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(
-                                color: MyColors.mywhite,
-                              ),
-                            ),
+                            // placeholder: (context, url) => const Center(
+                            //   child: CircularProgressIndicator(
+                            //     color: MyColors.mywhite,
+                            //   ),
+                            // ),
                             imageUrl: widget.car.images[index],
                             fit: BoxFit.cover,
                           ),

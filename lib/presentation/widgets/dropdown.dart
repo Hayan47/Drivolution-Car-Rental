@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import '../../constants/my_colors.dart';
 
 class MyDropdown extends StatefulWidget {
@@ -103,6 +105,116 @@ class _MyDropdownState<T> extends State<MyDropdown> {
                   thickness: MaterialStateProperty.all(6),
                   thumbColor: MaterialStateProperty.all(MyColors.myred2),
                 ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyDropdown2 extends StatefulWidget {
+  final double? width;
+  final String label;
+  final String icon;
+  SelectFieldBloc<String, dynamic> bloc;
+  MyDropdown2({
+    Key? key,
+    this.width,
+    required this.label,
+    required this.icon,
+    required this.bloc,
+  }) : super(key: key);
+
+  @override
+  State<MyDropdown2> createState() => _MyDropdown2State();
+}
+
+class _MyDropdown2State extends State<MyDropdown2> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                widget.icon,
+                color: // MyColors.myBlue,
+                    widget.icon == 'assets/icons/age.png'
+                        ? null
+                        : MyColors.myBlue,
+                width: 25,
+                height: 25,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                widget.label,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: MyColors.myred2,
+                      fontSize: 15,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          DropdownFieldBlocBuilder<String>(
+            onChanged: (value) {},
+            hint: Text(
+              'select',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Colors.grey,
+                    fontSize: 14,
+                  ),
+            ),
+            showEmptyItem: false,
+            animateWhenCanShow: true,
+            selectFieldBloc: widget.bloc,
+            decoration: InputDecoration(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.sizeOf(context).width * 0.4,
+                maxHeight: 40,
+              ),
+              border: UnderlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+              contentPadding: EdgeInsets.only(
+                left: MediaQuery.sizeOf(context).width * 0.4 * 0.1,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(
+                  color: MyColors.myred2,
+                  width: 1,
+                ),
+              ),
+              filled: true,
+              fillColor: MyColors.mywhite,
+              hintText: 'Select a type',
+              hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Colors.grey,
+                    fontSize: 14,
+                  ),
+              suffixIcon: Padding(
+                padding: EdgeInsets.only(
+                  right: MediaQuery.sizeOf(context).width * 0.4 * 0.1,
+                ),
+                child: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: MyColors.myred2,
+                  size: 15,
+                ),
+              ),
+            ),
+            itemBuilder: (context, value) => FieldItem(
+              child: Text(
+                value,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: MyColors.myred2,
+                      fontSize: 14,
+                    ),
               ),
             ),
           ),

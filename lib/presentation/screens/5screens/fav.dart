@@ -41,83 +41,60 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     if (FirebaseAuth.instance.currentUser == null) {
       return const ProfileScreen();
     }
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xff1E1E24),
-            Color(0xff243B55),
-            Color(0xff1E1E24),
-          ],
-        ),
-      ),
-      child: Column(
-        children: [
-          AppBar(
-            title: Row(
-              children: [
-                SizedBox(width: MediaQuery.sizeOf(context).width / 8),
-                const Text(
-                  'Favorites',
-                ),
-              ],
-            ),
-          ),
-          FutureBuilder(
-            future: getFavoriteCars(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const AllCarsLoading();
-              } else {
-                return Expanded(
-                  child: BlocBuilder<FavoriteCubit, FavoriteCarsState>(
-                    builder: (context, state) {
-                      if (state is FavoriteCarsLoaded) {
-                        if (favCars.isEmpty) {
-                          return Column(
-                            children: [
-                              Image.asset('assets/lottie/favorite_cars.png'),
-                              Text(
-                                'add cars to your favorite list!',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: MyColors.myBlue,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                              ),
-                            ],
-                          );
-                        }
-                        return ListView.builder(
-                          itemCount: favCars.length,
-                          itemBuilder: (context, index) {
-                            if (index == favCars.length - 1) {
-                              //? Return the last item with some padding
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 65),
-                                child: CarCard(car: favCars[index]),
-                              );
-                            } else {
-                              return CarCard(car: favCars[index]);
-                            }
-                          },
+    return Column(
+      children: [
+        FutureBuilder(
+          future: getFavoriteCars(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const AllCarsLoading();
+            } else {
+              return Expanded(
+                child: BlocBuilder<FavoriteCubit, FavoriteCarsState>(
+                  builder: (context, state) {
+                    if (state is FavoriteCarsLoaded) {
+                      if (favCars.isEmpty) {
+                        return Column(
+                          children: [
+                            Image.asset('assets/lottie/favorite_cars.png'),
+                            Text(
+                              'add cars to your favorite list!',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: MyColors.myBlue,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                            ),
+                          ],
                         );
-                      } else {
-                        return const AllCarsLoading();
                       }
-                    },
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-      ),
+                      return ListView.builder(
+                        itemCount: favCars.length,
+                        itemBuilder: (context, index) {
+                          if (index == favCars.length - 1) {
+                            //? Return the last item with some padding
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 65),
+                              child: CarCard(car: favCars[index]),
+                            );
+                          } else {
+                            return CarCard(car: favCars[index]);
+                          }
+                        },
+                      );
+                    } else {
+                      return const AllCarsLoading();
+                    }
+                  },
+                ),
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }

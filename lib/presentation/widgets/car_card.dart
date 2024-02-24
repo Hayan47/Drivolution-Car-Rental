@@ -45,30 +45,19 @@ class _CarCardState extends State<CarCard> {
                 height: 180,
                 child: Stack(
                   children: [
-                    //?blur effect
-
-                    BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 500,
-                        sigmaY: 500,
-                      ),
-                      child: Container(),
-                    ),
-
                     //?gradiant effect
-
                     Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            MyColors.myBlue2.withOpacity(0.3),
-                            MyColors.myBlue.withOpacity(0.7),
-                            MyColors.myBlue2.withOpacity(0.3),
-                          ],
-                        ),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     begin: Alignment.topLeft,
+                      //     end: Alignment.bottomRight,
+                      //     colors: [
+                      //       MyColors.myGrey,
+                      //       MyColors.myBlue2.withOpacity(0.8),
+                      //     ],
+                      //   ),
+                      // ),
+                      color: MyColors.myGrey,
                     ),
 
                     //?child

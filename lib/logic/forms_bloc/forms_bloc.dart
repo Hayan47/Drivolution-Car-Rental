@@ -3,31 +3,8 @@ import 'dart:async';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class AllFieldsFormBloc extends FormBloc<String, String> {
-  final typesDropdown = SelectFieldBloc<String, String>(
-      // validators: [FieldBlocValidators.required],
-      items: [
-        'Sedan',
-        'Pick Up',
-        'SUV',
-        'Sport',
-        'Coupe',
-        'Convertible',
-        'HatchBack',
-      ]);
-
-  final fuelDropdown = SelectFieldBloc<String, String>(
-    validators: [FieldBlocValidators.required],
-  );
-  final transmissionDropdown = SelectFieldBloc<String, String>(
-    validators: [FieldBlocValidators.required],
-  );
-  final drivetrainDropdown = SelectFieldBloc<String, String>(
-    validators: [FieldBlocValidators.required],
-  );
-
-  @override
-  FutureOr<void> onLoading() {
-    typesDropdown.updateItems([
+  final typesDropdown = SelectFieldBloc(
+    items: [
       'Sedan',
       'Pick Up',
       'SUV',
@@ -35,32 +12,63 @@ class AllFieldsFormBloc extends FormBloc<String, String> {
       'Coupe',
       'Convertible',
       'HatchBack',
-    ]);
+    ],
+  );
 
-    fuelDropdown.updateItems([
+  final fuelDropdown = SelectFieldBloc<String, String>(
+    items: [
       'gaz',
       'disel',
       'electric',
-    ]);
-
-    transmissionDropdown.updateItems([
+    ],
+  );
+  final transmissionDropdown = SelectFieldBloc<String, String>(
+    items: [
       'Automatic',
       'Manual',
-    ]);
-
-    drivetrainDropdown.updateItems([
+    ],
+  );
+  final drivetrainDropdown = SelectFieldBloc<String, String>(
+    items: [
       'AWD',
       '4WD',
       'front-wheel',
       'rear-wheel',
-    ]);
+    ],
+  );
+
+  final carName = TextFieldBloc();
+  final carModel = TextFieldBloc();
+  final carColor = TextFieldBloc();
+  final carInteriorColor = TextFieldBloc();
+  final carEngine = TextFieldBloc();
+  final carKiloMetrage = TextFieldBloc();
+  final carRent = TextFieldBloc();
+
+  final carFeatures = TextFieldBloc();
+
+  AllFieldsFormBloc() {
+    addFieldBlocs(
+      fieldBlocs: [
+        typesDropdown,
+        fuelDropdown,
+        transmissionDropdown,
+        drivetrainDropdown,
+        carName,
+        carModel,
+        carColor,
+        carInteriorColor,
+        carEngine,
+        carKiloMetrage,
+        carRent,
+        carFeatures,
+      ],
+    );
   }
 
   @override
   FutureOr<void> onSubmitting() async {
     try {
-      await Future<void>.delayed(const Duration(milliseconds: 500));
-
       emitSuccess(canSubmitAgain: true);
     } catch (e) {
       emitFailure();
