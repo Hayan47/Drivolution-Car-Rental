@@ -35,161 +35,143 @@ class AddCar2 extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         //!car name
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Car Name',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-              MyTextField2(
-                hint: 'bmw 3series',
-                inputType: TextInputType.name,
-                actionType: TextInputAction.next,
-                bloc: formbloc.carName,
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Car Name',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+            MyTextField2(
+              hint: 'bmw 3series',
+              inputType: TextInputType.name,
+              actionType: TextInputAction.next,
+              bloc: formbloc.carName,
+            ),
+          ],
         ),
+        const SizedBox(height: 10),
         //!car model
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Car Model',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-              MyTextField2(
-                hint: '2023',
-                inputType: TextInputType.number,
-                actionType: TextInputAction.next,
-                bloc: formbloc.carModel,
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Car Model',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+            MyTextField2(
+              hint: '2023',
+              inputType: TextInputType.number,
+              actionType: TextInputAction.next,
+              bloc: formbloc.carModel,
+            ),
+          ],
         ),
         //!car color
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Color',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-              MyTextField2(
-                hint: 'grey',
-                inputType: TextInputType.text,
-                actionType: TextInputAction.next,
-                bloc: formbloc.carColor,
-              ),
-            ],
-          ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Color',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+            MyTextField2(
+              hint: 'grey',
+              inputType: TextInputType.text,
+              actionType: TextInputAction.next,
+              bloc: formbloc.carColor,
+            ),
+          ],
         ),
+        const SizedBox(height: 10),
         //!car interior color
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Interior Color',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-              MyTextField2(
-                hint: 'Black',
-                inputType: TextInputType.text,
-                actionType: TextInputAction.next,
-                bloc: formbloc.carInteriorColor,
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Interior Color',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+            MyTextField2(
+              hint: 'Black',
+              inputType: TextInputType.text,
+              actionType: TextInputAction.next,
+              bloc: formbloc.carInteriorColor,
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         //!car engine
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Engine',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-              MyTextField2(
-                hint: 'v6 3500cc',
-                inputType: TextInputType.text,
-                actionType: TextInputAction.next,
-                bloc: formbloc.carEngine,
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Engine',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+            MyTextField2(
+              hint: 'v6 3500cc',
+              inputType: TextInputType.text,
+              actionType: TextInputAction.next,
+              bloc: formbloc.carEngine,
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         //!car kilometrage
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Kilometrage',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-              MyTextField2(
-                hint: '75',
-                inputType: TextInputType.number,
-                actionType: TextInputAction.next,
-                bloc: formbloc.carKiloMetrage,
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Kilometrage',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+            MyTextField2(
+              hint: '75',
+              inputType: TextInputType.number,
+              actionType: TextInputAction.next,
+              bloc: formbloc.carKiloMetrage,
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         //!car rent
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Rent per day \$',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-              MyTextField2(
-                hint: '50',
-                inputType: TextInputType.number,
-                actionType: TextInputAction.next,
-                bloc: formbloc.carRent,
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Rent per day \$',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+            MyTextField2(
+              hint: '50',
+              inputType: TextInputType.number,
+              actionType: TextInputAction.next,
+              bloc: formbloc.carRent,
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         //!car type + fuel type
@@ -285,53 +267,38 @@ class AddCar2 extends StatelessWidget {
             ),
           ],
         ),
-
-        // const Padding(
-        //   padding: EdgeInsets.symmetric(horizontal: 15),
-        //   child: Divider(
-        //     color: MyColors.myred3,
-        //   ),
-        // ),
-        const SizedBox(height: 10),
-
+        const SizedBox(height: 20),
         //!fetures
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 35),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Features',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 18,
-                    ),
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Features',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: MyColors.myBlue,
+                    fontSize: 18,
+                  ),
+            ),
+          ],
         ),
-        const SizedBox(height: 10),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: BlocBuilder<FeaturesBloc, FeaturesState>(
             builder: (context, state) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: MyColors.myred2,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: state.features.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
+              return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: state.features.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: MyColors.myGrey,
+                    child: ListTile(
                       dense: true,
                       title: Text(
                         state.features[index],
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: MyColors.mywhite,
-                              fontSize: 14,
+                              fontSize: 15,
                             ),
                       ),
                       trailing: IconButton(
@@ -345,22 +312,22 @@ class AddCar2 extends StatelessWidget {
                               .add(DeleteFeature(index));
                         },
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               );
             },
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 35),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Row(
             children: [
               Expanded(
                 child: Container(
                   height: 44,
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.4),
+                    color: Colors.grey.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextField(
@@ -377,7 +344,7 @@ class AddCar2 extends StatelessWidget {
                       hintText: 'Android Auto',
                       hintStyle:
                           Theme.of(context).textTheme.bodySmall!.copyWith(
-                                color: MyColors.mywhite.withOpacity(0.5),
+                                color: MyColors.mywhite.withOpacity(0.7),
                               ),
                     ),
                   ),
@@ -399,40 +366,44 @@ class AddCar2 extends StatelessWidget {
             ],
           ),
         ),
-
         const SizedBox(height: 20),
         //!car description
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Container(
-            color: const Color(0xff1E1E24).withOpacity(0.4),
-            child: TextFieldBlocBuilder(
-              // controller: _carDescriptionController,
-              textFieldBloc: formbloc.carFeatures,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.multiline,
-              maxLines: 4,
-              autofocus: false,
-              style: Theme.of(context).textTheme.bodySmall,
-              decoration: InputDecoration(
-                hintText: "Add description",
-                hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myred2,
-                      fontSize: 14,
-                    ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Discription',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: MyColors.myBlue,
+                    fontSize: 18,
                   ),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: MyColors.myred3,
-                  ),
-                ),
-              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(
+            color: MyColors.myGrey.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: MyColors.mywhite,
+              width: 0.4,
+            ),
+          ),
+          child: TextFieldBlocBuilder(
+            textColor: MaterialStateProperty.all(MyColors.mywhite),
+            textStyle: Theme.of(context).textTheme.bodySmall,
+            maxLines: 4,
+            textAlign: TextAlign.center,
+            cursorColor: MyColors.mywhite,
+            cursorRadius: const Radius.circular(50),
+            cursorWidth: 1,
+            textFieldBloc: formbloc.carFeatures,
+            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.multiline,
+            autofocus: false,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
             ),
           ),
         ),

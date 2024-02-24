@@ -1,3 +1,4 @@
+import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/cubit/cars_cubit.dart';
 import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:drivolution/logic/cubit/reservations_cubit.dart';
@@ -41,6 +42,7 @@ class AppRouter {
   late FeaturesBloc featuresBloc;
   late LocationBloc locationBloc;
   late MapBloc mapBloc;
+  late AlbumBloc albumBloc;
 
   AppRouter() {
     carsCubit = CarsCubit();
@@ -56,6 +58,7 @@ class AppRouter {
     featuresBloc = FeaturesBloc();
     locationBloc = LocationBloc();
     mapBloc = MapBloc();
+    albumBloc = AlbumBloc();
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -110,6 +113,7 @@ class AppRouter {
               BlocProvider.value(value: seatsBloc),
               BlocProvider.value(value: featuresBloc),
               BlocProvider.value(value: locationBloc),
+              BlocProvider.value(value: albumBloc),
             ],
             child: const AddCarScreen(),
           ),

@@ -100,7 +100,6 @@ class MyTextField2 extends StatelessWidget {
       height: 70,
       width: MediaQuery.sizeOf(context).width * 0.45,
       decoration: BoxDecoration(
-        // color: Colors.grey.withOpacity(0.4),
         color: MyColors.myGrey.withOpacity(0.4),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
