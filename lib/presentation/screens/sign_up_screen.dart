@@ -37,9 +37,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xff1E1E24),
-              Color(0xff243B55),
-              Color(0xff1E1E24),
+              MyColors.myGrey,
+              MyColors.myBlue4,
+              MyColors.myGrey,
             ],
           ),
         ),
@@ -49,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              iconTheme: const IconThemeData(color: MyColors.myred),
+              iconTheme: const IconThemeData(color: MyColors.myred2),
             ),
             Expanded(
               child: CustomScrollView(
@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                          color: MyColors.myred,
+                                          color: MyColors.myred2,
                                           fontSize: 38,
                                         ),
                                   ),
@@ -522,7 +522,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 .bodyMedium!
                                                 .copyWith(
                                                   color: MyColors.mywhite,
-                                                  fontSize: 14,
+                                                  fontSize: 12,
                                                 ),
                                           ),
                                         ),
@@ -554,7 +554,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           .textTheme
                                           .bodyMedium!
                                           .copyWith(
-                                            color: MyColors.myred,
+                                            color: MyColors.myred2,
                                             fontSize: 18,
                                           ),
                                     ),

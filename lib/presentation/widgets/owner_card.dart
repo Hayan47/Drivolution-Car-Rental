@@ -51,15 +51,13 @@ class _OwnerCardState extends State<OwnerCard> {
                       children: [
                         //!gradiant effect
                         Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                MyColors.myred,
-                                MyColors.myred2.withAlpha(130),
-                                MyColors.myBlue.withAlpha(130),
-                                MyColors.myBlue2,
+                                MyColors.myGrey,
+                                MyColors.myred2,
                               ],
                             ),
                           ),
@@ -76,33 +74,33 @@ class _OwnerCardState extends State<OwnerCard> {
                                 padding: const EdgeInsets.all(6),
                                 width: 125,
                                 decoration: BoxDecoration(
-                                  color: MyColors.myred.withOpacity(0.8),
+                                  color: MyColors.myred2,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: const [
                                     //* right
                                     BoxShadow(
-                                      color: MyColors.myBlue,
+                                      color: MyColors.myBlue4,
                                       offset: Offset(2, 0),
                                       blurRadius: 1,
                                       spreadRadius: 0.1,
                                     ),
                                     //* left
                                     BoxShadow(
-                                      color: MyColors.myBlue,
+                                      color: MyColors.myBlue4,
                                       offset: Offset(-2, 0),
                                       blurRadius: 1,
                                       spreadRadius: 0.1,
                                     ),
                                     //* top
                                     BoxShadow(
-                                      color: MyColors.myBlue,
+                                      color: MyColors.myBlue4,
                                       offset: Offset(0, 2),
                                       blurRadius: 1,
                                       spreadRadius: 0.1,
                                     ),
                                     //* down
                                     BoxShadow(
-                                      color: MyColors.myBlue,
+                                      color: MyColors.myBlue4,
                                       offset: Offset(0, -2),
                                       blurRadius: 0.5,
                                       spreadRadius: 0.1,
@@ -118,7 +116,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                           .bodyMedium!
                                           .copyWith(
                                             color: MyColors.mywhite,
-                                            fontSize: 16,
+                                            fontSize: 15,
                                           ),
                                     ),
                                     Text(
@@ -128,6 +126,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                           .bodySmall!
                                           .copyWith(
                                             color: MyColors.mywhite,
+                                            fontSize: 15,
                                           ),
                                     ),
                                   ],
@@ -180,7 +179,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                                         .bodySmall!
                                                         .copyWith(
                                                           color:
-                                                              MyColors.myBlue2,
+                                                              MyColors.mywhite,
                                                         ),
                                                   ),
                                                 ],
@@ -192,7 +191,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                                     .textTheme
                                                     .bodySmall!
                                                     .copyWith(
-                                                      color: MyColors.myBlue2,
+                                                      color: MyColors.mywhite,
                                                     ),
                                               ),
                                             ],
@@ -227,36 +226,10 @@ class _OwnerCardState extends State<OwnerCard> {
                                               width: 100,
                                               height: 25,
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  gradient: LinearGradient(
-                                                    begin: Alignment.topLeft,
-                                                    end: Alignment.bottomRight,
-                                                    colors: [
-                                                      MyColors.myBlue2
-                                                          .withAlpha(240),
-                                                      MyColors.myBlue2
-                                                          .withAlpha(180),
-                                                      MyColors.myBlue2
-                                                          .withAlpha(120),
-                                                      MyColors.myBlue2
-                                                          .withAlpha(60),
-                                                    ],
-                                                  ),
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                      color: MyColors.myBlue2,
-                                                      offset: Offset(3, 4),
-                                                      blurRadius: 1,
-                                                      spreadRadius: 0.1,
-                                                    ),
-                                                    BoxShadow(
-                                                      color: MyColors.myBlue,
-                                                      offset: Offset(0, 0),
-                                                      blurRadius: 2,
-                                                      spreadRadius: 1,
-                                                    ),
-                                                  ]),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color: MyColors.myGrey,
+                                              ),
                                               child: Center(
                                                 child: Text(
                                                   'Call',

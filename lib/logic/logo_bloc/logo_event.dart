@@ -12,3 +12,5 @@ class SelectLogoEvent extends LogoEvent {
 
   const SelectLogoEvent(this.selectedIndex);
 }
+
+class FetchCarLogosEvent extends LogoEvent {}

@@ -28,180 +28,168 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xff1E1E24),
-            Color(0xff243B55),
-            Color(0xff1E1E24),
-          ],
-        ),
-      ),
-      child: Column(
-        children: [
-          _isSearching
-              ? SafeArea(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          MyColors.myred.withOpacity(0.6),
-                          MyColors.myred2.withOpacity(1),
-                          MyColors.myred.withOpacity(0.6),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: AppBar(
-                      title: TextField(
-                        cursorColor: MyColors.mywhite,
-                        cursorRadius: const Radius.circular(100),
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'find a car...',
-                          hintStyle:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                        ),
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.mywhite,
-                              fontSize: 22,
-                              fontWeight: FontWeight.normal,
-                            ),
-                        onChanged: (value) {
-                          searchedForCars = allCars
-                              .where((car) =>
-                                  car.name.toLowerCase().contains(value))
-                              .toList();
-                          setState(() {});
-                        },
-                      ),
-                      actions: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: IconButton(
-                            onPressed: () {
-                              _searchController.clear();
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              Icons.clear,
-                              size: 32,
-                            ),
-                          ),
-                        )
+    return Column(
+      children: [
+        _isSearching
+            ? SafeArea(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        MyColors.myred.withOpacity(0.6),
+                        MyColors.myred2,
+                        MyColors.myred.withOpacity(0.6),
                       ],
                     ),
+                    borderRadius: BorderRadius.circular(24),
                   ),
-                )
-              : AppBar(
-                  title: Row(
-                    children: [
-                      SizedBox(width: MediaQuery.sizeOf(context).width / 8),
-                      const Text(
-                        'All Cars',
+                  child: AppBar(
+                    title: TextField(
+                      cursorColor: MyColors.mywhite,
+                      cursorRadius: const Radius.circular(100),
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'find a car...',
+                        hintStyle:
+                            Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  color: MyColors.mywhite,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.normal,
+                                ),
                       ),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: MyColors.mywhite,
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                          ),
+                      onChanged: (value) {
+                        searchedForCars = allCars
+                            .where(
+                                (car) => car.name.toLowerCase().contains(value))
+                            .toList();
+                        setState(() {});
+                      },
+                    ),
+                    actions: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            size: 32,
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15, top: 5),
-                      child: GestureDetector(
-                        onTap: () {
-                          ModalRoute.of(context)!
-                              .addLocalHistoryEntry(LocalHistoryEntry(
-                            onRemove: () {
-                              setState(() {
-                                _searchController.clear();
-                                _isSearching = false;
-                              });
-                            },
-                          ));
-                          setState(() {
-                            _isSearching = true;
-                          });
-                        },
-                        child: Image.asset(
-                          'assets/icons/search.png',
-                          width: 35,
-                          height: 35,
-                          color: MyColors.mywhite,
-                        ),
-                      ),
+                ),
+              )
+            : AppBar(
+                title: Row(
+                  children: [
+                    SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                    Image.asset(
+                      'assets/img/logo/drivolution.png',
+                      width: MediaQuery.sizeOf(context).width / 2,
                     ),
                   ],
                 ),
-          BlocBuilder<CarsCubit, CarsState>(
-            builder: (context, state) {
-              if (state is CarsLoaded) {
-                allCars = (state).cars;
-                return Expanded(
-                  child: LiquidPullToRefresh(
-                    onRefresh: refresh,
-                    animSpeedFactor: 1,
-                    springAnimationDurationInMilliseconds: 100,
-                    showChildOpacityTransition: false,
-                    height: 200,
-                    color: Colors.transparent,
-                    backgroundColor: MyColors.mywhite,
-                    child: ListView.builder(
-                      itemCount: _searchController.text.isNotEmpty
-                          ? searchedForCars.length
-                          : allCars.length,
-                      itemBuilder: (context, index) {
-                        if (_searchController.text.isNotEmpty) {
-                          if (index == searchedForCars.length - 1) {
-                            //? Return the last item with some padding
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 65),
-                              child: CarCard(car: searchedForCars[index]),
-                            );
-                          } else {
-                            return CarCard(car: searchedForCars[index]);
-                          }
-                        } else {
-                          if (index == allCars.length - 1) {
-                            //? Return the last item with some padding
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 65),
-                              child: CarCard(car: allCars[index]),
-                            );
-                          } else {
-                            return CarCard(car: allCars[index]);
-                          }
-                        }
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15, top: 5),
+                    child: GestureDetector(
+                      onTap: () {
+                        ModalRoute.of(context)!
+                            .addLocalHistoryEntry(LocalHistoryEntry(
+                          onRemove: () {
+                            setState(() {
+                              _searchController.clear();
+                              _isSearching = false;
+                            });
+                          },
+                        ));
+                        setState(() {
+                          _isSearching = true;
+                        });
                       },
+                      child: Image.asset(
+                        'assets/icons/search.png',
+                        width: 35,
+                        height: 35,
+                        color: MyColors.mywhite,
+                      ),
                     ),
                   ),
-                );
-              } else if (state is CarsError) {
-                return Center(
-                  child: Text(
-                    state.message,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myred,
-                          fontSize: 22,
-                        ),
+                ],
+              ),
+        BlocBuilder<CarsCubit, CarsState>(
+          builder: (context, state) {
+            if (state is CarsLoaded) {
+              allCars = (state).cars;
+              return Expanded(
+                child: LiquidPullToRefresh(
+                  onRefresh: refresh,
+                  animSpeedFactor: 1,
+                  springAnimationDurationInMilliseconds: 100,
+                  showChildOpacityTransition: false,
+                  height: 200,
+                  color: Colors.transparent,
+                  backgroundColor: MyColors.mywhite,
+                  child: ListView.builder(
+                    itemCount: _searchController.text.isNotEmpty
+                        ? searchedForCars.length
+                        : allCars.length,
+                    itemBuilder: (context, index) {
+                      if (_searchController.text.isNotEmpty) {
+                        if (index == searchedForCars.length - 1) {
+                          //? Return the last item with some padding
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 65),
+                            child: CarCard(car: searchedForCars[index]),
+                          );
+                        } else {
+                          return CarCard(car: searchedForCars[index]);
+                        }
+                      } else {
+                        if (index == allCars.length - 1) {
+                          //? Return the last item with some padding
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 65),
+                            child: CarCard(car: allCars[index]),
+                          );
+                        } else {
+                          return CarCard(car: allCars[index]);
+                        }
+                      }
+                    },
                   ),
-                );
-              } else {
-                Future.delayed(const Duration(seconds: 3));
-                return const AllCarsLoading();
-              }
-            },
-          )
-        ],
-      ),
+                ),
+              );
+            } else if (state is CarsError) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: MyColors.myred,
+                        fontSize: 22,
+                      ),
+                ),
+              );
+            } else {
+              Future.delayed(const Duration(seconds: 3));
+              return const AllCarsLoading();
+            }
+          },
+        )
+      ],
     );
   }
 }

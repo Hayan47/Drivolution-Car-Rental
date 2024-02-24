@@ -29,9 +29,9 @@ class _LogInScreenState extends State<LogInScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xff1E1E24),
-              Color(0xff243B55),
-              Color(0xff1E1E24),
+              MyColors.myGrey,
+              MyColors.myBlue4,
+              MyColors.myGrey,
             ],
           ),
         ),
@@ -41,7 +41,7 @@ class _LogInScreenState extends State<LogInScreen> {
             AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              iconTheme: const IconThemeData(color: MyColors.myred),
+              iconTheme: const IconThemeData(color: MyColors.myred2),
             ),
             Expanded(
               child: Padding(
@@ -67,7 +67,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       .textTheme
                                       .bodySmall!
                                       .copyWith(
-                                        color: MyColors.myred,
+                                        color: MyColors.myred2,
                                         fontSize: 38,
                                       ),
                                 ),
@@ -340,7 +340,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                          color: MyColors.myred,
+                                          color: MyColors.myred2,
                                           fontSize: 18,
                                         ),
                                   ),

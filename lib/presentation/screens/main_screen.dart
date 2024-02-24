@@ -23,6 +23,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   PageController _pageController = PageController();
+
   List<Car> favCars = [];
   List<String> favCarsIds = [];
   final List<Widget> _screens = [
@@ -32,6 +33,7 @@ class _MainScreenState extends State<MainScreen> {
     const SettingsScreen(),
     const ProfileScreen(),
   ];
+  bool isFirstPage = true;
 
   @override
   void initState() {
@@ -75,16 +77,45 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          //?body
-          // body: _screens[_selectedIndex],
-          body: SizedBox.expand(
-            child: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _pageController,
-              onPageChanged: (index) {},
-              children: _screens,
+        DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xff1E1E24),
+                Color(0xff243B55),
+                Color(0xff1E1E24),
+              ],
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            //?body
+            appBar: isFirstPage
+                ? null
+                : AppBar(
+                    title: Row(
+                      children: [
+                        SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                        Image.asset(
+                          'assets/img/logo/drivolution.png',
+                          width: MediaQuery.sizeOf(context).width / 2,
+                        ),
+                      ],
+                    ),
+                  ),
+            body: SizedBox.expand(
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    isFirstPage = index == 0;
+                  });
+                },
+                children: _screens,
+              ),
             ),
           ),
         ),

@@ -112,11 +112,6 @@ class ImageService {
           case TaskState.running:
             final progress = 100.0 *
                 (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-
-            // setState(() {
-            //   percent = progress.toInt();
-            //   imageNum = i;
-            // });
             print("Upload $i is $progress% complete.");
             break;
           case TaskState.paused:
@@ -126,14 +121,10 @@ class ImageService {
             print("Upload was canceled");
             break;
           case TaskState.error:
-            // Handle unsuccessful uploads
             break;
           case TaskState.success:
-            // print('finised');
-            final imageUrl = await ref.getDownloadURL();
-            // carImagesLinks.add(imageUrl);
+            final imageUrl = ref.getDownloadURL();
             print('Uploaded image $i: $imageUrl');
-            break;
         }
       });
     } on FirebaseException {

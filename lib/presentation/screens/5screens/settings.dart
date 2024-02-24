@@ -10,32 +10,8 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xff1E1E24),
-            Color(0xff243B55),
-            Color(0xff1E1E24),
-          ],
-        ),
-      ),
-      child: ListView(
-        children: [
-          AppBar(
-            title: Row(
-              children: [
-                SizedBox(width: MediaQuery.sizeOf(context).width / 8),
-                const Text(
-                  'Settings',
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return ListView(
+      children: [],
     );
   }
 }

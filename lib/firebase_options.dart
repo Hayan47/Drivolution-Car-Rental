@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -42,16 +48,6 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDJNNlMgriLlcvRP2Llig-sUYtn3to_Ad4',
-    appId: '1:51613972745:web:b113c72517e93f2341bbd8',
-    messagingSenderId: '51613972745',
-    projectId: 'drivolution',
-    authDomain: 'drivolution.firebaseapp.com',
-    storageBucket: 'drivolution.appspot.com',
-    measurementId: 'G-RCEMJZH6LT',
-  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCGPW7O3RyBRqE-hE5AVuNzkxLkeo0Om7E',
@@ -70,16 +66,5 @@ class DefaultFirebaseOptions {
     androidClientId: '51613972745-hidknc17q700o2mbohpcnuj6fbug0ler.apps.googleusercontent.com',
     iosClientId: '51613972745-nj5rcgup0qsekp7vq43thrcvvdg68qig.apps.googleusercontent.com',
     iosBundleId: 'com.example.drivolution',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA4Eo-KVn6AvtGwClH7MCSHouJG1EBqSH0',
-    appId: '1:51613972745:ios:4c3a9fc7a3ff5d6941bbd8',
-    messagingSenderId: '51613972745',
-    projectId: 'drivolution',
-    storageBucket: 'drivolution.appspot.com',
-    androidClientId: '51613972745-hidknc17q700o2mbohpcnuj6fbug0ler.apps.googleusercontent.com',
-    iosClientId: '51613972745-a51ug4etfhdsehrbqifj4negjcs6hn1b.apps.googleusercontent.com',
-    iosBundleId: 'com.example.drivolution.RunnerTests',
   );
 }
