@@ -1,4 +1,4 @@
-import 'package:drivolution/logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> refresh() async {
     //?get cars
     await Future.delayed(const Duration(seconds: 1));
-    await context.read<CarsCubit>().getAllCars();
+    context.read<CarsBloc>().add(GetAllCarsEvent());
   }
 
   @override
@@ -130,9 +130,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-        BlocBuilder<CarsCubit, CarsState>(
+        BlocBuilder<CarsBloc, CarsState>(
           builder: (context, state) {
-            if (state is CarsLoaded) {
+            if (state is CarsError) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: MyColors.myred,
+                        fontSize: 22,
+                      ),
+                ),
+              );
+            } else if (state is CarsLoading) {
+              return const AllCarsLoading();
+            } else if (state is CarsLoaded) {
               allCars = (state).cars;
               return Expanded(
                 child: LiquidPullToRefresh(
@@ -173,19 +185,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               );
-            } else if (state is CarsError) {
-              return Center(
-                child: Text(
-                  state.message,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.myred,
-                        fontSize: 22,
-                      ),
-                ),
-              );
             } else {
-              Future.delayed(const Duration(seconds: 3));
-              return const AllCarsLoading();
+              return Expanded(
+                  child: LiquidPullToRefresh(
+                onRefresh: refresh,
+                animSpeedFactor: 1,
+                springAnimationDurationInMilliseconds: 100,
+                showChildOpacityTransition: false,
+                height: 200,
+                color: Colors.transparent,
+                backgroundColor: MyColors.mywhite,
+                child: ListView(),
+              ));
             }
           },
         )

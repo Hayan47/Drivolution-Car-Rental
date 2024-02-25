@@ -1,6 +1,6 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/presentation/screens/5screens/add.dart';
@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> loadData() async {
     //?get cars
-    await BlocProvider.of<CarsCubit>(context).getAllCars();
+    context.read<CarsBloc>().add(GetAllCarsEvent());
     //?get user info
     if (FirebaseAuth.instance.currentUser != null) {
       String id = FirebaseAuth.instance.currentUser!.uid;

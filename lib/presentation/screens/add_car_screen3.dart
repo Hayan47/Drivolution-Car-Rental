@@ -4,14 +4,9 @@ import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-class AddCar3 extends StatefulWidget {
+class AddCar3 extends StatelessWidget {
   const AddCar3({super.key});
 
-  @override
-  State<AddCar3> createState() => _AddCar3State();
-}
-
-class _AddCar3State extends State<AddCar3> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LocationBloc, LocationState>(

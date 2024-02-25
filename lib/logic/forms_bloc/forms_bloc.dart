@@ -45,7 +45,7 @@ class AllFieldsFormBloc extends FormBloc<String, String> {
   final carKiloMetrage = TextFieldBloc();
   final carRent = TextFieldBloc();
 
-  final carFeatures = TextFieldBloc();
+  final carDescription = TextFieldBloc();
 
   AllFieldsFormBloc() {
     addFieldBlocs(
@@ -61,7 +61,7 @@ class AllFieldsFormBloc extends FormBloc<String, String> {
         carEngine,
         carKiloMetrage,
         carRent,
-        carFeatures,
+        carDescription,
       ],
     );
   }

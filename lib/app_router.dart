@@ -1,5 +1,5 @@
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
-import 'package:drivolution/logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/strings.dart';
@@ -14,6 +14,7 @@ import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
 import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
+import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
@@ -29,7 +30,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
-  late CarsCubit carsCubit;
+  late CarsBloc carsBloc;
   late UsrCubit usrCubit;
   late ReservationsCubit resCubit;
   late FavoriteCubit favoriteCarsCubit;
@@ -43,9 +44,10 @@ class AppRouter {
   late LocationBloc locationBloc;
   late MapBloc mapBloc;
   late AlbumBloc albumBloc;
+  late UploadBloc uploadBloc;
 
   AppRouter() {
-    carsCubit = CarsCubit();
+    carsBloc = CarsBloc();
     resCubit = ReservationsCubit();
     favoriteCarsCubit = FavoriteCubit();
     usrCubit = UsrCubit();
@@ -59,6 +61,7 @@ class AppRouter {
     locationBloc = LocationBloc();
     mapBloc = MapBloc();
     albumBloc = AlbumBloc();
+    uploadBloc = UploadBloc();
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -70,7 +73,7 @@ class AppRouter {
           child: MultiBlocProvider(
             providers: [
               BlocProvider.value(value: usrCubit),
-              BlocProvider.value(value: carsCubit),
+              BlocProvider.value(value: carsBloc),
               BlocProvider.value(value: favoriteCarsCubit),
             ],
             child: const MainScreen(),
@@ -82,6 +85,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => MultiBlocProvider(
                   providers: [
+                    BlocProvider.value(value: carsBloc),
                     BlocProvider.value(value: resCubit),
                     BlocProvider.value(value: favoriteCarsCubit),
                   ],
@@ -104,7 +108,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: carsCubit),
+              BlocProvider.value(value: carsBloc),
               BlocProvider.value(value: imageBloc),
               BlocProvider.value(value: logoBloc),
               BlocProvider.value(value: dropdownBloc),
@@ -114,8 +118,9 @@ class AppRouter {
               BlocProvider.value(value: featuresBloc),
               BlocProvider.value(value: locationBloc),
               BlocProvider.value(value: albumBloc),
+              BlocProvider.value(value: uploadBloc),
             ],
-            child: const AddCarScreen(),
+            child: AddCarScreen(),
           ),
         );
       case 'locationpicker':
@@ -133,7 +138,6 @@ class AppRouter {
   }
 
   void dispose() {
-    carsCubit.close();
     usrCubit.close();
     resCubit.close();
     resCubit.close();

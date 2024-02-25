@@ -9,17 +9,9 @@ import 'package:drivolution/presentation/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 class AddCar2 extends StatelessWidget {
-  String dropdownValue3 = 'Automatic';
-  List<String> features = [];
   final _featureController = TextEditingController();
-
-  List<String> carTransmission = [
-    'Automatic',
-    'Manual',
-  ];
   AddCar2({super.key});
 
   @override
@@ -372,7 +364,7 @@ class AddCar2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Discription',
+              'description',
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: MyColors.myBlue,
                     fontSize: 18,
@@ -398,7 +390,7 @@ class AddCar2 extends StatelessWidget {
             cursorColor: MyColors.mywhite,
             cursorRadius: const Radius.circular(50),
             cursorWidth: 1,
-            textFieldBloc: formbloc.carFeatures,
+            textFieldBloc: formbloc.carDescription,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.multiline,
             autofocus: false,

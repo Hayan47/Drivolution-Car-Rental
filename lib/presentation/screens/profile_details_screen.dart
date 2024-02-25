@@ -2,7 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
-import 'package:drivolution/logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/data/models/usr_model.dart';
 import 'package:drivolution/presentation/widgets/add_phone_number.dart';
@@ -281,7 +281,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                       ),
                 const SizedBox(height: 15),
                 //!user cars
-                BlocBuilder<CarsCubit, CarsState>(
+                BlocBuilder<CarsBloc, CarsState>(
                   builder: (context, state) {
                     if (state is CarsLoaded) {
                       for (var car in (state).cars) {
