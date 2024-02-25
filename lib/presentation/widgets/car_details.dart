@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/logic/cubit/cars_cubit.dart';
+import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/constants/strings.dart';
@@ -807,8 +807,8 @@ class _CarDetailsState extends State<CarDetails> {
                               return MyAlertDialog(
                                 onPressed: () {
                                   context
-                                      .read<CarsCubit>()
-                                      .deleteCar(widget.car);
+                                      .read<CarsBloc>()
+                                      .add(DeleteCarEvent(car: widget.car));
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },

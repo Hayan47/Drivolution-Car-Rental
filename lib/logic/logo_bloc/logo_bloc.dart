@@ -73,4 +73,14 @@ class LogoBloc extends Bloc<LogoEvent, LogoState> {
       'https://firebasestorage.googleapis.com/v0/b/drivolution.appspot.com/o/myfiles%2Flogos%2Ftoyota.png?alt=media&token=c89705c1-de38-4058-a192-e6366c9e0854',
     ]; // Return fetched car logos
   }
+
+  String getSelectedLogo() {
+    if (state.selectedIndex != -1 &&
+        state.selectedIndex < state.carLogos.length) {
+      return state.carLogos[state.selectedIndex];
+    } else {
+      // Return a default or error value if no logo is selected
+      return '';
+    }
+  }
 }
