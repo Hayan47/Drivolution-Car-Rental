@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import '../../constants/my_colors.dart';
 
-class MyDropdown extends StatefulWidget {
+class MyDropdown extends StatelessWidget {
   final double? width;
   final String label;
   final Object dropdownValue;
@@ -23,11 +23,6 @@ class MyDropdown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MyDropdown> createState() => _MyDropdownState();
-}
-
-class _MyDropdownState<T> extends State<MyDropdown> {
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -37,17 +32,15 @@ class _MyDropdownState<T> extends State<MyDropdown> {
           Row(
             children: [
               Image.asset(
-                widget.icon,
+                icon,
                 color: // MyColors.myBlue,
-                    widget.icon == 'assets/icons/age.png'
-                        ? null
-                        : MyColors.myBlue,
+                    icon == 'assets/icons/age.png' ? null : MyColors.myBlue,
                 width: 25,
                 height: 25,
               ),
               const SizedBox(width: 8),
               Text(
-                widget.label,
+                label,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: MyColors.myred2,
                       fontSize: 15,
@@ -63,9 +56,9 @@ class _MyDropdownState<T> extends State<MyDropdown> {
                     color: MyColors.myred2,
                     fontSize: 14,
                   ),
-              value: widget.dropdownValue,
-              items: widget.items,
-              onChanged: widget.onChanged,
+              value: dropdownValue,
+              items: items,
+              onChanged: onChanged,
 
               //button style
               buttonStyleData: ButtonStyleData(
@@ -94,7 +87,7 @@ class _MyDropdownState<T> extends State<MyDropdown> {
               //dropdown style
               dropdownStyleData: DropdownStyleData(
                 maxHeight: 300,
-                width: widget.width,
+                width: width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: MyColors.mywhite,
@@ -114,12 +107,12 @@ class _MyDropdownState<T> extends State<MyDropdown> {
   }
 }
 
-class MyDropdown2 extends StatefulWidget {
+class MyDropdown2 extends StatelessWidget {
   final double? width;
   final String label;
   final String icon;
-  SelectFieldBloc<String, dynamic> bloc;
-  MyDropdown2({
+  final SelectFieldBloc<String, dynamic> bloc;
+  const MyDropdown2({
     Key? key,
     this.width,
     required this.label,
@@ -127,11 +120,6 @@ class MyDropdown2 extends StatefulWidget {
     required this.bloc,
   }) : super(key: key);
 
-  @override
-  State<MyDropdown2> createState() => _MyDropdown2State();
-}
-
-class _MyDropdown2State extends State<MyDropdown2> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -141,17 +129,15 @@ class _MyDropdown2State extends State<MyDropdown2> {
           Row(
             children: [
               Image.asset(
-                widget.icon,
+                icon,
                 color: // MyColors.myBlue,
-                    widget.icon == 'assets/icons/age.png'
-                        ? null
-                        : MyColors.myBlue,
+                    icon == 'assets/icons/age.png' ? null : MyColors.myBlue,
                 width: 25,
                 height: 25,
               ),
               const SizedBox(width: 8),
               Text(
-                widget.label,
+                label,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: MyColors.myred2,
                       fontSize: 15,
@@ -171,7 +157,7 @@ class _MyDropdown2State extends State<MyDropdown2> {
             ),
             showEmptyItem: false,
             animateWhenCanShow: true,
-            selectFieldBloc: widget.bloc,
+            selectFieldBloc: bloc,
             decoration: InputDecoration(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.sizeOf(context).width * 0.4,

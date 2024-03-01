@@ -5,16 +5,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ForgetPasswordScreen extends StatefulWidget {
-  const ForgetPasswordScreen({super.key});
-
-  @override
-  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
-}
-
-class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+class ForgetPasswordScreen extends StatelessWidget {
   final _forgotpasswordcontroller = TextEditingController();
   final formKey3 = GlobalKey<FormState>();
+  ForgetPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,17 +27,18 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         ),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            if (state is UserLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                  ),
-                ),
-              );
-            } else if (state is UserError) {
+            // if (state is UserLoading) {
+            //   showDialog(
+            //     context: context,
+            //     barrierDismissible: false,
+            //     builder: (context) => const Center(
+            //       child: CircularProgressIndicator(
+            //         color: Colors.black,
+            //       ),
+            //     ),
+            //   );
+            // } else
+            if (state is UserError) {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 MySnackBar(

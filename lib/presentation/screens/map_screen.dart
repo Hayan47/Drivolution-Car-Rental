@@ -1,5 +1,3 @@
-// ignore_for_file: library_prefixes
-
 import 'dart:typed_data';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:flutter/material.dart';

@@ -1,18 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/presentation/widgets/favorite_icon.dart';
 import 'package:drivolution/presentation/widgets/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/car_details.dart';
 
 class CarDetailsScreen extends StatelessWidget {
+  final _controller = PageController();
   final Car car;
 
   CarDetailsScreen({required this.car, super.key});
-
-  final _controller = PageController();
 
   @override
   Widget build(BuildContext context) {

@@ -1,22 +1,15 @@
-import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/add_car_screen1.dart';
 import 'package:drivolution/presentation/screens/add_car_screen2.dart';
 import 'package:drivolution/presentation/screens/add_car_screen3.dart';
 import 'package:drivolution/presentation/screens/add_car_screen4.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddCarScreen extends StatelessWidget {
-  late String id;
   final _pageController = PageController();
   AddCarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser == null) {
-      return const ProfileScreen();
-    }
-    id = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       body: Container(
         //?gradiant effect

@@ -11,11 +11,7 @@ class OwnerCardLoading extends StatelessWidget {
       highlightColor: Colors.white10,
       period: const Duration(milliseconds: 500),
       child: Padding(
-        padding: const EdgeInsets.only(
-          right: 25,
-          left: 15,
-          top: 50,
-        ),
+        padding: const EdgeInsets.only(top: 50),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Container(
