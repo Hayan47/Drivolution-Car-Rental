@@ -2,23 +2,13 @@
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
-
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/data/services/user_services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddPhoneNumber extends StatefulWidget {
+class AddPhoneNumber extends StatelessWidget {
   final String id;
-  const AddPhoneNumber({
-    Key? key,
-    required this.id,
-  }) : super(key: key);
+  AddPhoneNumber({Key? key, required this.id}) : super(key: key);
 
-  @override
-  State<AddPhoneNumber> createState() => _AddPhoneNumberState();
-}
-
-class _AddPhoneNumberState extends State<AddPhoneNumber> {
   final _phoneController = TextEditingController();
 
   @override
@@ -110,8 +100,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                 onTap: () async {
                   context.read<UserBloc>().add(
                         AddUserPhoneNumber(
-                            phoneNumber: _phoneController.text,
-                            userID: widget.id),
+                            phoneNumber: _phoneController.text, userID: id),
                       );
                 },
                 child: Container(

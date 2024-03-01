@@ -10,9 +10,6 @@ class AddCar3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LocationBloc, LocationState>(
-      listenWhen: (previous, current) {
-        return previous == current || previous != current;
-      },
       listener: (context, state) {
         if (state is LocationErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(

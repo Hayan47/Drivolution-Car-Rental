@@ -8,18 +8,22 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc() : super(InitialLocationState()) {
     on<PickLocation>((event, emit) {
       emit(PickingLocationState());
+      print(state);
     });
 
     on<LocationPicked>((event, emit) async {
       try {
         emit(LocationPickedState(location: event.location, city: event.city));
+        print(state);
       } catch (error) {
         emit(LocationErrorState(message: error.toString()));
+        print(state);
       }
     });
 
     on<LocationNotPicked>((event, emit) {
       emit(const LocationErrorState(message: 'location not set'));
+      print(state);
     });
   }
 }

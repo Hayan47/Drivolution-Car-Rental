@@ -94,7 +94,7 @@ class FavoriteIcon extends StatelessWidget {
                       );
                     } else if (state is RemovingCarFromFavorite) {
                       return Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Lottie.asset(
                           'assets/lottie/heart_break.json',
                           width: 30,
@@ -103,10 +103,13 @@ class FavoriteIcon extends StatelessWidget {
                         ),
                       );
                     } else {
-                      return Lottie.asset(
-                        'assets/lottie/heart_loading.json',
-                        width: 25,
-                        height: 25,
+                      return Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Lottie.asset(
+                          'assets/lottie/heart_loading.json',
+                          width: 25,
+                          height: 25,
+                        ),
                       );
                     }
                   },

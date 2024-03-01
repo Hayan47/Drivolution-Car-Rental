@@ -1,32 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
-import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
 import 'package:drivolution/presentation/widgets/favorite_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import '../../data/models/car_model.dart';
 
-class CarCard extends StatefulWidget {
+class CarCard extends StatelessWidget {
   final Car car;
 
   const CarCard({required this.car, super.key});
 
   @override
-  State<CarCard> createState() => _CarCardState();
-}
-
-class _CarCardState extends State<CarCard> {
-  // List<Car> favoritesCars = [];
-  // bool loading_add = false;
-  // bool loading_remove = false;
-
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, 'cardetailsscreen', arguments: widget.car);
+        Navigator.pushNamed(context, 'cardetailsscreen', arguments: car);
       },
       child: Stack(
         children: [
@@ -65,9 +52,9 @@ class _CarCardState extends State<CarCard> {
                                       children: [
                                         Flexible(
                                           child: Hero(
-                                            tag: widget.car.name,
+                                            tag: car.name,
                                             child: Text(
-                                              '${widget.car.name} ${widget.car.model}',
+                                              '${car.name} ${car.model}',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               softWrap: false,
@@ -86,16 +73,16 @@ class _CarCardState extends State<CarCard> {
                                 ),
                               ),
                               Hero(
-                                tag: widget.car.logo,
+                                tag: car.logo,
                                 child: CachedNetworkImage(
-                                  imageUrl: widget.car.logo,
+                                  imageUrl: car.logo,
                                   width: 50,
                                   height: 50,
                                 ),
                               )
                             ],
                           ),
-                          FavoriteIcon(car: widget.car),
+                          FavoriteIcon(car: car),
                         ],
                       ),
                     ),
@@ -111,9 +98,9 @@ class _CarCardState extends State<CarCard> {
               height: 120,
               width: MediaQuery.sizeOf(context).width * 0.6,
               child: Hero(
-                tag: widget.car.img,
+                tag: car.img,
                 child: CachedNetworkImage(
-                  imageUrl: widget.car.img,
+                  imageUrl: car.img,
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -148,7 +135,7 @@ class _CarCardState extends State<CarCard> {
                         ),
                   ),
                   Text(
-                    '${widget.car.rent} \$',
+                    '${car.rent} \$',
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: MyColors.mywhite,
                         ),

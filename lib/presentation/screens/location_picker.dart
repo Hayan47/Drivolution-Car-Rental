@@ -17,6 +17,14 @@ class LocationPicker extends StatelessWidget {
           onPopInvoked: (didPop) {
             if (state.pickedLocation == const LatLng(0, 0)) {
               context.read<LocationBloc>().add(LocationNotPicked());
+            } else {
+              context.read<LocationBloc>().add(
+                    LocationPicked(
+                      LatLng(state.pickedLocation.latitude,
+                          state.pickedLocation.longitude),
+                      state.cityName,
+                    ),
+                  );
             }
           },
           child: Scaffold(

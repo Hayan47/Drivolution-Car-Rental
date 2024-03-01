@@ -47,17 +47,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            if (state is UserLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                  ),
-                ),
-              );
-            } else if (state is UserError) {
+            // if (state is UserLoading) {
+            //   showDialog(
+            //     context: context,
+            //     barrierDismissible: false,
+            //     builder: (context) => const Center(
+            //       child: CircularProgressIndicator(
+            //         color: Colors.black,
+            //       ),
+            //     ),
+            //   );
+            // } else
+            if (state is UserError) {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 MySnackBar(

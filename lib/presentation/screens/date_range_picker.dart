@@ -1,15 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
-import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/data/models/reservation_model.dart';
 
-class DateRangePicker extends StatefulWidget {
+class DateRangePicker extends StatelessWidget {
   String carid;
   DateRangePicker({
     Key? key,
@@ -17,34 +15,8 @@ class DateRangePicker extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DateRangePicker> createState() => _DateRangePickerState();
-}
-
-class _DateRangePickerState extends State<DateRangePicker> {
-  DateTimeRange _selectedDateRange =
-      DateTimeRange(start: DateTime.now(), end: DateTime.now());
-  List<Reservation> reservations = [];
-  List<DateTime> disabledDates = [];
-  bool isValid = true;
-
-  //!get reservations
-  Future getReservations() async {
-    reservations = await context
-        .read<ReservationsCubit>()
-        .getCarReservations(widget.carid);
-    for (Reservation reservation in reservations) {
-      DateTime startDate = reservation.startDate;
-      DateTime endDate = reservation.endDate;
-      for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
-        DateTime currentDay = startDate.add(Duration(days: i));
-        disabledDates
-            .add(DateTime(currentDay.year, currentDay.month, currentDay.day));
-      }
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    context.read<ReservationBloc>().add(GetCarReservations(carID: carid));
     return Scaffold(
       backgroundColor: MyColors.myBlue2,
       appBar: AppBar(
@@ -52,11 +24,23 @@ class _DateRangePickerState extends State<DateRangePicker> {
         title: const Text('Choose Date'),
         centerTitle: true,
       ),
-      body: BlocBuilder<ReservationsCubit, ReservationsState>(
+      body: BlocConsumer<ReservationBloc, ReservationState>(
+        listener: (context, state) {
+          if (state is ReservationsError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              MySnackBar(
+                icon: const Icon(Icons.error, color: MyColors.myred2, size: 18),
+                message: state.message,
+                margin: 5,
+              ),
+            );
+          } else if (state is RangePicked) {
+            Navigator.pop(context);
+            print(state.selectedRange);
+          }
+        },
         builder: (context, state) {
-          //!call function
-          getReservations();
-          if ((state) is ReservationsLoaded) {
+          if (state is ReservationsLoaded) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
@@ -82,39 +66,9 @@ class _DateRangePickerState extends State<DateRangePicker> {
                           (DateRangePickerSelectionChangedArgs args) {
                         if (args.value is PickerDateRange) {
                           PickerDateRange pickerDateRange = args.value;
-                          DateTimeRange selectedRange = DateTimeRange(
-                            start: DateTime.now(),
-                            end: DateTime.now(),
-                          );
-                          if (pickerDateRange.startDate != null &&
-                              pickerDateRange.endDate != null) {
-                            selectedRange = DateTimeRange(
-                              start: pickerDateRange.startDate!,
-                              end: pickerDateRange.endDate!,
-                            );
-                          }
-                          if (pickerDateRange.startDate != null &&
-                              pickerDateRange.endDate == null) {
-                            selectedRange = DateTimeRange(
-                              start: pickerDateRange.startDate!,
-                              end: pickerDateRange.startDate!,
-                            );
-                          }
-                          bool isRangeValid = true;
-                          for (int i = 0;
-                              i <= selectedRange.duration.inDays;
-                              i++) {
-                            final date =
-                                selectedRange.start.add(Duration(days: i));
-                            if (disabledDates.contains(date)) {
-                              isRangeValid = false;
-                              break;
-                            }
-                          }
-                          setState(() {
-                            _selectedDateRange = selectedRange;
-                            isValid = isRangeValid;
-                          });
+                          context
+                              .read<ReservationBloc>()
+                              .add(PickRange(pickerDateRange: pickerDateRange));
                         }
                       },
                       //!mode
@@ -124,7 +78,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
                       //!Disabled Days
                       monthViewSettings: DateRangePickerMonthViewSettings(
                         enableSwipeSelection: false,
-                        blackoutDates: disabledDates,
+                        blackoutDates: state.disabledDates,
                         showTrailingAndLeadingDates: true,
                         weekendDays: const [5, 6],
                         viewHeaderHeight:
@@ -152,21 +106,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
                         Navigator.pop(context);
                       },
                       onSubmit: (p0) {
-                        if (isValid) {
-                          Navigator.of(context).pop({
-                            'selectedRange': _selectedDateRange,
-                          });
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-                            icon: const Icon(
-                              Icons.error,
-                              color: MyColors.myred2,
-                              size: 20,
-                            ),
-                            message: 'selected range contains taken dates',
-                            margin: 0,
-                          ));
-                        }
+                        context.read<ReservationBloc>().add(ConfirmRange());
                       },
                       todayHighlightColor: MyColors.myBlue,
                       //!Day Style

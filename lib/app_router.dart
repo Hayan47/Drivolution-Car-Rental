@@ -2,7 +2,6 @@ import 'package:drivolution/data/services/user_services.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
-import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/doors_bloc/doors_bloc.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
@@ -12,12 +11,13 @@ import 'package:drivolution/logic/image_bloc/image_bloc.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
+import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
 import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
 import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
-import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
+import 'package:drivolution/presentation/screens/date_range_picker.dart';
 import 'package:drivolution/presentation/screens/forget_password.dart';
 import 'package:drivolution/presentation/screens/location_picker.dart';
 import 'package:drivolution/presentation/screens/log_in_screen.dart';
@@ -35,7 +35,8 @@ class AppRouter {
   late CarsBloc carsBloc;
   // late UsrCubit usrCubit;
   late UserBloc userBloc;
-  late ReservationsCubit resCubit;
+  // late ReservationsCubit resCubit;
+  late ReservationBloc reservationBloc;
   // late FavoriteCubit favoriteCarsCubit;
   late FavoriteBloc favoriteBloc;
   late ImageBloc imageBloc;
@@ -52,7 +53,8 @@ class AppRouter {
 
   AppRouter() {
     carsBloc = CarsBloc();
-    resCubit = ReservationsCubit();
+    // resCubit = ReservationsCubit();
+    reservationBloc = ReservationBloc();
     // favoriteCarsCubit = FavoriteCubit();
     favoriteBloc = FavoriteBloc();
     // usrCubit = UsrCubit();
@@ -95,7 +97,8 @@ class AppRouter {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(value: carsBloc),
-              BlocProvider.value(value: resCubit),
+              // BlocProvider.value(value: resCubit),
+              BlocProvider.value(value: reservationBloc),
               // BlocProvider.value(value: favoriteCarsCubit),
               BlocProvider.value(value: favoriteBloc),
               BlocProvider.value(value: authCubit),
@@ -121,16 +124,17 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: userBloc,
-            child: const ForgetPasswordScreen(),
+            child: ForgetPasswordScreen(),
           ),
         );
-      // case 'profilescreen':
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider.value(
-      //       value: userBloc,
-      //       child: const ProfileScreen(),
-      //     ),
-      //   );
+      case 'daterangepicker':
+        final carID = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: reservationBloc,
+            child: DateRangePicker(carid: carID),
+          ),
+        );
       case 'mapscreen':
         final car = settings.arguments as Car;
         return MaterialPageRoute(builder: (_) => MapScreen(car: car));
@@ -179,8 +183,7 @@ class AppRouter {
   }
 
   void dispose() {
-    resCubit.close();
-    resCubit.close();
+    // resCubit.close();
   }
 
   void disposeAddCarBlocs() {

@@ -21,11 +21,7 @@ class OwnerCard extends StatelessWidget {
           return Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  right: 25,
-                  left: 15,
-                  top: 50,
-                ),
+                padding: const EdgeInsets.only(top: 50),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: SizedBox(

@@ -1,79 +1,18 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/data/models/reservation_model.dart';
-import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/image_bloc/image_bloc.dart';
 import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/widgets/add_phone_number.dart';
 import 'package:drivolution/presentation/widgets/alert_dialog.dart';
-import 'package:drivolution/presentation/widgets/car_card.dart';
-import 'package:drivolution/presentation/widgets/reservation_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_profile.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants/my_colors.dart';
 
-class ProfileDetailsScreen extends StatefulWidget {
+class ProfileDetailsScreen extends StatelessWidget {
   const ProfileDetailsScreen({super.key});
-
-  @override
-  State<ProfileDetailsScreen> createState() => _ProfileDetailsScreenState();
-}
-
-class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
-  // final user = FirebaseAuth.instance.currentUser!;
-  // late Usr usr;
-  // Uint8List? _image;
-  // List<Car> reservedCars = [];
-  // List<Car> myCars = [];
-  // final _controller = PageController();
-  // final _controller2 = PageController();
-  // List<Reservation> myReservations = [];
-
-  //? upload profile picture
-  Future<void> uploadProfilePicture() async {
-    // try {
-    //   XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    //   if (image == null) return;
-    //   final imageTemporary = await image.readAsBytes();
-    //   setState(() {
-    //     _image = imageTemporary;
-    //   });
-    //   final path = 'profile pictures/${user.email}';
-    //   final ref = FirebaseStorage.instance.ref().child(path);
-    //   showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     builder: (context) => const Center(
-    //       child: CircularProgressIndicator(
-    //         color: MyColors.mywhite,
-    //       ),
-    //     ),
-    //   );
-    //   await ref.putData(_image!);
-    //   Navigator.pop(context);
-    //   final url = await ref.getDownloadURL();
-    //   await UserServices().addImage(context, url, user.uid);
-    //   // await context.read<UsrCubit>().getUserInfo(user.uid);
-    // } on PlatformException {
-    //   ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-    //     icon: const Icon(
-    //       Icons.error,
-    //       color: MyColors.myred2,
-    //       size: 20,
-    //     ),
-    //     message: 'failed to pick image',
-    //     margin: MediaQuery.sizeOf(context).width * 0.2,
-    //   ));
-    // }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +274,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
     );
   }
 }
-                              //?add reserved cars to reserserved cars list
+
+//?add reserved cars to reserserved cars list
 //                               for (var reservation in myReservations) {
 //                                 if (car.id == reservation.carId) {
 //                                   if (!reservedCars.contains(car)) {
