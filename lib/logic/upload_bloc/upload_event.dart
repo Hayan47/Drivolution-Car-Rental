@@ -9,10 +9,9 @@ sealed class UploadEvent extends Equatable {
 
 class UploadImagesEvent extends UploadEvent {
   final List<Uint8List> images;
-  final String imagesName;
-  final String id;
+  final String path;
 
-  const UploadImagesEvent(this.images, this.imagesName, this.id);
+  const UploadImagesEvent({required this.images, required this.path});
 
   @override
   List<Object> get props => [images];

@@ -7,6 +7,10 @@ sealed class ImageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AddImageEvent extends ImageEvent {}
+class AddImageEvent extends ImageEvent {
+  final bool removeBackground;
+
+  const AddImageEvent({required this.removeBackground});
+}
 
 class NoImageSelectedEvent extends ImageEvent {}

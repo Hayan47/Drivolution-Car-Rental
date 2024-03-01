@@ -1,6 +1,6 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drivolution/app_router.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
@@ -17,73 +17,8 @@ import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddCar4 extends StatelessWidget {
-  //? add car
-  addCar() async {
-    // //*check images
-    // if (carImages.isEmpty) {
-    //   _errorHandling.showError('add car images', context);
-    //   return;
-    // }
-    // //*upload main image
-    // await _imageService.uploadImage(
-    //   file: carImage,
-    //   folderName: _carNameController.text,
-    //   imageName: '${_carNameController.text}_main_image.jpg',
-    //   id: id,
-    //   i: 1,
-    //   context: context,
-    // );
-    // //*upload images
-    // for (int i = 0; i < carImages.length; i++) {
-    //   await _imageService.uploadImage(
-    //     file: carImages[i],
-    //     folderName: _carNameController.text,
-    //     imageName: '${_carNameController.text}$i.jpg',
-    //     id: id,
-    //     i: i + 2,
-    //     context: context,
-    //   );
-    // }
-    //*add car
-    // context.read<CarsCubit>().addCar(
-    //       Car(
-    //         logo: carLogos[selectedlogo],
-    //         img: imageUrl!,
-    //         name: _carNameController.text,
-    //         model: _carModelController.text,
-    //         rent: int.parse(_carRentController.text),
-    //         images: carImagesLinks,
-    //         geoPoint: GeoPoint(loc['latitude'], loc['longitude']),
-    //         locationName: loc['cityName'].toString(),
-    //         type: dropdownValue1,
-    //         seats: _currentValue2,
-    //         doors: _currentValue1,
-    //         fuel: dropdownValue2,
-    //         features: features,
-    //         color: _carColorController.text,
-    //         interiorColor: _carInteriorColorController.text,
-    //         engine: _carEngineController.text,
-    //         drivetrain: dropdownValue4,
-    //         kilometrage: int.parse(_carKilometrageController.text),
-    //         transmission: dropdownValue3,
-    //         ownerid: id,
-    //         description: _carDescriptionController.text,
-    //       ),
-    //     );
-    // Navigator.pop(context);
-    // ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-    //   icon: const Icon(
-    //     Icons.done,
-    //     color: Colors.green,
-    //     size: 20,
-    //   ),
-    //   message: 'car added successfuly',
-    //   margin: 0,
-    // ));
-  }
   const AddCar4({super.key});
 
   @override
@@ -153,90 +88,6 @@ class AddCar4 extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 15),
-        ///////////////////////////////////!///////////////////////
-        // loadin?
-        // Center(
-        //   child: CircularPercentIndicator(
-        //     radius: 40,
-        //     lineWidth: 7,
-        //     backgroundColor: MyColors.myBlue2,
-        //     percent: percent / 100,
-        //     progressColor: MyColors.myred,
-        //     curve: Curves.bounceIn,
-        //     center: Text(
-        //       '$percent %',
-        //       style: const TextStyle(
-        //           color: Colors.white, fontSize: 10),
-        //     ),
-        //   ),
-        // ),
-        // Center(
-        //   child: LinearPercentIndicator(
-        //     backgroundColor: MyColors.mywhite,
-        //     lineHeight: 7,
-        //     percent: percent / 100,
-        //     progressColor: MyColors.myred,
-        //     curve: Curves.bounceIn,
-        //     center: Text(
-        //       '$percent %',
-        //       style: const TextStyle(color: Colors.white, fontSize: 10),
-        //     ),
-        //   ),
-        // ),
-
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Text(
-        //       'uploading image ', // $imageNum',
-        //       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-        //             color: MyColors.mywhite,
-        //             fontSize: 16,
-        //           ),
-        //     ),
-        //     const SizedBox(width: 5),
-        //     const SizedBox(
-        //       width: 12,
-        //       height: 12,
-        //       child: CircularProgressIndicator(
-        //         color: MyColors.mywhite,
-        //         strokeWidth: 2,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        // :
-        // Center(
-        //   child: TextButton(
-        //       onPressed: () async {
-        //         setState(() {
-        //           loading = true;
-        //         });
-        //         //*upload main image
-        // await uploadImage(
-        //     carImage!,
-        //     '${_carNameController.text}_main_image.jpg',
-        //     0);
-        //         //*upload images
-        //         for (int i = 0; i < carImages.length; i++) {
-        //           await _imageService.uploadImage(
-        //             file: carImages[i],
-        //             folderName: _carNameController.text,
-        //             imageName:
-        //                 '${_carNameController.text}$i.jpg',
-        //             id: id,
-        //             i: i + 2,
-        //             context: context,
-        //           );
-        //         }
-        //         // setState(() {
-        //         //   loading = false;
-        //         // });
-        //       },
-        //       child: Text('TEST')),
-        // ),
-
-        //////////////////////////////////////////////////////////
         //!submit
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -253,14 +104,6 @@ class AddCar4 extends StatelessWidget {
                     ),
                   );
                 } else if (state is UploadSuccessState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    MySnackBar(
-                      icon:
-                          const Icon(Icons.done, color: Colors.green, size: 18),
-                      message: state.message,
-                      margin: 5,
-                    ),
-                  );
                   final formBloc = BlocProvider.of<AllFieldsFormBloc>(context);
                   final location = (BlocProvider.of<LocationBloc>(context).state
                           as LocationPickedState)
@@ -299,7 +142,6 @@ class AddCar4 extends StatelessWidget {
                     ownerid: id,
                     description: formBloc.carDescription.value,
                   );
-                  print(car);
                   context.read<CarsBloc>().add(AddCarEvent(car: car));
                 }
               },
@@ -334,8 +176,14 @@ class AddCar4 extends StatelessWidget {
                             icon: const Icon(Icons.done,
                                 color: Colors.green, size: 18),
                             message: state.message,
-                            margin: 5,
+                            margin: 80,
                           ),
+                        );
+                        AppRouter().disposeAddCarBlocs();
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          'mainscreen',
+                          (Route<dynamic> route) => false,
                         );
                       } else if (state is CarsError) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -389,8 +237,13 @@ class AddCar4 extends StatelessWidget {
                                         as ImageChanged)
                                     .image);
                             //? UPLOAD
-                            context.read<UploadBloc>().add(UploadImagesEvent(
-                                images, formBloc.carName.value, id));
+                            context.read<UploadBloc>().add(
+                                  UploadImagesEvent(
+                                    images: images,
+                                    path:
+                                        'cars/$id/${formBloc.carName.value}/${formBloc.carName.value}',
+                                  ),
+                                );
                           },
                           style: ButtonStyle(
                             backgroundColor:

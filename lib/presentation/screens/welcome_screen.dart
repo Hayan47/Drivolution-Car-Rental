@@ -1,9 +1,4 @@
-// import 'dart:ffi';
-
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -106,7 +101,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         });
                         // await CarServices().getAllCars();
                         await Future.delayed(const Duration(seconds: 1));
-                        Navigator.pushReplacementNamed(context, mainScreen);
+                        Navigator.pushReplacementNamed(context, 'mainscreen');
                       },
                       child: Image.asset(
                         'assets/icons/arrow_right2.png',

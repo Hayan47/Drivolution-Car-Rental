@@ -84,7 +84,9 @@ class AddCar1 extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              context.read<ImageBloc>().add(AddImageEvent());
+              context
+                  .read<ImageBloc>()
+                  .add(const AddImageEvent(removeBackground: true));
             },
             child: BlocConsumer<ImageBloc, ImageState>(
               listener: (context, state) {

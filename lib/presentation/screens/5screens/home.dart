@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
             } else if (state is CarsLoading) {
               return const AllCarsLoading();
             } else if (state is CarsLoaded) {
-              allCars = (state).cars;
+              allCars = state.cars;
               return Expanded(
                 child: LiquidPullToRefresh(
                   onRefresh: refresh,

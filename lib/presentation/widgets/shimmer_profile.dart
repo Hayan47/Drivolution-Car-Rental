@@ -17,136 +17,54 @@ class ProfileLoading extends StatelessWidget {
               children: [
                 //!profile card
 
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Container(
-                    color: Colors.white,
-                    width: double.infinity,
-                    height: 160,
-                    child: const Padding(
-                      padding: EdgeInsets.all(15),
-                    ),
-                  ),
-                ),
-
-                //! SizedBox
-                const SizedBox(height: 5),
-
-                //!Divider
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 1,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-
-                //! SizedBox
-                const SizedBox(height: 10),
-
-                //!First Text
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 30,
-                    width: 75,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-
-                //!Car Card
-                Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 25,
-                        left: 15,
-                        bottom: 20,
-                        top: 10,
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Container(
-                          color: Colors.white,
-                          width: double.infinity,
-                          height: 180,
-                          child: const Padding(
-                            padding: EdgeInsets.all(15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Positioned(
-                    //   left: MediaQuery.sizeOf(context).width / 3,
-                    //   top: 110,
-                    //   child: Container(
-                    //     height: 120,
-                    //     width: 250,
-                    //     child: Image.asset(
-                    //       'assets/img/cars/audi.png',
-                    //       color: Colors.white,
-                    //     ),
-                    //   ),
-                    // ),
-                    //!price
-                    Positioned(
-                      left: 10,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        width: 125,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                //!Page View Pointer
                 Container(
-                  padding: const EdgeInsets.all(12),
-                  height: 6,
-                  width: 15,
+                  color: Colors.white,
+                  width: double.infinity,
+                  height: MediaQuery.sizeOf(context).height * 0.32,
+                  child: const Padding(
+                    padding: EdgeInsets.all(15),
+                  ),
+                ),
+
+                //! SizedBox
+                const SizedBox(height: 12),
+
+                //!My Cars
+                Container(
+                  // padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  height: 50,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                const SizedBox(height: 18),
+                //! SizedBox
+                const SizedBox(height: 12),
 
-                //!Second Text
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 30,
-                    width: 75,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-                //!Reservations Card
+                //!My Reservations
                 Container(
-                  padding: const EdgeInsets.all(12),
-                  height: 100,
+                  // padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  height: 50,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
 
                 //! SizedBox
+                const SizedBox(height: 12),
+
+                //!sign out
+                Container(
+                  width: 100,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                ),
               ],
             ),
           ),

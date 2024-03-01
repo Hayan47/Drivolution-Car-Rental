@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/cubit/reservations_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/constants/strings.dart';
+import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/screens/date_range_picker.dart';
 import 'package:drivolution/presentation/widgets/alert_dialog.dart';
 import 'package:drivolution/presentation/widgets/confirm_reservation_card.dart';
@@ -11,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
-import '../../logic/cubit/usr_cubit.dart';
 import '../../data/models/car_model.dart';
 import '../../data/models/reservation_model.dart';
 import 'owner_card.dart';
@@ -216,7 +216,7 @@ class _CarDetailsState extends State<CarDetails> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, mapscreen,
+                  onTap: () => Navigator.pushNamed(context, 'mapscreen',
                       arguments: widget.car),
                   child: const Icon(
                     Icons.location_on_outlined,
@@ -789,213 +789,223 @@ class _CarDetailsState extends State<CarDetails> {
           ),
           //!owner
           BlocProvider(
-            create: (context) => UsrCubit(),
+            create: (context) => UserBloc(),
             child: OwnerCard(car: widget.car),
           ),
           const SizedBox(height: 20),
-          FirebaseAuth.instance.currentUser != null &&
-                  widget.car.ownerid == FirebaseAuth.instance.currentUser!.uid
-              //! delete
-              ? Center(
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) {
-                              return MyAlertDialog(
-                                onPressed: () {
-                                  context
-                                      .read<CarsBloc>()
-                                      .add(DeleteCarEvent(car: widget.car));
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                },
-                                text:
-                                    'are you sure you want to delete this car?',
-                              );
-                            },
-                          );
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 140,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: MyColors.myBlue),
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                MyColors.myred.withOpacity(0.6),
-                                MyColors.myred2.withOpacity(1),
-                                MyColors.myred.withOpacity(0.6),
-                              ],
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                'delete car',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 20,
-                                    ),
-                              ),
-                              Image.asset(
-                                'assets/icons/delete.png',
-                                width: 25,
-                                height: 25,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                )
-              : Column(
-                  children: [
-                    Divider(
-                      color: Theme.of(context).secondaryHeaderColor,
-                    ),
-                    //!book now
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: Text(
-                        'Book Now!',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.mywhite,
-                              fontSize: 18,
-                            ),
-                      ),
-                    ),
-                    //!Date Pick
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            onTap: pickRange,
-                            child: Container(
-                              width: 125,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: MyColors.myred2,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        color: MyColors.mywhite,
-                                        fontSize: 15,
-                                      ),
-                                ),
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              if (state is Authenticated) {
+                if (widget.car.ownerid == state.user.uid) {
+                  //*delete car
+                  return Center(
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MyAlertDialog(
+                                  onPressed: () {
+                                    context
+                                        .read<CarsBloc>()
+                                        .add(DeleteCarEvent(car: widget.car));
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  text:
+                                      'are you sure you want to delete this car?',
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 140,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: MyColors.myBlue),
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  MyColors.myred.withOpacity(0.6),
+                                  MyColors.myred2.withOpacity(1),
+                                  MyColors.myred.withOpacity(0.6),
+                                ],
                               ),
                             ),
-                          ),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: MyColors.myred,
-                          ),
-                          GestureDetector(
-                            onTap: pickRange,
-                            child: Container(
-                              width: 125,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: MyColors.myred2,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '${range.end.year.toString()} / ${range.end.month.toString()} / ${range.end.day.toString()}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        color: MyColors.mywhite,
-                                        fontSize: 15,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //!Duration
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 5),
-                      child: Text(
-                        'Days: ${duration.inDays}',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.mywhite,
-                              fontSize: 18,
-                            ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 5),
-                      child: Text(
-                        'price $price \$',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.mywhite,
-                              fontSize: 18,
-                            ),
-                      ),
-                    ),
-                    //!submit
-                    Padding(
-                      padding: const EdgeInsets.all(25),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: submit,
-                            child: Container(
-                              width: 75,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                color: FirebaseAuth.instance.currentUser == null
-                                    ? Colors.grey.shade400
-                                    : MyColors.myred2,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'submit',
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  'delete car',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
                                       .copyWith(
                                         color: MyColors.mywhite,
-                                        fontSize: 15,
+                                        fontSize: 20,
                                       ),
+                                ),
+                                Image.asset(
+                                  'assets/icons/delete.png',
+                                  width: 25,
+                                  height: 25,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      Divider(
+                        color: Theme.of(context).secondaryHeaderColor,
+                      ),
+                      //!book now
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Text(
+                          'Book Now!',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 18,
+                                  ),
+                        ),
+                      ),
+                      //!Date Pick
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: pickRange,
+                              child: Container(
+                                width: 125,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: MyColors.myred2,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 15,
+                                        ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: MyColors.myred,
+                            ),
+                            GestureDetector(
+                              onTap: pickRange,
+                              child: Container(
+                                width: 125,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: MyColors.myred2,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${range.end.year.toString()} / ${range.end.month.toString()} / ${range.end.day.toString()}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 15,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      //!Duration
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 5),
+                        child: Text(
+                          'Days: ${duration.inDays}',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 18,
+                                  ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 5),
+                        child: Text(
+                          'price $price \$',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: MyColors.mywhite,
+                                    fontSize: 18,
+                                  ),
+                        ),
+                      ),
+                      //!submit
+                      Padding(
+                        padding: const EdgeInsets.all(25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: submit,
+                              child: Container(
+                                width: 75,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: MyColors.myred2,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'submit',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: MyColors.mywhite,
+                                          fontSize: 15,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              } else {
+                return Container();
+              }
+            },
+          )
         ],
       ),
     );

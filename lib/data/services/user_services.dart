@@ -1,107 +1,87 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/data/services/error_handling.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/usr_model.dart';
 
 class UserServices {
-  final _auth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
 
-  final ErrorHandling _errorHandling = ErrorHandling();
-
   //? sign in
-  Future signIn(BuildContext context, String email, String password) async {
-    try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      Navigator.pop(context);
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      _errorHandling.showError(e.message.toString(), context);
-    }
+  Future<UserCredential> signIn(String email, String password) async {
+    final cred =
+        await auth.signInWithEmailAndPassword(email: email, password: password);
+    return cred;
   }
 
   //? sign in with Google
-  Future signInWithGoogle(BuildContext context) async {
-    try {
-      await GoogleSignIn().signOut();
-      //! begin interactive sign in process
-      final GoogleSignInAccount? googleSignInAccount =
-          await GoogleSignIn().signIn();
-      //! obtain auth details from requests
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount!.authentication;
-      //! create new credential for user
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-      final fullname = googleSignInAccount.displayName;
-      final firstName = fullname!.split(' ')[0];
-      final lastName = fullname.split(' ')[1];
+  Future<UserCredential> signInWithGoogle() async {
+    await GoogleSignIn().signOut();
+    //! begin interactive sign in process
+    final GoogleSignInAccount? googleSignInAccount =
+        await GoogleSignIn().signIn();
+    //! obtain auth details from requests
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
+    //! create new credential for user
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    final fullname = googleSignInAccount.displayName;
+    final firstName = fullname!.split(' ')[0];
+    final lastName = fullname.split(' ')[1];
 
-      //! finaly sign in
-      UserCredential cred = await _auth.signInWithCredential(credential);
+    //! finaly sign in
+    UserCredential cred = await auth.signInWithCredential(credential);
 
-      //! add google details
+    //! add google details
+    if (cred.user!.metadata.creationTime ==
+        cred.user!.metadata.lastSignInTime) {
       addGoogleDetails(
         firstName: firstName,
         lastName: lastName,
         email: googleSignInAccount.email,
         id: cred.user!.uid,
       );
-      //! add img
-      if (googleSignInAccount.photoUrl != null) {
-        addImage(context, googleSignInAccount.photoUrl!, cred.user!.uid);
-      }
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      _errorHandling.showError(e.message.toString(), context);
     }
+    //! add img
+    if (googleSignInAccount.photoUrl != null) {
+      addImage(googleSignInAccount.photoUrl!, cred.user!.uid);
+    }
+
+    return cred;
+  }
+
+  signOut() {
+    auth.signOut();
   }
 
   //? add phone number
-  Future addPhoneNumber(
-      String phoneNumber, String id, BuildContext context) async {
-    try {
-      await _store.collection('users').doc(id).update({
-        'phoneNumber': phoneNumber,
-      });
-    } catch (e) {
-      _errorHandling.showError(e.toString(), context);
-    }
+  Future addPhoneNumber(String phoneNumber, String userID) async {
+    await _store.collection('users').doc(userID).update({
+      'phoneNumber': phoneNumber,
+    });
   }
 
   //? sign up
-  Future signUp(BuildContext context, String email, String password,
-      String firstName, String lastName, String phoneNumber, int age) async {
-    try {
-      //! create user
-      UserCredential cred = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+  Future<UserCredential> signUp(String email, String password, String firstName,
+      String lastName, String phoneNumber, int age) async {
+    //! create user
+    UserCredential cred = await auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    //! add user details
+    addUserDetails(
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      email: email,
+      age: age,
+      id: cred.user!.uid,
+    );
 
-      //! add user details
-      addUserDetails(
-          firstName: firstName,
-          lastName: lastName,
-          phoneNumber: phoneNumber,
-          email: email,
-          age: age,
-          id: cred.user!.uid);
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      _errorHandling.showError(e.message.toString(), context);
-    }
+    return cred;
   }
 
   //? add user details
@@ -119,6 +99,7 @@ class UserServices {
       'age': age,
       'email': email,
       'phoneNumber': phoneNumber,
+      'favoriteCars': [],
     });
   }
 
@@ -133,74 +114,44 @@ class UserServices {
       'first name': firstName,
       'last name': lastName,
       'email': email,
+      'favoriteCars': [],
     });
   }
 
   //? add img
-  Future addImage(BuildContext context, String url, String id) async {
-    try {
-      await _store.collection('users').doc(id).update({
-        'image': url,
-      });
-      ScaffoldMessenger.of(context).showSnackBar(MySnackBar(
-        icon: const Icon(
-          Icons.done,
-          color: Colors.green,
-          size: 20,
-        ),
-        message: 'Image Edited',
-        margin: MediaQuery.sizeOf(context).width * 0.2,
-      ));
-    } catch (e) {
-      _errorHandling.showError('image not edited', context);
-    }
+  Future addImage(String url, String id) async {
+    await _store.collection('users').doc(id).update({
+      'image': url,
+    });
   }
 
   //? get user info
   Future<Usr?> getUserInfo(String userID) async {
-    try {
-      var data = _store.collection('users').doc(userID).withConverter(
-            fromFirestore: Usr.fromFirestore,
-            toFirestore: (usr, options) => usr.toFirestore(),
-          );
-      final snapshot = await data.get();
-      final usr = snapshot.data(); // Convert to City object
-      return usr;
-    } catch (e) {
-      print(e);
-    }
-    return null;
+    var data = _store.collection('users').doc(userID).withConverter(
+        fromFirestore: Usr.fromFirestore,
+        toFirestore: (usr, options) => usr.toFirestore());
+    final snapshot = await data.get();
+    final usr = snapshot.data();
+    return usr;
   }
 
   //? reset password
-  Future resetPassword(BuildContext context, String email) async {
-    try {
-      _auth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      _errorHandling.showError(e.message.toString(), context);
-    }
+  Future resetPassword(String email) async {
+    auth.sendPasswordResetEmail(email: email);
   }
 
   //? add to favorite
   Future addToFavorite(String carid, String userid) async {
-    try {
-      await _store.collection('users').doc(userid).update({
-        'favoriteCars': FieldValue.arrayUnion([carid])
-      });
-    } catch (e) {
-      print(e);
-    }
+    await _store.collection('users').doc(userid).update({
+      'favoriteCars': FieldValue.arrayUnion([carid])
+    });
   }
 
   //? remove from favorite
   Future removeFromFavorite(String carid, String userid) async {
-    try {
-      await _store.collection('users').doc(userid).update({
-        'favoriteCars': FieldValue.arrayRemove([carid])
-      });
-    } catch (e) {
-      print(e);
-    }
+    await _store.collection('users').doc(userid).update({
+      'favoriteCars': FieldValue.arrayRemove([carid])
+    });
   }
 
   //?get favorite cars
@@ -220,5 +171,24 @@ class UserServices {
       favoriteCars.add(car);
     }
     return favoriteCars;
+  }
+
+  //?get user cars
+  Future<List<Car>> getUserCars(String userID) async {
+    List<Car> userCars = [];
+    var snapshot = await _store
+        .collection('cars')
+        .where('ownerid', isEqualTo: userID)
+        .withConverter<Car>(
+          fromFirestore: Car.fromFirestore,
+          toFirestore: (car, options) => car.toFirestore(),
+        )
+        .get();
+
+    for (var doc in snapshot.docs) {
+      var car = doc.data();
+      userCars.add(car);
+    }
+    return userCars;
   }
 }
