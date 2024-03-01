@@ -13,7 +13,7 @@ class AllCarsLoading extends StatelessWidget {
         period: const Duration(milliseconds: 500),
         child: ListView.builder(
           shrinkWrap: true,
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: 5,
           itemBuilder: (context, index) => Stack(

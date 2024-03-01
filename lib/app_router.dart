@@ -1,12 +1,11 @@
+import 'package:drivolution/data/services/user_services.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
+import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
-import 'package:drivolution/logic/cubit/favorite_cubit.dart';
 import 'package:drivolution/logic/cubit/reservations_cubit.dart';
-import 'package:drivolution/constants/strings.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/logic/doors_bloc/doors_bloc.dart';
-import 'package:drivolution/logic/dropdown_bloc/dropdown_bloc.dart';
+import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
 import 'package:drivolution/logic/features_bloc/features_bloc.dart';
 import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
 import 'package:drivolution/logic/image_bloc/image_bloc.dart';
@@ -15,6 +14,7 @@ import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
 import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
 import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
+import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
@@ -22,6 +22,8 @@ import 'package:drivolution/presentation/screens/forget_password.dart';
 import 'package:drivolution/presentation/screens/location_picker.dart';
 import 'package:drivolution/presentation/screens/log_in_screen.dart';
 import 'package:drivolution/presentation/screens/map_screen.dart';
+import 'package:drivolution/presentation/screens/my_cars_screen.dart';
+import 'package:drivolution/presentation/screens/my_reservations.dart';
 import 'package:drivolution/presentation/screens/sign_up_screen.dart';
 import 'package:drivolution/presentation/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +33,13 @@ import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
   late CarsBloc carsBloc;
-  late UsrCubit usrCubit;
+  // late UsrCubit usrCubit;
+  late UserBloc userBloc;
   late ReservationsCubit resCubit;
-  late FavoriteCubit favoriteCarsCubit;
+  // late FavoriteCubit favoriteCarsCubit;
+  late FavoriteBloc favoriteBloc;
   late ImageBloc imageBloc;
   late LogoBloc logoBloc;
-  late DropdownBloc dropdownBloc;
   late AllFieldsFormBloc allFieldsFormBloc;
   late DoorsBloc doorsBloc;
   late SeatsBloc seatsBloc;
@@ -45,15 +48,17 @@ class AppRouter {
   late MapBloc mapBloc;
   late AlbumBloc albumBloc;
   late UploadBloc uploadBloc;
+  late AuthCubit authCubit;
 
   AppRouter() {
     carsBloc = CarsBloc();
     resCubit = ReservationsCubit();
-    favoriteCarsCubit = FavoriteCubit();
-    usrCubit = UsrCubit();
+    // favoriteCarsCubit = FavoriteCubit();
+    favoriteBloc = FavoriteBloc();
+    // usrCubit = UsrCubit();
+    userBloc = UserBloc();
     imageBloc = ImageBloc();
     logoBloc = LogoBloc();
-    dropdownBloc = DropdownBloc();
     allFieldsFormBloc = AllFieldsFormBloc();
     doorsBloc = DoorsBloc();
     seatsBloc = SeatsBloc();
@@ -62,56 +67,80 @@ class AppRouter {
     mapBloc = MapBloc();
     albumBloc = AlbumBloc();
     uploadBloc = UploadBloc();
+    authCubit = AuthCubit(userServices: UserServices());
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case welcomeScreen:
+      case '/':
         return MaterialPageRoute(builder: (_) => const WelcomeScreen());
-      case mainScreen:
+      case 'mainscreen':
         return PageTransition(
           child: MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: usrCubit),
+              // BlocProvider.value(value: usrCubit),
+              BlocProvider.value(value: userBloc),
               BlocProvider.value(value: carsBloc),
-              BlocProvider.value(value: favoriteCarsCubit),
+              // BlocProvider.value(value: favoriteCarsCubit),
+              BlocProvider.value(value: favoriteBloc),
+              BlocProvider.value(value: authCubit),
             ],
             child: const MainScreen(),
           ),
           type: PageTransitionType.leftToRight,
         );
-      case cardetailsscreen:
+      case 'cardetailsscreen':
         final car = settings.arguments as Car;
         return MaterialPageRoute(
-            builder: (_) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: carsBloc),
-                    BlocProvider.value(value: resCubit),
-                    BlocProvider.value(value: favoriteCarsCubit),
-                  ],
-                  child: CarDetailsScreen(car: car),
-                ));
-      case loginscreen:
-        return MaterialPageRoute(builder: (_) => const LogInScreen());
-      case signupscreen:
-        return MaterialPageRoute(builder: (_) => const SignUpScreen());
-      case forgetpasswordscreen:
-        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
-      case profilescreen:
-        return MaterialPageRoute(
-          builder: (_) => const ProfileScreen(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: carsBloc),
+              BlocProvider.value(value: resCubit),
+              // BlocProvider.value(value: favoriteCarsCubit),
+              BlocProvider.value(value: favoriteBloc),
+              BlocProvider.value(value: authCubit),
+            ],
+            child: CarDetailsScreen(car: car),
+          ),
         );
-      case mapscreen:
+      case 'loginscreen':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: userBloc,
+            child: const LogInScreen(),
+          ),
+        );
+      case 'signupscreen':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: userBloc,
+            child: const SignUpScreen(),
+          ),
+        );
+      case 'forgetpasswordscreen':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: userBloc,
+            child: const ForgetPasswordScreen(),
+          ),
+        );
+      // case 'profilescreen':
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider.value(
+      //       value: userBloc,
+      //       child: const ProfileScreen(),
+      //     ),
+      //   );
+      case 'mapscreen':
         final car = settings.arguments as Car;
         return MaterialPageRoute(builder: (_) => MapScreen(car: car));
-      case addcarscreen:
+      case 'addcarscreen':
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(value: carsBloc),
               BlocProvider.value(value: imageBloc),
               BlocProvider.value(value: logoBloc),
-              BlocProvider.value(value: dropdownBloc),
               BlocProvider.value(value: allFieldsFormBloc),
               BlocProvider.value(value: doorsBloc),
               BlocProvider.value(value: seatsBloc),
@@ -133,13 +162,38 @@ class AppRouter {
             child: LocationPicker(),
           ),
         );
+      case 'mycarsscreen':
+        final userID = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: userBloc,
+            child: MyCars(userID: userID),
+          ),
+        );
+      case 'myreservationsscreen':
+        return MaterialPageRoute(
+          builder: (_) => const MyReservations(),
+        );
     }
     return null;
   }
 
   void dispose() {
-    usrCubit.close();
     resCubit.close();
     resCubit.close();
+  }
+
+  void disposeAddCarBlocs() {
+    print('DISPOSE');
+    imageBloc.close();
+    logoBloc.close();
+    allFieldsFormBloc.close();
+    doorsBloc.close();
+    seatsBloc.close();
+    featuresBloc.close();
+    locationBloc.close();
+    mapBloc.close();
+    albumBloc.close();
+    uploadBloc.close();
   }
 }

@@ -1,14 +1,14 @@
-part of 'favorite_cubit.dart';
+// part of 'favorite_cubit.dart';
 
-@immutable
-abstract class FavoriteCarsState {
-  const FavoriteCarsState();
-}
+// @immutable
+// abstract class FavoriteCarsState {
+//   const FavoriteCarsState();
+// }
 
-class FavoriteCarsLoading extends FavoriteCarsState {}
+// class FavoriteCarsLoading extends FavoriteCarsState {}
 
-class FavoriteCarsLoaded extends FavoriteCarsState {
-  final List<Car> favoriteCars;
+// class FavoriteCarsLoaded extends FavoriteCarsState {
+//   final List<Car> favoriteCars;
 
-  const FavoriteCarsLoaded(this.favoriteCars);
-}
+//   const FavoriteCarsLoaded(this.favoriteCars);
+// }

@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
-import 'package:image_picker/image_picker.dart';
 
 class ImageService {
   //? remove img background
@@ -26,17 +23,12 @@ class ImageService {
   //?upload Image
   Future<List<String>> uploadImages({
     required List<Uint8List> images,
-    required String imagesName,
-    required String id,
+    required String path,
   }) async {
     final uploadedUrls = <String>[];
     for (int i = 0; i < images.length; i++) {
-      final String imageName = imagesName + i.toString();
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('cars')
-          .child(id)
-          .child(imageName);
+      // final String imageName = imagesName + i.toString();
+      final ref = FirebaseStorage.instance.ref().child('$path$i');
 
       final uploadTask = ref.putData(images[i]);
       // Calculate progress

@@ -12,8 +12,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       try {
         final imageUrl = await ImageService().uploadImages(
           images: event.images,
-          imagesName: event.imagesName,
-          id: event.id,
+          path: event.path,
         );
         emit(UploadSuccessState(imageUrl, 'Images Uploaded Sucessfuly'));
       } catch (e) {

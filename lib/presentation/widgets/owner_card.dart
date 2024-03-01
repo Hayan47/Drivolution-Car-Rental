@@ -1,39 +1,23 @@
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/logic/cubit/usr_cubit.dart';
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/data/models/usr_model.dart';
+import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/presentation/widgets/shimmer_owner_card.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../data/models/car_model.dart';
 
-class OwnerCard extends StatefulWidget {
+class OwnerCard extends StatelessWidget {
   final Car car;
-
   const OwnerCard({required this.car, super.key});
 
   @override
-  State<OwnerCard> createState() => _OwnerCardState();
-}
-
-class _OwnerCardState extends State<OwnerCard> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<UsrCubit>().getUserInfo(widget.car.ownerid);
-  }
-
-  bool favorite = false;
-  late Usr usr;
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UsrCubit, UsrState>(
+    context.read<UserBloc>().add(GetUserInfo(userID: car.ownerid));
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UsrLoaded) {
-          usr = (state).userInfo;
+        if (state is UserLoaded) {
           return Stack(
             children: [
               Padding(
@@ -44,7 +28,7 @@ class _OwnerCardState extends State<OwnerCard> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     height: 180,
                     child: Stack(
@@ -120,7 +104,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                           ),
                                     ),
                                     Text(
-                                      '${widget.car.rent} \$/D',
+                                      '${car.rent} \$/D',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -154,7 +138,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                               color: MyColors.mywhite,
                                             ),
                                           ),
-                                          imageUrl: usr.img!,
+                                          imageUrl: state.userInfo.img!,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -173,7 +157,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    '${usr.firstName} ${usr.lastName}',
+                                                    '${state.userInfo.firstName} ${state.userInfo.lastName}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodySmall!
@@ -186,7 +170,7 @@ class _OwnerCardState extends State<OwnerCard> {
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
-                                                usr.phoneNumber,
+                                                state.userInfo.phoneNumber,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall!
@@ -201,7 +185,8 @@ class _OwnerCardState extends State<OwnerCard> {
                                             onTap: () async {
                                               final Uri phone = Uri(
                                                 scheme: 'tel',
-                                                path: usr.phoneNumber,
+                                                path:
+                                                    state.userInfo.phoneNumber,
                                               );
                                               if (await canLaunchUrl(phone)) {
                                                 await launchUrl(phone);
@@ -216,19 +201,20 @@ class _OwnerCardState extends State<OwnerCard> {
                                                     ),
                                                     message:
                                                         'can\'t open phone number',
-                                                    margin:
-                                                        0, //MediaQuery.sizeOf(context).width * 0.2,
+                                                    margin: 0,
                                                   ),
                                                 );
                                               }
                                             },
                                             child: Container(
-                                              width: 100,
-                                              height: 25,
+                                              width: 130,
+                                              height: 35,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                                 color: MyColors.myGrey,
+                                                border: Border.all(
+                                                    color: Colors.grey),
                                               ),
                                               child: Center(
                                                 child: Text(
@@ -270,18 +256,14 @@ class _OwnerCardState extends State<OwnerCard> {
                         color: MyColors.mywhite,
                       ),
                     ),
-                    imageUrl: widget.car.img,
+                    imageUrl: car.img,
                   ),
                 ),
               ),
             ],
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: MyColors.mywhite,
-            ),
-          );
+          return const OwnerCardLoading();
         }
       },
     );

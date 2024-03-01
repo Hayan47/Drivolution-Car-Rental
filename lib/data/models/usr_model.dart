@@ -1,24 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Usr {
-  int? userid;
+  String userid;
   String firstName;
   String lastName;
   String email;
   String phoneNumber;
   String? img;
   int? age;
-  List<String>? favoriteCars;
+  List<String> favoriteCars;
 
   Usr({
-    this.userid,
+    required this.userid,
     required this.firstName,
     required this.lastName,
     required this.email,
     required this.phoneNumber,
     this.img,
     this.age,
-    this.favoriteCars,
+    required this.favoriteCars,
   });
 
   factory Usr.fromFirestore(
@@ -27,6 +27,7 @@ class Usr {
   ) {
     final data = snapshot.data();
     return Usr(
+      userid: snapshot.reference.id,
       firstName: data?['first name'],
       lastName: data?['last name'],
       email: data?['email'],
@@ -45,7 +46,7 @@ class Usr {
       if (age != null) "age": age,
       "phoneNumber": phoneNumber,
       if (img != null) "image": img,
-      if (favoriteCars != null) "favoriteCars": favoriteCars,
+      "favoriteCars": favoriteCars,
     };
   }
 }

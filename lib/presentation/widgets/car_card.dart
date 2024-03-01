@@ -1,9 +1,8 @@
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/constants/strings.dart';
-import 'package:drivolution/logic/cubit/favorite_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
+import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
+import 'package:drivolution/presentation/widgets/favorite_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -19,15 +18,15 @@ class CarCard extends StatefulWidget {
 }
 
 class _CarCardState extends State<CarCard> {
-  List<Car> favoritesCars = [];
-  bool loading_add = false;
-  bool loading_remove = false;
+  // List<Car> favoritesCars = [];
+  // bool loading_add = false;
+  // bool loading_remove = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, cardetailsscreen, arguments: widget.car);
+        Navigator.pushNamed(context, 'cardetailsscreen', arguments: widget.car);
       },
       child: Stack(
         children: [
@@ -45,21 +44,7 @@ class _CarCardState extends State<CarCard> {
                 height: 180,
                 child: Stack(
                   children: [
-                    //?gradiant effect
-                    Container(
-                      // decoration: BoxDecoration(
-                      //   gradient: LinearGradient(
-                      //     begin: Alignment.topLeft,
-                      //     end: Alignment.bottomRight,
-                      //     colors: [
-                      //       MyColors.myGrey,
-                      //       MyColors.myBlue2.withOpacity(0.8),
-                      //     ],
-                      //   ),
-                      // ),
-                      color: MyColors.myGrey,
-                    ),
-
+                    Container(color: MyColors.myGrey),
                     //?child
                     Padding(
                       padding: const EdgeInsets.all(15),
@@ -103,10 +88,6 @@ class _CarCardState extends State<CarCard> {
                               Hero(
                                 tag: widget.car.logo,
                                 child: CachedNetworkImage(
-                                  placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator(
-                                    color: MyColors.mywhite,
-                                  )),
                                   imageUrl: widget.car.logo,
                                   width: 50,
                                   height: 50,
@@ -114,113 +95,7 @@ class _CarCardState extends State<CarCard> {
                               )
                             ],
                           ),
-                          FirebaseAuth.instance.currentUser == null
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset(
-                                    'assets/icons/love2.png',
-                                    width: 30,
-                                    height: 30,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                )
-                              : widget.car.ownerid ==
-                                      FirebaseAuth.instance.currentUser!.uid
-                                  ? Container()
-                                  : BlocBuilder<FavoriteCubit,
-                                      FavoriteCarsState>(
-                                      builder: (context, state) {
-                                        if (state is FavoriteCarsLoaded) {
-                                          favoritesCars = (state).favoriteCars;
-                                          return Hero(
-                                            tag: widget.car.id!,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8),
-                                              child: GestureDetector(
-                                                onTap: () async {
-                                                  if (state.favoriteCars
-                                                      .contains(widget.car)) {
-                                                    setState(() {
-                                                      loading_remove = true;
-                                                    });
-                                                    await context
-                                                        .read<FavoriteCubit>()
-                                                        .removeCarFromFavorites(
-                                                            widget.car,
-                                                            FirebaseAuth
-                                                                .instance
-                                                                .currentUser!
-                                                                .uid);
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            seconds: 2));
-                                                    setState(() {
-                                                      loading_remove = false;
-                                                    });
-                                                  } else {
-                                                    setState(() {
-                                                      loading_add = true;
-                                                    });
-                                                    await context
-                                                        .read<FavoriteCubit>()
-                                                        .addCarToFavorites(
-                                                            widget.car,
-                                                            FirebaseAuth
-                                                                .instance
-                                                                .currentUser!
-                                                                .uid);
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            seconds: 2));
-                                                    setState(() {
-                                                      loading_add = false;
-                                                    });
-                                                  }
-                                                },
-                                                child: loading_remove
-                                                    ? Lottie.asset(
-                                                        'assets/lottie/heart_break.json',
-                                                        width: 30,
-                                                        height: 30,
-                                                        repeat: false,
-                                                      )
-                                                    : loading_add
-                                                        ? Lottie.asset(
-                                                            'assets/lottie/heart_fill.json',
-                                                            width: 30,
-                                                            height: 30,
-                                                            repeat: false,
-                                                          )
-                                                        : state.favoriteCars
-                                                                .contains(
-                                                                    widget.car)
-                                                            ? Image.asset(
-                                                                'assets/icons/love2.png',
-                                                                width: 30,
-                                                                height: 30,
-                                                              )
-                                                            : Image.asset(
-                                                                'assets/icons/love.png',
-                                                                width: 30,
-                                                                height: 30,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Lottie.asset(
-                                              'assets/lottie/heart_loading.json',
-                                              width: 30,
-                                              height: 30,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    ),
+                          FavoriteIcon(car: widget.car),
                         ],
                       ),
                     ),
@@ -238,11 +113,6 @@ class _CarCardState extends State<CarCard> {
               child: Hero(
                 tag: widget.car.img,
                 child: CachedNetworkImage(
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(
-                      color: MyColors.mywhite,
-                    ),
-                  ),
                   imageUrl: widget.car.img,
                   fit: BoxFit.fitWidth,
                 ),

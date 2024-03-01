@@ -23,8 +23,12 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
             emit(ImageLoading());
             final image = File(pickedFile!.path);
             final imageData = await image.readAsBytes();
-            final img = await ImageService().removeBackground(imageData);
-            emit(ImageChanged(img));
+            if (event.removeBackground) {
+              final img = await ImageService().removeBackground(imageData);
+              emit(ImageChanged(img));
+            } else {
+              emit(ImageChanged(imageData));
+            }
           } else {
             emit(const ImageError('No Image Selected'));
           }
