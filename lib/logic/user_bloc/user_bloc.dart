@@ -125,7 +125,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(UserLoading());
           print(state);
           final userInfo = await usersServices.getUserInfo(event.userID);
-          print(userInfo.toString());
           final userCars = await usersServices.getUserCars(event.userID);
           emit(UserLoaded(userInfo: userInfo!, cars: userCars));
           print(state);
@@ -135,33 +134,5 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }
       },
     );
-
-    // on<GetUserCars>(
-    //   (event, emit) async {
-    //     try {
-    //       emit(UserLoading());
-    //       print(state);
-    //       final cars = await usersServices.getUserCars(event.userID);
-    //       emit(UserLoaded(userInfo: userInfo, cars: cars));
-    //       print(state);
-    //     } catch (e) {
-    //       emit(const UserError('Failed to load user information'));
-    //       print(state);
-    //       print("ERRORRRRRRRRRRr");
-    //       print(e.toString());
-    //     }
-    //   },
-    // );
-
-    // on<GetUserReservation>(
-    //   (event, emit) async {
-    //     try {
-    //       emit(UserLoading());
-    //       ReservationsServices().getUserReservations(event.userID);
-    //     } catch (e) {
-    //       emit(const UsrError('Error Getting User Reservations'));
-    //     }
-    //   },
-    // );
   }
 }

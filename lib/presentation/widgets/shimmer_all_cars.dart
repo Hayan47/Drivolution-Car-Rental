@@ -37,18 +37,6 @@ class AllCarsLoading extends StatelessWidget {
                   ),
                 ),
               ),
-              // Positioned(
-              //   left: MediaQuery.sizeOf(context).width / 3,
-              //   top: 110,
-              //   child: Container(
-              //     height: 120,
-              //     width: 250,
-              //     child: Image.asset(
-              //       'assets/img/cars/audi.png',
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              // ),
               //!price
               Positioned(
                 left: 10,

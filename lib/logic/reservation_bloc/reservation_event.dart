@@ -26,3 +26,9 @@ class MakeReservation extends ReservationEvent {
 
   const MakeReservation({required this.reservation});
 }
+
+class GetUserReservations extends ReservationEvent {
+  final String userID;
+
+  const GetUserReservations({required this.userID});
+}

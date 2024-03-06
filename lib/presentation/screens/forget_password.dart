@@ -19,9 +19,9 @@ class ForgetPasswordScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xff1E1E24),
-              Color(0xff243B55),
-              Color(0xff1E1E24),
+              MyColors.myGrey,
+              MyColors.myBlue4,
+              MyColors.myGrey,
             ],
           ),
         ),
@@ -39,7 +39,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             //   );
             // } else
             if (state is UserError) {
-              Navigator.pop(context);
+              // Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 MySnackBar(
                   icon:

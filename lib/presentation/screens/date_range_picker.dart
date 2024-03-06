@@ -36,7 +36,6 @@ class DateRangePicker extends StatelessWidget {
             );
           } else if (state is RangePicked) {
             Navigator.pop(context);
-            print(state.selectedRange);
           }
         },
         builder: (context, state) {

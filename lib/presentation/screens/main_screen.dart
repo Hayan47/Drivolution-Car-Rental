@@ -23,7 +23,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   PageController _pageController = PageController();
   final List<Widget> _screens = [
-    const HomeScreen(),
+    HomeScreen(),
     const FavoriteScreen(),
     const AddScreen(),
     const SettingsScreen(),

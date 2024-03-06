@@ -12,6 +12,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   DateTimeRange? selectedRange;
   List<DateTime> disabledDates = [];
   List<Reservation> reservations = [];
+  List<Reservation> userReservations = [];
   int duration = 0;
   ReservationBloc() : super(ReservationsInitial()) {
     on<GetCarReservations>((event, emit) async {
@@ -93,6 +94,19 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         print(state);
       } catch (e) {
         emit(const ReservationsError(message: 'Failed to make a reservation'));
+        print(state);
+      }
+    });
+
+    on<GetUserReservations>((event, emit) async {
+      try {
+        userReservations =
+            await reservationsServices.getUserReservations(event.userID);
+        emit(ReservationsLoaded(
+            reservations: userReservations, disabledDates: const []));
+        print(state);
+      } catch (e) {
+        emit(const ReservationsError(message: 'Error getting reservations'));
         print(state);
       }
     });

@@ -23,7 +23,6 @@ class CarDetailsScreen extends StatelessWidget {
             // actions: [FavoriteIcon(car: car)],
             pinned: true,
             expandedHeight: 225,
-
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.all(8),
               title: Hero(
