@@ -175,8 +175,15 @@ class AppRouter {
           ),
         );
       case 'myreservationsscreen':
+        final userID = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => const MyReservations(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: reservationBloc),
+              BlocProvider.value(value: carsBloc),
+            ],
+            child: MyReservations(userID: userID),
+          ),
         );
     }
     return null;
@@ -187,7 +194,6 @@ class AppRouter {
   }
 
   void disposeAddCarBlocs() {
-    print('DISPOSE');
     imageBloc.close();
     logoBloc.close();
     allFieldsFormBloc.close();

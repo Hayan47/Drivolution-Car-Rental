@@ -51,4 +51,14 @@ class CarServices {
         .doc(car.id)
         .delete();
   }
+
+  //?get car info
+  Future<Car?> getCarInfo(String carID) async {
+    var data = _store.collection('cars').doc(carID).withConverter(
+        fromFirestore: Car.fromFirestore,
+        toFirestore: (car, options) => car.toFirestore());
+    final snapshot = await data.get();
+    final car = snapshot.data();
+    return car;
+  }
 }

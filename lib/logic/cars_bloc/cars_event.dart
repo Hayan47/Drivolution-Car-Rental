@@ -20,3 +20,17 @@ class DeleteCarEvent extends CarsEvent {
 
   const DeleteCarEvent({required this.car});
 }
+
+class SearchForCarEvent extends CarsEvent {
+  final String text;
+
+  const SearchForCarEvent({required this.text});
+}
+
+class CloseSearchForCarEvent extends CarsEvent {}
+
+class GetCarInfo extends CarsEvent {
+  final String carID;
+
+  const GetCarInfo({required this.carID});
+}

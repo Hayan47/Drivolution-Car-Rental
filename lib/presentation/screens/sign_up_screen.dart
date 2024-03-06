@@ -59,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             //   );
             // } else
             if (state is UserError) {
-              Navigator.pop(context);
+              // Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 MySnackBar(
                   icon:

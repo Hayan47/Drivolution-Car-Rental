@@ -49,7 +49,7 @@ class _LogInScreenState extends State<LogInScreen> {
             //   );
             // } else
             if (state is UserError) {
-              Navigator.pop(context);
+              // Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 MySnackBar(
                   icon:

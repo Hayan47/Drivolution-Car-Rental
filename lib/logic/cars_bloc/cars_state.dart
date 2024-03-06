@@ -34,3 +34,18 @@ class CarDeleted extends CarsState {
 
   const CarDeleted(this.message);
 }
+
+class CarSearching extends CarsState {
+  final List<Car> searchedForCars;
+
+  const CarSearching({required this.searchedForCars});
+
+  @override
+  List<Object> get props => [searchedForCars];
+}
+
+class CarLoaded extends CarsState {
+  final Car car;
+
+  const CarLoaded(this.car);
+}

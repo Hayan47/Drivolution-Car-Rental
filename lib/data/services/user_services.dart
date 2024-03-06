@@ -7,6 +7,7 @@ import '../models/usr_model.dart';
 class UserServices {
   final auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
+  final _googleSignin = GoogleSignIn();
 
   //? sign in
   Future<UserCredential> signIn(String email, String password) async {
@@ -17,10 +18,10 @@ class UserServices {
 
   //? sign in with Google
   Future<UserCredential> signInWithGoogle() async {
-    await GoogleSignIn().signOut();
+    await _googleSignin.signOut();
     //! begin interactive sign in process
     final GoogleSignInAccount? googleSignInAccount =
-        await GoogleSignIn().signIn();
+        await _googleSignin.signIn();
     //! obtain auth details from requests
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount!.authentication;
@@ -56,6 +57,7 @@ class UserServices {
 
   signOut() {
     auth.signOut();
+    _googleSignin.signOut();
   }
 
   //? add phone number
