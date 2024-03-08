@@ -1,5 +1,6 @@
 import 'package:drivolution/app_router.dart';
 import 'package:drivolution/data/services/notifications.dart';
+import 'package:drivolution/test_screen.dart';
 import 'package:drivolution/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +29,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
       theme: CustomTheme.appTheme,
+      // home: MyWidget(),
     );
   }
 

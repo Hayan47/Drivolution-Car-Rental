@@ -1,23 +1,16 @@
-import 'dart:typed_data';
 import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/logic/map_bloc/map_bloc.dart';
+import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image/image.dart' as IMG;
-import 'package:image_to_byte/image_to_byte.dart';
 import '../../data/models/car_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends StatelessWidget {
   final Car car;
-  const MapScreen({required this.car, super.key});
+  MapScreen({required this.car, super.key});
 
-  @override
-  State<MapScreen> createState() => _MapScreenState();
-}
-
-class _MapScreenState extends State<MapScreen> {
   late GoogleMapController _googleMapController;
 
   List<LatLng> polyLineCoordinate = [];
@@ -105,57 +98,107 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context
+        .read<MapBloc>()
+        .add(LoadCarLocation(geoPoint: car.geoPoint, carImage: car.img));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.myBlue,
         title: const Text('Car Location'),
+        actions: [
+          BlocBuilder<MapBloc, MapState>(
+            builder: (context, state) {
+              if (state is MapLoading) {
+                return const Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: CircularProgressIndicator(
+                      color: MyColors.mywhite,
+                      strokeWidth: 3,
+                    ),
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
+          )
+        ],
       ),
-      body: GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(
-                widget.car.geoPoint.latitude, widget.car.geoPoint.longitude),
-            zoom: 14,
-          ),
-          zoomControlsEnabled: false,
-          myLocationButtonEnabled: false,
-          onMapCreated: (controller) => _googleMapController = controller,
-          markers: markers,
-          polylines: _polylines),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton.extended(
           backgroundColor: MyColors.myBlue,
-          label: const Text('get your location'),
+          label: Text(
+            'get your location',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: MyColors.mywhite,
+                ),
+          ),
           onPressed: () async {
-            Position position = await _getCurrentLocation();
+            context.read<MapBloc>().add(GetMyLocation());
+          },
+        ),
+      ),
+      body: BlocConsumer<MapBloc, MapState>(
+        listener: (context, state) {
+          if (state is MapError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              MySnackBar(
+                icon: const Icon(Icons.error, color: MyColors.myred2, size: 18),
+                message: state.message,
+                margin: 5,
+              ),
+            );
+          } else if (state is UserLocationFetched) {
             _googleMapController.animateCamera(
               CameraUpdate.newCameraPosition(
                 CameraPosition(
-                  target: LatLng(position.latitude, position.longitude),
+                  target: LatLng(state.userPosition.latitude,
+                      state.userPosition.longitude),
                   zoom: 14,
                 ),
               ),
             );
+          }
+        },
+        builder: (context, state) {
+          return GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(car.geoPoint.latitude, car.geoPoint.longitude),
+              zoom: 14,
+            ),
+            zoomControlsEnabled: false,
+            myLocationButtonEnabled: false,
+            onMapCreated: (controller) => _googleMapController = controller,
+            markers: state is CarLocationPicked
+                ? state.markers
+                : state is UserLocationFetched
+                    ? state.markers
+                    : {},
+            // polylines: _polylines,
+          );
 
-            _getPolyPoints();
-            setState(() {
-              //add marker
-              markers.add(Marker(
-                markerId: const MarkerId('yourloc'),
-                infoWindow: const InfoWindow(title: 'Your Location'),
-                position: LatLng(position.latitude, position.longitude),
-              ));
-              //add polyline
-              _polylines.add(Polyline(
-                polylineId: const PolylineId('route'),
-                color: Colors.red,
-                width: 10,
-                points: polyLineCoordinate,
-              ));
-            });
-          },
-        ),
+          // _getPolyPoints();
+          // setState(() {
+          //add marker
+          // markers.add(Marker(
+          //   markerId: const MarkerId('yourloc'),
+          //   infoWindow: const InfoWindow(title: 'Your Location'),
+          //   position: LatLng(position.latitude, position.longitude),
+          // ));
+          //add polyline
+          // _polylines.add(Polyline(
+          //   polylineId: const PolylineId('route'),
+          //   color: Colors.red,
+          //   width: 10,
+          //   points: polyLineCoordinate,
+          // ));
+          // });
+        },
       ),
     );
   }

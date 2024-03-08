@@ -1,6 +1,5 @@
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/models/usr_model.dart';
-import 'package:drivolution/data/services/reservations_services.dart';
 import 'package:drivolution/data/services/user_services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';

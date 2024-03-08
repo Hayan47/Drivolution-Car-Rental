@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
+import 'package:image/image.dart' as IMG;
 
 class ImageService {
-  
   //? remove img background
   Future<Uint8List> removeBackground(Uint8List imageFile) async {
     final response = await http.post(
@@ -67,7 +67,7 @@ class ImageService {
     // });
   }
 
-  //? resize img
+  //? compress img
   Uint8List compressImage(
       Uint8List imageBytes, int targetWidth, int targetHeight) {
     // Decode the image
@@ -77,5 +77,14 @@ class ImageService {
         img.copyResize(image!, width: targetWidth, height: targetHeight);
     // Compress the image and return it as a Uint8List
     return img.encodeJpg(resizedImage, quality: 50);
+  }
+
+  //? resize image
+  Uint8List? resizeImage(Uint8List data, width, height) {
+    Uint8List? resizedData = data;
+    IMG.Image? img = IMG.decodeImage(data);
+    IMG.Image resized = IMG.copyResize(img!, width: width, height: height);
+    resizedData = Uint8List.fromList(IMG.encodePng(resized));
+    return resizedData;
   }
 }

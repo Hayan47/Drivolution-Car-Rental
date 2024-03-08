@@ -133,9 +133,7 @@ class _MainScreenState extends State<MainScreen> {
                     haptic: false,
                     iconSize: 20,
                     padding: const EdgeInsets.all(13),
-                    backgroundColor: const Color(
-                        0xff1E1E24), //const Color.fromARGB(255, 36, 114, 121),
-                    color: MyColors.mywhite,
+                    backgroundColor: MyColors.myGrey, color: MyColors.mywhite,
                     activeColor: MyColors.mywhite,
                     // tabBackgroundGradient: LinearGradient(
                     //   colors: [

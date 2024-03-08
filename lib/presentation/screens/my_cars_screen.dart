@@ -26,15 +26,7 @@ class MyCars extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'My Cars',
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: MyColors.mywhite,
-                  fontSize: 22,
-                ),
-          ),
-        ),
+        appBar: AppBar(title: const Text('My Cars')),
         backgroundColor: Colors.transparent,
         body: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {

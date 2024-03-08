@@ -26,7 +26,7 @@ class CustomTheme {
         titleTextStyle: GoogleFonts.karla(
           fontWeight: FontWeight.bold,
           color: MyColors.mywhite,
-          fontSize: 25,
+          fontSize: 22,
         ),
         actionsIconTheme: const IconThemeData(
           color: MyColors.mywhite,

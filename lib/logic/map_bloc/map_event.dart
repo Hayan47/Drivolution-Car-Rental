@@ -12,3 +12,12 @@ class MapTapEvent extends MapEvent {
 
   const MapTapEvent({required this.location});
 }
+
+class LoadCarLocation extends MapEvent {
+  final GeoPoint geoPoint;
+  final String carImage;
+
+  const LoadCarLocation({required this.geoPoint, required this.carImage});
+}
+
+class GetMyLocation extends MapEvent {}

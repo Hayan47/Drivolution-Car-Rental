@@ -33,11 +33,8 @@ import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
   late CarsBloc carsBloc;
-  // late UsrCubit usrCubit;
   late UserBloc userBloc;
-  // late ReservationsCubit resCubit;
   late ReservationBloc reservationBloc;
-  // late FavoriteCubit favoriteCarsCubit;
   late FavoriteBloc favoriteBloc;
   late ImageBloc imageBloc;
   late LogoBloc logoBloc;
@@ -53,11 +50,8 @@ class AppRouter {
 
   AppRouter() {
     carsBloc = CarsBloc();
-    // resCubit = ReservationsCubit();
     reservationBloc = ReservationBloc();
-    // favoriteCarsCubit = FavoriteCubit();
     favoriteBloc = FavoriteBloc();
-    // usrCubit = UsrCubit();
     userBloc = UserBloc();
     imageBloc = ImageBloc();
     logoBloc = LogoBloc();
@@ -137,7 +131,12 @@ class AppRouter {
         );
       case 'mapscreen':
         final car = settings.arguments as Car;
-        return MaterialPageRoute(builder: (_) => MapScreen(car: car));
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => MapBloc(),
+            child: MapScreen(car: car),
+          ),
+        );
       case 'addcarscreen':
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(

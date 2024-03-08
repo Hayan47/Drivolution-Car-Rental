@@ -26,15 +26,7 @@ class MyReservations extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text(
-            'My Reservations',
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: MyColors.mywhite,
-                  fontSize: 22,
-                ),
-          ),
-        ),
+        appBar: AppBar(title: const Text('My Reservations')),
         body: BlocBuilder<ReservationBloc, ReservationState>(
           builder: (context, state) {
             if (state is ReservationsLoaded) {
