@@ -111,7 +111,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   //?first column
                                   Column(
                                     children: [
-                                      const SizedBox(height: 15),
                                       Text(
                                         //!first message
                                         'Join Us',

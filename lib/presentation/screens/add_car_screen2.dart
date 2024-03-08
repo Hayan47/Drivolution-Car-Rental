@@ -4,8 +4,8 @@ import 'package:drivolution/logic/features_bloc/features_bloc.dart';
 import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
 import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
 import 'package:drivolution/presentation/widgets/dropdown.dart';
-import 'package:drivolution/presentation/widgets/numberpicker.dart';
-import 'package:drivolution/presentation/widgets/textfield.dart';
+import 'package:drivolution/presentation/widgets/numberPicker.dart';
+import 'package:drivolution/presentation/widgets/textField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
@@ -259,7 +259,7 @@ class AddCar2 extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        //!fetures
+        //!features
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
