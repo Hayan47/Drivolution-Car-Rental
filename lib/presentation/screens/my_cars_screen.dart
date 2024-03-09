@@ -1,7 +1,6 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
-import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/my_car_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
 import 'package:flutter/material.dart';

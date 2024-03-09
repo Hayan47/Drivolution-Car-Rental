@@ -91,7 +91,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       }
       try {
         position = await Geolocator.getCurrentPosition(
-            timeLimit: const Duration(seconds: 20));
+            timeLimit: const Duration(seconds: 12));
         emit(
           UserLocationFetched(
             userPosition: position!,
@@ -101,13 +101,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           ),
         );
         print(state);
-        // print(state.userPosition);
       } catch (e) {
         print(e);
         emit(MapError(message: e.toString()));
         print(state);
       }
-      print(position);
     });
   }
   // //?get polypoints
