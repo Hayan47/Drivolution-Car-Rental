@@ -1,7 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -70,12 +72,10 @@ class LocationPicker extends StatelessWidget {
       body: BlocConsumer<MapBloc, MapState>(
         listener: (context, state) {
           if (state is MapError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              MySnackBar(
-                icon: const Icon(Icons.error, color: MyColors.myred2, size: 18),
-                message: state.message,
-                margin: 5,
-              ),
+            showToastMessage(
+              context,
+              state.message,
+              const Icon(Icons.error, color: MyColors.myred2, size: 18),
             );
           } else if (state is UserLocationFetched) {
             _googleMapController.animateCamera(

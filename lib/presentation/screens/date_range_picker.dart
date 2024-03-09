@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,12 +27,10 @@ class DateRangePicker extends StatelessWidget {
       body: BlocConsumer<ReservationBloc, ReservationState>(
         listener: (context, state) {
           if (state is ReservationsError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              MySnackBar(
-                icon: const Icon(Icons.error, color: MyColors.myred2, size: 18),
-                message: state.message,
-                margin: 5,
-              ),
+            showToastMessage(
+              context,
+              state.message,
+              const Icon(Icons.error, color: MyColors.myred2, size: 18),
             );
           } else if (state is RangePicked) {
             Navigator.pop(context);

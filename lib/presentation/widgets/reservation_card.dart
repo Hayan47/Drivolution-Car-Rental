@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/presentation/widgets/shimmer_reservations.dart';
 import 'package:flutter/material.dart';

@@ -13,58 +13,53 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BlocBuilder<AuthCubit, AuthState>(
-          builder: (context, state) {
-            if (state is Authenticated) {
-              return BlocBuilder<FavoriteBloc, FavoriteState>(
-                builder: (context, state) {
-                  if (state is FavoriteCarsLoaded) {
-                    if (state.favoriteCars.isEmpty) {
-                      return Column(
-                        children: [
-                          Image.asset('assets/lottie/favorite_cars.png'),
-                          Text(
-                            'add cars to your favorite list!',
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: MyColors.myBlue,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount: state.favoriteCars.length,
-                          itemBuilder: (context, index) {
-                            if (index == state.favoriteCars.length - 1) {
-                              //? Return the last item with some padding
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 65),
-                                child: CarCard(car: state.favoriteCars[index]),
-                              );
-                            } else {
-                              return CarCard(car: state.favoriteCars[index]);
-                            }
-                          },
-                        ),
-                      );
-                    }
-                  } else {
-                    return const AllCarsLoading();
-                  }
-                },
-              );
-            } else {
-              return const ProfileScreen();
-            }
-          },
-        ),
-      ],
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is Authenticated) {
+          return BlocBuilder<FavoriteBloc, FavoriteState>(
+            builder: (context, state) {
+              if (state is FavoriteCarsLoaded) {
+                if (state.favoriteCars.isEmpty) {
+                  return Column(
+                    children: [
+                      Image.asset('assets/lottie/favorite_cars.png'),
+                      Text(
+                        'add cars to your favorite list!',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: MyColors.myBlue,
+                              fontSize: 22,
+                              fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: state.favoriteCars.length,
+                    itemBuilder: (context, index) {
+                      if (index == state.favoriteCars.length - 1) {
+                        //? Return the last item with some padding
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 65),
+                          child: CarCard(car: state.favoriteCars[index]),
+                        );
+                      } else {
+                        return CarCard(car: state.favoriteCars[index]);
+                      }
+                    },
+                  );
+                }
+              } else {
+                return const Column(
+                  children: [AllCarsLoading()],
+                );
+              }
+            },
+          );
+        } else {
+          return const ProfileScreen();
+        }
+      },
     );
   }
 }
