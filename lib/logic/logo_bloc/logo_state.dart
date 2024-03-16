@@ -10,7 +10,7 @@ class LogoState extends Equatable {
   });
 
   @override
-  List<Object> get props => [selectedIndex];
+  List<Object> get props => [selectedIndex, carLogos];
 
   LogoState copyWith({
     int? selectedIndex,

@@ -153,8 +153,9 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       GButton(icon: FontAwesomeIcons.car, text: 'add car'),
                       GButton(
-                        icon: IconlyLight.setting,
-                        text: 'settings',
+                        padding: EdgeInsets.symmetric(horizontal: 2),
+                        icon: IconlyLight.notification,
+                        text: 'notifications',
                         iconSize: 25,
                       ),
                       GButton(

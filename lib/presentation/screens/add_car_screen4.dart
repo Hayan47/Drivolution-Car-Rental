@@ -232,7 +232,7 @@ class AddCar4 extends StatelessWidget {
                                 checkState.message,
                                 const Icon(
                                   Icons.error,
-                                  color: MyColors.myred,
+                                  color: MyColors.myred2,
                                 ),
                               );
                             }

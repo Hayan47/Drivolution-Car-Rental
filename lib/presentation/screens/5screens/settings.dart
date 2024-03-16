@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -7,19 +9,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        // ElevatedButton(
-        //     onPressed: () {
-        //       showToastMessage(
-        //         context,
-        //         'This is test message',
-        //         const Icon(
-        //           Icons.error,
-        //           color: MyColors.myred2,
-        //           size: 18,
-        //         ),
-        //       );
-        // },
-        // child: const Text('show toast'))
+        // ElevatedButton.
       ],
     );
   }

@@ -56,7 +56,7 @@ class _CarDetailsState extends State<CarDetails> {
                   child: Row(
                     children: [
                       Hero(
-                        tag: widget.car.logo,
+                        tag: widget.car.geoPoint,
                         child: CachedNetworkImage(
                           imageUrl: widget.car.logo,
                           width: 35,

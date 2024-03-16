@@ -1,5 +1,6 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/presentation/screens/5screens/add.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/widgets/my_car_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
@@ -31,7 +32,45 @@ class MyCars extends StatelessWidget {
           builder: (context, state) {
             if (state is UserLoaded) {
               if (state.cars.isEmpty) {
-                return AddCarScreen();
+                return CustomScrollView(
+                  scrollDirection: Axis.vertical,
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Image.asset('assets/lottie/add_car.png'),
+                              Text(
+                                'add your cars for others to rent!',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: MyColors.myBlue,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 100),
+                            child: FloatingActionButton.extended(
+                              onPressed: () {
+                                Navigator.pushNamed(context, 'addcarscreen');
+                              },
+                              backgroundColor: MyColors.myBlue,
+                              label: const Text("Add Car"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
               } else {
                 return ListView.builder(
                   itemCount: state.cars.length,
