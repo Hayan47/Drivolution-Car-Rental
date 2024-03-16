@@ -9,6 +9,7 @@ class Usr {
   String? img;
   int? age;
   List<String> favoriteCars;
+  String? fcm;
 
   Usr({
     required this.userid,
@@ -19,6 +20,7 @@ class Usr {
     this.img,
     this.age,
     required this.favoriteCars,
+    this.fcm,
   });
 
   factory Usr.fromFirestore(
@@ -35,6 +37,7 @@ class Usr {
       img: data?['image'],
       phoneNumber: data?['phoneNumber'],
       favoriteCars: List<String>.from(data?['favoriteCars'] ?? []),
+      fcm: data?['FCM'] ?? '',
     );
   }
 
@@ -47,6 +50,7 @@ class Usr {
       "phoneNumber": phoneNumber,
       if (img != null) "image": img,
       "favoriteCars": favoriteCars,
+      if (fcm != null) "FCM": fcm,
     };
   }
 }

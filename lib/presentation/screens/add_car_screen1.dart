@@ -5,6 +5,7 @@ import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class AddCar1 extends StatelessWidget {
   const AddCar1({super.key});
@@ -64,6 +65,8 @@ class AddCar1 extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         child: CachedNetworkImage(
                           imageUrl: state.carLogos[index],
+                          // placeholder: (context, url) =>
+                          //     Lottie.asset('assets/lottie/SplashyLoader.json'),
                         ),
                       ),
                     ),

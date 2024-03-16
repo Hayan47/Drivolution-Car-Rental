@@ -7,6 +7,7 @@ import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart';
 
 class LocationPicker extends StatelessWidget {
   late GoogleMapController _googleMapController;
@@ -21,30 +22,34 @@ class LocationPicker extends StatelessWidget {
           BlocBuilder<MapBloc, MapState>(
             builder: (context, state) {
               if (state is MapLoading) {
-                return const Padding(
-                  padding: EdgeInsets.only(right: 15),
+                return Padding(
+                  padding: const EdgeInsets.only(right: 20),
                   child: SizedBox(
-                    height: 25,
-                    width: 25,
+                    height: 20,
+                    width: 20,
                     child: CircularProgressIndicator(
-                      color: MyColors.mywhite,
-                      strokeWidth: 3,
+                      color: Colors.grey.shade200,
+                      strokeWidth: 2,
                     ),
                   ),
                 );
               } else if (state is CarLocationPicked) {
-                return IconButton(
-                  icon: const Icon(Icons.done),
-                  onPressed: () {
-                    context.read<LocationBloc>().add(
-                          LocationPicked(
-                            LatLng(state.pickedLocation.latitude,
-                                state.pickedLocation.longitude),
-                            state.cityName,
-                          ),
-                        );
-                    Navigator.pop(context);
-                  },
+                return Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: GestureDetector(
+                    child: Lottie.asset('assets/lottie/CheckAnimation.json',
+                        repeat: false, width: 32),
+                    onTap: () {
+                      context.read<LocationBloc>().add(
+                            LocationPicked(
+                              LatLng(state.pickedLocation.latitude,
+                                  state.pickedLocation.longitude),
+                              state.cityName,
+                            ),
+                          );
+                      Navigator.pop(context);
+                    },
+                  ),
                 );
               } else {
                 return Container();

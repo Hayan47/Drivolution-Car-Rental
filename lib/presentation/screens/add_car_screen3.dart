@@ -1,8 +1,10 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class AddCar3 extends StatelessWidget {
   const AddCar3({super.key});
@@ -12,11 +14,12 @@ class AddCar3 extends StatelessWidget {
     return BlocConsumer<LocationBloc, LocationState>(
       listener: (context, state) {
         if (state is LocationErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            MySnackBar(
-              icon: const Icon(Icons.error, color: MyColors.myred2, size: 18),
-              message: state.message,
-              margin: 5,
+          showToastMessage(
+            context,
+            state.message,
+            const Icon(
+              Icons.error,
+              color: MyColors.myred2,
             ),
           );
         }
@@ -30,87 +33,37 @@ class AddCar3 extends StatelessWidget {
             children: [
               Image.asset('assets/lottie/car_location.png'),
               const SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'edit location',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 22,
-                          fontWeight: FontWeight.normal,
-                        ),
-                  ),
-                  const SizedBox(width: 15),
-                  GestureDetector(
-                    onTap: () =>
-                        context.read<LocationBloc>().add(PickLocation()),
-                    child: const Icon(
-                      Icons.location_on_outlined,
-                      color: MyColors.myBlue,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 25),
-              RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.myred2,
-                        fontSize: 14,
-                      ),
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const TextSpan(
-                      text: 'latitude: ',
-                    ),
-                    TextSpan(
-                      text: state.location.latitude.toString(),
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: MyColors.mywhite,
-                            fontSize: 14,
+                    state.city == ""
+                        ? Text(
+                            '( ${state.location.latitude.toString().substring(0, 6)} , ${state.location.longitude.toString().substring(0, 6)} )',
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 26,
+                                    ),
+                          )
+                        : Text(
+                            state.city,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 26,
+                                    ),
                           ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 7),
-              RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.myred2,
-                        fontSize: 14,
+                    const SizedBox(width: 25),
+                    GestureDetector(
+                      onTap: () =>
+                          context.read<LocationBloc>().add(PickLocation()),
+                      child: const Icon(
+                        Icons.location_on_outlined,
+                        color: MyColors.myBlue,
                       ),
-                  children: [
-                    const TextSpan(
-                      text: 'longitude: ',
-                    ),
-                    TextSpan(
-                      text: state.location.longitude.toString(),
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: MyColors.mywhite,
-                            fontSize: 14,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 7),
-              RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.myred2,
-                        fontSize: 18,
-                      ),
-                  children: [
-                    const TextSpan(
-                      text: 'city: ',
-                    ),
-                    TextSpan(
-                      text: state.city,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: MyColors.mywhite,
-                            fontSize: 18,
-                          ),
                     ),
                   ],
                 ),
@@ -123,27 +76,19 @@ class AddCar3 extends StatelessWidget {
               //!car location
               Image.asset('assets/lottie/car_location.png'),
               const SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'add your car location',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 22,
-                          fontWeight: FontWeight.normal,
-                        ),
-                  ),
-                  const SizedBox(width: 15),
-                  GestureDetector(
-                    onTap: () =>
-                        context.read<LocationBloc>().add(PickLocation()),
-                    child: const Icon(
-                      Icons.location_on_outlined,
+              Text(
+                'add your car location',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: MyColors.myBlue,
+                      fontSize: 22,
+                      fontWeight: FontWeight.normal,
                     ),
-                  ),
-                ],
+              ),
+              const SizedBox(height: 15),
+              GestureDetector(
+                onTap: () => context.read<LocationBloc>().add(PickLocation()),
+                child: Lottie.asset('assets/lottie/Location.json',
+                    width: MediaQuery.sizeOf(context).width * 0.3),
               ),
             ],
           );

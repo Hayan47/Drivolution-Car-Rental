@@ -5,6 +5,7 @@ import 'package:drivolution/presentation/widgets/shimmer_owner_card.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../data/models/car_model.dart';
 
@@ -128,12 +129,9 @@ class OwnerCard extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12),
                                         child: CachedNetworkImage(
-                                          placeholder: (context, url) =>
-                                              const Center(
-                                            child: CircularProgressIndicator(
-                                              color: MyColors.mywhite,
-                                            ),
-                                          ),
+                                          placeholder: (context, url) => Center(
+                                              child: Lottie.asset(
+                                                  'assets/lottie/SplashyLoader.json')),
                                           imageUrl: state.userInfo.img!,
                                           fit: BoxFit.cover,
                                         ),
