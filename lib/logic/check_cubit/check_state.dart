@@ -13,9 +13,10 @@ final class Valid extends CheckState {}
 
 final class NotValid extends CheckState {
   final String message;
+  final DateTime dateTime;
 
-  const NotValid({required this.message});
+  const NotValid({required this.message, required this.dateTime});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, dateTime];
 }

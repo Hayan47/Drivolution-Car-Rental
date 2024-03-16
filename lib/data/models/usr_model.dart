@@ -35,7 +35,7 @@ class Usr {
       email: data?['email'],
       age: data?['age'],
       img: data?['image'],
-      phoneNumber: data?['phoneNumber'],
+      phoneNumber: data?['phoneNumber'] ?? '',
       favoriteCars: List<String>.from(data?['favoriteCars'] ?? []),
       fcm: data?['FCM'] ?? '',
     );

@@ -73,7 +73,7 @@ class CarCard extends StatelessWidget {
                                 ),
                               ),
                               Hero(
-                                tag: car.logo,
+                                tag: car.geoPoint,
                                 child: CachedNetworkImage(
                                   imageUrl: car.logo,
                                   width: 50,

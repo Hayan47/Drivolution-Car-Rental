@@ -35,7 +35,7 @@ class ProfileLoading extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
               //! SizedBox

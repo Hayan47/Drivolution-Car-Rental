@@ -38,23 +38,27 @@ class UserServices {
 
     //! finaly sign in
     UserCredential cred = await auth.signInWithCredential(credential);
-    //! add fcm token
-    addFCMToken(cred.user!.uid);
 
     //! add google details
-    if (cred.user!.metadata.creationTime ==
-        cred.user!.metadata.lastSignInTime) {
+    DateTime c = cred.user!.metadata.creationTime!;
+    DateTime l = cred.user!.metadata.lastSignInTime!;
+    if (c.year == l.year && c.month == l.month && c.day == l.day) {
+      print(true);
       addGoogleDetails(
         firstName: firstName,
         lastName: lastName,
         email: googleSignInAccount.email,
         id: cred.user!.uid,
       );
+      //! add img
+      if (googleSignInAccount.photoUrl != null) {
+        addImage(googleSignInAccount.photoUrl!, cred.user!.uid);
+      }
+    } else {
+      print(false);
     }
-    //! add img
-    if (googleSignInAccount.photoUrl != null) {
-      addImage(googleSignInAccount.photoUrl!, cred.user!.uid);
-    }
+    //! add fcm token
+    addFCMToken(cred.user!.uid);
 
     return cred;
   }
@@ -120,7 +124,7 @@ class UserServices {
     required String email,
     required String id,
   }) async {
-    await store.collection('users').doc(id).update({
+    await store.collection('users').doc(id).set({
       'first name': firstName,
       'last name': lastName,
       'email': email,
@@ -138,10 +142,20 @@ class UserServices {
   //? get user info
   Future<Usr?> getUserInfo(String userID) async {
     var data = store.collection('users').doc(userID).withConverter(
-        fromFirestore: Usr.fromFirestore,
-        toFirestore: (usr, options) => usr.toFirestore());
+          fromFirestore: Usr.fromFirestore,
+          toFirestore: (usr, options) => usr.toFirestore(),
+        );
     final snapshot = await data.get();
     final usr = snapshot.data();
+    // print(usr);
+    // Usr usr = Usr(
+    //   userid: '0',
+    //   firstName: 'firstName',
+    //   lastName: 'lastName',
+    //   email: 'email',
+    //   phoneNumber: 'phoneNumber',
+    //   favoriteCars: [],
+    // );
     return usr;
   }
 
