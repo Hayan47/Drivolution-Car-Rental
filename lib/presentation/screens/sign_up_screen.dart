@@ -4,6 +4,7 @@ import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import '../widgets/dropdown.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -47,19 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            // if (state is UserLoading) {
-            //   showDialog(
-            //     context: context,
-            //     barrierDismissible: false,
-            //     builder: (context) => const Center(
-            //       child: CircularProgressIndicator(
-            //         color: Colors.black,
-            //       ),
-            //     ),
-            //   );
-            // } else
             if (state is UserError) {
-              // Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 MySnackBar(
                   icon:
@@ -536,72 +525,90 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                       const SizedBox(height: 15),
                                       //!Signup Button
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 40),
-                                            child: TextButton(
-                                              onPressed: () async {
-                                                final isValid = formKey
-                                                    .currentState!
-                                                    .validate();
-                                                if (!isValid) return;
+                                      state is UserLoading
+                                          ? Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  width: 70,
+                                                  height: 40,
+                                                  child: Lottie.asset(
+                                                      'assets/lottie/SplashyLoader.json'),
+                                                ),
+                                              ],
+                                            )
+                                          : Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 40),
+                                                  child: TextButton(
+                                                    onPressed: () async {
+                                                      final isValid = formKey
+                                                          .currentState!
+                                                          .validate();
+                                                      if (!isValid) return;
 
-                                                context
-                                                    .read<UserBloc>()
-                                                    .add(SignUp(
-                                                      email: _emailcontroller
-                                                          .text
-                                                          .trim(),
-                                                      password:
-                                                          _passwordcontroller
-                                                              .text
-                                                              .trim(),
-                                                      firstName:
-                                                          _firstnamecontroller
-                                                              .text
-                                                              .trim(),
-                                                      lastName:
-                                                          _lastnamecontroller
-                                                              .text
-                                                              .trim(),
-                                                      phoneNumber:
-                                                          _phonecontroller.text
-                                                              .trim(),
-                                                      age: dropDownValue,
-                                                    ));
-                                              },
-                                              style: ButtonStyle(
-                                                  shape:
-                                                      MaterialStateProperty.all(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10))),
-                                                  fixedSize:
-                                                      MaterialStateProperty.all(
-                                                          const Size(70, 40)),
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          MyColors.myred2)),
-                                              child: Text(
-                                                'Sign Up',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                      color: MyColors.mywhite,
-                                                      fontSize: 12,
+                                                      context
+                                                          .read<UserBloc>()
+                                                          .add(SignUp(
+                                                            email:
+                                                                _emailcontroller
+                                                                    .text
+                                                                    .trim(),
+                                                            password:
+                                                                _passwordcontroller
+                                                                    .text
+                                                                    .trim(),
+                                                            firstName:
+                                                                _firstnamecontroller
+                                                                    .text
+                                                                    .trim(),
+                                                            lastName:
+                                                                _lastnamecontroller
+                                                                    .text
+                                                                    .trim(),
+                                                            phoneNumber:
+                                                                _phonecontroller
+                                                                    .text
+                                                                    .trim(),
+                                                            age: dropDownValue,
+                                                          ));
+                                                    },
+                                                    style: ButtonStyle(
+                                                        shape: MaterialStateProperty.all(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10))),
+                                                        fixedSize:
+                                                            MaterialStateProperty.all(
+                                                                const Size(
+                                                                    70, 40)),
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(MyColors
+                                                                    .myred2)),
+                                                    child: Text(
+                                                      'Sign Up',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                            color: MyColors
+                                                                .mywhite,
+                                                            fontSize: 12,
+                                                          ),
                                                     ),
-                                              ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
                                     ],
                                   ),
                                   //!Last Message

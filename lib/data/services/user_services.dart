@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/data/services/notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/usr_model.dart';
 
 class UserServices {
   final auth = FirebaseAuth.instance;
-  final _store = FirebaseFirestore.instance;
+  final store = FirebaseFirestore.instance;
   final _googleSignin = GoogleSignIn();
 
   //? sign in
   Future<UserCredential> signIn(String email, String password) async {
     final cred =
         await auth.signInWithEmailAndPassword(email: email, password: password);
+    addFCMToken(cred.user!.uid);
     return cred;
   }
 
@@ -36,6 +38,8 @@ class UserServices {
 
     //! finaly sign in
     UserCredential cred = await auth.signInWithCredential(credential);
+    //! add fcm token
+    addFCMToken(cred.user!.uid);
 
     //! add google details
     if (cred.user!.metadata.creationTime ==
@@ -56,13 +60,14 @@ class UserServices {
   }
 
   signOut() {
+    removeFCMToken();
     auth.signOut();
     _googleSignin.signOut();
   }
 
   //? add phone number
   Future addPhoneNumber(String phoneNumber, String userID) async {
-    await _store.collection('users').doc(userID).update({
+    await store.collection('users').doc(userID).update({
       'phoneNumber': phoneNumber,
     });
   }
@@ -73,6 +78,9 @@ class UserServices {
     //! create user
     UserCredential cred = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
+    //! add fcm token
+    addFCMToken(cred.user!.uid);
+
     //! add user details
     addUserDetails(
       firstName: firstName,
@@ -95,7 +103,7 @@ class UserServices {
     int? age,
     required String id,
   }) async {
-    await _store.collection('users').doc(id).set({
+    await store.collection('users').doc(id).set({
       'first name': firstName,
       'last name': lastName,
       'age': age,
@@ -112,7 +120,7 @@ class UserServices {
     required String email,
     required String id,
   }) async {
-    await _store.collection('users').doc(id).update({
+    await store.collection('users').doc(id).update({
       'first name': firstName,
       'last name': lastName,
       'email': email,
@@ -122,14 +130,14 @@ class UserServices {
 
   //? add img
   Future addImage(String url, String id) async {
-    await _store.collection('users').doc(id).update({
+    await store.collection('users').doc(id).update({
       'image': url,
     });
   }
 
   //? get user info
   Future<Usr?> getUserInfo(String userID) async {
-    var data = _store.collection('users').doc(userID).withConverter(
+    var data = store.collection('users').doc(userID).withConverter(
         fromFirestore: Usr.fromFirestore,
         toFirestore: (usr, options) => usr.toFirestore());
     final snapshot = await data.get();
@@ -144,14 +152,14 @@ class UserServices {
 
   //? add to favorite
   Future addToFavorite(String carid, String userid) async {
-    await _store.collection('users').doc(userid).update({
+    await store.collection('users').doc(userid).update({
       'favoriteCars': FieldValue.arrayUnion([carid])
     });
   }
 
   //? remove from favorite
   Future removeFromFavorite(String carid, String userid) async {
-    await _store.collection('users').doc(userid).update({
+    await store.collection('users').doc(userid).update({
       'favoriteCars': FieldValue.arrayRemove([carid])
     });
   }
@@ -159,7 +167,7 @@ class UserServices {
   //?get favorite cars
   Future<List<Car>> getFavoriteCars(List<String> favoriteCarsIds) async {
     List<Car> favoriteCars = [];
-    var snapshot = await _store
+    var snapshot = await store
         .collection('cars')
         .where(FieldPath.documentId, whereIn: favoriteCarsIds)
         .withConverter<Car>(
@@ -178,7 +186,7 @@ class UserServices {
   //?get user cars
   Future<List<Car>> getUserCars(String userID) async {
     List<Car> userCars = [];
-    var snapshot = await _store
+    var snapshot = await store
         .collection('cars')
         .where('ownerid', isEqualTo: userID)
         .withConverter<Car>(
@@ -192,5 +200,20 @@ class UserServices {
       userCars.add(car);
     }
     return userCars;
+  }
+
+  Future<void> addFCMToken(String uid) async {
+    final fCMToken = await FirebaseNotifications().firebaseMessaging.getToken();
+    if (fCMToken != null) {
+      store.collection('users').doc(uid).update({
+        'FCM': fCMToken,
+      });
+    }
+  }
+
+  Future<void> removeFCMToken() async {
+    store.collection('users').doc(auth.currentUser?.uid).update({
+      'FCM': '',
+    });
   }
 }

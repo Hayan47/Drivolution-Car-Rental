@@ -28,6 +28,17 @@ class ProfileScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
+                  AppBar(
+                    title: Row(
+                      children: [
+                        SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                        Image.asset(
+                          'assets/img/logo/drivolution.png',
+                          width: MediaQuery.sizeOf(context).width / 2,
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * 0.4,
                     child: Lottie.asset('assets/lottie/register.zip'),
@@ -56,60 +67,5 @@ class ProfileScreen extends StatelessWidget {
         }
       },
     );
-    // Column(
-    //   children: [
-    //     StreamBuilder<User?>(
-    //       stream: FirebaseAuth.instance.authStateChanges(),
-    //       builder: (context, snapshot) {
-    //         if (snapshot.connectionState == ConnectionState.waiting) {
-    //           return const Center(
-    //               child: CircularProgressIndicator(
-    //             color: MyColors.mywhite,
-    //           ));
-    //         } else if (snapshot.hasError) {
-    //           return const Center(child: Text('Something went wrong'));
-    //         } else if (snapshot.hasData) {
-    //           return const ProfileDetailsScreen();
-    //           // Navigator.pushNamed(context, profiledetailsscreen);
-    //           // return Container(); // or any other widget
-    //         } else {
-    //           return Expanded(
-    //             child: Column(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               children: [
-    //                 Column(
-    //                   children: [
-    //                     SizedBox(
-    //                       height: MediaQuery.sizeOf(context).height * 0.4,
-    //                       child: Lottie.asset('assets/lottie/register.zip'),
-    //                     ),
-    //                     Text(
-    //                       'Make Your Account Now!',
-    //                       style:
-    //                           Theme.of(context).textTheme.bodySmall!.copyWith(
-    //                                 color: MyColors.myBlue,
-    //                                 fontSize: 26,
-    //                               ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 Padding(
-    //                   padding: const EdgeInsets.only(bottom: 100),
-    //                   child: FloatingActionButton.extended(
-    //                     onPressed: () {
-    //                       Navigator.pushNamed(context, 'loginscreen');
-    //                     },
-    //                     backgroundColor: MyColors.myBlue,
-    //                     label: const Text("log in"),
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           );
-    //         }
-    //       },
-    //     ),
-    //   ],
-    // );
   }
 }

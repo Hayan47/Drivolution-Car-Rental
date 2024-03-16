@@ -44,7 +44,10 @@ class ProfileDetailsScreen extends StatelessWidget {
                                     .bodySmall!
                                     .copyWith(
                                       color: MyColors.mywhite,
-                                      fontSize: 18,
+                                      fontSize: 0.4 *
+                                          MediaQuery.sizeOf(context).height *
+                                          0.32 *
+                                          0.15,
                                     ),
                               ),
                             ),
@@ -83,7 +86,11 @@ class ProfileDetailsScreen extends StatelessWidget {
                                                 .bodySmall!
                                                 .copyWith(
                                                   color: MyColors.mywhite,
-                                                  fontSize: 10,
+                                                  fontSize: 0.3 *
+                                                      MediaQuery.sizeOf(context)
+                                                          .height *
+                                                      0.32 *
+                                                      0.15,
                                                 ),
                                           ),
                                         )
@@ -274,139 +281,3 @@ class ProfileDetailsScreen extends StatelessWidget {
     );
   }
 }
-
-//?add reserved cars to reserserved cars list
-//                               for (var reservation in myReservations) {
-//                                 if (car.id == reservation.carId) {
-//                                   if (!reservedCars.contains(car)) {
-//                                     reservedCars.add(car);
-//                                   }
-//                                 }
-//                               }
-//                             }
-//                           }
-//                           return myCars.isEmpty
-//                               ? Container()
-//                               : Column(
-//                                   children: [
-//                                     Stack(
-//                                       children: [
-//                                         SizedBox(
-//                                           height: 240,
-//                                           child: PageView(
-//                                             controller: _controller,
-//                                             children: List.generate(
-//                                                 myCars.length,
-//                                                 (index) => CarCard(
-//                                                     car: myCars[index])),
-//                                           ),
-//                                         ),
-//                                         Align(
-//                                           alignment: Alignment.center,
-//                                           child: Padding(
-//                                             padding:
-//                                                 const EdgeInsets.only(top: 230),
-//                                             child: SmoothPageIndicator(
-//                                               effect: const ExpandingDotsEffect(
-//                                                 activeDotColor: MyColors.myred2,
-//                                                 dotColor: Colors.white,
-//                                                 dotHeight: 5,
-//                                                 dotWidth: 5,
-//                                               ),
-//                                               count: myCars.length,
-//                                               controller: _controller,
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                     const SizedBox(height: 15),
-//                                     //!second text
-//                                     Center(
-//                                       child: Text(
-//                                         'Your Reservations',
-//                                         style: Theme.of(context)
-//                                             .textTheme
-//                                             .bodySmall!
-//                                             .copyWith(
-//                                               color: MyColors.mywhite,
-//                                               fontSize: 28,
-//                                             ),
-//                                       ),
-//                                     ),
-//                                     const SizedBox(height: 15),
-//                                     //!user Reservations
-//                                     reservedCars.isEmpty
-//                                         ? Container()
-//                                         : Column(
-//                                             children: [
-//                                               Stack(
-//                                                 children: [
-//                                                   Align(
-//                                                     alignment: Alignment.center,
-//                                                     child: SizedBox(
-//                                                       height: 150,
-//                                                       width: MediaQuery.sizeOf(
-//                                                                   context)
-//                                                               .width *
-//                                                           0.7,
-//                                                       child: PageView(
-//                                                         controller:
-//                                                             _controller2,
-//                                                         children: List.generate(
-//                                                             reservedCars.length,
-//                                                             (index) {
-//                                                           List<Reservation>
-//                                                               carReservations =
-//                                                               [];
-//                                                           for (var reservation
-//                                                               in myReservations) {
-//                                                             if (reservation
-//                                                                     .carId ==
-//                                                                 reservedCars[
-//                                                                         index]
-//                                                                     .id) {
-//                                                               carReservations.add(
-//                                                                   reservation);
-//                                                             }
-//                                                           }
-//                                                           return ReservationCard(
-//                                                             car: reservedCars[
-//                                                                 index],
-//                                                             carReservations:
-//                                                                 carReservations,
-//                                                           );
-//                                                         }),
-//                                                       ),
-//                                                     ),
-//                                                   ),
-//                                                   Align(
-//                                                     alignment: Alignment.center,
-//                                                     child: Padding(
-//                                                       padding:
-//                                                           const EdgeInsets.only(
-//                                                               top: 150),
-//                                                       child:
-//                                                           SmoothPageIndicator(
-//                                                         effect:
-//                                                             const ExpandingDotsEffect(
-//                                                           activeDotColor:
-//                                                               MyColors.myred2,
-//                                                           dotColor:
-//                                                               Colors.white,
-//                                                           dotHeight: 5,
-//                                                           dotWidth: 5,
-//                                                         ),
-//                                                         count:
-//                                                             reservedCars.length,
-//                                                         controller:
-//                                                             _controller2,
-//                                                       ),
-//                                                     ),
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ],
-//                                           ),
-//                                   ],
-//                                 );

@@ -9,6 +9,7 @@ import 'package:drivolution/presentation/widgets/confirm_reservation_card.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
 import 'package:readmore/readmore.dart';
 import '../../data/models/car_model.dart';
 import 'owner_card.dart';
@@ -126,7 +127,7 @@ class _CarDetailsState extends State<CarDetails> {
                   onTap: () => Navigator.pushNamed(context, 'mapscreen',
                       arguments: widget.car),
                   child: const Icon(
-                    Icons.location_on_outlined,
+                    IconlyBroken.location,
                     color: MyColors.myBlue,
                   ),
                 ),
@@ -232,7 +233,7 @@ class _CarDetailsState extends State<CarDetails> {
             ////////////////////? CAR INFO
             //!1 seats
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -872,16 +873,15 @@ class _CarDetailsState extends State<CarDetails> {
                                       'delete car',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium!
+                                          .bodySmall!
                                           .copyWith(
                                             color: MyColors.mywhite,
                                             fontSize: 20,
                                           ),
                                     ),
-                                    Image.asset(
-                                      'assets/icons/delete.png',
-                                      width: 25,
-                                      height: 25,
+                                    const Icon(
+                                      IconlyBold.delete,
+                                      color: MyColors.myBlue,
                                     )
                                   ],
                                 ),

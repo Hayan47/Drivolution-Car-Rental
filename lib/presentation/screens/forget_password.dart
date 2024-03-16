@@ -4,6 +4,7 @@ import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   final _forgotpasswordcontroller = TextEditingController();
@@ -27,19 +28,7 @@ class ForgetPasswordScreen extends StatelessWidget {
         ),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            // if (state is UserLoading) {
-            //   showDialog(
-            //     context: context,
-            //     barrierDismissible: false,
-            //     builder: (context) => const Center(
-            //       child: CircularProgressIndicator(
-            //         color: Colors.black,
-            //       ),
-            //     ),
-            //   );
-            // } else
             if (state is UserError) {
-              // Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 MySnackBar(
                   icon:
@@ -140,53 +129,69 @@ class ForgetPasswordScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 25),
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          final isValid =
-                                              formKey3.currentState!.validate();
-                                          if (!isValid) return;
-                                          context.read<UserBloc>().add(
-                                                ResetPassword(
-                                                  email:
-                                                      _forgotpasswordcontroller
-                                                          .text
-                                                          .trim(),
-                                                ),
-                                              );
-                                        },
-                                        child: Container(
-                                          width: 140,
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: MyColors.myred2,
-                                            ),
+                                state is UserLoading
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          SizedBox(
+                                            width: 70,
+                                            height: 40,
+                                            child: Lottie.asset(
+                                                'assets/lottie/SplashyLoader.json'),
                                           ),
-                                          child: Center(
-                                            child: Text(
-                                              'Reset Password',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
+                                        ],
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 25),
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                final isValid = formKey3
+                                                    .currentState!
+                                                    .validate();
+                                                if (!isValid) return;
+                                                context.read<UserBloc>().add(
+                                                      ResetPassword(
+                                                        email:
+                                                            _forgotpasswordcontroller
+                                                                .text
+                                                                .trim(),
+                                                      ),
+                                                    );
+                                              },
+                                              child: Container(
+                                                width: 140,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
                                                     color: MyColors.myred2,
-                                                    fontSize: 14,
                                                   ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Reset Password',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                          color:
+                                                              MyColors.myred2,
+                                                          fontSize: 14,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                                        ],
+                                      )
                               ],
                             ),
                           ),

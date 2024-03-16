@@ -21,6 +21,7 @@ class Reservation {
   ) {
     final data = snapshot.data();
     return Reservation(
+      id: snapshot.reference.id,
       carId: data?['carid'],
       customerId: data?['customerid'],
       startDate: (data?['startDate'] as Timestamp).toDate(),

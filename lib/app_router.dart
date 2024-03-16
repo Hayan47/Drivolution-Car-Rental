@@ -3,6 +3,7 @@ import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/data/models/car_model.dart';
+import 'package:drivolution/logic/check_cubit/check_cubit.dart';
 import 'package:drivolution/logic/doors_bloc/doors_bloc.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
 import 'package:drivolution/logic/features_bloc/features_bloc.dart';
@@ -47,6 +48,7 @@ class AppRouter {
   late AlbumBloc albumBloc;
   late UploadBloc uploadBloc;
   late AuthCubit authCubit;
+  late CheckCubit checkCubit;
 
   AppRouter() {
     carsBloc = CarsBloc();
@@ -64,6 +66,7 @@ class AppRouter {
     albumBloc = AlbumBloc();
     uploadBloc = UploadBloc();
     authCubit = AuthCubit(userServices: UserServices());
+    checkCubit = CheckCubit();
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -151,6 +154,7 @@ class AppRouter {
               BlocProvider.value(value: locationBloc),
               BlocProvider.value(value: albumBloc),
               BlocProvider.value(value: uploadBloc),
+              BlocProvider.value(value: checkCubit),
             ],
             child: AddCarScreen(),
           ),

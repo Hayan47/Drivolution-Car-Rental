@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:iconly/iconly.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -121,8 +122,7 @@ class _MainScreenState extends State<MainScreen> {
               padding: const EdgeInsets.all(15),
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(
-                      0xff1E1E24), //const Color.fromARGB(255, 36, 114, 121),
+                  color: const Color(0xff1E1E24),
                   borderRadius: BorderRadius.circular(45),
                 ),
                 child: Padding(
@@ -132,27 +132,36 @@ class _MainScreenState extends State<MainScreen> {
                     gap: 9,
                     haptic: false,
                     iconSize: 20,
-                    padding: const EdgeInsets.all(13),
-                    backgroundColor: MyColors.myGrey, color: MyColors.mywhite,
+                    padding: EdgeInsets.symmetric(vertical: 11, horizontal: 8),
+                    backgroundColor: MyColors.myGrey,
+                    color: MyColors.mywhite,
                     activeColor: MyColors.mywhite,
-                    // tabBackgroundGradient: LinearGradient(
-                    //   colors: [
-                    //     // MyColors.myBlue2.withOpacity(0.87),
-                    //     // MyColors.myBlue2.withOpacity(0.3),
-                    //     // Color(0xfff7444e),
-                    //     // Color(0xff1E1E24),
-                    //   ],
-                    // ),
                     textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: MyColors.mywhite,
                           fontSize: 16,
                         ),
                     tabs: const [
-                      GButton(icon: FontAwesomeIcons.house, text: 'home'),
-                      GButton(icon: FontAwesomeIcons.heart, text: 'favorite'),
+                      GButton(
+                        icon: IconlyLight.home,
+                        text: 'home',
+                        iconSize: 25,
+                      ),
+                      GButton(
+                        icon: IconlyLight.heart,
+                        text: 'favorite',
+                        iconSize: 25,
+                      ),
                       GButton(icon: FontAwesomeIcons.car, text: 'add car'),
-                      GButton(icon: FontAwesomeIcons.gear, text: 'settings'),
-                      GButton(icon: FontAwesomeIcons.user, text: 'profile'),
+                      GButton(
+                        icon: IconlyLight.setting,
+                        text: 'settings',
+                        iconSize: 25,
+                      ),
+                      GButton(
+                        icon: IconlyLight.profile,
+                        text: 'profile',
+                        iconSize: 25,
+                      ),
                     ],
                     onTabChange: navigateBottomNavBar,
                     curve: Curves.fastOutSlowIn,

@@ -5,6 +5,7 @@ import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
+import 'package:drivolution/logic/check_cubit/check_cubit.dart';
 import 'package:drivolution/logic/doors_bloc/doors_bloc.dart';
 import 'package:drivolution/logic/features_bloc/features_bloc.dart';
 import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
 import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -222,43 +224,80 @@ class AddCar4 extends StatelessWidget {
                           ],
                         );
                       } else {
-                        return TextButton(
-                          onPressed: () {
-                            final formBloc =
-                                BlocProvider.of<AllFieldsFormBloc>(context);
-                            String id = FirebaseAuth.instance.currentUser!.uid;
-                            List<Uint8List> images =
-                                (BlocProvider.of<AlbumBloc>(context).state
-                                        as AlbumChanged)
-                                    .images;
-                            images.insert(
-                                0,
-                                (BlocProvider.of<ImageBloc>(context).state
-                                        as ImageChanged)
-                                    .image);
-                            //? UPLOAD
-                            context.read<UploadBloc>().add(
-                                  UploadImagesEvent(
-                                    images: images,
-                                    path:
-                                        'cars/$id/${formBloc.carName.value}/${formBloc.carName.value}',
-                                  ),
-                                );
-                          },
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(MyColors.myred),
-                          ),
-                          child: Text(
-                            'Submit',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: MyColors.mywhite,
-                                  fontSize: 18,
+                        return BlocConsumer<CheckCubit, CheckState>(
+                          listener: (context, checkState) {
+                            if (checkState is NotValid) {
+                              showToastMessage(
+                                context,
+                                checkState.message,
+                                const Icon(
+                                  Icons.error,
+                                  color: MyColors.myred,
                                 ),
-                          ),
+                              );
+                            }
+                          },
+                          builder: (context, checkState) {
+                            return TextButton(
+                              onPressed: () {
+                                final formBloc =
+                                    BlocProvider.of<AllFieldsFormBloc>(context);
+
+                                context.read<CheckCubit>().checkThenGo(
+                                    logoState:
+                                        BlocProvider.of<LogoBloc>(context)
+                                            .state,
+                                    imageState:
+                                        BlocProvider.of<ImageBloc>(context)
+                                            .state,
+                                    allFieldsFormBloc: formBloc,
+                                    featuresState:
+                                        BlocProvider.of<FeaturesBloc>(context)
+                                            .state,
+                                    locationState:
+                                        BlocProvider.of<LocationBloc>(context)
+                                            .state,
+                                    albumState:
+                                        BlocProvider.of<AlbumBloc>(context)
+                                            .state);
+                                //? UPLOAD
+                                if (checkState is Valid) {
+                                  String id =
+                                      FirebaseAuth.instance.currentUser!.uid;
+                                  List<Uint8List> images =
+                                      (BlocProvider.of<AlbumBloc>(context).state
+                                              as AlbumChanged)
+                                          .images;
+                                  images.insert(
+                                      0,
+                                      (BlocProvider.of<ImageBloc>(context).state
+                                              as ImageChanged)
+                                          .image);
+                                  context.read<UploadBloc>().add(
+                                        UploadImagesEvent(
+                                          images: images,
+                                          path:
+                                              'cars/$id/${formBloc.carName.value}/${formBloc.carName.value}',
+                                        ),
+                                      );
+                                }
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(MyColors.myred),
+                              ),
+                              child: Text(
+                                'Submit',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 18,
+                                    ),
+                              ),
+                            );
+                          },
                         );
                       }
                     },

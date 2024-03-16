@@ -66,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         width: MediaQuery.sizeOf(context).width * 0.2,
                         height: MediaQuery.sizeOf(context).width * 0.2,
                         child: Lottie.asset(
-                          'assets/lottie/4.zip',
+                          'assets/lottie/welcome_car.zip',
                         ),
                       ),
                     ),

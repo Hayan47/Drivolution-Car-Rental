@@ -3,6 +3,7 @@ import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import '../../../constants/my_colors.dart';
 
@@ -22,19 +23,19 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: Container(
                       height: 45,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          MyColors.myBlue2.withOpacity(0.1),
-                          MyColors.myred2.withOpacity(0.2),
-                          MyColors.myred2.withOpacity(0.4),
-                          MyColors.myred2.withOpacity(0.6),
-                          MyColors.myred2.withOpacity(0.6),
-                          MyColors.myred2.withOpacity(0.4),
-                          MyColors.myred2.withOpacity(0.2),
-                          MyColors.myBlue2.withOpacity(0.1),
-                        ]),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      // decoration: BoxDecoration(
+                      // gradient: LinearGradient(colors: [
+                      // MyColors.myBlue2.withOpacity(0.1),
+                      // MyColors.myred2.withOpacity(0.2),
+                      // MyColors.myred2.withOpacity(0.4),
+                      // MyColors.myred2.withOpacity(0.6),
+                      // MyColors.myred2.withOpacity(0.6),
+                      // MyColors.myred2.withOpacity(0.4),
+                      // MyColors.myred2.withOpacity(0.2),
+                      // MyColors.myBlue2.withOpacity(0.1),
+                      // ]),
+                      // borderRadius: BorderRadius.circular(4),
+                      // ),
                       child: SingleChildScrollView(
                         child: TextField(
                           autofocus: true,
@@ -45,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                           maxLines: null,
                           textAlign: TextAlign.center,
                           style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: MyColors.mywhite,
                                     fontSize: 18,
                                   ),
@@ -53,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             //!hint
-                            hintText: 'find a car',
+                            hintText: 'saerch..',
                             //!hint style
                             hintStyle: Theme.of(context)
                                 .textTheme
@@ -83,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                         icon: const Icon(
                           Icons.clear,
                           size: 32,
-                          color: MyColors.myred2,
+                          color: MyColors.mywhite,
                         ),
                       ),
                     )
@@ -101,17 +102,15 @@ class HomeScreen extends StatelessWidget {
                   ),
                   actions: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 15, top: 5),
+                      padding: const EdgeInsets.only(right: 20, top: 5),
                       child: GestureDetector(
                         onTap: () {
                           context.read<CarsBloc>().add(
                               SearchForCarEvent(text: _searchController.text));
                         },
-                        child: Image.asset(
-                          'assets/icons/search.png',
-                          width: 35,
-                          height: 35,
-                          color: MyColors.mywhite,
+                        child: const Icon(
+                          IconlyBroken.search,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -121,54 +120,68 @@ class HomeScreen extends StatelessWidget {
             children: [
               BlocBuilder<CarsBloc, CarsState>(
                 builder: (context, state) {
-                  // if (state is CarsError) {
-                  // return Column(
-                  //   children: [
-                  //     Image.asset('assets/lottie/refresh.png'),
-                  //     Text(
-                  //       'Error Fetching Cars, Tap to Retry',
-                  //       style:
-                  //           Theme.of(context).textTheme.bodySmall!.copyWith(
-                  //                 color: MyColors.myBlue,
-                  //                 fontSize: 22,
-                  //                 fontWeight: FontWeight.normal,
-                  //               ),
-                  //     ),
-                  //   ],
-                  // );
-                  // } else
                   if (state is CarsLoading) {
                     return const AllCarsLoading();
                   } else if (state is CarsLoaded) {
-                    return Expanded(
-                      child: LiquidPullToRefresh(
-                        onRefresh: () async {
-                          //?get cars
-                          await Future.delayed(const Duration(seconds: 1));
-                          context.read<CarsBloc>().add(GetAllCarsEvent());
-                        },
-                        animSpeedFactor: 1,
-                        springAnimationDurationInMilliseconds: 100,
-                        showChildOpacityTransition: false,
-                        height: 200,
-                        color: Colors.transparent,
-                        backgroundColor: MyColors.mywhite,
-                        child: ListView.builder(
-                          itemCount: state.cars.length,
-                          itemBuilder: (context, index) {
-                            if (index == state.cars.length - 1) {
-                              //? Return the last item with some padding
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 65),
-                                child: CarCard(car: state.cars[index]),
-                              );
-                            } else {
-                              return CarCard(car: state.cars[index]);
-                            }
+                    if (state.cars.isEmpty) {
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            //?get cars
+                            context.read<CarsBloc>().add(GetAllCarsEvent());
                           },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.sizeOf(context).height * 0.2),
+                            child: Column(
+                              children: [
+                                Image.asset('assets/lottie/refresh.png'),
+                                Text(
+                                  'Error Fetching Cars, Tap to Retry',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: MyColors.myBlue,
+                                        fontSize: 20,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      return Expanded(
+                        child: LiquidPullToRefresh(
+                          onRefresh: () async {
+                            //?get cars
+                            await Future.delayed(const Duration(seconds: 1));
+                            context.read<CarsBloc>().add(GetAllCarsEvent());
+                          },
+                          animSpeedFactor: 1,
+                          springAnimationDurationInMilliseconds: 100,
+                          showChildOpacityTransition: false,
+                          height: 200,
+                          color: Colors.transparent,
+                          backgroundColor: MyColors.mywhite,
+                          child: ListView.builder(
+                            itemCount: state.cars.length,
+                            itemBuilder: (context, index) {
+                              if (index == state.cars.length - 1) {
+                                //? Return the last item with some padding
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 65),
+                                  child: CarCard(car: state.cars[index]),
+                                );
+                              } else {
+                                return CarCard(car: state.cars[index]);
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    }
                   } else if (state is CarSearching) {
                     return Expanded(
                       child: ListView.builder(
