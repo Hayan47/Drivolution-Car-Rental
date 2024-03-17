@@ -1,6 +1,5 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';

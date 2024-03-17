@@ -64,6 +64,7 @@ dependencies:
   image: ^4.0.17
   image_picker: ^0.8.9
   image_to_byte: ^1.0.0
+  intl: ^0.18.1
   liquid_pull_to_refresh: ^3.0.1
   lottie: ^2.4.0
   numberpicker: ^2.1.2
@@ -81,7 +82,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
 
 flutter_icons:
   android: true

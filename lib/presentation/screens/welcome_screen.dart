@@ -2,6 +2,7 @@ import 'package:drivolution/constants/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconly/iconly.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -28,7 +29,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
               children: [
@@ -74,42 +75,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ],
             ),
-            Container(
-              width: MediaQuery.sizeOf(context).width / 2,
-              child: Stack(
-                children: [
-                  Positioned(
-                    // right: 25,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'continue',
-                        style: GoogleFonts.amiri(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: MyColors.mywhite,
-                        ),
+            TextButton(
+              onPressed: () async {
+                setState(() {
+                  _toggle = true;
+                });
+                // await CarServices().getAllCars();
+                await Future.delayed(const Duration(seconds: 1));
+                Navigator.pushReplacementNamed(context, 'mainscreen');
+              },
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(MyColors.myred4),
+                  maximumSize: MaterialStateProperty.all(const Size(165, 45))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'continue',
+                      style: GoogleFonts.karla(
+                        color: MyColors.mywhite,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 78,
-                    child: GestureDetector(
-                      onTap: () async {
-                        setState(() {
-                          _toggle = true;
-                        });
-                        // await CarServices().getAllCars();
-                        await Future.delayed(const Duration(seconds: 1));
-                        Navigator.pushReplacementNamed(context, 'mainscreen');
-                      },
-                      child: Image.asset(
-                        'assets/icons/arrow_right2.png',
-                        // scale: 0.7,
-                      ),
+                    const Icon(
+                      IconlyLight.arrow_right,
+                      color: MyColors.mywhite,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

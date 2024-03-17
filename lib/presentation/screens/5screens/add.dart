@@ -1,6 +1,5 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
-import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';

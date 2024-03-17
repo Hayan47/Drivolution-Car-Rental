@@ -2,12 +2,13 @@ import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
+import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/screens/5screens/add.dart';
 import 'package:drivolution/presentation/screens/5screens/fav.dart';
 import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
-import 'package:drivolution/presentation/screens/5screens/settings.dart';
+import 'package:drivolution/presentation/screens/5screens/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     const FavoriteScreen(),
     const AddScreen(),
-    const SettingsScreen(),
+    const NotificationsScreen(),
     const ProfileScreen(),
   ];
   bool isFirstPage = true;
@@ -50,6 +51,9 @@ class _MainScreenState extends State<MainScreen> {
     final state = BlocProvider.of<AuthCubit>(context).state;
     if (state is Authenticated) {
       context.read<UserBloc>().add(GetUserInfo(userID: state.user.uid));
+      context
+          .read<NotificationsBloc>()
+          .add(GetUserNotifications(userID: state.user.uid));
     }
   }
 

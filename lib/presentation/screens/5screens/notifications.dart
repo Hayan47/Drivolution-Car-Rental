@@ -1,29 +1,31 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
-import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
+import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
+import 'package:drivolution/presentation/widgets/notifications_item.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
+import 'package:drivolution/presentation/widgets/shimmer_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:drivolution/presentation/widgets/car_card.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 
-class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({Key? key}) : super(key: key);
+class NotificationsScreen extends StatelessWidget {
+  const NotificationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        if (state is Authenticated) {
-          return BlocBuilder<FavoriteBloc, FavoriteState>(
+      builder: (context, authState) {
+        if (authState is Authenticated) {
+          return BlocBuilder<NotificationsBloc, NotificationsState>(
             builder: (context, state) {
-              if (state is FavoriteCarsLoaded) {
-                if (state.favoriteCars.isEmpty) {
+              if (state is NotificationsLoaded) {
+                if (state.notifications.isEmpty) {
                   return Column(
                     children: [
                       Image.asset('assets/lottie/favorite_cars.png'),
                       Text(
-                        'add cars to your favorite list!',
+                        'You have no notifications',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: MyColors.myBlue,
                               fontSize: 22,
@@ -33,24 +35,40 @@ class FavoriteScreen extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return ListView.builder(
-                    itemCount: state.favoriteCars.length,
-                    itemBuilder: (context, index) {
-                      if (index == state.favoriteCars.length - 1) {
-                        //? Return the last item with some padding
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 65),
-                          child: CarCard(car: state.favoriteCars[index]),
-                        );
-                      } else {
-                        return CarCard(car: state.favoriteCars[index]);
-                      }
+                  return LiquidPullToRefresh(
+                    onRefresh: () async {
+                      //?get notifications
+                      await Future.delayed(const Duration(seconds: 1));
+                      context.read<NotificationsBloc>().add(
+                          GetUserNotifications(userID: authState.user.uid));
                     },
+                    animSpeedFactor: 1,
+                    springAnimationDurationInMilliseconds: 100,
+                    showChildOpacityTransition: false,
+                    height: 200,
+                    color: Colors.transparent,
+                    backgroundColor: MyColors.mywhite,
+                    child: ListView.builder(
+                      itemCount: state.notifications.length,
+                      itemBuilder: (context, index) {
+                        if (index == state.notifications.length - 1) {
+                          //? Return the last item with some padding
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 70),
+                            child: NotificationItem(
+                                notification: state.notifications[index]),
+                          );
+                        } else {
+                          return NotificationItem(
+                              notification: state.notifications[index]);
+                        }
+                      },
+                    ),
                   );
                 }
               } else {
                 return const Column(
-                  children: [AllCarsLoading()],
+                  children: [NotificationLoading()],
                 );
               }
             },
