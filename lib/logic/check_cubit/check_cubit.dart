@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/features_bloc/features_bloc.dart';
 import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
@@ -6,8 +5,7 @@ import 'package:drivolution/logic/image_bloc/image_bloc.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 part 'check_state.dart';
 
 class CheckCubit extends Cubit<CheckState> {

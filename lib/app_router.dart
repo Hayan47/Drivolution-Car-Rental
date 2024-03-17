@@ -12,6 +12,7 @@ import 'package:drivolution/logic/image_bloc/image_bloc.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
+import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
 import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
 import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
@@ -49,6 +50,7 @@ class AppRouter {
   late UploadBloc uploadBloc;
   late AuthCubit authCubit;
   late CheckCubit checkCubit;
+  late NotificationsBloc notificationsBloc;
 
   AppRouter() {
     carsBloc = CarsBloc();
@@ -67,6 +69,7 @@ class AppRouter {
     uploadBloc = UploadBloc();
     authCubit = AuthCubit(userServices: UserServices());
     checkCubit = CheckCubit();
+    notificationsBloc = NotificationsBloc();
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -77,12 +80,11 @@ class AppRouter {
         return PageTransition(
           child: MultiBlocProvider(
             providers: [
-              // BlocProvider.value(value: usrCubit),
               BlocProvider.value(value: userBloc),
               BlocProvider.value(value: carsBloc),
-              // BlocProvider.value(value: favoriteCarsCubit),
               BlocProvider.value(value: favoriteBloc),
               BlocProvider.value(value: authCubit),
+              BlocProvider.value(value: notificationsBloc),
             ],
             child: const MainScreen(),
           ),
@@ -94,9 +96,7 @@ class AppRouter {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(value: carsBloc),
-              // BlocProvider.value(value: resCubit),
               BlocProvider.value(value: reservationBloc),
-              // BlocProvider.value(value: favoriteCarsCubit),
               BlocProvider.value(value: favoriteBloc),
               BlocProvider.value(value: authCubit),
             ],

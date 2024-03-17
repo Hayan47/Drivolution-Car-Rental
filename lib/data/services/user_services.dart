@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/data/services/notifications.dart';
+import 'package:drivolution/data/services/notifications_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/usr_model.dart';
@@ -43,7 +43,6 @@ class UserServices {
     DateTime c = cred.user!.metadata.creationTime!;
     DateTime l = cred.user!.metadata.lastSignInTime!;
     if (c.year == l.year && c.month == l.month && c.day == l.day) {
-      print(true);
       addGoogleDetails(
         firstName: firstName,
         lastName: lastName,
@@ -63,8 +62,8 @@ class UserServices {
     return cred;
   }
 
-  signOut() {
-    removeFCMToken();
+  signOut() async {
+    await removeFCMToken();
     auth.signOut();
     _googleSignin.signOut();
   }
@@ -147,15 +146,6 @@ class UserServices {
         );
     final snapshot = await data.get();
     final usr = snapshot.data();
-    // print(usr);
-    // Usr usr = Usr(
-    //   userid: '0',
-    //   firstName: 'firstName',
-    //   lastName: 'lastName',
-    //   email: 'email',
-    //   phoneNumber: 'phoneNumber',
-    //   favoriteCars: [],
-    // );
     return usr;
   }
 
@@ -216,6 +206,7 @@ class UserServices {
     return userCars;
   }
 
+  //?add user FCM Token
   Future<void> addFCMToken(String uid) async {
     final fCMToken = await FirebaseNotifications().firebaseMessaging.getToken();
     if (fCMToken != null) {
@@ -225,8 +216,9 @@ class UserServices {
     }
   }
 
+  //?remove user FCM Token
   Future<void> removeFCMToken() async {
-    store.collection('users').doc(auth.currentUser?.uid).update({
+    await store.collection('users').doc(auth.currentUser?.uid).update({
       'FCM': '',
     });
   }
