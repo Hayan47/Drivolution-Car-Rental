@@ -23,7 +23,7 @@ class NotificationsScreen extends StatelessWidget {
                 if (state.notifications.isEmpty) {
                   return Column(
                     children: [
-                      Image.asset('assets/lottie/favorite_cars.png'),
+                      Image.asset('assets/lottie/notifications.png'),
                       Text(
                         'You have no notifications',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
