@@ -17,12 +17,18 @@ class ReservationsLoaded extends ReservationState {
 
   const ReservationsLoaded(
       {required this.reservations, required this.disabledDates});
+
+  @override
+  List<Object> get props => [reservations, disabledDates];
 }
 
 class ReservationsError extends ReservationState {
   final String message;
 
   const ReservationsError({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }
 
 class RangePicked extends ReservationState {
@@ -30,4 +36,7 @@ class RangePicked extends ReservationState {
   final int duration;
 
   const RangePicked({required this.selectedRange, required this.duration});
+
+  @override
+  List<Object> get props => [selectedRange, duration];
 }
