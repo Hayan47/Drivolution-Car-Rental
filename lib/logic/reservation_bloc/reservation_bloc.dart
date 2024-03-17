@@ -21,6 +21,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         print(state);
         reservations =
             await reservationsServices.getCarReservations(event.carID);
+        disabledDates = [];
         for (Reservation reservation in reservations) {
           DateTime startDate = reservation.startDate;
           DateTime endDate = reservation.endDate;

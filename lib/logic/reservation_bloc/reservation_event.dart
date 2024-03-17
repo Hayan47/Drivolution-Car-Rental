@@ -11,12 +11,17 @@ class GetCarReservations extends ReservationEvent {
   final String carID;
 
   const GetCarReservations({required this.carID});
+
+  @override
+  List<Object> get props => [carID];
 }
 
 class PickRange extends ReservationEvent {
   final PickerDateRange pickerDateRange;
 
   const PickRange({required this.pickerDateRange});
+  @override
+  List<Object> get props => [pickerDateRange];
 }
 
 class ConfirmRange extends ReservationEvent {}
