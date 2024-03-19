@@ -30,6 +30,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Column(
               children: [
@@ -55,9 +56,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     Animate(
                       target: _toggle ? 1 : 0,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      effects: [
-                        const MoveEffect(
+                      effects: const [
+                        MoveEffect(
                           begin: Offset(0, 0),
                           end: Offset(250, 0),
                           duration: Duration(milliseconds: 1500),
@@ -75,40 +75,89 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ],
             ),
-            TextButton(
-              onPressed: () async {
-                setState(() {
-                  _toggle = true;
-                });
-                // await CarServices().getAllCars();
-                await Future.delayed(const Duration(seconds: 1));
-                Navigator.pushReplacementNamed(context, 'mainscreen');
-              },
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(MyColors.myred4),
-                  maximumSize: MaterialStateProperty.all(const Size(165, 45))),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'continue',
-                      style: GoogleFonts.karla(
-                        color: MyColors.mywhite,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Icon(
-                      IconlyLight.arrow_right,
-                      color: MyColors.mywhite,
-                    ),
-                  ],
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    setState(() {
+                      _toggle = true;
+                    });
+                    await Future.delayed(const Duration(seconds: 1));
+                    Navigator.pushReplacementNamed(context, 'mainscreen');
+                  },
+                  child: _toggle
+                      ? Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/icons/start2.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade800,
+                                blurRadius: 3,
+                                spreadRadius: 2,
+                              )
+                            ],
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/icons/start.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ),
-              ),
+              ],
             ),
+            // Lottie.asset('assets/lottie/continue.json', repeat: false),
+            // TextButton(
+            //   onPressed: () async {
+            //     setState(() {
+            //       _toggle = true;
+            //     });
+            //     // await CarServices().getAllCars();
+            //     await Future.delayed(const Duration(seconds: 1));
+            //     Navigator.pushReplacementNamed(context, 'mainscreen');
+            //   },
+            //   style: ButtonStyle(
+            //       backgroundColor: MaterialStateProperty.all(MyColors.myred4),
+            //       maximumSize: MaterialStateProperty.all(const Size(165, 45))),
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 5),
+            //     child: Row(
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Text(
+            //           'continue',
+            //           style: GoogleFonts.karla(
+            //             color: MyColors.mywhite,
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         const Icon(
+            //           IconlyLight.arrow_right,
+            //           color: MyColors.mywhite,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       )),

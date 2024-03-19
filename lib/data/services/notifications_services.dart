@@ -134,7 +134,8 @@ class FirebaseNotifications {
   //!!!!!! apis
 
   Future<void> sendNotificationToOwner(Reservation res) async {
-    final Car? car = await CarServices().getCarInfo(res.carId);
+    final cars = await CarServices().getCarsInfo([res.carId]);
+    Car car = cars.first;
     final Usr? carOwner = await UserServices().getUserInfo(car!.ownerid);
     final Usr? customer = await UserServices().getUserInfo(res.customerId);
 
@@ -157,6 +158,7 @@ class FirebaseNotifications {
         }
       }
     };
+    print(notificationData);
     final String token = await getAccessToken();
     const url =
         'https://fcm.googleapis.com/v1/projects/drivolution/messages:send';

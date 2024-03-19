@@ -14,7 +14,7 @@ class ReservationsServices {
         )
         .add(res)
         .then((docRef) async {
-      FirebaseNotifications().sendNotificationToOwner(res);
+      await FirebaseNotifications().sendNotificationToOwner(res);
     });
   }
 
@@ -37,7 +37,6 @@ class ReservationsServices {
 
   Future<List<Reservation>> getUserReservations(String userid) async {
     List<Reservation> reservations = [];
-
     var snapshot = await _store
         .collection('reservations')
         .where('customerid', isEqualTo: userid)
@@ -50,6 +49,7 @@ class ReservationsServices {
       var reservation = doc.data();
       reservations.add(reservation);
     }
+    print(reservations);
     return reservations;
   }
 }

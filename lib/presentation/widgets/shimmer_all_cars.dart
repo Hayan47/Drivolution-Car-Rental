@@ -43,7 +43,7 @@ class AllCarsLoading extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(6),
                   width: 125,
-                  height: 25,
+                  height: 35,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),

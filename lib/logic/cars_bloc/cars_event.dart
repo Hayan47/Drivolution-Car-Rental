@@ -29,8 +29,11 @@ class SearchForCarEvent extends CarsEvent {
 
 class CloseSearchForCarEvent extends CarsEvent {}
 
-class GetCarInfo extends CarsEvent {
-  final String carID;
+class GetCarsInfo extends CarsEvent {
+  final List<String> carIDs;
 
-  const GetCarInfo({required this.carID});
+  const GetCarsInfo({required this.carIDs});
+
+  @override
+  List<Object> get props => [carIDs];
 }
