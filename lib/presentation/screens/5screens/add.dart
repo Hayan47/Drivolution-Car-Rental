@@ -1,5 +1,7 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
+import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -65,15 +67,36 @@ class AddScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      child: FloatingActionButton.extended(
-                        onPressed: () {
-                          Navigator.pushNamed(context, 'addcarscreen');
-                        },
-                        backgroundColor: MyColors.myBlue,
-                        label: const Text("Add Car"),
-                      ),
+                    BlocBuilder<UserBloc, UserState>(
+                      builder: (context, userState) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 100),
+                          child: FloatingActionButton.extended(
+                            onPressed: () {
+                              if (userState is UserLoaded) {
+                                if (userState.userInfo.phoneNumber == '') {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackBar(
+                                      icon: const Icon(Icons.error,
+                                          color: MyColors.myred2, size: 18),
+                                      message:
+                                          'You need to add your phone number first',
+                                      margin: 70,
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.pushNamed(context, 'addcarscreen');
+                                }
+                              } else {
+                                context.read<UserBloc>().add(GetUserInfo(
+                                    userID: (state as Authenticated).user.uid));
+                              }
+                            },
+                            backgroundColor: MyColors.myBlue,
+                            label: const Text("Add Car"),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

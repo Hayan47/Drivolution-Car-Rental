@@ -22,14 +22,15 @@ class NotificationsScreen extends StatelessWidget {
               if (state is NotificationsLoaded) {
                 if (state.notifications.isEmpty) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/lottie/notifications.png'),
+                      // Image.asset('assets/lottie/notifications.png'),
+                      const SizedBox(height: 10),
                       Text(
-                        'You have no notifications',
+                        'You have no notifications yet',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: MyColors.myBlue,
-                              fontSize: 22,
-                              fontWeight: FontWeight.normal,
+                              fontSize: 20,
                             ),
                       ),
                     ],

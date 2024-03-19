@@ -60,15 +60,13 @@ class CarsBloc extends Bloc<CarsEvent, CarsState> {
       print(state);
     });
 
-    on<GetCarInfo>((event, emit) async {
+    on<GetCarsInfo>((event, emit) async {
       try {
-        final car = await carServices.getCarInfo(event.carID);
-        if (car != null) {
-          emit(CarLoaded(car));
-        }
+        final cars = await carServices.getCarsInfo(event.carIDs);
+        emit(CarsLoaded(cars));
         print(state);
       } catch (e) {
-        emit(const CarsError('Car Not Found'));
+        emit(const CarsError('Cars Not Found'));
         print(state);
       }
     });

@@ -103,8 +103,19 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
       try {
         userReservations =
             await reservationsServices.getUserReservations(event.userID);
+        disabledDates = [];
+        for (Reservation reservation in userReservations) {
+          DateTime startDate = reservation.startDate;
+          DateTime endDate = reservation.endDate;
+          for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
+            DateTime currentDay = startDate.add(Duration(days: i));
+            disabledDates.add(
+                DateTime(currentDay.year, currentDay.month, currentDay.day));
+          }
+        }
+        print(userReservations);
         emit(ReservationsLoaded(
-            reservations: userReservations, disabledDates: const []));
+            reservations: userReservations, disabledDates: disabledDates));
         print(state);
       } catch (e) {
         emit(const ReservationsError(message: 'Error getting reservations'));

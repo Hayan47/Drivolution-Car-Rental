@@ -626,13 +626,18 @@ class _CarDetailsState extends State<CarDetails> {
                                     fontSize: 18,
                                   ),
                         ),
-                        Text(
-                          widget.car.engine,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                        Flexible(
+                          child: Text(
+                            widget.car.engine,
+                            maxLines: 2,
+                            overflow: TextOverflow.clip,
+                            textAlign: TextAlign.end,
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: MyColors.mywhite,
+                                      fontSize: 18,
+                                    ),
+                          ),
                         )
                       ],
                     ),

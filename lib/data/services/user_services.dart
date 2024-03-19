@@ -42,7 +42,11 @@ class UserServices {
     //! add google details
     DateTime c = cred.user!.metadata.creationTime!;
     DateTime l = cred.user!.metadata.lastSignInTime!;
-    if (c.year == l.year && c.month == l.month && c.day == l.day) {
+    if (c.year == l.year &&
+        c.month == l.month &&
+        c.day == l.day &&
+        c.hour == l.hour &&
+        c.minute == l.minute) {
       addGoogleDetails(
         firstName: firstName,
         lastName: lastName,

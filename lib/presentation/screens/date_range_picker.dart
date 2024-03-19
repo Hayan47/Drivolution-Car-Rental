@@ -4,6 +4,7 @@ import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:drivolution/constants/my_colors.dart';
 
@@ -74,8 +75,8 @@ class DateRangePicker extends StatelessWidget {
                       enablePastDates: false,
                       //!Disabled Days
                       monthViewSettings: DateRangePickerMonthViewSettings(
-                        enableSwipeSelection: false,
                         blackoutDates: state.disabledDates,
+                        enableSwipeSelection: false,
                         showTrailingAndLeadingDates: true,
                         weekendDays: const [5, 6],
                         viewHeaderHeight:
@@ -152,9 +153,10 @@ class DateRangePicker extends StatelessWidget {
               ),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: MyColors.mywhite,
+            return Center(
+              child: SizedBox(
+                width: 150,
+                child: Lottie.asset('assets/lottie/SplashyLoader.json'),
               ),
             );
           }

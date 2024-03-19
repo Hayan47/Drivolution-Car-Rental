@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/presentation/widgets/favorite_icon.dart';
@@ -111,7 +113,7 @@ class CarCard extends StatelessWidget {
             left: 10,
             child: Container(
               padding: const EdgeInsets.all(6),
-              width: 125,
+              // width: 138,
               decoration: BoxDecoration(
                 color: MyColors.myred4,
                 borderRadius: BorderRadius.circular(12),
@@ -135,7 +137,7 @@ class CarCard extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    '${car.rent} \$',
+                    '${car.rent.toString().substring(0, min(4, car.rent.toString().length))} \$',
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: MyColors.mywhite,
                         ),

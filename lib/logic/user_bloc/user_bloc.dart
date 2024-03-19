@@ -94,6 +94,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           print(state);
           usersServices.addPhoneNumber(event.phoneNumber, event.userID);
           emit(UserInitial());
+          add(GetUserInfo(userID: event.userID));
           print(state);
         } catch (e) {
           emit(const UserError('Error Adding Number'));

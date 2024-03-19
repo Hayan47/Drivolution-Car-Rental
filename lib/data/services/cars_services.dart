@@ -53,12 +53,21 @@ class CarServices {
   }
 
   //?get car info
-  Future<Car?> getCarInfo(String carID) async {
-    var data = _store.collection('cars').doc(carID).withConverter(
-        fromFirestore: Car.fromFirestore,
-        toFirestore: (car, options) => car.toFirestore());
-    final snapshot = await data.get();
-    final car = snapshot.data();
-    return car;
+  Future<List<Car>> getCarsInfo(List<String> carIDs) async {
+    List<Car> reservationCars = [];
+    var snapshot = await _store
+        .collection('cars')
+        .where(FieldPath.documentId, whereIn: carIDs)
+        .withConverter<Car>(
+          fromFirestore: Car.fromFirestore,
+          toFirestore: (car, options) => car.toFirestore(),
+        )
+        .get();
+
+    for (var doc in snapshot.docs) {
+      var car = doc.data();
+      reservationCars.add(car);
+    }
+    return reservationCars;
   }
 }
