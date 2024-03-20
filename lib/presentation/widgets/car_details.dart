@@ -430,12 +430,14 @@ class _CarDetailsState extends State<CarDetails> {
                                     ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Divider(
-                            color: MyColors.myBlue,
-                          ),
-                        ),
+                        widget.car.features.length - 1 == index
+                            ? Container()
+                            : const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Divider(
+                                  color: MyColors.myBlue,
+                                ),
+                              ),
                       ],
                     );
                   },
@@ -759,7 +761,7 @@ class _CarDetailsState extends State<CarDetails> {
                         ),
                   ),
                   const SizedBox(height: 10),
-                  widget.car.description != ''
+                  widget.car.description.trim().isNotEmpty
                       ? ReadMoreText(
                           widget.car.description,
                           style:
