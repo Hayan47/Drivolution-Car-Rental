@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  audioplayers: ^5.2.1
   cached_network_image: ^3.2.3
   cloud_firestore: ^4.8.1
   cupertino_icons: ^1.0.2
@@ -107,6 +108,7 @@ flutter:
     - assets/img/logo/
     - assets/icons/
     - .env
+    - assets/sounds/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

@@ -30,7 +30,6 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
       theme: CustomTheme.appTheme,
-      // home: MyWidget(),
     );
   }
 

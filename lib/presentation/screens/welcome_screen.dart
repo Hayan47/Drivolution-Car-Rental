@@ -1,8 +1,8 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconly/iconly.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -13,8 +13,18 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller;
   bool _toggle = false;
+  final player = AudioPlayer();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,85 +89,40 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () async {
-                    setState(() {
-                      _toggle = true;
-                    });
-                    await Future.delayed(const Duration(seconds: 1));
-                    Navigator.pushReplacementNamed(context, 'mainscreen');
-                  },
-                  child: _toggle
-                      ? Container(
-                          width: 90,
-                          height: 90,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/icons/start2.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )
-                      : Container(
-                          width: 90,
-                          height: 90,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade800,
-                                blurRadius: 3,
-                                spreadRadius: 2,
-                              )
-                            ],
-                          ),
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/icons/start.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                ),
+                    onTap: () async {
+                      await player.play(AssetSource('sounds/start.mp3'));
+                      _controller.forward();
+                      await Future.delayed(const Duration(seconds: 2));
+                      setState(() {
+                        _toggle = true;
+                      });
+                      await Future.delayed(const Duration(seconds: 1));
+                      Navigator.pushReplacementNamed(context, 'mainscreen');
+                    },
+                    child: Container(
+                      width: 90,
+                      height: 90,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 3,
+                            spreadRadius: 2,
+                            color: Colors.grey.shade800,
+                          )
+                        ],
+                      ),
+                      child: Lottie.asset(
+                        'assets/lottie/stop.json',
+                        repeat: false,
+                        controller: _controller,
+                        onLoaded: (composition) {
+                          _controller.duration = composition.duration;
+                        },
+                      ),
+                    )),
               ],
             ),
-            // Lottie.asset('assets/lottie/continue.json', repeat: false),
-            // TextButton(
-            //   onPressed: () async {
-            //     setState(() {
-            //       _toggle = true;
-            //     });
-            //     // await CarServices().getAllCars();
-            //     await Future.delayed(const Duration(seconds: 1));
-            //     Navigator.pushReplacementNamed(context, 'mainscreen');
-            //   },
-            //   style: ButtonStyle(
-            //       backgroundColor: MaterialStateProperty.all(MyColors.myred4),
-            //       maximumSize: MaterialStateProperty.all(const Size(165, 45))),
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(horizontal: 5),
-            //     child: Row(
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Text(
-            //           'continue',
-            //           style: GoogleFonts.karla(
-            //             color: MyColors.mywhite,
-            //             fontSize: 20,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //         const Icon(
-            //           IconlyLight.arrow_right,
-            //           color: MyColors.mywhite,
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       )),
