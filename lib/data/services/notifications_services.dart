@@ -83,7 +83,8 @@ class FirebaseNotifications {
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestSoundPermission: true,
-        onDidReceiveLocalNotification: (id, title, body, payload) {});
+        // onDidReceiveLocalNotification: (id, title, body, payload) {}
+        );
 
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
