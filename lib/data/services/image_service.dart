@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:image/image.dart' as IMG;
@@ -15,7 +16,7 @@ class ImageService {
     final response = await http.post(
       Uri.parse('https://api.remove.bg/v1.0/removebg'),
       headers: {
-        'X-Api-Key': 'v9hizpcYyJfHxJFLyNKBHdrs',
+        'X-Api-Key': dotenv.env['REMOVE_BG_API_KEY'].toString(),
       },
       body: {
         'image_file_b64': base64.encode(imageFile),

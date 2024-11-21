@@ -34,7 +34,6 @@ dependencies:
   cloud_firestore: ^5.5.0
   cupertino_icons: ^1.0.2
   dio: ^5.2.1+1
-  dotenv: ^5.2.1
   dropdown_button2: ^2.0.0
   email_validator: ^3.0.0
   equatable: ^2.0.5
@@ -47,6 +46,7 @@ dependencies:
     sdk: flutter
   flutter_animate: ^4.2.0
   flutter_bloc: ^8.1.3
+  flutter_dotenv: ^5.2.1
   flutter_local_notifications: ^18.0.1
   flutter_styled_toast: ^2.2.1
   font_awesome_flutter: ^10.5.0
@@ -108,6 +108,7 @@ flutter:
     - assets/icons/
     - .env
     - assets/sounds/
+    - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
