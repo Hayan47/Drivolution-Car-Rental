@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/logic/image_bloc/image_bloc.dart';
+import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
+import 'package:drivolution/logic/car_image_cubit/car_image_cubit.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,11 @@ class AddCar1 extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         context.read<LogoBloc>().add(SelectLogoEvent(index));
+                        context.read<CarFormBloc>().add(
+                              LogoChanged(
+                                logoPath: state.carLogos[index],
+                              ),
+                            );
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
@@ -98,37 +104,38 @@ class AddCar1 extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              context
-                  .read<ImageBloc>()
-                  .add(const AddImageEvent(removeBackground: true));
+              context.read<CarImageCubit>().pickCarImage();
             },
-            child: BlocConsumer<ImageBloc, ImageState>(
+            child: BlocConsumer<CarImageCubit, CarImageState>(
               listener: (context, state) {
-                if (state is ImageError) {
+                if (state is CarImageError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     MySnackBar(
                       icon: const Icon(Icons.error,
                           color: MyColors.myred2, size: 18),
-                      message: state.errorMessage,
+                      message: state.message,
                       margin: 5,
                     ),
                   );
                 }
               },
               builder: (context, state) {
-                if (state is ImageChanged) {
+                if (state is CarImageChanged) {
+                  context
+                      .read<CarFormBloc>()
+                      .add(MainImageChanged(image: state.imageData));
                   return Center(
                     child: SizedBox(
                       child: Card(
                         color: Colors.transparent,
                         child: Image.memory(
-                          state.image,
+                          state.imageData,
                           fit: BoxFit.contain,
                         ),
                       ),
                     ),
                   );
-                } else if (state is ImageLoading) {
+                } else if (state is CarImageLoading) {
                   return Center(
                     child: SizedBox(
                       width: 150,

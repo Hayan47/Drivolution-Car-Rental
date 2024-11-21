@@ -259,6 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 30),
                                         child: MyDropdown(
+                                          hint: '',
                                           icon: 'assets/icons/age.png',
                                           width: 80,
                                           dropdownValue: dropDownValue,

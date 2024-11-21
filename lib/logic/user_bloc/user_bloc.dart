@@ -1,5 +1,6 @@
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/models/usr_model.dart';
+import 'package:drivolution/data/services/logger_service.dart';
 import 'package:drivolution/data/services/user_services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,20 +12,22 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(UserInitial()) {
     final usersServices = UserServices();
+    final logger = LoggerService().getLogger('User Bloc Logger');
     UserCredential userCredentials;
 
     on<SignIn>(
       (event, emit) async {
         try {
           emit(UserLoading());
-          print(state);
+          logger.info(state);
           userCredentials =
               await usersServices.signIn(event.email, event.password);
           add(GetUserInfo(userID: userCredentials.user!.uid));
-          print(state);
+          logger.info(state);
         } catch (e) {
           emit(const UserError('Error Sining In'));
-          print(state);
+          logger.info(state);
+          logger.severe(e);
         }
       },
     );
@@ -33,13 +36,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          print(state);
+          logger.info(state);
           userCredentials = await usersServices.signInWithGoogle();
           add(GetUserInfo(userID: userCredentials.user!.uid));
-          print(state);
+          logger.info(state);
         } catch (e) {
           emit(const UserError('Error Sining In'));
-          print(state);
+          logger.info(state);logger.severe(e);
         }
       },
     );
@@ -54,7 +57,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          print(state);
+          logger.info(state);
           userCredentials = await usersServices.signUp(
             event.email,
             event.password,
@@ -64,10 +67,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             event.age,
           );
           add(GetUserInfo(userID: userCredentials.user!.uid));
-          print(state);
+          logger.info(state);
         } catch (e) {
           emit(const UserError('Error Signing Up'));
-          print(state);
+          logger.info(state);logger.severe(e);
         }
       },
     );
@@ -76,13 +79,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          print(state);
+          logger.info(state);
           usersServices.resetPassword(event.email);
           emit(UserInitial());
-          print(state);
+          logger.info(state);
         } catch (e) {
           emit(const UserError('Error Resetting Password'));
-          print(state);
+          logger.info(state);logger.severe(e);
         }
       },
     );
@@ -91,14 +94,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          print(state);
+          logger.info(state);
           usersServices.addPhoneNumber(event.phoneNumber, event.userID);
           emit(UserInitial());
           add(GetUserInfo(userID: event.userID));
-          print(state);
+          logger.info(state);
         } catch (e) {
           emit(const UserError('Error Adding Number'));
-          print(state);
+          logger.info(state);logger.severe(e);
         }
       },
     );
@@ -107,14 +110,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           // emit(UserLoading());
-          // print(state);
+          // _logger.info(state);
           usersServices.addImage(event.imageUrl, event.userID);
           add(GetUserInfo(userID: event.userID));
           // emit(UserInitial());
-          // print(state);
+          // _logger.info(state);
         } catch (e) {
           emit(const UserError('Error Adding Number'));
-          print(state);
+          logger.info(state);logger.severe(e);
         }
       },
     );
@@ -123,14 +126,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          print(state);
+          logger.info(state);
           final userInfo = await usersServices.getUserInfo(event.userID);
           final userCars = await usersServices.getUserCars(event.userID);
           emit(UserLoaded(userInfo: userInfo!, cars: userCars));
-          print(state);
+          logger.info(state);
         } catch (e) {
           emit(const UserError('Failed to load user information'));
-          print(state);
+          logger.info(state);logger.severe(e);
         }
       },
     );

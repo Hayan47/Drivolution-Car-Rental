@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'album_event.dart';
@@ -33,7 +33,7 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
         } catch (e) {
           emit(const AlbumError('images not picked correctly'));
         }
-      } else if (event is RemoveAlbumEvent) {
+      } else if (event is ResetAlbumEvent) {
         emit(AlbumInitial());
       } else if (event is NoAlbumSelectedEvent) {
         emit(const AlbumError('No Image Selected'));

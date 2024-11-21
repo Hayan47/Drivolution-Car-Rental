@@ -1,13 +1,11 @@
+import 'package:drivolution/constants/car_dropdown_constants.dart';
 import 'package:drivolution/constants/my_colors.dart';
-import 'package:drivolution/logic/doors_bloc/doors_bloc.dart';
-import 'package:drivolution/logic/features_bloc/features_bloc.dart';
-import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
-import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
+import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/presentation/widgets/dropdown.dart';
 import 'package:drivolution/presentation/widgets/numberPicker.dart';
-import 'package:drivolution/presentation/widgets/textField.dart';
+import 'package:drivolution/presentation/widgets/textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddCar2 extends StatelessWidget {
   final _featureController = TextEditingController();
@@ -15,7 +13,6 @@ class AddCar2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formbloc = BlocProvider.of<AllFieldsFormBloc>(context);
     return ListView(
       children: [
         Text(
@@ -36,11 +33,12 @@ class AddCar2 extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            MyTextField2(
+            MyTextField(
               hint: 'bmw 3series',
               inputType: TextInputType.name,
               actionType: TextInputAction.next,
-              bloc: formbloc.carName,
+              onChanged: (value) =>
+                  context.read<CarFormBloc>().add(NameChanged(name: value)),
             ),
           ],
         ),
@@ -56,11 +54,13 @@ class AddCar2 extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            MyTextField2(
+            MyTextField(
               hint: '2023',
               inputType: TextInputType.number,
               actionType: TextInputAction.next,
-              bloc: formbloc.carModel,
+              onChanged: (value) => context.read<CarFormBloc>().add(
+                    ModelChanged(model: value),
+                  ),
             ),
           ],
         ),
@@ -76,11 +76,13 @@ class AddCar2 extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            MyTextField2(
+            MyTextField(
               hint: 'grey',
               inputType: TextInputType.text,
               actionType: TextInputAction.next,
-              bloc: formbloc.carColor,
+              onChanged: (value) => context.read<CarFormBloc>().add(
+                    ColorChanged(color: value),
+                  ),
             ),
           ],
         ),
@@ -96,11 +98,13 @@ class AddCar2 extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            MyTextField2(
+            MyTextField(
               hint: 'Black',
               inputType: TextInputType.text,
               actionType: TextInputAction.next,
-              bloc: formbloc.carInteriorColor,
+              onChanged: (value) => context.read<CarFormBloc>().add(
+                    InteriorColorChanged(interiorColor: value),
+                  ),
             ),
           ],
         ),
@@ -116,11 +120,13 @@ class AddCar2 extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            MyTextField2(
+            MyTextField(
               hint: 'v6 3500cc',
               inputType: TextInputType.text,
               actionType: TextInputAction.next,
-              bloc: formbloc.carEngine,
+              onChanged: (value) => context.read<CarFormBloc>().add(
+                    EngineChanged(engine: value),
+                  ),
             ),
           ],
         ),
@@ -136,11 +142,13 @@ class AddCar2 extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            MyTextField2(
+            MyTextField(
               hint: '75',
               inputType: TextInputType.number,
               actionType: TextInputAction.next,
-              bloc: formbloc.carKiloMetrage,
+              onChanged: (value) => context.read<CarFormBloc>().add(
+                    KilometrageChanged(kilometrage: int.parse(value)),
+                  ),
             ),
           ],
         ),
@@ -156,43 +164,93 @@ class AddCar2 extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            MyTextField2(
+            MyTextField(
               hint: '50',
               inputType: TextInputType.number,
               actionType: TextInputAction.next,
-              bloc: formbloc.carRent,
+              onChanged: (value) => context.read<CarFormBloc>().add(
+                    RentChanged(rent: int.parse(value)),
+                  ),
             ),
           ],
         ),
         const SizedBox(height: 10),
         //!car type + fuel type
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            MyDropdown2(
-              label: 'type',
-              icon: 'assets/icons/sedan.png',
-              bloc: formbloc.typesDropdown,
+            BlocBuilder<CarFormBloc, CarFormState>(
+              builder: (context, state) {
+                return MyDropdown(
+                  label: 'type',
+                  icon: 'assets/icons/sedan.png',
+                  hint: 'select',
+                  dropdownValue: state.type,
+                  items: CarDropdownConstants.types
+                      .map((type) =>
+                          DropdownMenuItem(value: type, child: Text(type)))
+                      .toList(),
+                  onChanged: (value) =>
+                      context.read<CarFormBloc>().add(TypeChanged(type: value)),
+                );
+              },
             ),
-            MyDropdown2(
-              label: 'fuel',
-              icon: 'assets/icons/gas.png',
-              bloc: formbloc.fuelDropdown,
+            BlocBuilder<CarFormBloc, CarFormState>(
+              builder: (context, state) {
+                return MyDropdown(
+                  label: 'fuel',
+                  icon: 'assets/icons/gas.png',
+                  hint: 'select',
+                  dropdownValue: state.fuel,
+                  items: CarDropdownConstants.fuels
+                      .map((fuel) =>
+                          DropdownMenuItem(value: fuel, child: Text(fuel)))
+                      .toList(),
+                  onChanged: (value) =>
+                      context.read<CarFormBloc>().add(FuelChanged(fuel: value)),
+                );
+              },
             ),
           ],
         ),
         const SizedBox(height: 20),
         //!car transmission + drivetrain
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            MyDropdown2(
-              label: 'transmission',
-              icon: 'assets/icons/gear.png',
-              bloc: formbloc.transmissionDropdown,
+            BlocBuilder<CarFormBloc, CarFormState>(
+              builder: (context, state) {
+                return MyDropdown(
+                  label: 'transmission',
+                  icon: 'assets/icons/gear.png',
+                  hint: 'select',
+                  dropdownValue: state.transmission,
+                  items: CarDropdownConstants.transmissions
+                      .map((transmission) => DropdownMenuItem(
+                          value: transmission, child: Text(transmission)))
+                      .toList(),
+                  onChanged: (value) => context
+                      .read<CarFormBloc>()
+                      .add(TransmissionChanged(transmission: value)),
+                );
+              },
             ),
-            MyDropdown2(
-              label: 'drivetrain',
-              icon: 'assets/icons/wheel.png',
-              bloc: formbloc.drivetrainDropdown,
+            BlocBuilder<CarFormBloc, CarFormState>(
+              builder: (context, state) {
+                return MyDropdown(
+                  label: 'drivetrain',
+                  icon: 'assets/icons/wheel.png',
+                  hint: 'select',
+                  dropdownValue: state.drivetrain,
+                  items: CarDropdownConstants.drivetrains
+                      .map((drivetrain) => DropdownMenuItem(
+                          value: drivetrain, child: Text(drivetrain)))
+                      .toList(),
+                  onChanged: (value) => context
+                      .read<CarFormBloc>()
+                      .add(DrivetrainChanged(drivetrain: value)),
+                );
+              },
             ),
           ],
         ),
@@ -208,22 +266,23 @@ class AddCar2 extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 10),
-            BlocBuilder<DoorsBloc, DoorsState>(
-              builder: (context, state) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MyNumberPicker(
-                      value: state.selectedNumber,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<CarFormBloc, CarFormState>(
+                  buildWhen: (previous, current) => previous != current,
+                  builder: (context, state) {
+                    return MyNumberPicker(
+                      value: state.doors,
                       onChanged: (value) {
                         context
-                            .read<DoorsBloc>()
-                            .add(SelectDoorsNumberEvent(value));
+                            .read<CarFormBloc>()
+                            .add(DoorsChanged(doors: value));
                       },
-                    ),
-                  ],
-                );
-              },
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -239,22 +298,23 @@ class AddCar2 extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 10),
-            BlocBuilder<SeatsBloc, SeatsState>(
-              builder: (context, state) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MyNumberPicker(
-                      value: state.selectedNumber,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<CarFormBloc, CarFormState>(
+                  buildWhen: (previous, current) => previous != current,
+                  builder: (context, state) {
+                    return MyNumberPicker(
+                      value: state.seats,
                       onChanged: (value) {
                         context
-                            .read<SeatsBloc>()
-                            .add(SelectSeatsNumberEvent(value));
+                            .read<CarFormBloc>()
+                            .add(SeatsChanged(seats: value));
                       },
-                    ),
-                  ],
-                );
-              },
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -274,7 +334,7 @@ class AddCar2 extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: BlocBuilder<FeaturesBloc, FeaturesState>(
+          child: BlocBuilder<CarFormBloc, CarFormState>(
             builder: (context, state) {
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -298,9 +358,8 @@ class AddCar2 extends StatelessWidget {
                           color: MyColors.myBlue,
                         ),
                         onPressed: () {
-                          context
-                              .read<FeaturesBloc>()
-                              .add(DeleteFeature(index));
+                          context.read<CarFormBloc>().add(
+                              FeatureRemoved(feature: state.features[index]));
                         },
                       ),
                     ),
@@ -310,6 +369,7 @@ class AddCar2 extends StatelessWidget {
             },
           ),
         ),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Row(
@@ -349,8 +409,8 @@ class AddCar2 extends StatelessWidget {
                 onPressed: () {
                   if (_featureController.text.isEmpty) return;
                   context
-                      .read<FeaturesBloc>()
-                      .add(AddFeature(_featureController.text));
+                      .read<CarFormBloc>()
+                      .add(FeatureAdded(feature: _featureController.text));
                   _featureController.clear();
                 },
               ),
@@ -381,21 +441,24 @@ class AddCar2 extends StatelessWidget {
               width: 0.4,
             ),
           ),
-          child: TextFieldBlocBuilder(
-            textColor: MaterialStateProperty.all(MyColors.mywhite),
-            textStyle: Theme.of(context).textTheme.bodySmall,
+          child: TextField(
             maxLines: 4,
             textAlign: TextAlign.center,
             cursorColor: MyColors.mywhite,
             cursorRadius: const Radius.circular(50),
             cursorWidth: 1,
-            textFieldBloc: formbloc.carDescription,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.multiline,
             autofocus: false,
             decoration: const InputDecoration(
               border: InputBorder.none,
             ),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: MyColors.mywhite,
+                ),
+            onChanged: (value) => context.read<CarFormBloc>().add(
+                  DescriptionChanged(description: value),
+                ),
           ),
         ),
         const SizedBox(height: 15),

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:drivolution/constants/my_colors.dart';
@@ -11,11 +10,11 @@ class ReservationCalender extends StatelessWidget {
   final List<Car> cars;
   final List<DateTime> reservedDays;
   const ReservationCalender({
-    Key? key,
+    super.key,
     required this.reservations,
     required this.cars,
     required this.reservedDays,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

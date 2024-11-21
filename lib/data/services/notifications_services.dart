@@ -80,11 +80,11 @@ class FirebaseNotifications {
         const AndroidInitializationSettings('logo');
 
     var initializationSettingsIOS = DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-        // onDidReceiveLocalNotification: (id, title, body, payload) {}
-        );
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      // onDidReceiveLocalNotification: (id, title, body, payload) {}
+    );
 
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -137,7 +137,7 @@ class FirebaseNotifications {
   Future<void> sendNotificationToOwner(Reservation res) async {
     final cars = await CarServices().getCarsInfo([res.carId]);
     Car car = cars.first;
-    final Usr? carOwner = await UserServices().getUserInfo(car!.ownerid);
+    final Usr? carOwner = await UserServices().getUserInfo(car.ownerid);
     final Usr? customer = await UserServices().getUserInfo(res.customerId);
 
     final Map<String, dynamic> notificationData = {

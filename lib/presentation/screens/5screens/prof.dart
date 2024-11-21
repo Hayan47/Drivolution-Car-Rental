@@ -1,7 +1,6 @@
 import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
-import 'package:drivolution/logic/image_bloc/image_bloc.dart';
-import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
+import 'package:drivolution/logic/user_image_cubit/user_image_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -17,8 +16,7 @@ class ProfileScreen extends StatelessWidget {
         if (state is Authenticated) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => ImageBloc()),
-              BlocProvider(create: (context) => UploadBloc()),
+              BlocProvider.value(value: context.read<UserImageCubit>()),
             ],
             child: const ProfileDetailsScreen(),
           );

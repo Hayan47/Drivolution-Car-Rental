@@ -1,17 +1,22 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:image/image.dart' as IMG;
 
 class ImageService {
+  final FirebaseStorage firebaseStorage;
+
+  ImageService({required this.firebaseStorage});
+
   //? remove img background
   Future<Uint8List> removeBackground(Uint8List imageFile) async {
     final response = await http.post(
       Uri.parse('https://api.remove.bg/v1.0/removebg'),
       headers: {
-        'X-Api-Key': 'v9hizpcYyJfHxJFLyNKBHdrs',
+        'X-Api-Key': dotenv.env['REMOVE_BG_API_KEY'].toString(),
       },
       body: {
         'image_file_b64': base64.encode(imageFile),
@@ -29,14 +34,14 @@ class ImageService {
     final uploadedUrls = <String>[];
     for (int i = 0; i < images.length; i++) {
       // final String imageName = imagesName + i.toString();
-      final ref = FirebaseStorage.instance.ref().child('$path$i');
+      final ref = firebaseStorage.ref().child('$path$i');
 
       final uploadTask = ref.putData(images[i]);
       // Calculate progress
-      final progress = (uploadTask.snapshot.bytesTransferred /
-              uploadTask.snapshot.totalBytes *
-              100)
-          .toInt();
+      // final progress = (uploadTask.snapshot.bytesTransferred /
+      //         uploadTask.snapshot.totalBytes *
+      //         100)
+      //     .toInt();
 
       // Trigger event with updated progress and uploaded URLs
       // context.read<UploadBloc>().add(UploadProgressEvent(progress: progress, uploadedUrls: uploadedUrls));
@@ -86,5 +91,24 @@ class ImageService {
     IMG.Image resized = IMG.copyResize(img!, width: width, height: height);
     resizedData = Uint8List.fromList(IMG.encodePng(resized));
     return resizedData;
+  }
+
+  //? featch Logos
+  Future<List<String>> fetchCarLogos() async {
+    List<String> photoUrls = [];
+    try {
+      Reference directoryRef =
+          firebaseStorage.ref().child('myfiles').child('logos');
+
+      ListResult result = await directoryRef.listAll();
+
+      for (Reference ref in result.items) {
+        String imageUrl = await ref.getDownloadURL();
+        photoUrls.add(imageUrl);
+      }
+      return photoUrls;
+    } catch (e) {
+      return [];
+    }
   }
 }
