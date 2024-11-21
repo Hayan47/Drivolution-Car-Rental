@@ -1,8 +1,9 @@
 import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class AddCar3 extends StatelessWidget {
@@ -28,6 +29,13 @@ class AddCar3 extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is LocationPickedState) {
+          context.read<CarFormBloc>().add(
+                LocationChanged(
+                  lang: state.location.longitude,
+                  lat: state.location.latitude,
+                  locationName: state.city,
+                ),
+              );
           return Column(
             children: [
               Image.asset('assets/lottie/car_location.png'),

@@ -11,13 +11,14 @@ part 'map_event.dart';
 part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
+  final ImageService imageService;
   LatLng pickedLocation = const LatLng(0, 0);
   String cityName = '';
   Set<Marker> markers = {};
   Position? position;
   List<LatLng> polyLineCoordinate = [];
 
-  MapBloc() : super(MapInitial()) {
+  MapBloc({required this.imageService}) : super(MapInitial()) {
     on<MapTapEvent>((event, emit) async {
       emit(MapLoading());
       List<Placemark> placemarks = await placemarkFromCoordinates(
@@ -44,7 +45,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<LoadCarLocation>((event, emit) async {
       emit(MapLoading());
       Uint8List customMarker = await imageToByte(event.carImage);
-      Uint8List? smalling = ImageService().resizeImage(customMarker, 200, 100);
+      Uint8List? smalling = imageService.resizeImage(customMarker, 200, 100);
 
       pickedLocation = const LatLng(0, 0);
       cityName = '';

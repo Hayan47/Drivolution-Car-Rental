@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/logic/image_bloc/image_bloc.dart';
-import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/logic/user_image_cubit/user_image_cubit.dart';
 import 'package:drivolution/presentation/widgets/add_phone_number.dart';
 import 'package:drivolution/presentation/widgets/alert_dialog.dart';
 import 'package:drivolution/presentation/widgets/shimmer_profile.dart';
@@ -114,67 +113,54 @@ class ProfileDetailsScreen extends StatelessWidget {
                   ),
                   centerTitle: false,
                   titlePadding: EdgeInsets.zero,
-                  background: BlocListener<ImageBloc, ImageState>(
+                  background: BlocConsumer<UserImageCubit, UserImageState>(
                     listener: (context, state) {
-                      if (state is ImageChanged) {
-                        context.read<UploadBloc>().add(
-                              UploadImagesEvent(
-                                images: [state.image],
-                                path:
-                                    'profile pictures/${userState.userInfo.email}',
-                              ),
-                            );
+                      if (state is UserImageChanged) {
+                        context.read<UserBloc>().add(AddUserImage(
+                            imageUrl: state.imageUrl,
+                            userID: userState.userInfo.userid));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          MySnackBar(
+                            icon: const Icon(Icons.done,
+                                color: Colors.green, size: 18),
+                            message: state.message,
+                            margin: 70,
+                          ),
+                        );
+                      } else if (state is UserImageError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          MySnackBar(
+                            icon: const Icon(Icons.error,
+                                color: MyColors.myred2, size: 18),
+                            message: state.message,
+                            margin: 70,
+                          ),
+                        );
                       }
                     },
-                    child: BlocConsumer<UploadBloc, UploadState>(
-                      listener: (context, state) {
-                        if (state is UploadFailedState) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            MySnackBar(
-                              icon: const Icon(Icons.error,
-                                  color: MyColors.myred2, size: 18),
-                              message: state.message,
-                              margin: 70,
-                            ),
-                          );
-                        } else if (state is UploadSuccessState) {
-                          context.read<UserBloc>().add(AddUserImage(
-                              imageUrl: state.imageUrls.first,
-                              userID: userState.userInfo.userid));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            MySnackBar(
-                              icon: const Icon(Icons.done,
-                                  color: Colors.green, size: 18),
-                              message: state.message,
-                              margin: 70,
-                            ),
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is UploadingState) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                                color: MyColors.myred2),
-                          );
-                        } else {
-                          return CachedNetworkImage(
-                            imageUrl: (userState.userInfo.img != null)
-                                ? userState.userInfo.img!
-                                : 'https://i.imgur.com/sWmIhUZ.png',
-                            fit: BoxFit.cover,
-                          );
-                        }
-                      },
-                    ),
+                    builder: (context, state) {
+                      if (state is UserImageLoading) {
+                        return const Center(
+                          child:
+                              CircularProgressIndicator(color: MyColors.myred2),
+                        );
+                      } else {
+                        return CachedNetworkImage(
+                          imageUrl: (userState.userInfo.img != null)
+                              ? userState.userInfo.img!
+                              : 'https://i.imgur.com/sWmIhUZ.png',
+                          fit: BoxFit.cover,
+                        );
+                      }
+                    },
                   ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () {
                       context
-                          .read<ImageBloc>()
-                          .add(const AddImageEvent(removeBackground: false));
+                          .read<UserImageCubit>()
+                          .pickUserImage(userState.userInfo.email);
                     },
                     icon: const Icon(
                       Icons.edit,

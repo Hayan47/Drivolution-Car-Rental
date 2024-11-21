@@ -17,3 +17,5 @@ class LocationPicked extends LocationEvent {
 }
 
 class LocationNotPicked extends LocationEvent {}
+
+class ResetLocationEvent extends LocationEvent {}

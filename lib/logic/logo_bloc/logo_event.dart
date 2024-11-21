@@ -14,3 +14,5 @@ class SelectLogoEvent extends LogoEvent {
 }
 
 class FetchCarLogosEvent extends LogoEvent {}
+
+class ResetLogoEvent extends LogoEvent {}

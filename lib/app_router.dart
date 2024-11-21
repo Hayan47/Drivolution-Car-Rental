@@ -1,22 +1,23 @@
+import 'package:drivolution/data/repositories/car_repository.dart';
+import 'package:drivolution/data/repositories/image_repository.dart';
+import 'package:drivolution/data/repositories/user_repository.dart';
+import 'package:drivolution/data/services/cars_services.dart';
+import 'package:drivolution/data/services/image_service.dart';
 import 'package:drivolution/data/services/user_services.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
+import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
+import 'package:drivolution/logic/car_image_cubit/car_image_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/logic/check_cubit/check_cubit.dart';
-import 'package:drivolution/logic/doors_bloc/doors_bloc.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
-import 'package:drivolution/logic/features_bloc/features_bloc.dart';
-import 'package:drivolution/logic/forms_bloc/forms_bloc.dart';
-import 'package:drivolution/logic/image_bloc/image_bloc.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
 import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
-import 'package:drivolution/logic/seats_bloc/seats_bloc.dart';
-import 'package:drivolution/logic/upload_bloc/upload_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/logic/user_image_cubit/user_image_cubit.dart';
 import 'package:drivolution/presentation/screens/add_car_screen.dart';
 import 'package:drivolution/presentation/screens/car_details_screen.dart';
 import 'package:drivolution/presentation/screens/date_range_picker.dart';
@@ -28,48 +29,63 @@ import 'package:drivolution/presentation/screens/my_cars_screen.dart';
 import 'package:drivolution/presentation/screens/my_reservations.dart';
 import 'package:drivolution/presentation/screens/sign_up_screen.dart';
 import 'package:drivolution/presentation/screens/welcome_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:drivolution/presentation/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
+  late FirebaseStorage firebaseStorage;
+
+  late CarServices carServices;
+  late UserServices userServices;
+  late ImageService imageService;
+
+  late CarRepository carRepository;
+  late UserRepository userRepository;
+  late ImageRepository imageRepository;
+
   late CarsBloc carsBloc;
   late UserBloc userBloc;
   late ReservationBloc reservationBloc;
   late FavoriteBloc favoriteBloc;
-  late ImageBloc imageBloc;
   late LogoBloc logoBloc;
-  late AllFieldsFormBloc allFieldsFormBloc;
-  late DoorsBloc doorsBloc;
-  late SeatsBloc seatsBloc;
-  late FeaturesBloc featuresBloc;
   late LocationBloc locationBloc;
   late MapBloc mapBloc;
   late AlbumBloc albumBloc;
-  late UploadBloc uploadBloc;
-  late AuthCubit authCubit;
-  late CheckCubit checkCubit;
   late NotificationsBloc notificationsBloc;
+  late CarFormBloc carFormBloc;
+  late AuthCubit authCubit;
+  late CarImageCubit carImageCubit;
+  late UserImageCubit userImageCubit;
 
   AppRouter() {
-    carsBloc = CarsBloc();
-    reservationBloc = ReservationBloc();
-    favoriteBloc = FavoriteBloc();
+    firebaseStorage = FirebaseStorage.instance;
+
+    imageService = ImageService(firebaseStorage: firebaseStorage);
+    carServices = CarServices();
+    userServices = UserServices();
+
+    carRepository = CarRepository(carServices: carServices);
+    userRepository = UserRepository(userServices: userServices);
+    imageRepository = ImageRepository(imageService: imageService);
+
+    carsBloc = CarsBloc(carRepository: carRepository);
     userBloc = UserBloc();
-    imageBloc = ImageBloc();
-    logoBloc = LogoBloc();
-    allFieldsFormBloc = AllFieldsFormBloc();
-    doorsBloc = DoorsBloc();
-    seatsBloc = SeatsBloc();
-    featuresBloc = FeaturesBloc();
+    favoriteBloc = FavoriteBloc(userRepository: userRepository);
+    reservationBloc = ReservationBloc();
+    logoBloc = LogoBloc(imageRepository: imageRepository);
     locationBloc = LocationBloc();
-    mapBloc = MapBloc();
+    mapBloc = MapBloc(imageService: imageService);
     albumBloc = AlbumBloc();
-    uploadBloc = UploadBloc();
-    authCubit = AuthCubit(userServices: UserServices());
-    checkCubit = CheckCubit();
     notificationsBloc = NotificationsBloc();
+    carFormBloc = CarFormBloc(
+        carRepository: carRepository, imageRepository: imageRepository);
+
+    authCubit = AuthCubit(userServices: userServices);
+    carImageCubit = CarImageCubit(imageRepository: imageRepository);
+    userImageCubit = UserImageCubit(imageRepository: imageRepository);
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -85,6 +101,7 @@ class AppRouter {
               BlocProvider.value(value: favoriteBloc),
               BlocProvider.value(value: authCubit),
               BlocProvider.value(value: notificationsBloc),
+              BlocProvider.value(value: userImageCubit),
             ],
             child: const MainScreen(),
           ),
@@ -136,7 +153,7 @@ class AppRouter {
         final car = settings.arguments as Car;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => MapBloc(),
+            create: (context) => MapBloc(imageService: imageService),
             child: MapScreen(car: car),
           ),
         );
@@ -144,17 +161,12 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
+              BlocProvider.value(value: carFormBloc),
               BlocProvider.value(value: carsBloc),
-              BlocProvider.value(value: imageBloc),
+              BlocProvider.value(value: carImageCubit),
               BlocProvider.value(value: logoBloc),
-              BlocProvider.value(value: allFieldsFormBloc),
-              BlocProvider.value(value: doorsBloc),
-              BlocProvider.value(value: seatsBloc),
-              BlocProvider.value(value: featuresBloc),
               BlocProvider.value(value: locationBloc),
               BlocProvider.value(value: albumBloc),
-              BlocProvider.value(value: uploadBloc),
-              BlocProvider.value(value: checkCubit),
             ],
             child: AddCarScreen(),
           ),
@@ -193,19 +205,18 @@ class AppRouter {
   }
 
   void dispose() {
-    // resCubit.close();
-  }
-
-  void disposeAddCarBlocs() {
-    imageBloc.close();
+    carsBloc.close();
+    userBloc.close();
+    reservationBloc.close();
     logoBloc.close();
-    allFieldsFormBloc.close();
-    doorsBloc.close();
-    seatsBloc.close();
-    featuresBloc.close();
     locationBloc.close();
+    favoriteBloc.close();
     mapBloc.close();
     albumBloc.close();
-    uploadBloc.close();
+    notificationsBloc.close();
+    carFormBloc.close();
+    authCubit.close();
+    carImageCubit.close();
+    userImageCubit.close();
   }
 }

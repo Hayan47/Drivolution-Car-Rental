@@ -2,7 +2,6 @@ import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
 import 'package:drivolution/presentation/widgets/notifications_item.dart';
-import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
 import 'package:drivolution/presentation/widgets/shimmer_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
