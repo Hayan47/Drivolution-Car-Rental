@@ -1,4 +1,4 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
@@ -9,6 +9,7 @@ import 'package:drivolution/presentation/screens/5screens/fav.dart';
 import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/5screens/notifications.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -137,13 +138,13 @@ class _MainScreenState extends State<MainScreen> {
                     haptic: false,
                     iconSize: 20,
                     padding: EdgeInsets.symmetric(vertical: 11, horizontal: 8),
-                    backgroundColor: MyColors.myGrey,
-                    color: MyColors.mywhite,
-                    activeColor: MyColors.mywhite,
-                    textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: MyColors.mywhite,
-                          fontSize: 16,
-                        ),
+                    backgroundColor: AppColors.charcoal,
+                    color: AppColors.pureWhite,
+                    activeColor: AppColors.pureWhite,
+                    textStyle: AppTypography.h4.copyWith(
+                      color: AppColors.pureWhite,
+                      fontSize: 16,
+                    ),
                     tabs: const [
                       GButton(
                         icon: IconlyLight.home,

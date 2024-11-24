@@ -1,6 +1,6 @@
-import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/widgets/reservation_calender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,15 +15,7 @@ class MyReservations extends StatelessWidget {
     context.read<ReservationBloc>().add(GetUserReservations(userID: userID));
     return DecoratedBox(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            MyColors.myGrey,
-            MyColors.myBlue4,
-            MyColors.myGrey,
-          ],
-        ),
+        gradient: AppColors.backgroundGradient,
       ),
       child: PopScope(
         onPopInvoked: (didPop) {

@@ -1,16 +1,15 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/logic/car_image_cubit/car_image_cubit.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
-import 'package:drivolution/logic/map_bloc/map_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class AddCar4 extends StatelessWidget {
   const AddCar4({super.key});
@@ -21,10 +20,7 @@ class AddCar4 extends StatelessWidget {
       children: [
         Text(
           'pick an album',
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall!
-              .copyWith(color: MyColors.mywhite),
+          style: AppTypography.labelLarge.copyWith(color: AppColors.pureWhite),
         ),
         const SizedBox(height: 15),
         GestureDetector(
@@ -36,13 +32,10 @@ class AddCar4 extends StatelessWidget {
           child: BlocConsumer<AlbumBloc, AlbumState>(
             listener: (context, state) {
               if (state is AlbumError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  MySnackBar(
-                    icon: const Icon(Icons.error,
-                        color: MyColors.myred2, size: 18),
-                    message: state.errorMessage,
-                    margin: 5,
-                  ),
+                showToastMessage(
+                  context,
+                  state.errorMessage,
+                  const Icon(Icons.error, color: AppColors.alertRed, size: 18),
                 );
               }
             },
@@ -67,7 +60,7 @@ class AddCar4 extends StatelessWidget {
                 return const SizedBox(
                   child: Center(
                     child: CircularProgressIndicator(
-                      color: MyColors.myred,
+                      color: AppColors.blazingRed,
                     ),
                   ),
                 );
@@ -96,7 +89,7 @@ class AddCar4 extends StatelessWidget {
               showToastMessage(
                 context,
                 'Car Added Successfully',
-                const Icon(Icons.done, color: Colors.green, size: 18),
+                const Icon(Icons.done, color: AppColors.successGreen, size: 18),
               );
               context.read<LogoBloc>().add(ResetLogoEvent());
               context.read<LocationBloc>().add(ResetLocationEvent());
@@ -112,13 +105,13 @@ class AddCar4 extends StatelessWidget {
               showToastMessage(
                 context,
                 'Car Not Added Successfully',
-                const Icon(Icons.error, color: MyColors.myred2, size: 18),
+                const Icon(Icons.error, color: AppColors.alertRed, size: 18),
               );
             } else if (state.errors.isNotEmpty) {
               showToastMessage(
                 context,
                 state.errors.values.first,
-                const Icon(Icons.error, color: MyColors.myred2, size: 18),
+                const Icon(Icons.error, color: AppColors.alertRed, size: 18),
               );
             }
           },
@@ -137,14 +130,15 @@ class AddCar4 extends StatelessWidget {
                   context.read<CarFormBloc>().add(FormSubmitted(ownerid: id));
                 },
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all(MyColors.myred),
+                  backgroundColor:
+                      WidgetStateProperty.all(AppColors.blazingRed),
                 ),
                 child: Text(
                   'Submit',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: MyColors.mywhite,
-                        fontSize: 18,
-                      ),
+                  style: AppTypography.h4.copyWith(
+                    color: AppColors.pureWhite,
+                    fontSize: 18,
+                  ),
                 ),
               );
             }

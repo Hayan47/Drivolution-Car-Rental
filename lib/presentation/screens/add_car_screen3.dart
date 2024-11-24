@@ -1,10 +1,11 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class AddCar3 extends StatelessWidget {
   const AddCar3({super.key});
@@ -19,7 +20,7 @@ class AddCar3 extends StatelessWidget {
             state.message,
             const Icon(
               Icons.error,
-              color: MyColors.myred2,
+              color: AppColors.alertRed,
             ),
           );
         }
@@ -47,21 +48,19 @@ class AddCar3 extends StatelessWidget {
                     state.city == ""
                         ? Text(
                             '( ${state.location.latitude.toString().substring(0, 6)} , ${state.location.longitude.toString().substring(0, 6)} )',
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 26,
-                                    ),
+                            style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite,
+                              fontSize: 26,
+                            ),
                           )
                         : Text(
                             state.city,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 26,
-                                    ),
+                            style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite,
+                              fontSize: 26,
+                            ),
                           ),
                     const SizedBox(width: 25),
                     GestureDetector(
@@ -69,7 +68,7 @@ class AddCar3 extends StatelessWidget {
                           context.read<LocationBloc>().add(PickLocation()),
                       child: const Icon(
                         Icons.location_on_outlined,
-                        color: MyColors.myBlue,
+                        color: AppColors.oceanBlue,
                       ),
                     ),
                   ],
@@ -85,11 +84,11 @@ class AddCar3 extends StatelessWidget {
               const SizedBox(height: 25),
               Text(
                 'add your car location',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myBlue,
-                      fontSize: 22,
-                      fontWeight: FontWeight.normal,
-                    ),
+                style: AppTypography.labelLarge.copyWith(
+                  color: AppColors.oceanBlue,
+                  fontSize: 22,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
               const SizedBox(height: 15),
               GestureDetector(

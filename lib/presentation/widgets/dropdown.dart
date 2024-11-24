@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import '../../constants/my_colors.dart';
 
 class MyDropdown extends StatelessWidget {
   final double? width;
@@ -12,7 +12,7 @@ class MyDropdown extends StatelessWidget {
   final String icon;
   final String hint;
   const MyDropdown({
-    Key? key,
+    super.key,
     this.width,
     required this.label,
     this.dropdownValue,
@@ -20,7 +20,7 @@ class MyDropdown extends StatelessWidget {
     required this.onChanged,
     required this.icon,
     required this.hint,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,29 +33,26 @@ class MyDropdown extends StatelessWidget {
             children: [
               Image.asset(
                 icon,
-                color: // MyColors.myBlue,
-                    icon == 'assets/icons/age.png' ? null : MyColors.myBlue,
+                color:
+                    icon == 'assets/icons/age.png' ? null : AppColors.oceanBlue,
                 width: 25,
                 height: 25,
               ),
               const SizedBox(width: 8),
               Text(
                 label,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: MyColors.myred2,
-                      fontSize: 15,
-                    ),
+                style: AppTypography.labelLarge.copyWith(
+                  color: AppColors.coralRed,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          // const SizedBox(width: 25),
           DropdownButtonHideUnderline(
             child: DropdownButton2(
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: MyColors.myred2,
-                    fontSize: 14,
-                  ),
+              style: AppTypography.labelLarge.copyWith(
+                color: AppColors.coralRed,
+              ),
               value: dropdownValue,
               items: items,
               onChanged: onChanged,
@@ -68,10 +65,10 @@ class MyDropdown extends StatelessWidget {
                 // elevation: 2,
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
-                  color: MyColors.mywhite,
+                  color: AppColors.pureWhite,
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(
-                    color: MyColors.myred2,
+                    color: AppColors.coralRed,
                   ),
                 ),
               ),
@@ -80,7 +77,7 @@ class MyDropdown extends StatelessWidget {
               iconStyleData: const IconStyleData(
                 icon: Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: MyColors.myred2,
+                  color: AppColors.coralRed,
                   size: 15,
                 ),
               ),
@@ -91,13 +88,13 @@ class MyDropdown extends StatelessWidget {
                 width: width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: MyColors.mywhite,
+                  color: AppColors.pureWhite,
                 ),
                 offset: const Offset(5, -3),
                 scrollbarTheme: ScrollbarThemeData(
                   radius: const Radius.circular(40),
                   thickness: WidgetStateProperty.all(6),
-                  thumbColor: WidgetStateProperty.all(MyColors.myred2),
+                  thumbColor: WidgetStateProperty.all(AppColors.coralRed),
                 ),
               ),
             ),

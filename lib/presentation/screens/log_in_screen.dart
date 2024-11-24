@@ -1,10 +1,12 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+
+import '../themes/app_typography.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -29,22 +31,19 @@ class _LogInScreenState extends State<LogInScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              MyColors.myGrey,
-              MyColors.myBlue4,
-              MyColors.myGrey,
+              AppColors.charcoal,
+              AppColors.twilightBlue,
+              AppColors.charcoal,
             ],
           ),
         ),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
             if (state is UserError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                MySnackBar(
-                  icon:
-                      const Icon(Icons.error, color: MyColors.myred2, size: 18),
-                  message: state.errorMessage,
-                  margin: 5,
-                ),
+              showToastMessage(
+                context,
+                state.errorMessage,
+                const Icon(Icons.error, color: AppColors.alertRed, size: 18),
               );
             } else if (state is UserLoaded) {
               Navigator.pushNamedAndRemoveUntil(
@@ -52,12 +51,10 @@ class _LogInScreenState extends State<LogInScreen> {
                 'mainscreen',
                 (Route<dynamic> route) => false,
               );
-              ScaffoldMessenger.of(context).showSnackBar(
-                MySnackBar(
-                  icon: const Icon(Icons.done, color: Colors.green, size: 18),
-                  message: 'welcome back  ${state.userInfo.firstName}',
-                  margin: 70,
-                ),
+              showToastMessage(
+                context,
+                'welcome back  ${state.userInfo.firstName}',
+                const Icon(Icons.done, color: AppColors.successGreen, size: 18),
               );
             }
           },
@@ -68,7 +65,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 AppBar(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  iconTheme: const IconThemeData(color: MyColors.myred2),
+                  iconTheme: const IconThemeData(color: AppColors.coralRed),
                 ),
                 Expanded(
                   child: Padding(
@@ -90,26 +87,20 @@ class _LogInScreenState extends State<LogInScreen> {
                                     //!first message
                                     Text(
                                       'Hello Again!',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            color: MyColors.myred2,
-                                            fontSize: 38,
-                                          ),
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.coralRed,
+                                        fontSize: 38,
+                                      ),
                                     ),
 
                                     const SizedBox(height: 10),
                                     //!second message
                                     Text(
                                       'welcome back, you have been missed!',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            color: MyColors.myred2,
-                                            fontSize: 18,
-                                          ),
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.coralRed,
+                                        fontSize: 18,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -124,7 +115,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                           Container(
                                             height: 50,
                                             decoration: BoxDecoration(
-                                              color: MyColors.myred2,
+                                              color: AppColors.coralRed,
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                             ),
@@ -137,12 +128,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                                   TextInputAction.next,
                                               keyboardType:
                                                   TextInputType.emailAddress,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall!
+                                              style: AppTypography.labelLarge
                                                   .copyWith(
-                                                    color: MyColors.mywhite,
-                                                  ),
+                                                color: AppColors.pureWhite,
+                                              ),
                                               controller: _emailcontroller,
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
@@ -157,12 +146,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 hintText: 'Email...',
-                                                hintStyle: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
+                                                hintStyle: AppTypography
+                                                    .labelLarge
                                                     .copyWith(
-                                                      color: MyColors.mywhite,
-                                                    ),
+                                                  color: AppColors.pureWhite,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -179,7 +167,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                           Container(
                                             height: 50,
                                             decoration: BoxDecoration(
-                                              color: MyColors.myred2,
+                                              color: AppColors.coralRed,
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                             ),
@@ -191,12 +179,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                               keyboardType:
                                                   TextInputType.visiblePassword,
                                               obscureText: hidePassword,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall!
+                                              style: AppTypography.labelLarge
                                                   .copyWith(
-                                                    color: MyColors.mywhite,
-                                                  ),
+                                                color: AppColors.pureWhite,
+                                              ),
                                               controller: _passwordcontroller,
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
@@ -219,16 +205,16 @@ class _LogInScreenState extends State<LogInScreen> {
                                                       hidePassword
                                                           ? Icons.visibility_off
                                                           : Icons.visibility,
-                                                      color: MyColors.mywhite,
+                                                      color:
+                                                          AppColors.pureWhite,
                                                     )),
                                                 border: InputBorder.none,
                                                 hintText: 'Password...',
-                                                hintStyle: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
+                                                hintStyle: AppTypography
+                                                    .labelLarge
                                                     .copyWith(
-                                                      color: MyColors.mywhite,
-                                                    ),
+                                                  color: AppColors.pureWhite,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -250,13 +236,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                                 'forgetpasswordscreen'),
                                             child: Text(
                                               'Forget password?',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall!
+                                              style: AppTypography.labelLarge
                                                   .copyWith(
-                                                    color: MyColors.myred2,
-                                                    fontSize: 14,
-                                                  ),
+                                                color: AppColors.coralRed,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           )
                                         ],
@@ -315,19 +299,17 @@ class _LogInScreenState extends State<LogInScreen> {
                                                     backgroundColor:
                                                         MaterialStateProperty
                                                             .all(
-                                                      MyColors.myred2,
+                                                      AppColors.coralRed,
                                                     ),
                                                   ),
                                                   child: Text(
                                                     'log in',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
+                                                    style: AppTypography.h4
                                                         .copyWith(
-                                                          color:
-                                                              MyColors.mywhite,
-                                                          fontSize: 14,
-                                                        ),
+                                                      color:
+                                                          AppColors.pureWhite,
+                                                      fontSize: 14,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -338,13 +320,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                           vertical: 15),
                                       child: Text(
                                         'or continue with',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              color: MyColors.myred2,
-                                              fontSize: 14,
-                                            ),
+                                        style: AppTypography.h4.copyWith(
+                                          color: AppColors.coralRed,
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
                                     GestureDetector(
@@ -369,12 +348,9 @@ class _LogInScreenState extends State<LogInScreen> {
                                     //!sign up message
                                     Text(
                                       'ain\'t member yet?',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            color: MyColors.myred2,
-                                          ),
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.coralRed,
+                                      ),
                                     ),
                                     const SizedBox(width: 5),
                                     GestureDetector(
@@ -382,13 +358,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                           context, 'signupscreen'),
                                       child: Text(
                                         'Sign Up',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              color: MyColors.myred2,
-                                              fontSize: 18,
-                                            ),
+                                        style: AppTypography.h4.copyWith(
+                                          color: AppColors.coralRed,
+                                          fontSize: 18,
+                                        ),
                                       ),
                                     ),
                                   ],

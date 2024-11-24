@@ -1,4 +1,4 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:lottie/lottie.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({Key? key}) : super(key: key);
+  const FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +25,11 @@ class FavoriteScreen extends StatelessWidget {
                       Image.asset('assets/lottie/favorite_cars.png'),
                       Text(
                         'add cars to your favorite list!',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.myBlue,
-                              fontSize: 22,
-                              fontWeight: FontWeight.normal,
-                            ),
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.oceanBlue,
+                          fontSize: 22,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ],
                   );
@@ -67,10 +68,10 @@ class FavoriteScreen extends StatelessWidget {
                   ),
                   Text(
                     'Make Your Account Now!',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 26,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.oceanBlue,
+                      fontSize: 26,
+                    ),
                   ),
                 ],
               ),
@@ -80,7 +81,7 @@ class FavoriteScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, 'loginscreen');
                   },
-                  backgroundColor: MyColors.myBlue,
+                  backgroundColor: AppColors.oceanBlue,
                   label: const Text("log in"),
                 ),
               ),

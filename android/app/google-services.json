@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "51613972745-ga9rpe5kb4noc6dngdfjjcgb8va9cjfm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.drivolution",
+            "certificate_hash": "15049d10b65bbbc5094867ed445f08267ad8420a"
+          }
+        },
+        {
           "client_id": "51613972745-o76sd343vd165279ketjsn08jefsuo4h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -22,41 +30,13 @@
           }
         },
         {
-          "client_id": "51613972745-dv63cqah312ma8gmeqcfbqua9k6v15d7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCGPW7O3RyBRqE-hE5AVuNzkxLkeo0Om7E"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "51613972745-dv63cqah312ma8gmeqcfbqua9k6v15d7.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "51613972745-a51ug4etfhdsehrbqifj4negjcs6hn1b.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.drivolution.RunnerTests"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:51613972745:android:2f263cb8dfdc0c4a41bbd8",
-        "android_client_info": {
-          "package_name": "com.example.firebase"
-        }
-      },
-      "oauth_client": [
+          "client_id": "51613972745-rkqtc4ge3edm5vr9dpr1ltlo4gif0879.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.drivolution",
+            "certificate_hash": "e31caf6680e41b39be9c4beead29af45db2ed20f"
+          }
+        },
         {
           "client_id": "51613972745-dv63cqah312ma8gmeqcfbqua9k6v15d7.apps.googleusercontent.com",
           "client_type": 3

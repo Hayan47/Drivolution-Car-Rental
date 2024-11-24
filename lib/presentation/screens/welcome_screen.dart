@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +22,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = AnimationController(vsync: this);
   }
@@ -53,14 +53,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     GradientText(
                       'lets go for a ride',
                       colors: [
-                        MyColors.myBlue2.withOpacity(1),
-                        MyColors.myBlue.withOpacity(1),
-                        MyColors.myred2.withOpacity(1),
-                        MyColors.myred.withOpacity(1),
+                        AppColors.deepNavy.withOpacity(1),
+                        AppColors.oceanBlue.withOpacity(1),
+                        AppColors.coralRed.withOpacity(1),
+                        AppColors.blazingRed.withOpacity(1),
                       ],
-                      style: GoogleFonts.amiri(
+                      style: AppTypography.title.copyWith(
                         decoration: TextDecoration.none,
-                        color: MyColors.myred,
+                        color: AppColors.blazingRed,
                         fontSize: MediaQuery.sizeOf(context).width * 0.07,
                       ),
                     ),
@@ -108,7 +108,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           BoxShadow(
                             blurRadius: 3,
                             spreadRadius: 2,
-                            color: Colors.grey.shade800,
+                            color: AppColors.obsidian,
                           )
                         ],
                       ),

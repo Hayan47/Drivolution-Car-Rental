@@ -1,13 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:drivolution/constants/my_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPhoneNumber extends StatelessWidget {
   final String id;
-  AddPhoneNumber({Key? key, required this.id}) : super(key: key);
+  AddPhoneNumber({super.key, required this.id});
 
   final _phoneController = TextEditingController();
 
@@ -17,18 +17,16 @@ class AddPhoneNumber extends StatelessWidget {
       listener: (context, state) {
         if (state is UserInitial) {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            MySnackBar(
-              icon: const Icon(Icons.done, color: Colors.green, size: 18),
-              message: 'Phone Number has been added',
-              margin: 70,
-            ),
+          showToastMessage(
+            context,
+            'Phone Number added successfully',
+            const Icon(Icons.done, color: AppColors.successGreen, size: 18),
           );
         }
       },
       builder: (context, state) {
         return AlertDialog(
-          backgroundColor: MyColors.myred2,
+          backgroundColor: AppColors.coralRed,
           elevation: 0,
           insetPadding: const EdgeInsets.symmetric(horizontal: 25),
           shape: const RoundedRectangleBorder(
@@ -47,10 +45,10 @@ class AddPhoneNumber extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 5),
                   child: Text(
                     'Add Your Number',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: MyColors.mywhite,
-                          fontSize: 19,
-                        ),
+                    style: AppTypography.h4.copyWith(
+                      color: AppColors.pureWhite,
+                      fontSize: 19,
+                    ),
                   ),
                 ),
                 Stack(
@@ -58,7 +56,7 @@ class AddPhoneNumber extends StatelessWidget {
                     Container(
                       height: 50,
                       decoration: BoxDecoration(
-                        color: MyColors.myBlue2,
+                        color: AppColors.deepNavy,
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
@@ -67,9 +65,9 @@ class AddPhoneNumber extends StatelessWidget {
                       child: TextFormField(
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.phone,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.mywhite,
-                            ),
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.pureWhite,
+                        ),
                         controller: _phoneController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
@@ -81,10 +79,9 @@ class AddPhoneNumber extends StatelessWidget {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Phone Number...',
-                          hintStyle:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                  ),
+                          hintStyle: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                          ),
                         ),
                       ),
                     ),
@@ -105,10 +102,10 @@ class AddPhoneNumber extends StatelessWidget {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: MyColors.myBlue2,
+                    color: AppColors.deepNavy,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: MyColors.myGrey,
+                      color: AppColors.charcoal,
                       width: 2,
                     ),
                   ),
@@ -116,10 +113,9 @@ class AddPhoneNumber extends StatelessWidget {
                     padding: const EdgeInsets.all(5),
                     child: Text(
                       'submit',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: MyColors.mywhite,
-                            fontSize: 18,
-                          ),
+                      style: AppTypography.h4.copyWith(
+                        color: AppColors.pureWhite,
+                      ),
                     ),
                   ),
                 ),

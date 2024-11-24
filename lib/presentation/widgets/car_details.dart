@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
-import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/alert_dialog.dart';
 import 'package:drivolution/presentation/widgets/confirm_reservation_card.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -32,15 +33,7 @@ class _CarDetailsState extends State<CarDetails> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            MyColors.myGrey,
-            MyColors.myBlue4,
-            MyColors.myGrey,
-          ],
-        ),
+        gradient: AppColors.backgroundGradient,
       ),
       //?main column
       child: Padding(
@@ -72,11 +65,10 @@ class _CarDetailsState extends State<CarDetails> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             softWrap: false,
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 20,
-                                    ),
+                            style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
@@ -85,10 +77,10 @@ class _CarDetailsState extends State<CarDetails> {
                 ),
                 Text(
                   widget.car.model,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.mywhite,
-                        fontSize: 20,
-                      ),
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.pureWhite,
+                    fontSize: 20,
+                  ),
                 ),
               ],
             ),
@@ -106,19 +98,18 @@ class _CarDetailsState extends State<CarDetails> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           softWrap: false,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 20,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                       Text(
                         widget.car.locationName,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.mywhite,
-                              fontSize: 18,
-                            ),
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.pureWhite,
+                          fontSize: 18,
+                        ),
                       ),
                     ],
                   ),
@@ -128,7 +119,7 @@ class _CarDetailsState extends State<CarDetails> {
                       arguments: widget.car),
                   child: const Icon(
                     IconlyBroken.location,
-                    color: MyColors.myBlue,
+                    color: AppColors.oceanBlue,
                   ),
                 ),
               ],
@@ -140,17 +131,17 @@ class _CarDetailsState extends State<CarDetails> {
               children: [
                 Text(
                   'Rent',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.mywhite,
-                        fontSize: 20,
-                      ),
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.pureWhite,
+                    fontSize: 20,
+                  ),
                 ),
                 Text(
                   '${widget.car.rent.toString()} \$/D',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.mywhite,
-                        fontSize: 20,
-                      ),
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.pureWhite,
+                    fontSize: 20,
+                  ),
                 ),
               ],
             ),
@@ -164,10 +155,10 @@ class _CarDetailsState extends State<CarDetails> {
                   const SizedBox(width: 10),
                   Text(
                     widget.car.type,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.mywhite,
-                          fontSize: 20,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.pureWhite,
+                      fontSize: 20,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Builder(
@@ -176,49 +167,49 @@ class _CarDetailsState extends State<CarDetails> {
                         case 'Sedan':
                           return Image.asset(
                             'assets/icons/sedan.png',
-                            color: MyColors.myBlue,
+                            color: AppColors.oceanBlue,
                             width: 40,
                             height: 40,
                           );
                         case 'Pick Up':
                           return Image.asset(
                             'assets/icons/pickup.png',
-                            color: MyColors.myBlue,
+                            color: AppColors.oceanBlue,
                             width: 40,
                             height: 40,
                           );
                         case 'SUV':
                           return Image.asset(
                             'assets/icons/suv.png',
-                            color: MyColors.myBlue,
+                            color: AppColors.oceanBlue,
                             width: 40,
                             height: 40,
                           );
                         case 'Sport':
                           return Image.asset(
                             'assets/icons/sport.png',
-                            color: MyColors.myBlue,
+                            color: AppColors.oceanBlue,
                             width: 40,
                             height: 40,
                           );
                         case 'Coupe':
                           return Image.asset(
                             'assets/icons/coupe.png',
-                            color: MyColors.myBlue,
+                            color: AppColors.oceanBlue,
                             width: 40,
                             height: 40,
                           );
                         case 'Convertible':
                           return Image.asset(
                             'assets/icons/convertible.png',
-                            color: MyColors.myBlue,
+                            color: AppColors.oceanBlue,
                             width: 40,
                             height: 40,
                           );
                         case 'HatchBack':
                           return Image.asset(
                             'assets/icons/hatchback.png',
-                            color: MyColors.myBlue,
+                            color: AppColors.oceanBlue,
                             width: 40,
                             height: 40,
                           );
@@ -245,13 +236,13 @@ class _CarDetailsState extends State<CarDetails> {
                       boxShadow: [
                         //*botom right dark
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: AppColors.steelGrey.withOpacity(0.5),
                           offset: const Offset(1, 1),
                           blurRadius: 2,
                           spreadRadius: 1,
                         ),
                       ],
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Column(
@@ -260,16 +251,14 @@ class _CarDetailsState extends State<CarDetails> {
                           'assets/icons/seat.png',
                           width: 50,
                           height: 50,
-                          color: MyColors.myBlue2,
+                          color: AppColors.deepNavy,
                         ),
                         const SizedBox(height: 5),
                         Text(
                           '${widget.car.seats.toString()} seats',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.myBlue2,
-                                    fontSize: 16,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.deepNavy,
+                          ),
                         )
                       ],
                     ),
@@ -283,13 +272,13 @@ class _CarDetailsState extends State<CarDetails> {
                       boxShadow: [
                         //*botom right dark
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: AppColors.steelGrey.withOpacity(0.5),
                           offset: const Offset(1, 1),
                           blurRadius: 2,
                           spreadRadius: 1,
                         ),
                       ],
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Column(
@@ -298,16 +287,14 @@ class _CarDetailsState extends State<CarDetails> {
                           'assets/icons/door.png',
                           width: 50,
                           height: 50,
-                          color: MyColors.myBlue2,
+                          color: AppColors.deepNavy,
                         ),
                         const SizedBox(height: 5),
                         Text(
                           '${widget.car.doors.toString()} doors',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.myBlue2,
-                                    fontSize: 16,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.deepNavy,
+                          ),
                         )
                       ],
                     ),
@@ -321,13 +308,13 @@ class _CarDetailsState extends State<CarDetails> {
                       boxShadow: [
                         //*botom right dark
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: AppColors.steelGrey.withOpacity(0.5),
                           offset: const Offset(1, 1),
                           blurRadius: 2,
                           spreadRadius: 1,
                         ),
                       ],
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Column(
@@ -340,21 +327,21 @@ class _CarDetailsState extends State<CarDetails> {
                                   'assets/icons/gas.png',
                                   width: 50,
                                   height: 50,
-                                  color: MyColors.myBlue2,
+                                  color: AppColors.deepNavy,
                                 );
                               case 'disel':
                                 return Image.asset(
                                   'assets/icons/disel.png',
                                   width: 50,
                                   height: 50,
-                                  color: Theme.of(context).secondaryHeaderColor,
+                                  color: AppColors.jetBlack,
                                 );
                               case 'electro':
                                 return Image.asset(
                                   'assets/icons/disel.png',
                                   width: 50,
                                   height: 50,
-                                  color: Theme.of(context).secondaryHeaderColor,
+                                  color: AppColors.jetBlack,
                                 );
                               default:
                                 return Container();
@@ -364,11 +351,9 @@ class _CarDetailsState extends State<CarDetails> {
                         const SizedBox(height: 5),
                         Text(
                           widget.car.fuel,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.myBlue2,
-                                    fontSize: 16,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.deepNavy,
+                          ),
                         )
                       ],
                     ),
@@ -381,7 +366,7 @@ class _CarDetailsState extends State<CarDetails> {
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: MyColors.myGrey,
+                color: AppColors.charcoal,
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
@@ -391,16 +376,16 @@ class _CarDetailsState extends State<CarDetails> {
                 child: Center(
                   child: Text(
                     'Features',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 26,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.oceanBlue,
+                      fontSize: 26,
+                    ),
                   ),
                 ),
               ),
             ),
             Container(
-              color: MyColors.myGrey,
+              color: AppColors.charcoal,
               child: AnimatedSize(
                 duration: const Duration(milliseconds: 600),
                 curve: Curves.easeInOutCubicEmphasized,
@@ -417,17 +402,15 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: MyColors.myBlue,
-                            foregroundColor: MyColors.myBlue2,
+                            backgroundColor: AppColors.oceanBlue,
+                            foregroundColor: AppColors.deepNavy,
                             child: Text('${index + 1}'),
                           ),
                           title: Text(
                             widget.car.features[index],
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 16,
-                                    ),
+                            style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite,
+                            ),
                           ),
                         ),
                         widget.car.features.length - 1 == index
@@ -435,7 +418,7 @@ class _CarDetailsState extends State<CarDetails> {
                             : const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
                                 child: Divider(
-                                  color: MyColors.myBlue,
+                                  color: AppColors.oceanBlue,
                                 ),
                               ),
                       ],
@@ -447,7 +430,7 @@ class _CarDetailsState extends State<CarDetails> {
             !_showAllFeatures
                 ? Container(
                     decoration: const BoxDecoration(
-                      color: MyColors.myGrey,
+                      color: AppColors.charcoal,
                       borderRadius: BorderRadius.vertical(
                         bottom: Radius.circular(24),
                       ),
@@ -465,17 +448,13 @@ class _CarDetailsState extends State<CarDetails> {
                           children: [
                             const Icon(
                               Icons.arrow_drop_down,
-                              color: MyColors.mywhite,
+                              color: AppColors.pureWhite,
                             ),
                             Text(
                               'Show all features',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 16,
-                                  ),
+                              style: AppTypography.labelLarge.copyWith(
+                                color: AppColors.pureWhite,
+                              ),
                             ),
                           ],
                         ),
@@ -484,7 +463,7 @@ class _CarDetailsState extends State<CarDetails> {
                   )
                 : Container(
                     decoration: const BoxDecoration(
-                      color: MyColors.myGrey,
+                      color: AppColors.charcoal,
                       borderRadius: BorderRadius.vertical(
                         bottom: Radius.circular(24),
                       ),
@@ -502,17 +481,14 @@ class _CarDetailsState extends State<CarDetails> {
                           children: [
                             const Icon(
                               Icons.arrow_drop_up,
-                              color: MyColors.mywhite,
+                              color: AppColors.pureWhite,
                             ),
                             Text(
                               'Show less',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 16,
-                                  ),
+                              style: AppTypography.labelLarge.copyWith(
+                                color: AppColors.pureWhite,
+                                fontSize: 16,
+                              ),
                             ),
                           ],
                         ),
@@ -524,7 +500,7 @@ class _CarDetailsState extends State<CarDetails> {
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: MyColors.myGrey,
+                color: AppColors.charcoal,
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
@@ -534,10 +510,10 @@ class _CarDetailsState extends State<CarDetails> {
                 child: Center(
                   child: Text(
                     'Details',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 26,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.oceanBlue,
+                      fontSize: 26,
+                    ),
                   ),
                 ),
               ),
@@ -545,7 +521,7 @@ class _CarDetailsState extends State<CarDetails> {
             //!1 color
             Container(
               decoration: const BoxDecoration(
-                  color: MyColors.myGrey,
+                  color: AppColors.charcoal,
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(24))),
               child: Column(
@@ -558,19 +534,17 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text(
                           'Color',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         Text(
                           widget.car.color,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         )
                       ],
                     ),
@@ -578,7 +552,7 @@ class _CarDetailsState extends State<CarDetails> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Divider(
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                     ),
                   ),
                   //!2 interior color
@@ -590,19 +564,17 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text(
                           'Interior Color',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         Text(
                           widget.car.interiorColor,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         )
                       ],
                     ),
@@ -610,7 +582,7 @@ class _CarDetailsState extends State<CarDetails> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Divider(
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                     ),
                   ),
                   //!3 engine
@@ -622,11 +594,10 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text(
                           'Engine',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         Flexible(
                           child: Text(
@@ -634,11 +605,10 @@ class _CarDetailsState extends State<CarDetails> {
                             maxLines: 2,
                             overflow: TextOverflow.clip,
                             textAlign: TextAlign.end,
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 18,
-                                    ),
+                            style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite,
+                              fontSize: 18,
+                            ),
                           ),
                         )
                       ],
@@ -647,7 +617,7 @@ class _CarDetailsState extends State<CarDetails> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Divider(
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                     ),
                   ),
                   //!4 transmission
@@ -659,19 +629,17 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text(
                           'Transmission',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         Text(
                           widget.car.transmission,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         )
                       ],
                     ),
@@ -679,7 +647,7 @@ class _CarDetailsState extends State<CarDetails> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Divider(
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                     ),
                   ),
                   //!5 Drive train
@@ -691,19 +659,17 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text(
                           'Drivetrain',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         Text(
                           widget.car.drivetrain,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         )
                       ],
                     ),
@@ -711,7 +677,7 @@ class _CarDetailsState extends State<CarDetails> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Divider(
-                      color: MyColors.myBlue,
+                      color: AppColors.oceanBlue,
                     ),
                   ),
                   //!6 kilometrage
@@ -722,19 +688,17 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text(
                           'kilometrage',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         Text(
                           widget.car.kilometrage.toString(),
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         )
                       ],
                     ),
@@ -747,7 +711,7 @@ class _CarDetailsState extends State<CarDetails> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: MyColors.myGrey,
+                color: AppColors.charcoal,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
@@ -755,42 +719,38 @@ class _CarDetailsState extends State<CarDetails> {
                 children: [
                   Text(
                     'Discription',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 26,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.oceanBlue,
+                      fontSize: 26,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   widget.car.description.trim().isNotEmpty
                       ? ReadMoreText(
                           widget.car.description,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 15,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 15,
+                          ),
                           trimMode: TrimMode.Line,
                           trimLines: 2,
-                          moreStyle:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 15,
-                                  ),
-                          lessStyle:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 15,
-                                  ),
+                          moreStyle: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 15,
+                          ),
+                          lessStyle: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 15,
+                          ),
                         )
                       : Center(
                           child: Text(
                             'No Description',
                             textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 15,
-                                    ),
+                            style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite,
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                   const SizedBox(height: 10),
@@ -812,13 +772,11 @@ class _CarDetailsState extends State<CarDetails> {
                     return BlocListener<CarsBloc, CarsState>(
                       listener: (context, state) {
                         if (state is CarDeleted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            MySnackBar(
-                              icon: const Icon(Icons.done,
-                                  color: Colors.green, size: 18),
-                              message: state.message,
-                              margin: 70,
-                            ),
+                          showToastMessage(
+                            context,
+                            state.message,
+                            const Icon(Icons.done,
+                                color: AppColors.successGreen, size: 18),
                           );
                           Navigator.pushNamedAndRemoveUntil(
                             context,
@@ -826,13 +784,11 @@ class _CarDetailsState extends State<CarDetails> {
                             (Route<dynamic> route) => false,
                           );
                         } else if (state is CarsError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            MySnackBar(
-                              icon: const Icon(Icons.error,
-                                  color: MyColors.myred2, size: 18),
-                              message: 'Error Deleting Car',
-                              margin: 5,
-                            ),
+                          showToastMessage(
+                            context,
+                            'Error Deleting Car',
+                            const Icon(Icons.error,
+                                color: AppColors.alertRed, size: 18),
                           );
                           Navigator.pop(context);
                         }
@@ -860,17 +816,10 @@ class _CarDetailsState extends State<CarDetails> {
                                 height: 40,
                                 width: 140,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: MyColors.myBlue),
+                                  border:
+                                      Border.all(color: AppColors.oceanBlue),
                                   borderRadius: BorderRadius.circular(10),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                    colors: [
-                                      MyColors.myred.withOpacity(0.6),
-                                      MyColors.myred2.withOpacity(1),
-                                      MyColors.myred.withOpacity(0.6),
-                                    ],
-                                  ),
+                                  gradient: AppColors.cardGradient1,
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
@@ -878,17 +827,14 @@ class _CarDetailsState extends State<CarDetails> {
                                   children: [
                                     Text(
                                       'delete car',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            color: MyColors.mywhite,
-                                            fontSize: 20,
-                                          ),
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.pureWhite,
+                                        fontSize: 20,
+                                      ),
                                     ),
                                     const Icon(
                                       IconlyBold.delete,
-                                      color: MyColors.myBlue,
+                                      color: AppColors.oceanBlue,
                                     )
                                   ],
                                 ),
@@ -907,13 +853,10 @@ class _CarDetailsState extends State<CarDetails> {
                             //!book now
                             Text(
                               'Book Now!',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                              style: AppTypography.labelLarge.copyWith(
+                                color: AppColors.pureWhite,
+                                fontSize: 18,
+                              ),
                             ),
                             const SizedBox(height: 10),
                             //!Date Pick
@@ -935,27 +878,25 @@ class _CarDetailsState extends State<CarDetails> {
                                       height: 40,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        color: MyColors.myred2,
+                                        color: AppColors.coralRed,
                                       ),
                                       child: Center(
                                         child: Text(
                                           state is RangePicked
                                               ? '${state.selectedRange.start.year.toString()} / ${state.selectedRange.start.month.toString()} / ${state.selectedRange.start.day.toString()}'
                                               : '${range.start.year.toString()} / ${range.start.month.toString()} / ${range.start.day.toString()}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                color: MyColors.mywhite,
-                                                fontSize: 15,
-                                              ),
+                                          style:
+                                              AppTypography.labelLarge.copyWith(
+                                            color: AppColors.pureWhite,
+                                            fontSize: 15,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   const Icon(
                                     Icons.arrow_forward_ios,
-                                    color: MyColors.myred,
+                                    color: AppColors.blazingRed,
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -968,20 +909,18 @@ class _CarDetailsState extends State<CarDetails> {
                                       height: 40,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        color: MyColors.myred2,
+                                        color: AppColors.coralRed,
                                       ),
                                       child: Center(
                                         child: Text(
                                           state is RangePicked
                                               ? '${state.selectedRange.end.year.toString()} / ${state.selectedRange.end.month.toString()} / ${state.selectedRange.end.day.toString()}'
                                               : '${range.end.year.toString()} / ${range.end.month.toString()} / ${range.end.day.toString()}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                color: MyColors.mywhite,
-                                                fontSize: 15,
-                                              ),
+                                          style:
+                                              AppTypography.labelLarge.copyWith(
+                                            color: AppColors.pureWhite,
+                                            fontSize: 15,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1015,17 +954,14 @@ class _CarDetailsState extends State<CarDetails> {
                               },
                               style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(MyColors.myred2),
+                                    WidgetStateProperty.all(AppColors.coralRed),
                               ),
                               child: Text(
                                 'Submit',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 18,
-                                    ),
+                                style: AppTypography.labelLarge.copyWith(
+                                  color: AppColors.pureWhite,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 10),

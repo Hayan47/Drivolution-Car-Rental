@@ -1,6 +1,7 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,22 +21,19 @@ class ForgetPasswordScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              MyColors.myGrey,
-              MyColors.myBlue4,
-              MyColors.myGrey,
+              AppColors.charcoal,
+              AppColors.twilightBlue,
+              AppColors.charcoal,
             ],
           ),
         ),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
             if (state is UserError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                MySnackBar(
-                  icon:
-                      const Icon(Icons.error, color: MyColors.myred2, size: 18),
-                  message: state.errorMessage,
-                  margin: 5,
-                ),
+              showToastMessage(
+                context,
+                state.errorMessage,
+                const Icon(Icons.error, color: AppColors.alertRed, size: 18),
               );
             } else if (state is UserInitial) {
               Navigator.pushNamedAndRemoveUntil(
@@ -43,12 +41,10 @@ class ForgetPasswordScreen extends StatelessWidget {
                 'mainscreen',
                 (Route<dynamic> route) => false,
               );
-              ScaffoldMessenger.of(context).showSnackBar(
-                MySnackBar(
-                  icon: const Icon(Icons.done, color: Colors.green, size: 18),
-                  message: 'Reset Password link has been sent to your email',
-                  margin: 70,
-                ),
+              showToastMessage(
+                context,
+                'Reset Password link has been sent to your email',
+                const Icon(Icons.done, color: AppColors.successGreen, size: 18),
               );
             }
           },
@@ -58,7 +54,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 AppBar(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  iconTheme: const IconThemeData(color: MyColors.myred),
+                  iconTheme: const IconThemeData(color: AppColors.blazingRed),
                 ),
                 Expanded(
                   child: CustomScrollView(
@@ -73,13 +69,10 @@ class ForgetPasswordScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   'Enter Your Email',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        color: MyColors.myred2,
-                                        fontSize: 32,
-                                      ),
+                                  style: AppTypography.labelLarge.copyWith(
+                                    color: AppColors.coralRed,
+                                    fontSize: 32,
+                                  ),
                                 ),
                                 const SizedBox(height: 25),
                                 Padding(
@@ -90,7 +83,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                                       Container(
                                         height: 50,
                                         decoration: BoxDecoration(
-                                          color: MyColors.myred2,
+                                          color: AppColors.coralRed,
                                           borderRadius:
                                               BorderRadius.circular(12),
                                         ),
@@ -110,18 +103,16 @@ class ForgetPasswordScreen extends StatelessWidget {
                                             }
                                             return null;
                                           },
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                color: MyColors.mywhite,
-                                                fontSize: 16,
-                                              ),
+                                          style:
+                                              AppTypography.labelLarge.copyWith(
+                                            color: AppColors.pureWhite,
+                                            fontSize: 16,
+                                          ),
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,
                                             hintText: 'Email...',
                                             hintStyle: TextStyle(
-                                                color: MyColors.mywhite),
+                                                color: AppColors.pureWhite),
                                           ),
                                         ),
                                       ),
@@ -171,20 +162,17 @@ class ForgetPasswordScreen extends StatelessWidget {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                   border: Border.all(
-                                                    color: MyColors.myred2,
+                                                    color: AppColors.coralRed,
                                                   ),
                                                 ),
                                                 child: Center(
                                                   child: Text(
                                                     'Reset Password',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
+                                                    style: AppTypography.h4
                                                         .copyWith(
-                                                          color:
-                                                              MyColors.myred2,
-                                                          fontSize: 14,
-                                                        ),
+                                                      color: AppColors.coralRed,
+                                                      fontSize: 14,
+                                                    ),
                                                   ),
                                                 ),
                                               ),

@@ -1,4 +1,5 @@
 import 'package:drivolution/data/models/reservation_model.dart';
+import 'package:drivolution/data/services/logger_service.dart';
 import 'package:drivolution/data/services/reservations_services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ part 'reservation_event.dart';
 part 'reservation_state.dart';
 
 class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
+  final logger = LoggerService().getLogger('Reservation Bloc Logger');
   final reservationsServices = ReservationsServices();
   DateTimeRange? selectedRange;
   List<DateTime> disabledDates = [];
@@ -18,7 +20,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     on<GetCarReservations>((event, emit) async {
       try {
         emit(ReservationsLoading());
-        print(state);
+        logger.info(state);
         reservations =
             await reservationsServices.getCarReservations(event.carID);
         disabledDates = [];
@@ -33,10 +35,10 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         }
         emit(ReservationsLoaded(
             reservations: reservations, disabledDates: disabledDates));
-        print(state);
+        logger.info(state);
       } catch (error) {
         emit(ReservationsError(message: error.toString()));
-        print(state);
+        logger.severe(state);
       }
     });
 
@@ -67,24 +69,24 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
           if (disabledDates.contains(date)) {
             emit(const ReservationsError(
                 message: 'Selected Date Range contains blackout days'));
-            print(state);
+            logger.info(state);
             emit(ReservationsLoaded(
                 reservations: reservations, disabledDates: disabledDates));
-            print(state);
+            logger.info(state);
             break;
           } else {
             duration = selectedRange!.duration.inDays;
             emit(
                 RangePicked(selectedRange: selectedRange!, duration: duration));
-            print(state);
+            logger.info(state);
           }
         }
       } else {
         emit(const ReservationsError(message: 'Choose a range first'));
-        print(state);
+        logger.severe(state);
         emit(ReservationsLoaded(
             reservations: reservations, disabledDates: disabledDates));
-        print(state);
+        logger.info(state);
       }
     });
 
@@ -92,10 +94,10 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
       try {
         reservationsServices.makeReservation(event.reservation);
         emit(ReservationsInitial());
-        print(state);
+        logger.info(state);
       } catch (e) {
         emit(const ReservationsError(message: 'Failed to make a reservation'));
-        print(state);
+        logger.severe(state);
       }
     });
 
@@ -113,13 +115,13 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
                 DateTime(currentDay.year, currentDay.month, currentDay.day));
           }
         }
-        print(userReservations);
+        logger.info(userReservations);
         emit(ReservationsLoaded(
             reservations: userReservations, disabledDates: disabledDates));
-        print(state);
+        logger.info(state);
       } catch (e) {
         emit(const ReservationsError(message: 'Error getting reservations'));
-        print(state);
+        logger.severe(state);
       }
     });
   }

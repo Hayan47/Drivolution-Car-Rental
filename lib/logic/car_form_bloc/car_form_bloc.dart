@@ -282,7 +282,7 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
     if (state.images.isEmpty) {
       errors['images'] = 'At least one image is required';
     }
-    print(state);
+    logger.info(state);
     emit(state.copyWith(
       errors: errors,
       dateTime: DateTime.now(),

@@ -1,4 +1,5 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -11,19 +12,15 @@ class MyNumberPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NumberPicker(
-      textStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-            color: MyColors.myBlue,
-            fontSize: 16,
-          ),
+      textStyle: AppTypography.labelLarge.copyWith(color: AppColors.oceanBlue),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: MyColors.myred2),
-        // color: Colors.white,
+        border: Border.all(color: AppColors.charcoal),
       ),
-      selectedTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-            color: MyColors.mywhite,
-            fontSize: 20,
-          ),
+      selectedTextStyle: AppTypography.labelLarge.copyWith(
+        color: AppColors.pureWhite,
+        fontSize: 20,
+      ),
       axis: Axis.horizontal,
       itemWidth: 30,
       haptics: false,

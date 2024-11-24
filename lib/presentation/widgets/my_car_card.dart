@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../data/models/car_model.dart';
 
@@ -20,7 +20,7 @@ class MyCarCard extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: Container(
             decoration: const BoxDecoration(
-              color: MyColors.myGrey,
+              color: AppColors.charcoal,
               shape: BoxShape.circle,
             ),
             child: Column(

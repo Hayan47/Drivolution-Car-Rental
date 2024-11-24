@@ -1,11 +1,12 @@
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import '../../../constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class HomeScreen extends StatelessWidget {
   final _searchController = TextEditingController();
@@ -21,21 +22,8 @@ class HomeScreen extends StatelessWidget {
               ? AppBar(
                   title: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: Container(
+                    child: SizedBox(
                       height: 45,
-                      // decoration: BoxDecoration(
-                      // gradient: LinearGradient(colors: [
-                      // MyColors.myBlue2.withOpacity(0.1),
-                      // MyColors.myred2.withOpacity(0.2),
-                      // MyColors.myred2.withOpacity(0.4),
-                      // MyColors.myred2.withOpacity(0.6),
-                      // MyColors.myred2.withOpacity(0.6),
-                      // MyColors.myred2.withOpacity(0.4),
-                      // MyColors.myred2.withOpacity(0.2),
-                      // MyColors.myBlue2.withOpacity(0.1),
-                      // ]),
-                      // borderRadius: BorderRadius.circular(4),
-                      // ),
                       child: SingleChildScrollView(
                         child: TextField(
                           autofocus: true,
@@ -45,23 +33,19 @@ class HomeScreen extends StatelessWidget {
                           },
                           maxLines: null,
                           textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                           controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             //!hint
                             hintText: 'saerch..',
                             //!hint style
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
+                            hintStyle: AppTypography.h4
                                 .copyWith(
-                                  color: MyColors.mywhite.withOpacity(0.5),
-                                  fontSize: 18,
+                                  color: AppColors.pureWhite.withOpacity(0.5),
                                 ),
                           ),
                           cursorHeight: 18,
@@ -84,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                         icon: const Icon(
                           Icons.clear,
                           size: 32,
-                          color: MyColors.mywhite,
+                          color: AppColors.pureWhite,
                         ),
                       ),
                     )
@@ -138,11 +122,9 @@ class HomeScreen extends StatelessWidget {
                                 Image.asset('assets/lottie/refresh.png'),
                                 Text(
                                   'Error Fetching Cars, Tap to Retry',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
+                                  style: AppTypography.labelLarge
                                       .copyWith(
-                                        color: MyColors.myBlue,
+                                        color: AppColors.oceanBlue,
                                         fontSize: 20,
                                       ),
                                 ),
@@ -164,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                           showChildOpacityTransition: false,
                           height: 200,
                           color: Colors.transparent,
-                          backgroundColor: MyColors.mywhite,
+                          backgroundColor: AppColors.pureWhite,
                           child: ListView.builder(
                             itemCount: state.cars.length,
                             itemBuilder: (context, index) {
@@ -215,11 +197,9 @@ class HomeScreen extends StatelessWidget {
                               Image.asset('assets/lottie/refresh.png'),
                               Text(
                                 'Error Fetching Cars, Tap to Retry',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
+                                style:AppTypography.labelLarge
                                     .copyWith(
-                                      color: MyColors.myBlue,
+                                      color: AppColors.oceanBlue,
                                       fontSize: 20,
                                     ),
                               ),

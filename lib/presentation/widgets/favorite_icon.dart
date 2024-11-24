@@ -1,6 +1,7 @@
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -76,7 +77,7 @@ class FavoriteIcon extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               child: Image.asset(
                                 'assets/icons/love.png',
-                                color: Colors.white,
+                                color: AppColors.pearl,
                               ),
                             ),
                           ),
@@ -124,7 +125,7 @@ class FavoriteIcon extends StatelessWidget {
               'assets/icons/love2.png',
               width: 30,
               height: 30,
-              color: Colors.grey.shade400,
+              color: AppColors.stormGrey,
             ),
           );
         }

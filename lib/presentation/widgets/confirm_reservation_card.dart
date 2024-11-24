@@ -2,37 +2,34 @@ import 'dart:ui';
 import 'package:drivolution/data/models/reservation_model.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../constants/my_colors.dart';
 
 @immutable
 class ConfirmReservation extends StatelessWidget {
   final Car car;
 
-  const ConfirmReservation({Key? key, required this.car}) : super(key: key);
+  const ConfirmReservation({super.key, required this.car});
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ReservationBloc, ReservationState>(
       listener: (context, state) {
         if (state is ReservationsError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            MySnackBar(
-              icon: const Icon(Icons.error, color: MyColors.myred2, size: 18),
-              message: state.message,
-              margin: 5,
-            ),
+          showToastMessage(
+            context,
+            state.message,
+            const Icon(Icons.error, color: AppColors.alertRed, size: 18),
           );
         } else if (state is ReservationsInitial) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            MySnackBar(
-              icon: const Icon(Icons.done, color: Colors.green, size: 18),
-              message: 'Reservation made successfully',
-              margin: 5,
-            ),
+          showToastMessage(
+            context,
+            'Reservation made successfully',
+            const Icon(Icons.done, color: AppColors.successGreen, size: 18),
           );
         }
       },
@@ -60,10 +57,8 @@ class ConfirmReservation extends StatelessWidget {
                         Text(
                           car.name,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: MyColors.mywhite, fontSize: 26),
+                          style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite, fontSize: 26),
                         ),
                         //! car info
                         Padding(
@@ -73,29 +68,23 @@ class ConfirmReservation extends StatelessWidget {
                             children: [
                               Text(
                                 '${state.selectedRange.start.day.toString()}/${state.selectedRange.start.month.toString()}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 20,
-                                    ),
+                                style: AppTypography.labelLarge.copyWith(
+                                  color: AppColors.pureWhite,
+                                  fontSize: 20,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                               const Icon(
                                 Icons.arrow_forward_rounded,
                                 size: 30,
-                                color: MyColors.mywhite,
+                                color: AppColors.pureWhite,
                               ),
                               Text(
                                 '${state.selectedRange.end.day.toString()}/${state.selectedRange.end.month.toString()}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 20,
-                                    ),
+                                style: AppTypography.labelLarge.copyWith(
+                                  color: AppColors.pureWhite,
+                                  fontSize: 20,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -103,11 +92,10 @@ class ConfirmReservation extends StatelessWidget {
                         ),
                         Text(
                           '$price \$',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 20,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 20,
+                          ),
                           textAlign: TextAlign.center,
                         ),
 
@@ -132,7 +120,7 @@ class ConfirmReservation extends StatelessWidget {
                                 child: Container(
                                   width: MediaQuery.sizeOf(context).width * 0.5,
                                   decoration: BoxDecoration(
-                                    color: MyColors.myBlue2.withOpacity(0.5),
+                                    color: AppColors.deepNavy.withOpacity(0.5),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Center(
@@ -140,13 +128,11 @@ class ConfirmReservation extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         'Confirm',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              color: MyColors.mywhite,
-                                              fontSize: 20,
-                                            ),
+                                        style:
+                                            AppTypography.labelLarge.copyWith(
+                                          color: AppColors.pureWhite,
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),

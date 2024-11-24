@@ -1,4 +1,5 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:drivolution/data/models/notification_model.dart'
     as mynotification;
@@ -19,23 +20,23 @@ class NotificationItem extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        color: MyColors.myBlue2,
+        color: AppColors.deepNavy,
         child: ListTile(
           title: Row(
             children: [
               const Icon(
                 IconlyLight.notification,
-                color: MyColors.myred2,
+                color: AppColors.coralRed,
                 size: 20,
               ),
               const SizedBox(width: 5),
               Text(
                 notification.title,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: MyColors.myred2,
-                    ),
+                style: AppTypography.labelLarge.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: AppColors.coralRed,
+                ),
               ),
             ],
           ),
@@ -44,27 +45,22 @@ class NotificationItem extends StatelessWidget {
             children: [
               Text(
                 notification.body,
-                style: GoogleFonts.karla(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                ),
+                style: AppTypography.bodyLarge.copyWith(color: AppColors.pearl),
               ),
               const SizedBox(height: 5),
               Row(
                 children: [
                   Icon(
                     IconlyLight.time_circle,
-                    color: MyColors.mywhite.withOpacity(0.4),
+                    color: AppColors.pureWhite.withOpacity(0.4),
                     size: 18,
                   ),
                   const SizedBox(width: 5),
                   Text(
                     DateFormat('EEE, MMM d, yyyy, hh:mm a')
                         .format(notification.timestamp.toDate()),
-                    style: GoogleFonts.karla(
-                      fontSize: 14,
-                      color: Colors.white,
+                    style: AppTypography.labelMedium.copyWith(
+                      color: AppColors.pearl,
                       fontWeight: FontWeight.w100,
                     ),
                   ),

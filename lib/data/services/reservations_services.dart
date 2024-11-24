@@ -49,7 +49,6 @@ class ReservationsServices {
       var reservation = doc.data();
       reservations.add(reservation);
     }
-    print(reservations);
     return reservations;
   }
 }

@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/favorite_icon.dart';
 import 'package:flutter/material.dart';
 import '../../data/models/car_model.dart';
@@ -33,7 +34,7 @@ class CarCard extends StatelessWidget {
                 height: 180,
                 child: Stack(
                   children: [
-                    Container(color: MyColors.myGrey),
+                    Container(color: AppColors.charcoal),
                     //?child
                     Padding(
                       padding: const EdgeInsets.all(15),
@@ -60,12 +61,10 @@ class CarCard extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               softWrap: false,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall!
+                                              style: AppTypography.labelLarge
                                                   .copyWith(
-                                                    color: MyColors.mywhite,
-                                                  ),
+                                                color: AppColors.pureWhite,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -115,38 +114,30 @@ class CarCard extends StatelessWidget {
               padding: const EdgeInsets.all(6),
               // width: 138,
               decoration: BoxDecoration(
-                color: MyColors.myred4,
+                color: AppColors.coralRed,
                 borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    MyColors.myred.withOpacity(0.6),
-                    MyColors.myred2.withOpacity(1),
-                    MyColors.myred.withOpacity(0.6),
-                  ],
-                ),
+                gradient: AppColors.cardGradient1,
               ),
               child: Row(
                 children: [
                   Text(
                     'Price   ',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: MyColors.mywhite,
-                          fontSize: 15,
-                        ),
+                    style: AppTypography.h4.copyWith(
+                      color: AppColors.pureWhite,
+                      fontSize: 15,
+                    ),
                   ),
                   Text(
                     '${car.rent.toString().substring(0, min(4, car.rent.toString().length))} \$',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.mywhite,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.pureWhite,
+                    ),
                   ),
                   Text(
                     '/D',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.mywhite,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.pureWhite,
+                    ),
                   )
                 ],
               ),

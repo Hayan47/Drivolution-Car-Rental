@@ -57,8 +57,6 @@ class UserServices {
       if (googleSignInAccount.photoUrl != null) {
         addImage(googleSignInAccount.photoUrl!, cred.user!.uid);
       }
-    } else {
-      print(false);
     }
     //! add fcm token
     addFCMToken(cred.user!.uid);

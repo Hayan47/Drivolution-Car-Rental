@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/logic/user_image_cubit/user_image_cubit.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/add_phone_number.dart';
 import 'package:drivolution/presentation/widgets/alert_dialog.dart';
 import 'package:drivolution/presentation/widgets/shimmer_profile.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../constants/my_colors.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
   const ProfileDetailsScreen({super.key});
@@ -38,16 +39,13 @@ class ProfileDetailsScreen extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 8),
                               child: Text(
                                 '${userState.userInfo.firstName} ${userState.userInfo.lastName}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: MyColors.mywhite,
-                                      fontSize: 0.4 *
-                                          MediaQuery.sizeOf(context).height *
-                                          0.32 *
-                                          0.15,
-                                    ),
+                                style: AppTypography.labelLarge.copyWith(
+                                  color: AppColors.pureWhite,
+                                  fontSize: 0.4 *
+                                      MediaQuery.sizeOf(context).height *
+                                      0.32 *
+                                      0.15,
+                                ),
                               ),
                             ),
                             Padding(
@@ -57,7 +55,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                                   const Icon(
                                     Icons.call,
                                     size: 12,
-                                    color: Colors.green,
+                                    color: AppColors.successGreen,
                                   ),
                                   const SizedBox(width: 5),
                                   userState.userInfo.phoneNumber == ""
@@ -80,28 +78,24 @@ class ProfileDetailsScreen extends StatelessWidget {
                                           },
                                           child: Text(
                                             'Add Phone Number',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall!
+                                            style: AppTypography.labelLarge
                                                 .copyWith(
-                                                  color: MyColors.mywhite,
-                                                  fontSize: 0.3 *
-                                                      MediaQuery.sizeOf(context)
-                                                          .height *
-                                                      0.32 *
-                                                      0.15,
-                                                ),
+                                              color: AppColors.pureWhite,
+                                              fontSize: 0.3 *
+                                                  MediaQuery.sizeOf(context)
+                                                      .height *
+                                                  0.32 *
+                                                  0.15,
+                                            ),
                                           ),
                                         )
                                       : Text(
                                           userState.userInfo.phoneNumber,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                color: MyColors.mywhite,
-                                                fontSize: 10,
-                                              ),
+                                          style:
+                                              AppTypography.labelLarge.copyWith(
+                                            color: AppColors.pureWhite,
+                                            fontSize: 10,
+                                          ),
                                         ),
                                 ],
                               ),
@@ -119,30 +113,26 @@ class ProfileDetailsScreen extends StatelessWidget {
                         context.read<UserBloc>().add(AddUserImage(
                             imageUrl: state.imageUrl,
                             userID: userState.userInfo.userid));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          MySnackBar(
-                            icon: const Icon(Icons.done,
-                                color: Colors.green, size: 18),
-                            message: state.message,
-                            margin: 70,
-                          ),
+                        showToastMessage(
+                          context,
+                          state.message,
+                          const Icon(Icons.done,
+                              color: AppColors.successGreen, size: 18),
                         );
                       } else if (state is UserImageError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          MySnackBar(
-                            icon: const Icon(Icons.error,
-                                color: MyColors.myred2, size: 18),
-                            message: state.message,
-                            margin: 70,
-                          ),
+                        showToastMessage(
+                          context,
+                          state.message,
+                          const Icon(Icons.error,
+                              color: AppColors.alertRed, size: 18),
                         );
                       }
                     },
                     builder: (context, state) {
                       if (state is UserImageLoading) {
                         return const Center(
-                          child:
-                              CircularProgressIndicator(color: MyColors.myred2),
+                          child: CircularProgressIndicator(
+                              color: AppColors.coralRed),
                         );
                       } else {
                         return CachedNetworkImage(
@@ -187,11 +177,10 @@ class ProfileDetailsScreen extends StatelessWidget {
                         ),
                         title: Text(
                           'My Cars',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         trailing: const Icon(
                           Icons.keyboard_arrow_right_rounded,
@@ -213,11 +202,10 @@ class ProfileDetailsScreen extends StatelessWidget {
                         ),
                         title: Text(
                           'My Reservations',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 18,
-                                  ),
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 18,
+                          ),
                         ),
                         trailing: const Icon(
                           Icons.keyboard_arrow_right_rounded,
@@ -245,14 +233,14 @@ class ProfileDetailsScreen extends StatelessWidget {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(MyColors.myred2),
+                            MaterialStateProperty.all(AppColors.coralRed),
                       ),
                       child: Text(
                         'Sign out',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: MyColors.mywhite,
-                              fontSize: 18,
-                            ),
+                        style: AppTypography.h4.copyWith(
+                          color: AppColors.pureWhite,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ],
