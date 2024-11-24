@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/data/services/image_service.dart';
+import 'package:drivolution/data/services/logger_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -11,6 +12,7 @@ part 'map_event.dart';
 part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
+  final logger = LoggerService().getLogger('Map Bloc Logger');
   final ImageService imageService;
   LatLng pickedLocation = const LatLng(0, 0);
   String cityName = '';
@@ -39,7 +41,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           markers: markers,
         ),
       );
-      print(state);
+      logger.info(state);
     });
 
     on<LoadCarLocation>((event, emit) async {
@@ -64,15 +66,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           markers: markers,
         ),
       );
-      print(state);
+      logger.info(state);
     });
 
     on<GetMyLocation>((event, emit) async {
       emit(MapLoading());
       // bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      print("getting ll");
+      logger.info("getting ll");
       // if (!serviceEnabled) {
-      //   // print("Permession Denied 1");
+      //   // logger.info("Permession Denied 1");
       //   // emit(state.copyWith(
       //   //     message: 'Error Getting Location Permession Denied'));
       // }
@@ -80,7 +82,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         // if (permission == LocationPermission.denied) {
-        // print("Permession Denied 2");
+        // logger.info("Permession Denied 2");
         // emit(state.copyWith(
         //     message: 'Error Getting Location Permession Denied'));
         // }
@@ -88,7 +90,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
       if (permission == LocationPermission.deniedForever) {
         emit(const MapError(message: 'Location Permession Denied'));
-        print(state);
+        logger.severe(state);
       }
       try {
         position = await Geolocator.getCurrentPosition(
@@ -101,11 +103,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             markers: markers,
           ),
         );
-        print(state);
+        logger.info(state);
       } catch (e) {
-        print(e);
+        logger.info(e);
         emit(MapError(message: e.toString()));
-        print(state);
+        logger.severe(state);
       }
     });
   }

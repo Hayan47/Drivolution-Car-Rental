@@ -1,7 +1,8 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,7 @@ class MapScreen extends StatelessWidget {
         .add(LoadCarLocation(geoPoint: car.geoPoint, carImage: car.img));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColors.myBlue,
+        backgroundColor: AppColors.oceanBlue,
         title: const Text('Car Location'),
         actions: [
           BlocBuilder<MapBloc, MapState>(
@@ -33,7 +34,7 @@ class MapScreen extends StatelessWidget {
                     height: 25,
                     width: 25,
                     child: CircularProgressIndicator(
-                      color: MyColors.mywhite,
+                      color: AppColors.pureWhite,
                       strokeWidth: 3,
                     ),
                   ),
@@ -49,12 +50,12 @@ class MapScreen extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton.extended(
-          backgroundColor: MyColors.myBlue,
+          backgroundColor: AppColors.oceanBlue,
           label: Text(
             'get your location',
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: MyColors.mywhite,
-                ),
+            style: AppTypography.labelLarge.copyWith(
+              color: AppColors.pureWhite,
+            ),
           ),
           onPressed: () async {
             context.read<MapBloc>().add(GetMyLocation());
@@ -67,7 +68,7 @@ class MapScreen extends StatelessWidget {
             showToastMessage(
               context,
               state.message,
-              const Icon(Icons.error, color: MyColors.myred2, size: 18),
+              const Icon(Icons.error, color: AppColors.alertRed, size: 18),
             );
           } else if (state is UserLocationFetched) {
             _googleMapController.animateCamera(

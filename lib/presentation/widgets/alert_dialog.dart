@@ -1,51 +1,50 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:flutter/material.dart';
-
-import 'package:drivolution/constants/my_colors.dart';
 
 class MyAlertDialog extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   const MyAlertDialog({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: MyColors.myred2,
+      backgroundColor: AppColors.coralRed,
       title: Text(
         text,
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontSize: 16,
-              color: MyColors.mywhite,
-            ),
+        style: AppTypography.h4.copyWith(
+          fontSize: 16,
+          color: AppColors.pureWhite,
+        ),
       ),
       actions: [
         TextButton(
           onPressed: onPressed,
           child: Text(
             'yes',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 16,
-                  color: MyColors.mywhite,
-                ),
+            style: AppTypography.h4.copyWith(
+              fontSize: 16,
+              color: AppColors.pureWhite,
+            ),
           ),
         ),
         TextButton(
-          style:
-              ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.grey)),
+          style: ButtonStyle(
+              overlayColor: MaterialStateProperty.all(AppColors.steelGrey)),
           onPressed: () {
             Navigator.pop(context);
           },
           child: Text(
             'no',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 16,
-                  color: MyColors.mywhite,
-                ),
+            style: AppTypography.h4.copyWith(
+              fontSize: 16,
+              color: AppColors.pureWhite,
+            ),
           ),
         ),
       ],

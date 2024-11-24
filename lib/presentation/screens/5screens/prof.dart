@@ -1,10 +1,11 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/user_image_cubit/user_image_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import '../profile_details_screen.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -43,10 +44,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   Text(
                     'Make Your Account Now!',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 26,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.oceanBlue,
+                      fontSize: 26,
+                    ),
                   ),
                 ],
               ),
@@ -56,7 +57,7 @@ class ProfileScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, 'loginscreen');
                   },
-                  backgroundColor: MyColors.myBlue,
+                  backgroundColor: AppColors.oceanBlue,
                   label: const Text("log in"),
                 ),
               ),

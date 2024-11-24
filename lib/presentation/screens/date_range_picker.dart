@@ -1,25 +1,25 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 
 class DateRangePicker extends StatelessWidget {
-  String carid;
-  DateRangePicker({
-    Key? key,
+  final String carid;
+  const DateRangePicker({
+    super.key,
     required this.carid,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     context.read<ReservationBloc>().add(GetCarReservations(carID: carid));
     return Scaffold(
-      backgroundColor: MyColors.myBlue2,
+      backgroundColor: AppColors.deepNavy,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text('Choose Date'),
@@ -31,7 +31,7 @@ class DateRangePicker extends StatelessWidget {
             showToastMessage(
               context,
               state.message,
-              const Icon(Icons.error, color: MyColors.myred2, size: 18),
+              const Icon(Icons.error, color: AppColors.alertRed, size: 18),
             );
           } else if (state is RangePicked) {
             Navigator.pop(context);
@@ -82,23 +82,21 @@ class DateRangePicker extends StatelessWidget {
                         viewHeaderHeight:
                             MediaQuery.sizeOf(context).height * 0.05,
                         viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                          backgroundColor: MyColors.myBlue2.withOpacity(0.9),
-                          textStyle:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: MyColors.mywhite,
-                                    fontSize: 16,
-                                  ),
+                          backgroundColor: AppColors.deepNavy.withOpacity(0.9),
+                          textStyle: AppTypography.labelLarge.copyWith(
+                            color: AppColors.pureWhite,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       //!Header Style
                       headerHeight: MediaQuery.sizeOf(context).height * 0.1,
                       headerStyle: DateRangePickerHeaderStyle(
-                        backgroundColor: MyColors.myBlue2.withOpacity(0.8),
-                        textStyle:
-                            Theme.of(context).textTheme.bodySmall!.copyWith(
-                                  color: MyColors.mywhite,
-                                  fontSize: 32,
-                                ),
+                        backgroundColor: AppColors.deepNavy.withOpacity(0.8),
+                        textStyle: AppTypography.labelLarge.copyWith(
+                          color: AppColors.pureWhite,
+                          fontSize: 32,
+                        ),
                       ),
                       onCancel: () {
                         Navigator.pop(context);
@@ -106,23 +104,23 @@ class DateRangePicker extends StatelessWidget {
                       onSubmit: (p0) {
                         context.read<ReservationBloc>().add(ConfirmRange());
                       },
-                      todayHighlightColor: MyColors.myBlue,
+                      todayHighlightColor: AppColors.oceanBlue,
                       //!Day Style
                       monthCellStyle: DateRangePickerMonthCellStyle(
                         blackoutDateTextStyle:
-                            Theme.of(context).textTheme.bodySmall!.copyWith(
-                                  color: MyColors.mywhite,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.lineThrough,
-                                  decorationColor: MyColors.myred,
-                                  decorationStyle: TextDecorationStyle.dashed,
-                                  decorationThickness: 7,
-                                ),
+                            AppTypography.labelLarge.copyWith(
+                          color: AppColors.pureWhite,
+                          fontSize: 16,
+                          decoration: TextDecoration.lineThrough,
+                          decorationColor: AppColors.blazingRed,
+                          decorationStyle: TextDecorationStyle.dashed,
+                          decorationThickness: 7,
+                        ),
                         blackoutDatesDecoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: LinearGradient(colors: [
-                            MyColors.myBlue2.withOpacity(0.5),
-                            MyColors.myBlue.withOpacity(0.5),
+                            AppColors.deepNavy.withOpacity(0.5),
+                            AppColors.oceanBlue.withOpacity(0.5),
                           ]),
                         ),
                         textStyle: GoogleFonts.karla(
@@ -131,11 +129,10 @@ class DateRangePicker extends StatelessWidget {
                         ),
                       ),
                       //!Selected Day Style
-                      selectionTextStyle:
-                          Theme.of(context).textTheme.bodySmall!.copyWith(
-                                color: MyColors.mywhite,
-                                fontSize: 20,
-                              ),
+                      selectionTextStyle: AppTypography.labelLarge.copyWith(
+                        color: AppColors.pureWhite,
+                        fontSize: 20,
+                      ),
                       //!Selected Days in Range Style
                       rangeTextStyle: GoogleFonts.karla(
                         color: Colors.white,
@@ -143,9 +140,9 @@ class DateRangePicker extends StatelessWidget {
                         fontSize: 18,
                       ),
                       //!Range Line Style
-                      rangeSelectionColor: MyColors.myred2.withOpacity(0.5),
-                      startRangeSelectionColor: MyColors.myred2,
-                      endRangeSelectionColor: MyColors.myred2,
+                      rangeSelectionColor: AppColors.coralRed.withOpacity(0.5),
+                      startRangeSelectionColor: AppColors.coralRed,
+                      endRangeSelectionColor: AppColors.coralRed,
                       showActionButtons: true,
                     ),
                   ),

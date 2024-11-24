@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -16,12 +17,10 @@ class PhotoViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-      ),
+      backgroundColor: AppColors.jetBlack,
+      appBar: AppBar(backgroundColor: AppColors.jetBlack),
       body: PhotoViewGallery.builder(
-        backgroundDecoration: const BoxDecoration(color: Colors.black),
+        backgroundDecoration: const BoxDecoration(color: AppColors.jetBlack),
         itemCount: imagesCount,
         builder: (context, index) {
           return PhotoViewGalleryPageOptions(

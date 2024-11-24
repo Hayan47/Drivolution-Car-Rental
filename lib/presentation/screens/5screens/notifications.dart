@@ -1,4 +1,4 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
 import 'package:drivolution/presentation/widgets/notifications_item.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
@@ -27,10 +28,10 @@ class NotificationsScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(
                         'You have no notifications yet',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: MyColors.myBlue,
-                              fontSize: 20,
-                            ),
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.oceanBlue,
+                          fontSize: 20,
+                        ),
                       ),
                     ],
                   );
@@ -47,7 +48,7 @@ class NotificationsScreen extends StatelessWidget {
                     showChildOpacityTransition: false,
                     height: 200,
                     color: Colors.transparent,
-                    backgroundColor: MyColors.mywhite,
+                    backgroundColor: AppColors.pureWhite,
                     child: ListView.builder(
                       itemCount: state.notifications.length,
                       itemBuilder: (context, index) {
@@ -85,10 +86,10 @@ class NotificationsScreen extends StatelessWidget {
                   ),
                   Text(
                     'Make Your Account Now!',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: MyColors.myBlue,
-                          fontSize: 26,
-                        ),
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.oceanBlue,
+                      fontSize: 26,
+                    ),
                   ),
                 ],
               ),
@@ -98,7 +99,7 @@ class NotificationsScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, 'loginscreen');
                   },
-                  backgroundColor: MyColors.myBlue,
+                  backgroundColor: AppColors.oceanBlue,
                   label: const Text("log in"),
                 ),
               ),

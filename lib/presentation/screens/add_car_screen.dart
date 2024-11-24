@@ -1,4 +1,4 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/screens/add_car_screen1.dart';
 import 'package:drivolution/presentation/screens/add_car_screen2.dart';
 import 'package:drivolution/presentation/screens/add_car_screen3.dart';
@@ -19,9 +19,9 @@ class AddCarScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              MyColors.myGrey,
-              MyColors.myBlue4,
-              MyColors.myGrey,
+              AppColors.charcoal,
+              AppColors.twilightBlue,
+              AppColors.charcoal,
             ],
           ),
         ),

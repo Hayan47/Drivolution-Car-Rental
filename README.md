@@ -10,6 +10,7 @@ Drivolution is an Android application built with BLoC state management that allo
 - Add Car: Users can add their own cars to the platform for others to rent.
 - Favorites List: Users can add cars to their favorites list for quick access.
 - Location Services: Integration with Google Maps allows users to view car locations, get directions, and estimate distances.
+- Push Notification: Implementing Firebase Cloud Messaging users will be notified about their cars state
 
 ## Architecture
 
@@ -21,35 +22,61 @@ The application is divided into three main layers:
 - BLoC layer: This layer contains the business logic of the application and manages the state of the application. The BLoC layer communicates with the data layer to retrieve data and emits new states based on the current state and user actions.
 - Data layer: This layer is responsible for retrieving data from external APIs or local storage. In the case of Drivolution, the data layer communicates with Firebase to retrieve data.
 
-## Technologies Used
+You can download the APK file for Drivolution from this link: https://www.mediafire.com/file/esdirs83v43snla/Drivolution2.0.7.apk/file
 
-- Flutter: Flutter is a mobile app SDK for building high-performance, high-fidelity, apps for iOS, Android, and web, from a single codebase.
-- BLoC state management: The BLoC pattern is a state management pattern for Flutter that separates the business logic of an application from its presentation.
-- Firebase: Firebase powers the backend infrastructure of Drivolution, providing user authentication and data storage for a seamless and secure car rental experience.
+## ScreenShots
 
-## Screenshots
+### Welcome Screen
 
-![image info](https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars10.jpg)
-<p float="left">
-<img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars10.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-<img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars11.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-<img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars12.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-<img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars13.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-  <img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars14.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-  <img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars15.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-  <img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars16.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-  <img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars17.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
-  <img src="https://gitlab.com/hayan.bouobaid47/hayan.bouobaid47/-/blob/main/pics/cars18.jpg" width="200" height="400" />
-  $~~~~~~~~~~$
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_welcome.jpg" width="18%" />
 </p>
 
+### Main Screens
 
-You can download the APK file for Drivolution from this link: https://www.mediafire.com/file/nokgw7w5ta5ufm4/Drivolution-1.2.0.apk/file
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_home.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_favorite.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_addcar1.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_notification.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_profile1.jpg" width="18%" />
+</p>
+
+### Car Details Screen
+
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_details1.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_details2.jpg" width="18%" />
+</p>
+
+### Login Screen
+
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_login.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_signup.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_forgetpassword.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_profile2.jpg" width="18%" />
+</p>
+
+### Add Car Screens
+
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_addcar2.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_addcar3.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_addcar4.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_addcar5.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_addcar6.jpg" width="18%" />
+</p>
+
+### Location Screens
+
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_carloc.jpg" width="18%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_pickloc.jpg" width="18%" />
+</p>
+
+### Rent Car Screen
+
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_rent.jpg" width="18%" />
+</p>

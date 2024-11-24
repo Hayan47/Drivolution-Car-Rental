@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/presentation/widgets/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/car_details.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class CarDetailsScreen extends StatelessWidget {
   final _controller = PageController();
@@ -15,11 +16,11 @@ class CarDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.myBlue2,
+      backgroundColor: AppColors.deepNavy,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: MyColors.myBlue2,
+            backgroundColor: AppColors.deepNavy,
             // actions: [FavoriteIcon(car: car)],
             pinned: true,
             expandedHeight: 225,
@@ -30,10 +31,10 @@ class CarDetailsScreen extends StatelessWidget {
                 child: Text(
                   textAlign: TextAlign.center,
                   car.name,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: MyColors.mywhite,
-                        fontSize: 18,
-                      ),
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.pureWhite,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               centerTitle: true,
@@ -69,7 +70,7 @@ class CarDetailsScreen extends StatelessWidget {
                     alignment: const Alignment(0, 0.95),
                     child: SmoothPageIndicator(
                       effect: const ExpandingDotsEffect(
-                        activeDotColor: MyColors.myBlue2,
+                        activeDotColor: AppColors.deepNavy,
                         dotColor: Colors.white,
                         dotHeight: 5,
                         dotWidth: 5,

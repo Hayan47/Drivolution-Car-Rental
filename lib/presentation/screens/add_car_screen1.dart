@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/logic/car_image_cubit/car_image_cubit.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class AddCar1 extends StatelessWidget {
   const AddCar1({super.key});
@@ -20,9 +21,9 @@ class AddCar1 extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           'Select Car Logo',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: MyColors.mywhite,
-              ),
+          style: AppTypography.labelLarge.copyWith(
+            color: AppColors.pureWhite,
+          ),
         ),
         BlocBuilder<LogoBloc, LogoState>(
           builder: (context, state) {
@@ -63,7 +64,7 @@ class AddCar1 extends StatelessWidget {
                               isSelected ? BorderRadius.circular(14) : null,
                           border: isSelected
                               ? Border.all(
-                                  color: MyColors.myBlue,
+                                  color: AppColors.oceanBlue,
                                   width: 2,
                                 )
                               : null,
@@ -96,9 +97,9 @@ class AddCar1 extends StatelessWidget {
         //!select main image
         Text(
           'Select Car Image',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: MyColors.mywhite,
-              ),
+          style: AppTypography.labelLarge.copyWith(
+            color: AppColors.pureWhite,
+          ),
         ),
         const SizedBox(height: 25),
         Expanded(
@@ -109,13 +110,11 @@ class AddCar1 extends StatelessWidget {
             child: BlocConsumer<CarImageCubit, CarImageState>(
               listener: (context, state) {
                 if (state is CarImageError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    MySnackBar(
-                      icon: const Icon(Icons.error,
-                          color: MyColors.myred2, size: 18),
-                      message: state.message,
-                      margin: 5,
-                    ),
+                  showToastMessage(
+                    context,
+                    state.message,
+                    const Icon(Icons.error,
+                        color: AppColors.alertRed, size: 18),
                   );
                 }
               },
@@ -147,7 +146,7 @@ class AddCar1 extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: MyColors.myBlue,
+                        color: AppColors.oceanBlue,
                         width: 2,
                       ),
                     ),

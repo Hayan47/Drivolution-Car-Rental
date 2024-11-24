@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/shimmer_owner_card.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -33,14 +34,7 @@ class OwnerCard extends StatelessWidget {
                         //!gradiant effect
                         Container(
                           decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                MyColors.myGrey,
-                                MyColors.myred2,
-                              ],
-                            ),
+                            gradient: AppColors.cardGradient2,
                           ),
                         ),
                         //!child
@@ -55,33 +49,33 @@ class OwnerCard extends StatelessWidget {
                                 padding: const EdgeInsets.all(6),
                                 width: 125,
                                 decoration: BoxDecoration(
-                                  color: MyColors.myred2,
+                                  color: AppColors.coralRed,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: const [
                                     //* right
                                     BoxShadow(
-                                      color: MyColors.myBlue4,
+                                      color: AppColors.twilightBlue,
                                       offset: Offset(2, 0),
                                       blurRadius: 1,
                                       spreadRadius: 0.1,
                                     ),
                                     //* left
                                     BoxShadow(
-                                      color: MyColors.myBlue4,
+                                      color: AppColors.twilightBlue,
                                       offset: Offset(-2, 0),
                                       blurRadius: 1,
                                       spreadRadius: 0.1,
                                     ),
                                     //* top
                                     BoxShadow(
-                                      color: MyColors.myBlue4,
+                                      color: AppColors.twilightBlue,
                                       offset: Offset(0, 2),
                                       blurRadius: 1,
                                       spreadRadius: 0.1,
                                     ),
                                     //* down
                                     BoxShadow(
-                                      color: MyColors.myBlue4,
+                                      color: AppColors.twilightBlue,
                                       offset: Offset(0, -2),
                                       blurRadius: 0.5,
                                       spreadRadius: 0.1,
@@ -92,31 +86,23 @@ class OwnerCard extends StatelessWidget {
                                   children: [
                                     Text(
                                       'Price   ',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                            color: MyColors.mywhite,
-                                            fontSize: 15,
-                                          ),
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.pureWhite,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                     Text(
                                       '${car.rent} \$/D',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            color: MyColors.mywhite,
-                                            fontSize: 15,
-                                          ),
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.pureWhite,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                               //!divider
-                              Divider(
-                                color: Theme.of(context).secondaryHeaderColor,
-                              ),
+                              Divider(color: AppColors.jetBlack),
                               //?main row
                               //!picture
                               Expanded(
@@ -152,25 +138,22 @@ class OwnerCard extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                     '${state.userInfo.firstName} ${state.userInfo.lastName}',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall!
+                                                    style: AppTypography
+                                                        .labelLarge
                                                         .copyWith(
-                                                          color:
-                                                              MyColors.mywhite,
-                                                        ),
+                                                      color:
+                                                          AppColors.pureWhite,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
                                                 state.userInfo.phoneNumber,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
+                                                style: AppTypography.labelLarge
                                                     .copyWith(
-                                                      color: MyColors.mywhite,
-                                                    ),
+                                                  color: AppColors.pureWhite,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -185,17 +168,13 @@ class OwnerCard extends StatelessWidget {
                                               if (await canLaunchUrl(phone)) {
                                                 await launchUrl(phone);
                                               } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  MySnackBar(
-                                                    icon: const Icon(
-                                                      Icons.error,
-                                                      color: MyColors.myred2,
-                                                      size: 20,
-                                                    ),
-                                                    message:
-                                                        'can\'t open phone number',
-                                                    margin: 0,
+                                                showToastMessage(
+                                                  context,
+                                                  'can\'t open phone number',
+                                                  const Icon(
+                                                    Icons.error,
+                                                    color: AppColors.alertRed,
+                                                    size: 20,
                                                   ),
                                                 );
                                               }
@@ -206,20 +185,19 @@ class OwnerCard extends StatelessWidget {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
-                                                color: MyColors.myGrey,
+                                                color: AppColors.charcoal,
                                                 border: Border.all(
-                                                    color: Colors.grey),
+                                                  color: AppColors.steelGrey,
+                                                ),
                                               ),
                                               child: Center(
                                                 child: Text(
                                                   'Call',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                        color: MyColors.mywhite,
-                                                        fontSize: 16,
-                                                      ),
+                                                  style:
+                                                      AppTypography.h4.copyWith(
+                                                    color: AppColors.pureWhite,
+                                                    fontSize: 16,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -246,9 +224,8 @@ class OwnerCard extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width * 0.5,
                   child: CachedNetworkImage(
                     placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(
-                        color: MyColors.mywhite,
-                      ),
+                      child:
+                          CircularProgressIndicator(color: AppColors.pureWhite),
                     ),
                     imageUrl: car.img,
                   ),

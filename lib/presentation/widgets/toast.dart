@@ -1,4 +1,5 @@
-import 'package:drivolution/constants/my_colors.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
@@ -14,7 +15,7 @@ void showToastMessage(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        color: MyColors.myGrey,
+        color: AppColors.charcoal,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -33,10 +34,9 @@ void showToastMessage(
               message,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: MyColors.mywhite,
-                    fontSize: 12,
-                  ),
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.pureWhite,
+              ),
             ),
           ),
         ],

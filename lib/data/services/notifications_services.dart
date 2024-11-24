@@ -5,6 +5,7 @@ import 'package:drivolution/data/models/notification_model.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
 import 'package:drivolution/data/models/usr_model.dart';
 import 'package:drivolution/data/services/cars_services.dart';
+import 'package:drivolution/data/services/logger_service.dart';
 import 'package:drivolution/data/services/user_services.dart';
 import 'package:drivolution/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,8 +17,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 @pragma('vm:entry-point')
 Future<void> backgroundMessageHandler(RemoteMessage message) async {
+  final logger = LoggerService().getLogger('Notification Service Logger');
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print('Received Background Message');
+  logger.info('Received Background Message');
   FirebaseNotifications().showNotification(
     id: int.parse(message.data['reservationId']),
     title: message.data['title'] ?? '',
@@ -36,6 +38,7 @@ Future<void> backgroundMessageHandler(RemoteMessage message) async {
 }
 
 class FirebaseNotifications {
+  final logger = LoggerService().getLogger('Notification Service Logger');
   final firebaseMessaging = FirebaseMessaging.instance;
   final userServices = UserServices();
   final FlutterLocalNotificationsPlugin notificationsPlugin =
@@ -56,7 +59,7 @@ class FirebaseNotifications {
     FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Received Foreground Message');
+      logger.info('Received Foreground Message');
       showNotification(
         id: int.parse(message.data['reservationId']),
         title: message.data['title'] ?? '',
@@ -108,7 +111,7 @@ class FirebaseNotifications {
     //   final data = jsonDecode(payload);
     //   final String carImageUrl = data['car_img'];
     //   final response = await http.get(Uri.parse(carImageUrl));
-    //   print(response);
+    //   logger.info(response);
     //   image = response.body;
     // }
     return notificationsPlugin.show(
@@ -159,7 +162,7 @@ class FirebaseNotifications {
         }
       }
     };
-    print(notificationData);
+    logger.info(notificationData);
     final String token = await getAccessToken();
     const url =
         'https://fcm.googleapis.com/v1/projects/drivolution/messages:send';
@@ -171,13 +174,13 @@ class FirebaseNotifications {
       final response = await http.post(Uri.parse(url),
           headers: headers, body: jsonEncode(notificationData));
       if (response.statusCode == 200) {
-        print('Notification sent successfully!');
+        logger.info('Notification sent successfully!');
       } else {
-        print('Error sending notification: ${response.statusCode}');
-        print(response.body);
+        logger.severe('Error sending notification: ${response.statusCode}');
+        logger.info(response.body);
       }
     } catch (error) {
-      print('Error sending notification: $error');
+      logger.severe('Error sending notification: $error');
     }
   }
 

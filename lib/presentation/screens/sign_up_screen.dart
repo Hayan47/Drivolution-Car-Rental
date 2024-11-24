@@ -1,6 +1,7 @@
-import 'package:drivolution/constants/my_colors.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
-import 'package:drivolution/presentation/widgets/snackbar.dart';
+import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/themes/app_typography.dart';
+import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,27 +36,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       //?body
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              MyColors.myGrey,
-              MyColors.myBlue4,
-              MyColors.myGrey,
-            ],
-          ),
+        decoration: BoxDecoration(
+          gradient: AppColors.backgroundGradient,
         ),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
             if (state is UserError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                MySnackBar(
-                  icon:
-                      const Icon(Icons.error, color: MyColors.myred2, size: 18),
-                  message: state.errorMessage,
-                  margin: 5,
-                ),
+              showToastMessage(
+                context,
+                state.errorMessage,
+                const Icon(Icons.error, color: AppColors.alertRed, size: 18),
               );
             } else if (state is UserLoaded) {
               Navigator.pushNamedAndRemoveUntil(
@@ -63,12 +53,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 'mainscreen',
                 (Route<dynamic> route) => false,
               );
-              ScaffoldMessenger.of(context).showSnackBar(
-                MySnackBar(
-                  icon: const Icon(Icons.done, color: Colors.green, size: 18),
-                  message: 'welcome ${state.userInfo.firstName}',
-                  margin: 70,
-                ),
+              showToastMessage(
+                context,
+                'welcome ${state.userInfo.firstName}',
+                const Icon(Icons.done, color: AppColors.successGreen, size: 18),
               );
             }
           },
@@ -79,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 AppBar(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  iconTheme: const IconThemeData(color: MyColors.myred2),
+                  iconTheme: const IconThemeData(color: AppColors.coralRed),
                 ),
                 Expanded(
                   child: CustomScrollView(
@@ -103,25 +91,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       Text(
                                         //!first message
                                         'Join Us',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                              color: MyColors.myred2,
-                                              fontSize: 38,
-                                            ),
+                                        style:
+                                            AppTypography.labelLarge.copyWith(
+                                          color: AppColors.coralRed,
+                                          fontSize: 38,
+                                        ),
                                       ),
                                       const SizedBox(height: 10),
                                       Text(
                                         //!second message
                                         'Sign up and explore',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                              color: MyColors.myred2,
-                                              fontSize: 18,
-                                            ),
+                                        style:
+                                            AppTypography.labelLarge.copyWith(
+                                          color: AppColors.coralRed,
+                                          fontSize: 18,
+                                        ),
                                       ),
                                       const SizedBox(height: 10),
                                     ],
@@ -141,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   Container(
                                                     height: 50,
                                                     decoration: BoxDecoration(
-                                                      color: MyColors.myred2,
+                                                      color: AppColors.coralRed,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               12),
@@ -167,27 +151,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                         }
                                                         return null;
                                                       },
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall!
+                                                      style: AppTypography
+                                                          .labelLarge
                                                           .copyWith(
-                                                            color: MyColors
-                                                                .mywhite,
-                                                          ),
+                                                        color:
+                                                            AppColors.pureWhite,
+                                                      ),
                                                       decoration:
                                                           InputDecoration(
                                                         border:
                                                             InputBorder.none,
                                                         hintText: 'First Name',
                                                         helperText: '',
-                                                        hintStyle:
-                                                            Theme.of(context)
-                                                                .textTheme
-                                                                .bodySmall!
-                                                                .copyWith(
-                                                                  color: MyColors
-                                                                      .mywhite,
-                                                                ),
+                                                        hintStyle: AppTypography
+                                                            .labelLarge
+                                                            .copyWith(
+                                                          color: AppColors
+                                                              .pureWhite,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -206,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   Container(
                                                     height: 50,
                                                     decoration: BoxDecoration(
-                                                      color: MyColors.myred2,
+                                                      color: AppColors.coralRed,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               12),
@@ -223,27 +204,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                           TextAlign.center,
                                                       controller:
                                                           _lastnamecontroller,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall!
+                                                      style: AppTypography
+                                                          .labelLarge
                                                           .copyWith(
-                                                            color: MyColors
-                                                                .mywhite,
-                                                          ),
+                                                        color:
+                                                            AppColors.pureWhite,
+                                                      ),
                                                       decoration:
                                                           InputDecoration(
                                                         border:
                                                             InputBorder.none,
                                                         hintText: 'Last Name',
                                                         helperText: '',
-                                                        hintStyle:
-                                                            Theme.of(context)
-                                                                .textTheme
-                                                                .bodySmall!
-                                                                .copyWith(
-                                                                  color: MyColors
-                                                                      .mywhite,
-                                                                ),
+                                                        hintStyle: AppTypography
+                                                            .labelLarge
+                                                            .copyWith(
+                                                          color: AppColors
+                                                              .pureWhite,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -290,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             Container(
                                               height: 50,
                                               decoration: BoxDecoration(
-                                                color: MyColors.myred2,
+                                                color: AppColors.coralRed,
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
@@ -315,21 +293,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   }
                                                   return null;
                                                 },
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
+                                                style: AppTypography.labelLarge
                                                     .copyWith(
-                                                      color: MyColors.mywhite,
-                                                    ),
+                                                  color: AppColors.pureWhite,
+                                                ),
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   hintText: 'Phone Number...',
-                                                  hintStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
+                                                  hintStyle: AppTypography
+                                                      .labelLarge
                                                       .copyWith(
-                                                        color: MyColors.mywhite,
-                                                      ),
+                                                    color: AppColors.pureWhite,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -346,7 +321,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             Container(
                                               height: 50,
                                               decoration: BoxDecoration(
-                                                color: MyColors.myred2,
+                                                color: AppColors.coralRed,
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
@@ -372,21 +347,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   }
                                                   return null;
                                                 },
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
+                                                style: AppTypography.labelLarge
                                                     .copyWith(
-                                                      color: MyColors.mywhite,
-                                                    ),
+                                                  color: AppColors.pureWhite,
+                                                ),
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   hintText: 'Email...',
-                                                  hintStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
+                                                  hintStyle: AppTypography
+                                                      .labelLarge
                                                       .copyWith(
-                                                        color: MyColors.mywhite,
-                                                      ),
+                                                    color: AppColors.pureWhite,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -403,7 +375,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             Container(
                                               height: 50,
                                               decoration: BoxDecoration(
-                                                color: MyColors.myred2,
+                                                color: AppColors.coralRed,
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
@@ -428,12 +400,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   }
                                                   return null;
                                                 },
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
+                                                style: AppTypography.labelLarge
                                                     .copyWith(
-                                                      color: MyColors.mywhite,
-                                                    ),
+                                                  color: AppColors.pureWhite,
+                                                ),
                                                 obscureText: hidePassword,
                                                 decoration: InputDecoration(
                                                   suffixIcon: IconButton(
@@ -447,17 +417,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       hidePassword
                                                           ? Icons.visibility_off
                                                           : Icons.visibility,
-                                                      color: MyColors.mywhite,
+                                                      color:
+                                                          AppColors.pureWhite,
                                                     ),
                                                   ),
                                                   border: InputBorder.none,
                                                   hintText: 'password...',
-                                                  hintStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
+                                                  hintStyle: AppTypography
+                                                      .labelLarge
                                                       .copyWith(
-                                                        color: MyColors.mywhite,
-                                                      ),
+                                                    color: AppColors.pureWhite,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -474,7 +444,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             Container(
                                               height: 50,
                                               decoration: BoxDecoration(
-                                                color: MyColors.myred2,
+                                                color: AppColors.coralRed,
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
@@ -501,23 +471,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   }
                                                   return null;
                                                 },
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
+                                                style: AppTypography.labelLarge
                                                     .copyWith(
-                                                      color: MyColors.mywhite,
-                                                    ),
+                                                  color: AppColors.pureWhite,
+                                                ),
                                                 obscureText: hidePassword,
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   hintText:
                                                       'confirm password...',
-                                                  hintStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
+                                                  hintStyle: AppTypography
+                                                      .labelLarge
                                                       .copyWith(
-                                                        color: MyColors.mywhite,
-                                                      ),
+                                                    color: AppColors.pureWhite,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -581,30 +548,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                           ));
                                                     },
                                                     style: ButtonStyle(
-                                                        shape: MaterialStateProperty.all(
+                                                        shape: WidgetStateProperty.all(
                                                             RoundedRectangleBorder(
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
                                                                             10))),
                                                         fixedSize:
-                                                            MaterialStateProperty.all(
+                                                            WidgetStateProperty.all(
                                                                 const Size(
                                                                     70, 40)),
                                                         backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all(MyColors
-                                                                    .myred2)),
+                                                            WidgetStateProperty
+                                                                .all(AppColors
+                                                                    .coralRed)),
                                                     child: Text(
                                                       'Sign Up',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium!
+                                                      style: AppTypography.h4
                                                           .copyWith(
-                                                            color: MyColors
-                                                                .mywhite,
-                                                            fontSize: 12,
-                                                          ),
+                                                        color:
+                                                            AppColors.pureWhite,
+                                                        fontSize: 12,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -618,12 +583,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     children: [
                                       Text(
                                         'Any proplem?',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                              color: MyColors.myred2,
-                                            ),
+                                        style:
+                                            AppTypography.labelLarge.copyWith(
+                                          color: AppColors.coralRed,
+                                        ),
                                       ),
                                       const SizedBox(
                                         width: 5,
@@ -631,13 +594,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       GestureDetector(
                                         child: Text(
                                           'Contact Us',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                color: MyColors.myred2,
-                                                fontSize: 18,
-                                              ),
+                                          style: AppTypography.h4.copyWith(
+                                            color: AppColors.coralRed,
+                                            fontSize: 18,
+                                          ),
                                         ),
                                       ),
                                     ],
