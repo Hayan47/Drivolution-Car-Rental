@@ -2,6 +2,8 @@ import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
+import 'package:drivolution/utils/responsive/responsive_helper.dart';
+import 'package:drivolution/utils/responsive/screen_size.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,240 +34,112 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var ages = List<int>.generate(100, (i) => i + 1);
 
   @override
+  void dispose() {
+    _firstnamecontroller.dispose();
+    _lastnamecontroller.dispose();
+    _phonecontroller.dispose();
+    _emailcontroller.dispose();
+    _passwordcontroller.dispose();
+    _confirmpasswordcontroller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //?body
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: AppColors.backgroundGradient,
-        ),
-        child: BlocConsumer<UserBloc, UserState>(
-          listener: (context, state) {
-            if (state is UserError) {
-              showToastMessage(
-                context,
-                state.errorMessage,
-                const Icon(Icons.error, color: AppColors.alertRed, size: 18),
-              );
-            } else if (state is UserLoaded) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                'mainscreen',
-                (Route<dynamic> route) => false,
-              );
-              showToastMessage(
-                context,
-                'welcome ${state.userInfo.firstName}',
-                const Icon(Icons.done, color: AppColors.successGreen, size: 18),
-              );
-            }
-          },
-          builder: (context, state) {
-            return Column(
-              children: [
-                //?app bar
-                AppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  iconTheme: const IconThemeData(color: AppColors.coralRed),
-                ),
-                Expanded(
-                  child: CustomScrollView(
-                    scrollDirection: Axis.vertical,
-                    slivers: [
-                      SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Center(
-                          //?main column
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //?first column
-                                  Column(
-                                    children: [
-                                      Text(
-                                        //!first message
-                                        'Join Us',
-                                        style:
-                                            AppTypography.labelLarge.copyWith(
-                                          color: AppColors.coralRed,
-                                          fontSize: 38,
-                                        ),
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: AppColors.backgroundGradient,
+          ),
+          child: BlocConsumer<UserBloc, UserState>(
+            listener: (context, state) {
+              if (state is UserError) {
+                showToastMessage(
+                  context,
+                  state.errorMessage,
+                  const Icon(Icons.error, color: AppColors.alertRed, size: 18),
+                );
+              } else if (state is UserLoaded) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  'mainscreen',
+                  (Route<dynamic> route) => false,
+                );
+                showToastMessage(
+                  context,
+                  'welcome ${state.userInfo.firstName}',
+                  const Icon(Icons.done,
+                      color: AppColors.successGreen, size: 18),
+                );
+              }
+            },
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: AppColors.pureWhite,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      slivers: [
+                        SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Form(
+                                key: formKey,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      //!first message
+                                      'Join Us',
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.coralRed,
+                                        fontSize: 38,
                                       ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        //!second message
-                                        'Sign up and explore',
-                                        style:
-                                            AppTypography.labelLarge.copyWith(
-                                          color: AppColors.coralRed,
-                                          fontSize: 18,
-                                        ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      //!second message
+                                      'Sign up and explore',
+                                      style: AppTypography.labelLarge.copyWith(
+                                        color: AppColors.coralRed,
+                                        fontSize: 18,
                                       ),
-                                      const SizedBox(height: 10),
-                                    ],
-                                  ),
-                                  //?second column
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          //!first name TextField
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 25),
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    height: 50,
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors.coralRed,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 10),
-                                                    child: TextFormField(
-                                                      textInputAction:
-                                                          TextInputAction.next,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      controller:
-                                                          _firstnamecontroller,
-                                                      autovalidateMode:
-                                                          AutovalidateMode
-                                                              .onUserInteraction,
-                                                      validator: (value) {
-                                                        if (value == '') {
-                                                          return 'Enter a name';
-                                                        }
-                                                        return null;
-                                                      },
-                                                      style: AppTypography
-                                                          .labelLarge
-                                                          .copyWith(
-                                                        color:
-                                                            AppColors.pureWhite,
-                                                      ),
-                                                      decoration:
-                                                          InputDecoration(
-                                                        border:
-                                                            InputBorder.none,
-                                                        hintText: 'First Name',
-                                                        helperText: '',
-                                                        hintStyle: AppTypography
-                                                            .labelLarge
-                                                            .copyWith(
-                                                          color: AppColors
-                                                              .pureWhite,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 25),
-                                          //!last name TextField
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 25),
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    height: 50,
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors.coralRed,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 10),
-                                                    child: TextFormField(
-                                                      textInputAction:
-                                                          TextInputAction.next,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      controller:
-                                                          _lastnamecontroller,
-                                                      style: AppTypography
-                                                          .labelLarge
-                                                          .copyWith(
-                                                        color:
-                                                            AppColors.pureWhite,
-                                                      ),
-                                                      decoration:
-                                                          InputDecoration(
-                                                        border:
-                                                            InputBorder.none,
-                                                        hintText: 'Last Name',
-                                                        helperText: '',
-                                                        hintStyle: AppTypography
-                                                            .labelLarge
-                                                            .copyWith(
-                                                          color: AppColors
-                                                              .pureWhite,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 15),
-                                      //!Dropdown button
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 30),
-                                        child: MyDropdown(
-                                          hint: '',
-                                          icon: 'assets/icons/age.png',
-                                          width: 80,
-                                          dropdownValue: dropDownValue,
-                                          label: 'age',
-                                          items: ages
-                                              .map(
-                                                (e) => DropdownMenuItem(
-                                                  value: e,
-                                                  child:
-                                                      Center(child: Text('$e')),
-                                                ),
-                                              )
-                                              .toList(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              dropDownValue = value;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(height: 15),
-                                      //!Phone TextField
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 25),
-                                        child: Stack(
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Spacer(
+                                      flex: 1,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        //!first name TextField
+                                        Stack(
                                           children: [
                                             Container(
+                                              constraints: BoxConstraints(
+                                                maxWidth:
+                                                    ResponsiveHelper.isPortrait(
+                                                            context)
+                                                        ? ResponsiveHelper.wp(
+                                                            context, 35)
+                                                        : 238,
+                                              ),
                                               height: 50,
                                               decoration: BoxDecoration(
                                                 color: AppColors.coralRed,
@@ -277,6 +151,172 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 10),
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxWidth: ResponsiveHelper
+                                                          .isPortrait(context)
+                                                      ? ResponsiveHelper.wp(
+                                                          context, 30)
+                                                      : 218,
+                                                ),
+                                                child: TextFormField(
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  textAlign: TextAlign.center,
+                                                  controller:
+                                                      _firstnamecontroller,
+                                                  autovalidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  validator: (value) {
+                                                    if (value == '') {
+                                                      return 'Enter a name';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  style: AppTypography
+                                                      .labelLarge
+                                                      .copyWith(
+                                                    color: AppColors.pureWhite,
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: 'First Name',
+                                                    helperText: '',
+                                                    hintStyle: AppTypography
+                                                        .labelLarge
+                                                        .copyWith(
+                                                      color:
+                                                          AppColors.pureWhite,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 25),
+                                        //!last name TextField
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                maxWidth:
+                                                    ResponsiveHelper.isPortrait(
+                                                            context)
+                                                        ? ResponsiveHelper.wp(
+                                                            context, 35)
+                                                        : 238,
+                                              ),
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.coralRed,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxWidth: ResponsiveHelper
+                                                          .isPortrait(context)
+                                                      ? ResponsiveHelper.wp(
+                                                          context, 30)
+                                                      : 218,
+                                                ),
+                                                child: TextFormField(
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  textAlign: TextAlign.center,
+                                                  controller:
+                                                      _lastnamecontroller,
+                                                  style: AppTypography
+                                                      .labelLarge
+                                                      .copyWith(
+                                                    color: AppColors.pureWhite,
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: 'Last Name',
+                                                    helperText: '',
+                                                    hintStyle: AppTypography
+                                                        .labelLarge
+                                                        .copyWith(
+                                                      color:
+                                                          AppColors.pureWhite,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 15),
+                                    //!Dropdown button
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          MyDropdown(
+                                            hint: '',
+                                            icon: 'assets/icons/age.png',
+                                            width: 80,
+                                            dropdownValue: dropDownValue,
+                                            label: 'age',
+                                            items: ages
+                                                .map(
+                                                  (e) => DropdownMenuItem(
+                                                    value: e,
+                                                    child: Center(
+                                                        child: Text('$e')),
+                                                  ),
+                                                )
+                                                .toList(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                dropDownValue = value;
+                                              });
+                                            },
+                                          ),
+                                          SizedBox(
+                                            width: 80,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    //!Phone TextField
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            constraints: BoxConstraints(
+                                              maxWidth: 520,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.coralRed,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                maxWidth: 500,
+                                              ),
                                               child: TextFormField(
                                                 textInputAction:
                                                     TextInputAction.next,
@@ -308,28 +348,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(height: 15),
-                                      //!Email TextField
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 25),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.coralRed,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    //!Email TextField
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            constraints: BoxConstraints(
+                                              maxWidth: 520,
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.coralRed,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                maxWidth: 500,
+                                              ),
                                               child: TextFormField(
                                                 textInputAction:
                                                     TextInputAction.next,
@@ -362,28 +409,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(height: 15),
-                                      //!Password TextField
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 25),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.coralRed,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    //!Password TextField
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            constraints: BoxConstraints(
+                                              maxWidth: 520,
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.coralRed,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                maxWidth: 500,
+                                              ),
                                               child: TextFormField(
                                                 textInputAction:
                                                     TextInputAction.next,
@@ -431,28 +485,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(height: 15),
-                                      //!Confirm Password TextField
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 25),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.coralRed,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    //!Confirm Password TextField
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            constraints: BoxConstraints(
+                                              maxWidth: 520,
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.coralRed,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                maxWidth: 500,
+                                              ),
                                               child: TextFormField(
                                                 textInputAction:
                                                     TextInputAction.done,
@@ -488,132 +549,145 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(height: 15),
-                                      //!Signup Button
-                                      state is UserLoading
-                                          ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                SizedBox(
-                                                  width: 70,
-                                                  height: 40,
-                                                  child: Lottie.asset(
-                                                      'assets/lottie/SplashyLoader.json'),
-                                                ),
-                                              ],
-                                            )
-                                          : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 40),
-                                                  child: TextButton(
-                                                    onPressed: () async {
-                                                      final isValid = formKey
-                                                          .currentState!
-                                                          .validate();
-                                                      if (!isValid) return;
+                                    ),
+                                    const SizedBox(height: 15),
 
-                                                      context
-                                                          .read<UserBloc>()
-                                                          .add(SignUp(
-                                                            email:
-                                                                _emailcontroller
-                                                                    .text
-                                                                    .trim(),
-                                                            password:
-                                                                _passwordcontroller
-                                                                    .text
-                                                                    .trim(),
-                                                            firstName:
-                                                                _firstnamecontroller
-                                                                    .text
-                                                                    .trim(),
-                                                            lastName:
-                                                                _lastnamecontroller
-                                                                    .text
-                                                                    .trim(),
-                                                            phoneNumber:
-                                                                _phonecontroller
-                                                                    .text
-                                                                    .trim(),
-                                                            age: dropDownValue,
-                                                          ));
-                                                    },
-                                                    style: ButtonStyle(
-                                                        shape: WidgetStateProperty.all(
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10))),
-                                                        fixedSize:
-                                                            WidgetStateProperty.all(
-                                                                const Size(
-                                                                    70, 40)),
-                                                        backgroundColor:
-                                                            WidgetStateProperty
-                                                                .all(AppColors
-                                                                    .coralRed)),
-                                                    child: Text(
-                                                      'Sign Up',
-                                                      style: AppTypography.h4
-                                                          .copyWith(
-                                                        color:
-                                                            AppColors.pureWhite,
-                                                        fontSize: 12,
-                                                      ),
+                                    //!Signup Button
+                                    state is UserLoading
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                ResponsiveHelper.getScreenSize(
+                                                            context) ==
+                                                        ScreenSize.small
+                                                    ? MainAxisAlignment.end
+                                                    : MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 70,
+                                                height: 40,
+                                                child: Lottie.asset(
+                                                    'assets/lottie/SplashyLoader.json'),
+                                              ),
+                                            ],
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                ResponsiveHelper.getScreenSize(
+                                                            context) ==
+                                                        ScreenSize.small
+                                                    ? MainAxisAlignment.end
+                                                    : MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 40),
+                                                child: TextButton(
+                                                  onPressed: () async {
+                                                    final isValid = formKey
+                                                        .currentState!
+                                                        .validate();
+                                                    if (!isValid) return;
+
+                                                    context
+                                                        .read<UserBloc>()
+                                                        .add(SignUp(
+                                                          email:
+                                                              _emailcontroller
+                                                                  .text
+                                                                  .trim(),
+                                                          password:
+                                                              _passwordcontroller
+                                                                  .text
+                                                                  .trim(),
+                                                          firstName:
+                                                              _firstnamecontroller
+                                                                  .text
+                                                                  .trim(),
+                                                          lastName:
+                                                              _lastnamecontroller
+                                                                  .text
+                                                                  .trim(),
+                                                          phoneNumber:
+                                                              _phonecontroller
+                                                                  .text
+                                                                  .trim(),
+                                                          age: dropDownValue,
+                                                        ));
+                                                  },
+                                                  style: ButtonStyle(
+                                                      shape: WidgetStateProperty.all(
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10))),
+                                                      fixedSize:
+                                                          WidgetStateProperty.all(
+                                                              const Size(
+                                                                  70, 40)),
+                                                      backgroundColor:
+                                                          WidgetStateProperty
+                                                              .all(AppColors
+                                                                  .coralRed)),
+                                                  child: Text(
+                                                    'Sign Up',
+                                                    style: AppTypography.h4
+                                                        .copyWith(
+                                                      color:
+                                                          AppColors.pureWhite,
+                                                      fontSize: 12,
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                    ],
-                                  ),
-                                  //!Last Message
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Any proplem?',
-                                        style:
-                                            AppTypography.labelLarge.copyWith(
-                                          color: AppColors.coralRed,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      GestureDetector(
-                                        child: Text(
-                                          'Contact Us',
-                                          style: AppTypography.h4.copyWith(
+                                              ),
+                                            ],
+                                          ),
+                                    Spacer(
+                                      flex: 1,
+                                    ),
+                                    //!Last Message
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Any proplem?',
+                                          style:
+                                              AppTypography.labelLarge.copyWith(
                                             color: AppColors.coralRed,
-                                            fontSize: 18,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        GestureDetector(
+                                          child: Text(
+                                            'Contact Us',
+                                            style: AppTypography.h4.copyWith(
+                                              color: AppColors.coralRed,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

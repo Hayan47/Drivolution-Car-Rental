@@ -2,6 +2,8 @@ import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
+import 'package:drivolution/utils/responsive/responsive_helper.dart';
+import 'package:drivolution/utils/responsive/responsive_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -43,10 +45,9 @@ class HomeScreen extends StatelessWidget {
                             //!hint
                             hintText: 'saerch..',
                             //!hint style
-                            hintStyle: AppTypography.h4
-                                .copyWith(
-                                  color: AppColors.pureWhite.withOpacity(0.5),
-                                ),
+                            hintStyle: AppTypography.h4.copyWith(
+                              color: AppColors.pureWhite.withOpacity(0.5),
+                            ),
                           ),
                           cursorHeight: 18,
                           keyboardType: TextInputType.text,
@@ -77,10 +78,10 @@ class HomeScreen extends StatelessWidget {
               : AppBar(
                   title: Row(
                     children: [
-                      SizedBox(width: MediaQuery.sizeOf(context).width / 8),
+                      SizedBox(width: ResponsiveHelper.getWidth(context) / 8),
                       Image.asset(
                         'assets/img/logo/drivolution.png',
-                        width: MediaQuery.sizeOf(context).width / 2,
+                        width: ResponsiveHelper.getWidth(context) / 2,
                       ),
                     ],
                   ),
@@ -102,31 +103,39 @@ class HomeScreen extends StatelessWidget {
                 ),
           body: Column(
             children: [
+              const SizedBox(height: 5),
               BlocBuilder<CarsBloc, CarsState>(
                 builder: (context, state) {
                   if (state is CarsLoading) {
-                    return const AllCarsLoading();
+                    return ResponsiveWidget(
+                      mobile: const AllCarsLoadingMobile(),
+                      tablet: const AllCarsLoadingTablet(),
+                    );
                   } else if (state is CarsLoaded) {
                     if (state.cars.isEmpty) {
                       return Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            //?get cars
                             context.read<CarsBloc>().add(GetAllCarsEvent());
                           },
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: MediaQuery.sizeOf(context).height * 0.2),
+                          child: Center(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('assets/lottie/refresh.png'),
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxHeight: ResponsiveHelper.hp(context, 40),
+                                  ),
+                                  child: Image.asset(
+                                    'assets/lottie/refresh.png',
+                                  ),
+                                ),
                                 Text(
                                   'Error Fetching Cars, Tap to Retry',
-                                  style: AppTypography.labelLarge
-                                      .copyWith(
-                                        color: AppColors.oceanBlue,
-                                        fontSize: 20,
-                                      ),
+                                  style: AppTypography.labelLarge.copyWith(
+                                    color: AppColors.oceanBlue,
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ],
                             ),
@@ -137,7 +146,6 @@ class HomeScreen extends StatelessWidget {
                       return Expanded(
                         child: LiquidPullToRefresh(
                           onRefresh: () async {
-                            //?get cars
                             await Future.delayed(const Duration(seconds: 1));
                             context.read<CarsBloc>().add(GetAllCarsEvent());
                           },
@@ -146,39 +154,68 @@ class HomeScreen extends StatelessWidget {
                           showChildOpacityTransition: false,
                           height: 200,
                           color: Colors.transparent,
-                          backgroundColor: AppColors.pureWhite,
-                          child: ListView.builder(
-                            itemCount: state.cars.length,
-                            itemBuilder: (context, index) {
-                              if (index == state.cars.length - 1) {
-                                //? Return the last item with some padding
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 65),
-                                  child: CarCard(car: state.cars[index]),
-                                );
-                              } else {
+                          backgroundColor: AppColors.oceanBlue,
+                          child: ResponsiveWidget(
+                            mobile: ListView.builder(
+                              itemCount: state.cars.length,
+                              itemBuilder: (context, index) {
+                                if (index == state.cars.length - 1) {
+                                  //? Return the last item with some padding
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 65),
+                                    child: CarCard(car: state.cars[index]),
+                                  );
+                                } else {
+                                  return CarCard(car: state.cars[index]);
+                                }
+                              },
+                            ),
+                            tablet: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 420,
+                                mainAxisSpacing: 10,
+                                mainAxisExtent: 220,
+                              ),
+                              itemCount: state.cars.length,
+                              itemBuilder: (context, index) {
                                 return CarCard(car: state.cars[index]);
-                              }
-                            },
+                              },
+                            ),
                           ),
                         ),
                       );
                     }
                   } else if (state is CarSearching) {
                     return Expanded(
-                      child: ListView.builder(
-                        itemCount: state.searchedForCars.length,
-                        itemBuilder: (context, index) {
-                          if (index == state.searchedForCars.length - 1) {
-                            //? Return the last item with some padding
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 65),
-                              child: CarCard(car: state.searchedForCars[index]),
-                            );
-                          } else {
+                      child: ResponsiveWidget(
+                        mobile: ListView.builder(
+                          itemCount: state.searchedForCars.length,
+                          itemBuilder: (context, index) {
+                            if (index == state.searchedForCars.length - 1) {
+                              //? Return the last item with some padding
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 65),
+                                child:
+                                    CarCard(car: state.searchedForCars[index]),
+                              );
+                            } else {
+                              return CarCard(car: state.searchedForCars[index]);
+                            }
+                          },
+                        ),
+                        tablet: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 420,
+                            mainAxisSpacing: 10,
+                            mainAxisExtent: 220,
+                          ),
+                          itemCount: state.searchedForCars.length,
+                          itemBuilder: (context, index) {
                             return CarCard(car: state.searchedForCars[index]);
-                          }
-                        },
+                          },
+                        ),
                       ),
                     );
                   } else {
@@ -186,22 +223,26 @@ class HomeScreen extends StatelessWidget {
                     return Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          //?get cars
                           context.read<CarsBloc>().add(GetAllCarsEvent());
                         },
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.sizeOf(context).height * 0.2),
+                        child: Center(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/lottie/refresh.png'),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxHeight: ResponsiveHelper.hp(context, 40),
+                                ),
+                                child: Image.asset(
+                                  'assets/lottie/refresh.png',
+                                ),
+                              ),
                               Text(
                                 'Error Fetching Cars, Tap to Retry',
-                                style:AppTypography.labelLarge
-                                    .copyWith(
-                                      color: AppColors.oceanBlue,
-                                      fontSize: 20,
-                                    ),
+                                style: AppTypography.labelLarge.copyWith(
+                                  color: AppColors.oceanBlue,
+                                  fontSize: 20,
+                                ),
                               ),
                             ],
                           ),

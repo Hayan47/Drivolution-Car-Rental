@@ -2,6 +2,7 @@ import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
+import 'package:drivolution/utils/responsive/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -39,7 +40,12 @@ class AddCar3 extends StatelessWidget {
               );
           return Column(
             children: [
-              Image.asset('assets/lottie/car_location.png'),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: ResponsiveHelper.hp(context, 40),
+                ),
+                child: Image.asset('assets/lottie/car_location.png'),
+              ),
               const SizedBox(height: 25),
               Flexible(
                 child: Row(
@@ -80,8 +86,13 @@ class AddCar3 extends StatelessWidget {
           return Column(
             children: [
               //!car location
-              Image.asset('assets/lottie/car_location.png'),
-              const SizedBox(height: 25),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: ResponsiveHelper.hp(context, 40),
+                ),
+                child: Image.asset('assets/lottie/car_location.png'),
+              ),
+              // const SizedBox(height: 25),
               Text(
                 'add your car location',
                 style: AppTypography.labelLarge.copyWith(
@@ -91,10 +102,16 @@ class AddCar3 extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
-              GestureDetector(
-                onTap: () => context.read<LocationBloc>().add(PickLocation()),
-                child: Lottie.asset('assets/lottie/Location.json',
-                    width: MediaQuery.sizeOf(context).width * 0.3),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: ResponsiveHelper.hp(context, 12),
+                ),
+                child: GestureDetector(
+                  onTap: () => context.read<LocationBloc>().add(PickLocation()),
+                  child: Lottie.asset(
+                    'assets/lottie/Location.json',
+                  ),
+                ),
               ),
             ],
           );

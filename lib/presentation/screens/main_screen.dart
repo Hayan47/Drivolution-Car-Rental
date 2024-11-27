@@ -10,6 +10,7 @@ import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
 import 'package:drivolution/presentation/screens/5screens/notifications.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
+import 'package:drivolution/utils/responsive/responsive_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,7 +25,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  PageController _pageController = PageController();
+  final ValueNotifier<int> _currentIndexNotifier = ValueNotifier<int>(0);
+  late PageController _pageController;
   final List<Widget> _screens = [
     HomeScreen(),
     const FavoriteScreen(),
@@ -32,18 +34,18 @@ class _MainScreenState extends State<MainScreen> {
     const NotificationsScreen(),
     const ProfileScreen(),
   ];
-  bool isFirstPage = true;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController(initialPage: _currentIndexNotifier.value);
     loadData();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _currentIndexNotifier.dispose();
     super.dispose();
   }
 
@@ -58,7 +60,8 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  void navigateBottomNavBar(int index) {
+  void navigate(int index) {
+    _currentIndexNotifier.value = index;
     _pageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 300),
@@ -75,109 +78,190 @@ class _MainScreenState extends State<MainScreen> {
               GetFavoriteCars(favoriteCarsIDs: state.userInfo.favoriteCars));
         }
       },
-      child: Stack(
-        children: [
-          DecoratedBox(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xff1E1E24),
-                  Color(0xff243B55),
-                  Color(0xff1E1E24),
+      child: ValueListenableBuilder<int>(
+        valueListenable: _currentIndexNotifier,
+        builder: (context, currentIndex, child) {
+          return ResponsiveWidget(
+            mobile: Builder(builder: (context) {
+              _pageController =
+                  PageController(initialPage: _currentIndexNotifier.value);
+              return Stack(
+                children: [
+                  //! 1- Background Scaffold
+                  DecoratedBox(
+                    decoration: const BoxDecoration(
+                      gradient: AppColors.backgroundGradient,
+                    ),
+                    child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: SizedBox.expand(
+                        child: PageView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: _pageController,
+                          children: _screens,
+                        ),
+                      ),
+                    ),
+                  ),
+                  //! 2- Google Nav Example
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.charcoal,
+                          borderRadius: BorderRadius.circular(45),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 7),
+                          child: GNav(
+                            selectedIndex: currentIndex,
+                            gap: 9,
+                            haptic: false,
+                            iconSize: 20,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 11, horizontal: 8),
+                            backgroundColor: AppColors.charcoal,
+                            color: AppColors.pureWhite,
+                            activeColor: AppColors.pureWhite,
+                            textStyle: AppTypography.h4.copyWith(
+                              color: AppColors.pureWhite,
+                              fontSize: 16,
+                            ),
+                            tabs: const [
+                              GButton(
+                                icon: IconlyLight.home,
+                                text: 'home',
+                                iconSize: 25,
+                              ),
+                              GButton(
+                                icon: IconlyLight.heart,
+                                text: 'favorite',
+                                iconSize: 25,
+                              ),
+                              GButton(
+                                  icon: FontAwesomeIcons.car, text: 'add car'),
+                              GButton(
+                                padding: EdgeInsets.symmetric(horizontal: 2),
+                                icon: IconlyLight.notification,
+                                text: 'notifications',
+                                iconSize: 25,
+                              ),
+                              GButton(
+                                icon: IconlyLight.profile,
+                                text: 'profile',
+                                iconSize: 25,
+                              ),
+                            ],
+                            onTabChange: navigate,
+                            curve: Curves.fastOutSlowIn,
+                            duration: const Duration(milliseconds: 300),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
-            ),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              //?body
-              appBar: isFirstPage
-                  ? null
-                  : AppBar(
-                      title: Row(
-                        children: [
-                          SizedBox(width: MediaQuery.sizeOf(context).width / 8),
-                          Image.asset(
-                            'assets/img/logo/drivolution.png',
-                            width: MediaQuery.sizeOf(context).width / 2,
+              );
+            }),
+            //! Background Scaffold
+            tablet: Builder(builder: (context) {
+              _pageController =
+                  PageController(initialPage: _currentIndexNotifier.value);
+              return DecoratedBox(
+                decoration: const BoxDecoration(
+                  gradient: AppColors.backgroundGradient,
+                ),
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: Row(
+                    children: [
+                      //! 1- Nav Rail
+                      NavigationRail(
+                        selectedIndex: currentIndex,
+                        backgroundColor: AppColors.charcoal,
+                        indicatorColor: AppColors.oceanBlue,
+                        useIndicator: true,
+                        leading: Image.asset(
+                          'assets/img/logo/logo.png',
+                          height: 35,
+                          width: 35,
+                        ),
+                        // onDestinationSelected: navigateBottomNavBar,
+                        onDestinationSelected: navigate,
+                        destinations: [
+                          NavigationRailDestination(
+                            icon: Icon(IconlyLight.home),
+                            label: Text(
+                              'home',
+                              style: AppTypography.h4.copyWith(
+                                color: AppColors.pureWhite,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          NavigationRailDestination(
+                            icon: Icon(IconlyLight.heart),
+                            label: Text(
+                              'favorite',
+                              style: AppTypography.h4.copyWith(
+                                color: AppColors.pureWhite,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          NavigationRailDestination(
+                            icon: Icon(FontAwesomeIcons.car),
+                            label: Text(
+                              'add car',
+                              style: AppTypography.h4.copyWith(
+                                color: AppColors.pureWhite,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          NavigationRailDestination(
+                            icon: Icon(IconlyLight.notification),
+                            label: Text(
+                              'notifications',
+                              style: AppTypography.h4.copyWith(
+                                color: AppColors.pureWhite,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          NavigationRailDestination(
+                            icon: Icon(IconlyLight.profile),
+                            label: Text(
+                              'profile',
+                              style: AppTypography.h4.copyWith(
+                                color: AppColors.pureWhite,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-              body: SizedBox.expand(
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      isFirstPage = index == 0 || index == 4;
-                    });
-                  },
-                  children: _screens,
-                ),
-              ),
-            ),
-          ),
-
-          //!Google Nav Example
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xff1E1E24),
-                  borderRadius: BorderRadius.circular(45),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
-                  child: GNav(
-                    gap: 9,
-                    haptic: false,
-                    iconSize: 20,
-                    padding: EdgeInsets.symmetric(vertical: 11, horizontal: 8),
-                    backgroundColor: AppColors.charcoal,
-                    color: AppColors.pureWhite,
-                    activeColor: AppColors.pureWhite,
-                    textStyle: AppTypography.h4.copyWith(
-                      color: AppColors.pureWhite,
-                      fontSize: 16,
-                    ),
-                    tabs: const [
-                      GButton(
-                        icon: IconlyLight.home,
-                        text: 'home',
-                        iconSize: 25,
-                      ),
-                      GButton(
-                        icon: IconlyLight.heart,
-                        text: 'favorite',
-                        iconSize: 25,
-                      ),
-                      GButton(icon: FontAwesomeIcons.car, text: 'add car'),
-                      GButton(
-                        padding: EdgeInsets.symmetric(horizontal: 2),
-                        icon: IconlyLight.notification,
-                        text: 'notifications',
-                        iconSize: 25,
-                      ),
-                      GButton(
-                        icon: IconlyLight.profile,
-                        text: 'profile',
-                        iconSize: 25,
+                      //! 2- Screens Page View
+                      Expanded(
+                        child: SizedBox.expand(
+                          child: PageView(
+                            scrollDirection: Axis.vertical,
+                            physics: const NeverScrollableScrollPhysics(),
+                            controller: _pageController,
+                            children: _screens,
+                          ),
+                        ),
                       ),
                     ],
-                    onTabChange: navigateBottomNavBar,
-                    curve: Curves.fastOutSlowIn,
-                    duration: const Duration(milliseconds: 300),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ],
+              );
+            }),
+          );
+        },
       ),
     );
   }

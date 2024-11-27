@@ -1,94 +1,111 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/presentation/widgets/photo_view.dart';
+import 'package:drivolution/presentation/widgets/car_images_widget.dart';
+import 'package:drivolution/utils/responsive/responsive_helper.dart';
+import 'package:drivolution/utils/responsive/responsive_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/car_details.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class CarDetailsScreen extends StatelessWidget {
-  final _controller = PageController();
   final Car car;
 
-  CarDetailsScreen({required this.car, super.key});
+  const CarDetailsScreen({required this.car, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.deepNavy,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.deepNavy,
-            // actions: [FavoriteIcon(car: car)],
-            pinned: true,
-            expandedHeight: 225,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.all(8),
-              title: Hero(
-                tag: car.name,
-                child: Text(
-                  textAlign: TextAlign.center,
-                  car.name,
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.pureWhite,
-                    fontSize: 18,
+      body: ResponsiveWidget(
+        mobile: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: AppColors.deepNavy,
+              pinned: true,
+              expandedHeight: 225,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: const EdgeInsets.all(8),
+                title: Hero(
+                  tag: car.name,
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    car.name,
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.pureWhite,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
+                centerTitle: true,
+                background: CarImagesWidget(
+                  carImage: car.img,
+                  carImages: car.images,
+                ),
               ),
-              centerTitle: true,
-              background: Stack(
-                children: [
-                  Hero(
-                    tag: car.img,
-                    child: PageView(
-                      controller: _controller,
-                      children: List.generate(
-                        car.images.length,
-                        (index) => GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return PhotoViewPage(
-                                  imagesUrl: car.images,
-                                  imagesCount: car.images.length,
-                                );
-                              },
-                            );
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: car.images[index],
-                            fit: BoxFit.cover,
+            ),
+
+            //sliver items
+            SliverToBoxAdapter(
+              child: CarDetails(car: car),
+            ),
+          ],
+        ),
+        tablet: SafeArea(
+          child: Row(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: ResponsiveHelper.wp(context, 50),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.horizontal(
+                    right: Radius.circular(12),
+                  ),
+                  child: Stack(
+                    children: [
+                      CarImagesWidget(
+                        carImage: car.img,
+                        carImages: car.images,
+                      ),
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: AppColors.pureWhite,
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    alignment: const Alignment(0, 0.95),
-                    child: SmoothPageIndicator(
-                      effect: const ExpandingDotsEffect(
-                        activeDotColor: AppColors.deepNavy,
-                        dotColor: Colors.white,
-                        dotHeight: 5,
-                        dotWidth: 5,
+                      Positioned(
+                        bottom: 20,
+                        left: 0,
+                        right: 0,
+                        child: Hero(
+                          tag: car.name,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            car.name,
+                            style: AppTypography.labelLarge.copyWith(
+                              color: AppColors.pureWhite,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ),
                       ),
-                      count: car.images.length,
-                      controller: _controller,
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: ResponsiveHelper.wp(context, 50),
+                  ),
+                  child: SingleChildScrollView(child: CarDetails(car: car))),
+            ],
           ),
-
-          //sliver items
-          SliverToBoxAdapter(
-            child: CarDetails(car: car),
-          ),
-        ],
+        ),
       ),
     );
   }

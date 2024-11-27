@@ -1,7 +1,11 @@
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
+import 'package:drivolution/presentation/widgets/login_widget.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
+import 'package:drivolution/utils/responsive/responsive_helper.dart';
+import 'package:drivolution/utils/responsive/responsive_widget.dart';
+import 'package:drivolution/utils/responsive/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
@@ -21,8 +25,14 @@ class FavoriteScreen extends StatelessWidget {
               if (state is FavoriteCarsLoaded) {
                 if (state.favoriteCars.isEmpty) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/lottie/favorite_cars.png'),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: ResponsiveHelper.getHeight(context) * 0.5,
+                        ),
+                        child: Image.asset('assets/lottie/favorite_cars.png'),
+                      ),
                       Text(
                         'add cars to your favorite list!',
                         style: AppTypography.labelLarge.copyWith(
@@ -34,59 +44,49 @@ class FavoriteScreen extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return ListView.builder(
-                    itemCount: state.favoriteCars.length,
-                    itemBuilder: (context, index) {
-                      if (index == state.favoriteCars.length - 1) {
-                        //? Return the last item with some padding
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 65),
-                          child: CarCard(car: state.favoriteCars[index]),
-                        );
-                      } else {
+                  return ResponsiveWidget(
+                    mobile: ListView.builder(
+                      itemCount: state.favoriteCars.length,
+                      itemBuilder: (context, index) {
+                        if (index == state.favoriteCars.length - 1) {
+                          //? Return the last item with some padding
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 65),
+                            child: CarCard(car: state.favoriteCars[index]),
+                          );
+                        } else {
+                          return CarCard(car: state.favoriteCars[index]);
+                        }
+                      },
+                    ),
+                    tablet: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 420,
+                        mainAxisSpacing: 10,
+                        mainAxisExtent: 220,
+                      ),
+                      itemCount: state.favoriteCars.length,
+                      itemBuilder: (context, index) {
                         return CarCard(car: state.favoriteCars[index]);
-                      }
-                    },
+                      },
+                    ),
                   );
                 }
               } else {
                 return const Column(
-                  children: [AllCarsLoading()],
+                  children: [
+                    SizedBox(height: 10),
+                    ResponsiveWidget(
+                      mobile: AllCarsLoadingMobile(),
+                      tablet: AllCarsLoadingTablet(),
+                    )
+                  ],
                 );
               }
             },
           );
         } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.4,
-                    child: Lottie.asset('assets/lottie/register.zip'),
-                  ),
-                  Text(
-                    'Make Your Account Now!',
-                    style: AppTypography.labelLarge.copyWith(
-                      color: AppColors.oceanBlue,
-                      fontSize: 26,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'loginscreen');
-                  },
-                  backgroundColor: AppColors.oceanBlue,
-                  label: const Text("log in"),
-                ),
-              ),
-            ],
-          );
+          return LoginWidget();
         }
       },
     );

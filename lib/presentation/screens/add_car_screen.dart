@@ -13,18 +13,7 @@ class AddCarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        //?gradiant effect
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              AppColors.charcoal,
-              AppColors.twilightBlue,
-              AppColors.charcoal,
-            ],
-          ),
-        ),
+        decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
         child: Column(
           children: [
             AppBar(),

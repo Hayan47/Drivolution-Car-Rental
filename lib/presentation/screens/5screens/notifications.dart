@@ -1,8 +1,11 @@
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
+import 'package:drivolution/presentation/widgets/login_widget.dart';
 import 'package:drivolution/presentation/widgets/notifications_item.dart';
 import 'package:drivolution/presentation/widgets/shimmer_notifications.dart';
+import 'package:drivolution/utils/responsive/responsive_helper.dart';
+import 'package:drivolution/utils/responsive/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -24,7 +27,13 @@ class NotificationsScreen extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Image.asset('assets/lottie/notifications.png'),
+                      // ConstrainedBox(
+                      //     constraints: BoxConstraints(
+                      //       maxHeight: ResponsiveHelper.hp(context, 40),
+                      //     ),
+                      //     child:
+                      //         Image.asset('assets/lottie/notifications.png'),
+                      // ),
                       const SizedBox(height: 10),
                       Text(
                         'You have no notifications yet',
@@ -48,14 +57,19 @@ class NotificationsScreen extends StatelessWidget {
                     showChildOpacityTransition: false,
                     height: 200,
                     color: Colors.transparent,
-                    backgroundColor: AppColors.pureWhite,
+                    backgroundColor: AppColors.oceanBlue,
                     child: ListView.builder(
                       itemCount: state.notifications.length,
                       itemBuilder: (context, index) {
                         if (index == state.notifications.length - 1) {
                           //? Return the last item with some padding
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 70),
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    ResponsiveHelper.getScreenSize(context) ==
+                                            ScreenSize.small
+                                        ? 70
+                                        : 10),
                             child: NotificationItem(
                                 notification: state.notifications[index]),
                           );
@@ -75,36 +89,7 @@ class NotificationsScreen extends StatelessWidget {
             },
           );
         } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.4,
-                    child: Lottie.asset('assets/lottie/register.zip'),
-                  ),
-                  Text(
-                    'Make Your Account Now!',
-                    style: AppTypography.labelLarge.copyWith(
-                      color: AppColors.oceanBlue,
-                      fontSize: 26,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'loginscreen');
-                  },
-                  backgroundColor: AppColors.oceanBlue,
-                  label: const Text("log in"),
-                ),
-              ),
-            ],
-          );
+          return LoginWidget();
         }
       },
     );

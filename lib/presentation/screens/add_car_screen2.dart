@@ -1,6 +1,8 @@
 import 'package:drivolution/constants/car_dropdown_constants.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
+import 'package:drivolution/presentation/widgets/car_add_description_widget.dart';
+import 'package:drivolution/presentation/widgets/car_add_feature_widget.dart';
 import 'package:drivolution/presentation/widgets/dropdown.dart';
 import 'package:drivolution/presentation/widgets/number_picker.dart';
 import 'package:drivolution/presentation/widgets/textfield.dart';
@@ -9,8 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class AddCar2 extends StatelessWidget {
-  final _featureController = TextEditingController();
-  AddCar2({super.key});
+  const AddCar2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -304,142 +305,12 @@ class AddCar2 extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             //!features
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Features',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.oceanBlue,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: state.features.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    color: AppColors.charcoal,
-                    child: ListTile(
-                      dense: true,
-                      title: Text(
-                        state.features[index],
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.pureWhite,
-                          fontSize: 15,
-                        ),
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: AppColors.oceanBlue,
-                        ),
-                        onPressed: () {
-                          context.read<CarFormBloc>().add(
-                              FeatureRemoved(feature: state.features[index]));
-                        },
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: AppColors.steelGrey.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.pureWhite,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                        controller: _featureController,
-                        cursorColor: AppColors.pureWhite,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          hintText: 'Android Auto',
-                          hintStyle: AppTypography.labelLarge.copyWith(
-                            color: AppColors.pureWhite.withOpacity(0.7),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.send,
-                      color: AppColors.oceanBlue,
-                    ),
-                    onPressed: () {
-                      if (_featureController.text.isEmpty) return;
-                      context
-                          .read<CarFormBloc>()
-                          .add(FeatureAdded(feature: _featureController.text));
-                      _featureController.clear();
-                    },
-                  ),
-                ],
-              ),
+            CarAddFeatureWidget(
+              features: state.features,
             ),
             const SizedBox(height: 20),
             //!car description
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'description',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.oceanBlue,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.charcoal.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.pureWhite,
-                  width: 0.4,
-                ),
-              ),
-              child: TextField(
-                maxLines: 4,
-                textAlign: TextAlign.center,
-                cursorColor: AppColors.pureWhite,
-                cursorRadius: const Radius.circular(50),
-                cursorWidth: 1,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.multiline,
-                autofocus: false,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                ),
-                style: AppTypography.labelLarge.copyWith(
-                  color: AppColors.pureWhite,
-                ),
-                onChanged: (value) => context.read<CarFormBloc>().add(
-                      DescriptionChanged(description: value),
-                    ),
-              ),
-            ),
+            CarAddDescriptionWidget(),
             const SizedBox(height: 15),
           ],
         );

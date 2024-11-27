@@ -1,9 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
+import 'package:drivolution/utils/responsive/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -28,67 +28,82 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/img/background1.jpg'), fit: BoxFit.cover),
-      ),
-      //items
-      child: Center(
-          child: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Column(
-              children: [
-                const SizedBox(height: 50),
-                Image.asset('assets/img/logo/drivolution.png'),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GradientText(
-                      'lets go for a ride',
-                      colors: [
-                        AppColors.deepNavy.withOpacity(1),
-                        AppColors.oceanBlue.withOpacity(1),
-                        AppColors.coralRed.withOpacity(1),
-                        AppColors.blazingRed.withOpacity(1),
-                      ],
-                      style: AppTypography.title.copyWith(
-                        decoration: TextDecoration.none,
-                        color: AppColors.blazingRed,
-                        fontSize: MediaQuery.sizeOf(context).width * 0.07,
-                      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        //! Background
+        return DecoratedBox(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/img/background1.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          //! Items
+          child: SafeArea(
+            child: Padding(
+              padding: ResponsiveHelper.screenPadding(context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: ResponsiveHelper.hp(context, 5)),
+                  //! Logo section
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: ResponsiveHelper.hp(context, 15),
                     ),
-                    Animate(
-                      target: _toggle ? 1 : 0,
-                      effects: const [
-                        MoveEffect(
-                          begin: Offset(0, 0),
-                          end: Offset(250, 0),
-                          duration: Duration(milliseconds: 1500),
-                        )
-                      ],
-                      child: SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.2,
-                        height: MediaQuery.sizeOf(context).width * 0.2,
-                        child: Lottie.asset(
-                          'assets/lottie/welcome_car.zip',
+                    child: Image.asset(
+                      'assets/img/logo/drivolution.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+
+                  //! Middle section with text and animation
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: GradientText(
+                            'lets go for a ride',
+                            colors: [
+                              AppColors.deepNavy.withOpacity(1),
+                              AppColors.oceanBlue.withOpacity(1),
+                              AppColors.coralRed.withOpacity(1),
+                              AppColors.blazingRed.withOpacity(1),
+                            ],
+                            style: AppTypography.title.copyWith(
+                              decoration: TextDecoration.none,
+                              color: AppColors.blazingRed,
+                              fontSize: ResponsiveHelper.wp(context, 7),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
+                      Animate(
+                        target: _toggle ? 1 : 0,
+                        effects: const [
+                          MoveEffect(
+                            begin: Offset(0, 0),
+                            end: Offset(250, 0),
+                            duration: Duration(milliseconds: 1500),
+                          )
+                        ],
+                        child: SizedBox(
+                          width: ResponsiveHelper.wp(context, 15),
+                          height: ResponsiveHelper.wp(context, 15),
+                          child: Lottie.asset(
+                            'assets/lottie/welcome_car.zip',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  //! Bottom button
+                  GestureDetector(
                     onTap: () async {
                       await player.play(AssetSource('sounds/start.mp3'));
                       _controller.forward();
@@ -100,17 +115,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       Navigator.pushReplacementNamed(context, 'mainscreen');
                     },
                     child: Container(
-                      width: 90,
-                      height: 90,
+                      width: ResponsiveHelper.isPortrait(context)
+                          ? ResponsiveHelper.wp(context, 23)
+                          : ResponsiveHelper.hp(context, 23),
+                      height: ResponsiveHelper.isPortrait(context)
+                          ? ResponsiveHelper.wp(context, 23)
+                          : ResponsiveHelper.hp(context, 23),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 3,
-                            spreadRadius: 2,
-                            color: AppColors.obsidian,
-                          )
-                        ],
+                        borderRadius: BorderRadius.circular(48),
                       ),
                       child: Lottie.asset(
                         'assets/lottie/stop.json',
@@ -120,12 +132,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           _controller.duration = composition.duration;
                         },
                       ),
-                    )),
-              ],
+                    ),
+                  ),
+                  SizedBox(height: ResponsiveHelper.hp(context, 5)),
+                ],
+              ),
             ),
-          ],
-        ),
-      )),
+          ),
+        );
+      },
     );
   }
 }

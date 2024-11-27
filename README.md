@@ -80,3 +80,11 @@ You can download the APK file for Drivolution from this link: https://www.mediaf
 <p align="center">
   <img src="https://github.com/Hayan47/Hayan47/blob/main/car_rent.jpg" width="18%" />
 </p>
+
+### Responsive Screens
+
+<p align="center">
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_responsive1.jpg" width="48%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_responsive2.jpg" width="48%" />
+  <img src="https://github.com/Hayan47/Hayan47/blob/main/car_responsive3.jpg" width="48%" />
+</p>

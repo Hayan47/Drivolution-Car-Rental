@@ -29,6 +29,7 @@ import 'package:drivolution/presentation/screens/my_cars_screen.dart';
 import 'package:drivolution/presentation/screens/my_reservations.dart';
 import 'package:drivolution/presentation/screens/sign_up_screen.dart';
 import 'package:drivolution/presentation/screens/welcome_screen.dart';
+import 'package:drivolution/presentation/widgets/photo_view.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:drivolution/presentation/screens/main_screen.dart';
@@ -199,6 +200,11 @@ class AppRouter {
             ],
             child: MyReservations(userID: userID),
           ),
+        );
+      case 'photoview':
+        final imagesUrl = settings.arguments as List<String>;
+        return MaterialPageRoute(
+          builder: (_) => PhotoViewPage(imagesUrl: imagesUrl),
         );
     }
     return null;
