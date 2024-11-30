@@ -14,7 +14,7 @@ class AuthCubit extends Cubit<AuthState> {
   late StreamSubscription authStreamSubscription;
   AuthCubit({required this.userServices}) : super(NotAuthenticated()) {
     authStreamSubscription =
-        userServices.auth.authStateChanges().listen((user) {
+        userServices.firebaseAuth.authStateChanges().listen((user) {
       emit(user != null ? Authenticated(user: user) : NotAuthenticated());
       logger.info(state);
     });

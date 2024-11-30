@@ -19,10 +19,7 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
       : super(CarFormState()) {
     on<LogoChanged>(_onLogoChanged);
     on<MainImageChanged>(_onMainImageChanged);
-    // on<ImageAdded>(_onImageAdded);
     on<CarAlbumChanged>(_onAlbumChanged);
-    // on<AdditionalImageRemoved>(_onAdditionalImageRemoved);
-    // on<ImageRemoved>(_onImageRemoved);
     on<NameChanged>(_onNameChanged);
     on<ModelChanged>(_onModelChanged);
     on<EngineChanged>(_onEngineChanged);

@@ -2,11 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
 import 'package:drivolution/data/services/notifications_services.dart';
 
-class ReservationsServices {
-  final _store = FirebaseFirestore.instance;
+class ReservationServices {
+  final FirebaseFirestore firebaseFirestore;
+  final NotificationServices notificationServices;
+
+  ReservationServices({
+    required this.firebaseFirestore,
+    required this.notificationServices,
+  });
 
   Future<void> makeReservation(Reservation res) async {
-    await _store
+    await firebaseFirestore
         .collection('reservations')
         .withConverter<Reservation>(
           fromFirestore: Reservation.fromFirestore,
@@ -14,13 +20,13 @@ class ReservationsServices {
         )
         .add(res)
         .then((docRef) async {
-      await FirebaseNotifications().sendNotificationToOwner(res);
+      await notificationServices.sendNotificationToOwner(res);
     });
   }
 
   Future<List<Reservation>> getCarReservations(String carid) async {
     List<Reservation> reservations = [];
-    var snapshot = await _store
+    var snapshot = await firebaseFirestore
         .collection('reservations')
         .where('carid', isEqualTo: carid)
         .withConverter(
@@ -37,7 +43,7 @@ class ReservationsServices {
 
   Future<List<Reservation>> getUserReservations(String userid) async {
     List<Reservation> reservations = [];
-    var snapshot = await _store
+    var snapshot = await firebaseFirestore
         .collection('reservations')
         .where('customerid', isEqualTo: userid)
         .withConverter(

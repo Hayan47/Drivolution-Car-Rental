@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/data/models/car_model.dart';
 
 class CarServices {
-  final _store = FirebaseFirestore.instance;
+  final FirebaseFirestore firebaseFirestore;
+
+  CarServices({required this.firebaseFirestore});
 
   //?get all cars
   Future<List<Car>> getAllCars() async {
     List<Car> cars = [];
-    var snapshot = await _store
+    var snapshot = await firebaseFirestore
         .collection('cars')
         .withConverter<Car>(
           fromFirestore: Car.fromFirestore,
@@ -24,7 +26,7 @@ class CarServices {
 
   //?add car
   Future<void> addCar(Car car) async {
-    await _store
+    await firebaseFirestore
         .collection('cars')
         .withConverter<Car>(
           fromFirestore: Car.fromFirestore,
@@ -35,14 +37,14 @@ class CarServices {
 
   //?delete car
   Future<void> deleteCar(Car car) async {
-    await _store
+    await firebaseFirestore
         .collection('deletedCars')
         .withConverter<Car>(
           fromFirestore: Car.fromFirestore,
           toFirestore: (car, options) => car.toFirestore(),
         )
         .add(car);
-    await _store
+    await firebaseFirestore
         .collection('cars')
         .withConverter<Car>(
           fromFirestore: Car.fromFirestore,
@@ -55,7 +57,7 @@ class CarServices {
   //?get car info
   Future<List<Car>> getCarsInfo(List<String> carIDs) async {
     List<Car> reservationCars = [];
-    var snapshot = await _store
+    var snapshot = await firebaseFirestore
         .collection('cars')
         .where(FieldPath.documentId, whereIn: carIDs)
         .withConverter<Car>(

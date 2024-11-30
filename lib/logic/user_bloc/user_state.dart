@@ -13,18 +13,16 @@ final class UserLoading extends UserState {}
 
 class UserLoaded extends UserState {
   final Usr userInfo;
-  // final List<Reservation> reservation;
   final List<Car> cars;
 
   const UserLoaded({
     required this.userInfo,
     required this.cars,
-    // this.reservation,
   });
 }
 
 class UserError extends UserState {
   final String errorMessage;
 
-  const UserError(this.errorMessage);
+  const UserError({required this.errorMessage});
 }

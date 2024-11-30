@@ -387,8 +387,8 @@ class _CarDetailsState extends State<CarDetails> {
               : Container(),
           const SizedBox(height: 20),
           //!owner
-          BlocProvider(
-            create: (context) => UserBloc(),
+          BlocProvider.value(
+            value: context.read<UserBloc>(),
             child: OwnerCard(car: widget.car),
           ),
           const SizedBox(height: 20),

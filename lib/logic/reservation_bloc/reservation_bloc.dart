@@ -1,6 +1,8 @@
+import 'package:drivolution/data/exceptions/firestore_exception.dart';
+import 'package:drivolution/data/exceptions/network_exception.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
+import 'package:drivolution/data/repositories/reservation_repository.dart';
 import 'package:drivolution/data/services/logger_service.dart';
-import 'package:drivolution/data/services/reservations_services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,19 +12,19 @@ part 'reservation_state.dart';
 
 class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   final logger = LoggerService().getLogger('Reservation Bloc Logger');
-  final reservationsServices = ReservationsServices();
+  final ReservationRepository reservationRepository;
   DateTimeRange? selectedRange;
   List<DateTime> disabledDates = [];
   List<Reservation> reservations = [];
   List<Reservation> userReservations = [];
   int duration = 0;
-  ReservationBloc() : super(ReservationsInitial()) {
+  ReservationBloc({required this.reservationRepository})
+      : super(ReservationsInitial()) {
     on<GetCarReservations>((event, emit) async {
       try {
         emit(ReservationsLoading());
-        logger.info(state);
         reservations =
-            await reservationsServices.getCarReservations(event.carID);
+            await reservationRepository.getCarReservations(event.carID);
         disabledDates = [];
         for (Reservation reservation in reservations) {
           DateTime startDate = reservation.startDate;
@@ -35,10 +37,13 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         }
         emit(ReservationsLoaded(
             reservations: reservations, disabledDates: disabledDates));
-        logger.info(state);
-      } catch (error) {
-        emit(ReservationsError(message: error.toString()));
-        logger.severe(state);
+      } on FirestoreException catch (e) {
+        emit(ReservationsError(message: e.message));
+      } on NetworkException catch (e) {
+        emit(ReservationsError(message: e.message));
+      } catch (e) {
+        emit(ReservationsError(message: 'An unexpected error occurred'));
+        logger.severe(e);
       }
     });
 
@@ -69,42 +74,40 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
           if (disabledDates.contains(date)) {
             emit(const ReservationsError(
                 message: 'Selected Date Range contains blackout days'));
-            logger.info(state);
             emit(ReservationsLoaded(
                 reservations: reservations, disabledDates: disabledDates));
-            logger.info(state);
             break;
           } else {
             duration = selectedRange!.duration.inDays;
             emit(
                 RangePicked(selectedRange: selectedRange!, duration: duration));
-            logger.info(state);
           }
         }
       } else {
         emit(const ReservationsError(message: 'Choose a range first'));
-        logger.severe(state);
         emit(ReservationsLoaded(
             reservations: reservations, disabledDates: disabledDates));
-        logger.info(state);
       }
     });
 
-    on<MakeReservation>((event, emit) {
+    on<MakeReservation>((event, emit) async {
       try {
-        reservationsServices.makeReservation(event.reservation);
+        await reservationRepository.makeReservation(event.reservation);
         emit(ReservationsInitial());
-        logger.info(state);
+      } on FirestoreException catch (e) {
+        emit(ReservationsError(message: e.message));
+      } on NetworkException catch (e) {
+        emit(ReservationsError(message: e.message));
       } catch (e) {
-        emit(const ReservationsError(message: 'Failed to make a reservation'));
-        logger.severe(state);
+        emit(ReservationsError(message: 'An unexpected error occurred'));
+        logger.severe(e);
       }
     });
 
     on<GetUserReservations>((event, emit) async {
       try {
         userReservations =
-            await reservationsServices.getUserReservations(event.userID);
+            await reservationRepository.getUserReservations(event.userID);
         disabledDates = [];
         for (Reservation reservation in userReservations) {
           DateTime startDate = reservation.startDate;
@@ -115,13 +118,15 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
                 DateTime(currentDay.year, currentDay.month, currentDay.day));
           }
         }
-        logger.info(userReservations);
         emit(ReservationsLoaded(
             reservations: userReservations, disabledDates: disabledDates));
-        logger.info(state);
+      } on FirestoreException catch (e) {
+        emit(ReservationsError(message: e.message));
+      } on NetworkException catch (e) {
+        emit(ReservationsError(message: e.message));
       } catch (e) {
-        emit(const ReservationsError(message: 'Error getting reservations'));
-        logger.severe(state);
+        emit(ReservationsError(message: 'An unexpected error occurred'));
+        logger.severe(e);
       }
     });
   }

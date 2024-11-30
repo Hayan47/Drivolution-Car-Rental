@@ -21,9 +21,9 @@ class FavoriteCarsLoaded extends FavoriteState {
 }
 
 final class FavoriteError extends FavoriteState {
-  final String message;
+  final String errorMessage;
 
-  const FavoriteError({required this.message});
+  const FavoriteError({required this.errorMessage});
 }
 
 class AddingCarToFavorite extends FavoriteState {

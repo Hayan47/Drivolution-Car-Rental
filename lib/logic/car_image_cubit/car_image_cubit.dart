@@ -24,7 +24,7 @@ class CarImageCubit extends Cubit<CarImageState> {
         final image = File(pickedFile.path);
         final imageData = await image.readAsBytes();
 
-        //! Remove background specifically for car images
+        //! Remove background specifically for car image
         final processedImage =
             await imageRepository.removeBackground(imageData);
 

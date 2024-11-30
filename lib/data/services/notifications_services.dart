@@ -5,44 +5,28 @@ import 'package:drivolution/data/models/notification_model.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
 import 'package:drivolution/data/models/usr_model.dart';
 import 'package:drivolution/data/services/cars_services.dart';
+import 'package:drivolution/data/services/firebase_background_handlers.dart';
 import 'package:drivolution/data/services/logger_service.dart';
 import 'package:drivolution/data/services/user_services.dart';
-import 'package:drivolution/firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-@pragma('vm:entry-point')
-Future<void> backgroundMessageHandler(RemoteMessage message) async {
+class NotificationServices {
   final logger = LoggerService().getLogger('Notification Service Logger');
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  logger.info('Received Background Message');
-  FirebaseNotifications().showNotification(
-    id: int.parse(message.data['reservationId']),
-    title: message.data['title'] ?? '',
-    body: message.data['body'] ?? '',
-    // payload: jsonEncode(message.data),
-  );
-  FirebaseNotifications().storeNotification(
-    Notification(
-      title: message.data['title'],
-      body: message.data['body'],
-      timestamp: Timestamp.fromDate(DateTime.now()),
-      payload: '',
-    ),
-    message.data['ownerID'],
-  );
-}
+  final FirebaseMessaging firebaseMessaging;
+  final UserServices userServices;
+  final CarServices carServices;
+  final FlutterLocalNotificationsPlugin notificationsPlugin;
 
-class FirebaseNotifications {
-  final logger = LoggerService().getLogger('Notification Service Logger');
-  final firebaseMessaging = FirebaseMessaging.instance;
-  final userServices = UserServices();
-  final FlutterLocalNotificationsPlugin notificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  NotificationServices({
+    required this.firebaseMessaging,
+    required this.userServices,
+    required this.carServices,
+    required this.notificationsPlugin,
+  });
 
   //?init notifications
   Future<void> initNotifications() async {
@@ -138,10 +122,10 @@ class FirebaseNotifications {
   //!!!!!! apis
 
   Future<void> sendNotificationToOwner(Reservation res) async {
-    final cars = await CarServices().getCarsInfo([res.carId]);
+    final cars = await carServices.getCarsInfo([res.carId]);
     Car car = cars.first;
-    final Usr? carOwner = await UserServices().getUserInfo(car.ownerid);
-    final Usr? customer = await UserServices().getUserInfo(res.customerId);
+    final Usr? carOwner = await userServices.getUserInfo(car.ownerid);
+    final Usr? customer = await userServices.getUserInfo(res.customerId);
 
     final Map<String, dynamic> notificationData = {
       "message": {
@@ -162,8 +146,9 @@ class FirebaseNotifications {
         }
       }
     };
-    logger.info(notificationData);
+    // logger.info(notificationData);
     final String token = await getAccessToken();
+    // logger.info(token);
     const url =
         'https://fcm.googleapis.com/v1/projects/drivolution/messages:send';
     final headers = {
@@ -174,10 +159,9 @@ class FirebaseNotifications {
       final response = await http.post(Uri.parse(url),
           headers: headers, body: jsonEncode(notificationData));
       if (response.statusCode == 200) {
-        logger.info('Notification sent successfully!');
+        logger.fine('Notification sent successfully!');
       } else {
         logger.severe('Error sending notification: ${response.statusCode}');
-        logger.info(response.body);
       }
     } catch (error) {
       logger.severe('Error sending notification: $error');
@@ -198,7 +182,7 @@ class FirebaseNotifications {
   //?add notification
   Future<void> storeNotification(
       Notification notification, String userID) async {
-    await userServices.store
+    await userServices.firebaseFirestore
         .collection('users')
         .doc(userID)
         .collection('notifications')
@@ -212,7 +196,7 @@ class FirebaseNotifications {
   //?get all notifications
   Future<List<Notification>> getUserNotifications(String userID) async {
     List<Notification> notifications = [];
-    var snapshot = await userServices.store
+    var snapshot = await userServices.firebaseFirestore
         .collection('users')
         .doc(userID)
         .collection('notifications')
