@@ -1,17 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:drivolution/data/models/car_image_model.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
-import 'package:drivolution/presentation/widgets/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CarImagesWidget extends StatelessWidget {
   final _controller = PageController();
-  final String carImage;
-  final List<String> carImages;
+  final CarImage carImage;
+  final List<CarImage> carImages;
   CarImagesWidget({super.key, required this.carImage, required this.carImages});
 
   @override
   Widget build(BuildContext context) {
+    final filteredCarImages =
+        carImages.where((image) => !image.isPrimary).toList();
     return Stack(
       children: [
         Hero(
@@ -19,12 +21,12 @@ class CarImagesWidget extends StatelessWidget {
           child: PageView(
             controller: _controller,
             children: List.generate(
-              carImages.length,
+              filteredCarImages.length,
               (index) => GestureDetector(
                 onTap: () => Navigator.pushNamed(context, 'photoview',
-                    arguments: carImages),
+                    arguments: filteredCarImages),
                 child: CachedNetworkImage(
-                  imageUrl: carImages[index],
+                  imageUrl: filteredCarImages[index].imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -40,7 +42,7 @@ class CarImagesWidget extends StatelessWidget {
               dotHeight: 5,
               dotWidth: 5,
             ),
-            count: carImages.length,
+            count: filteredCarImages.length,
             controller: _controller,
           ),
         ),

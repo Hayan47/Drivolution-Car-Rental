@@ -5,15 +5,15 @@ enum FormStatus { initial, loading, success, failure }
 class CarFormState extends Equatable {
   final String name;
   final String model;
-  final int rent;
+  final double dailyRate;
   final String color;
   final String interiorColor;
   final String engine;
   final int kiloMetrage;
-  final String? type;
-  final String? fuel;
-  final String? transmission;
-  final String? drivetrain;
+  final CarType? type;
+  final FuelType? fuel;
+  final Transmission? transmission;
+  final DrivetrainType? drivetrain;
   final int doors;
   final int seats;
   final String discription;
@@ -21,9 +21,9 @@ class CarFormState extends Equatable {
   final double lang;
   final String city;
   final String logo;
-  final Uint8List? image;
+  final File? image;
   final List<String> features;
-  final List<Uint8List> images;
+  final List<File> images;
   final Map<String, String> errors;
   final FormStatus status;
   final DateTime? dateTime;
@@ -31,7 +31,7 @@ class CarFormState extends Equatable {
   const CarFormState({
     this.name = '',
     this.model = '',
-    this.rent = 0,
+    this.dailyRate = 0.0,
     this.color = '',
     this.interiorColor = '',
     this.engine = '',
@@ -58,15 +58,15 @@ class CarFormState extends Equatable {
   CarFormState copyWith({
     String? name,
     String? model,
-    int? rent,
+    double? dailyRate,
     String? color,
     String? interiorColor,
     String? engine,
     int? kiloMetrage,
-    String? type,
-    String? fuel,
-    String? transmission,
-    String? drivetrain,
+    CarType? type,
+    FuelType? fuel,
+    Transmission? transmission,
+    DrivetrainType? drivetrain,
     int? doors,
     int? seats,
     String? discription,
@@ -74,9 +74,9 @@ class CarFormState extends Equatable {
     double? lang,
     String? city,
     String? logo,
-    Uint8List? image,
+    File? image,
     List<String>? features,
-    List<Uint8List>? images,
+    List<File>? images,
     Map<String, String>? errors,
     FormStatus? status,
     DateTime? dateTime,
@@ -84,7 +84,7 @@ class CarFormState extends Equatable {
     return CarFormState(
       name: name ?? this.name,
       model: model ?? this.model,
-      rent: rent ?? this.rent,
+      dailyRate: dailyRate ?? this.dailyRate,
       color: color ?? this.color,
       interiorColor: interiorColor ?? this.interiorColor,
       engine: engine ?? this.engine,
@@ -113,7 +113,7 @@ class CarFormState extends Equatable {
   List<Object?> get props => [
         name,
         model,
-        rent,
+        dailyRate,
         color,
         interiorColor,
         engine,

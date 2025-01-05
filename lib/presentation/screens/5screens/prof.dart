@@ -1,4 +1,5 @@
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
+import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/logic/user_image_cubit/user_image_cubit.dart';
 import 'package:drivolution/presentation/widgets/login_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         if (state is Authenticated) {
+          context.read<UserBloc>().add(GetUserInfo());
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(value: context.read<UserImageCubit>()),

@@ -45,7 +45,7 @@ class _CarDetailsState extends State<CarDetails> {
                 child: Row(
                   children: [
                     Hero(
-                      tag: widget.car.geoPoint,
+                      tag: widget.car.location,
                       child: CachedNetworkImage(
                         imageUrl: widget.car.logo,
                         width: 35,
@@ -101,7 +101,7 @@ class _CarDetailsState extends State<CarDetails> {
                       ),
                     ),
                     Text(
-                      widget.car.locationName,
+                      widget.car.location.name,
                       style: AppTypography.labelLarge.copyWith(
                         color: AppColors.pureWhite,
                         fontSize: 18,
@@ -133,7 +133,7 @@ class _CarDetailsState extends State<CarDetails> {
                 ),
               ),
               Text(
-                '${widget.car.rent.toString()} \$/D',
+                '${widget.car.dailyRate.toString()} \$/D',
                 style: AppTypography.labelLarge.copyWith(
                   color: AppColors.pureWhite,
                   fontSize: 20,
@@ -150,7 +150,7 @@ class _CarDetailsState extends State<CarDetails> {
               children: [
                 const SizedBox(width: 10),
                 Text(
-                  widget.car.type,
+                  widget.car.type.toApiString().toLowerCase(),
                   style: AppTypography.labelLarge.copyWith(
                     color: AppColors.pureWhite,
                     fontSize: 20,
@@ -159,50 +159,50 @@ class _CarDetailsState extends State<CarDetails> {
                 const SizedBox(width: 10),
                 Builder(
                   builder: (context) {
-                    switch (widget.car.type) {
-                      case 'Sedan':
+                    switch (widget.car.type.toApiString().toLowerCase()) {
+                      case 'sedan':
                         return Image.asset(
                           'assets/icons/sedan.png',
                           color: AppColors.oceanBlue,
                           width: 40,
                           height: 40,
                         );
-                      case 'Pick Up':
+                      case 'pick up':
                         return Image.asset(
                           'assets/icons/pickup.png',
                           color: AppColors.oceanBlue,
                           width: 40,
                           height: 40,
                         );
-                      case 'SUV':
+                      case 'suv':
                         return Image.asset(
                           'assets/icons/suv.png',
                           color: AppColors.oceanBlue,
                           width: 40,
                           height: 40,
                         );
-                      case 'Sport':
+                      case 'sport':
                         return Image.asset(
                           'assets/icons/sport.png',
                           color: AppColors.oceanBlue,
                           width: 40,
                           height: 40,
                         );
-                      case 'Coupe':
+                      case 'coupe':
                         return Image.asset(
                           'assets/icons/coupe.png',
                           color: AppColors.oceanBlue,
                           width: 40,
                           height: 40,
                         );
-                      case 'Convertible':
+                      case 'convertible':
                         return Image.asset(
                           'assets/icons/convertible.png',
                           color: AppColors.oceanBlue,
                           width: 40,
                           height: 40,
                         );
-                      case 'HatchBack':
+                      case 'hatchback':
                         return Image.asset(
                           'assets/icons/hatchback.png',
                           color: AppColors.oceanBlue,
@@ -323,8 +323,8 @@ class _CarDetailsState extends State<CarDetails> {
                     children: [
                       Builder(
                         builder: (context) {
-                          switch (widget.car.fuel) {
-                            case 'gaz':
+                          switch (widget.car.fuel.toApiString().toLowerCase()) {
+                            case 'petrol':
                               return Image.asset(
                                 'assets/icons/gas.png',
                                 width: 50,
@@ -338,7 +338,7 @@ class _CarDetailsState extends State<CarDetails> {
                                 height: 50,
                                 color: AppColors.jetBlack,
                               );
-                            case 'electro':
+                            case 'electric':
                               return Image.asset(
                                 'assets/icons/disel.png',
                                 width: 50,
@@ -352,7 +352,7 @@ class _CarDetailsState extends State<CarDetails> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        widget.car.fuel,
+                        widget.car.fuel.toApiString().toLowerCase(),
                         style: AppTypography.labelLarge.copyWith(
                           color: AppColors.deepNavy,
                         ),
@@ -374,8 +374,8 @@ class _CarDetailsState extends State<CarDetails> {
             color: widget.car.color,
             interiorColor: widget.car.interiorColor,
             engine: widget.car.engine,
-            transmission: widget.car.transmission,
-            drivetrain: widget.car.drivetrain,
+            transmission: widget.car.transmission.toApiString().toLowerCase(),
+            drivetrain: widget.car.drivetrain.toApiString().toLowerCase(),
             kilometrage: widget.car.kilometrage.toString(),
           ),
           const SizedBox(height: 20),
@@ -395,7 +395,7 @@ class _CarDetailsState extends State<CarDetails> {
           BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               if (state is Authenticated) {
-                if (widget.car.ownerid == state.user.uid) {
+                if (widget.car.owner!.id == state.userid) {
                   //*delete car
                   return BlocListener<CarsBloc, CarsState>(
                     listener: (context, state) {
@@ -431,9 +431,9 @@ class _CarDetailsState extends State<CarDetails> {
                                 builder: (_) {
                                   return MyAlertDialog(
                                     onPressed: () {
-                                      context
-                                          .read<CarsBloc>()
-                                          .add(DeleteCarEvent(car: widget.car));
+                                      context.read<CarsBloc>().add(
+                                          DeleteCarEvent(
+                                              carid: widget.car.id!));
                                     },
                                     text:
                                         'are you sure you want to delete this car?',

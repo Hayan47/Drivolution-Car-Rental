@@ -9,7 +9,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 
 class DateRangePicker extends StatelessWidget {
-  final String carid;
+  final int carid;
   const DateRangePicker({
     super.key,
     required this.carid,
@@ -17,7 +17,7 @@ class DateRangePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ReservationBloc>().add(GetCarReservations(carID: carid));
+    context.read<ReservationBloc>().add(GetCarReservations(carid: carid));
     return Scaffold(
       backgroundColor: AppColors.deepNavy,
       appBar: AppBar(

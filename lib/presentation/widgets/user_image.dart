@@ -8,11 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserImage extends StatelessWidget {
   final String? img;
-  final String uid;
+  final int userid;
   const UserImage({
     super.key,
     required this.img,
-    required this.uid,
+    required this.userid,
   });
 
   @override
@@ -22,7 +22,7 @@ class UserImage extends StatelessWidget {
         if (state is UserImageChanged) {
           context
               .read<UserBloc>()
-              .add(AddUserImage(imageUrl: state.imageUrl, userID: uid));
+              .add(AddUserImage(image: state.image, userid: userid));
           showToastMessage(
             context,
             state.message,
@@ -43,7 +43,7 @@ class UserImage extends StatelessWidget {
           );
         } else {
           return CachedNetworkImage(
-            imageUrl: (img != null) ? img! : 'https://i.imgur.com/sWmIhUZ.png',
+            imageUrl: img ?? 'https://i.imgur.com/sWmIhUZ.png',
             fit: BoxFit.cover,
           );
         }

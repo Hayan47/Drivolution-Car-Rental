@@ -7,12 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class MyReservations extends StatelessWidget {
-  final String userID;
-  const MyReservations({super.key, required this.userID});
+  final int userid;
+  const MyReservations({super.key, required this.userid});
 
   @override
   Widget build(BuildContext context) {
-    context.read<ReservationBloc>().add(GetUserReservations(userID: userID));
+    context.read<ReservationBloc>().add(GetUserReservations(userid: userid));
     return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: AppColors.backgroundGradient,
@@ -27,15 +27,6 @@ class MyReservations extends StatelessWidget {
           body: BlocBuilder<ReservationBloc, ReservationState>(
             builder: (context, state) {
               if (state is ReservationsLoaded) {
-                final List<String> carIDs = [];
-                for (var reservation in state.reservations) {
-                  if (!carIDs.contains(reservation.carId)) {
-                    carIDs.add(reservation.carId);
-                  }
-                }
-                if (carIDs.isNotEmpty) {
-                  context.read<CarsBloc>().add(GetCarsInfo(carIDs: carIDs));
-                }
                 return BlocBuilder<CarsBloc, CarsState>(
                   builder: (context, carsState) {
                     if (carsState is CarsLoaded) {

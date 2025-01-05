@@ -1,12 +1,9 @@
-import 'package:drivolution/data/exceptions/auth_exception.dart';
-import 'package:drivolution/data/exceptions/firestore_exception.dart';
-import 'package:drivolution/data/exceptions/network_exception.dart';
+import 'dart:io';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/data/models/usr_model.dart';
+import 'package:drivolution/data/models/user_model.dart';
 import 'package:drivolution/data/repositories/user_repository.dart';
 import 'package:drivolution/data/services/logger_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'user_event.dart';
 part 'user_state.dart';
@@ -15,52 +12,31 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
   UserBloc({required this.userRepository}) : super(UserInitial()) {
     final logger = LoggerService().getLogger('User Bloc Logger');
-    UserCredential userCredentials;
 
     on<SignIn>(
       (event, emit) async {
         try {
           emit(UserLoading());
-          userCredentials = await userRepository.signInWithEmailAndPassword(
-              event.email, event.password);
-          add(GetUserInfo(userID: userCredentials.user!.uid));
-        } on AuthException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
+          final User user =
+              await userRepository.loginUser(event.email, event.password);
+          logger.info(state);
+          emit(UserLoaded(userInfo: user, cars: []));
         } catch (e) {
-          emit(const UserError(errorMessage: 'An unexpected error occurred'));
+          emit(UserError(errorMessage: e.toString()));
           logger.severe(e);
-        }
-      },
-    );
-
-    on<SignInWithGoogle>(
-      (event, emit) async {
-        try {
-          emit(UserLoading());
-          userCredentials = await userRepository.signInWithGoogle();
-          add(GetUserInfo(userID: userCredentials.user!.uid));
-        } on AuthException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } catch (e) {
-          emit(const UserError(errorMessage: 'An unexpected error occurred'));
-          logger.severe(e);
+          logger.severe(state);
         }
       },
     );
 
     on<SignOut>(
-      (event, emit) {
+      (event, emit) async {
         try {
-          userRepository.signOut();
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
+          await userRepository.signOut();
         } catch (e) {
-          emit(UserError(errorMessage: 'An unexpected error occurred'));
+          emit(UserError(errorMessage: e.toString()));
           logger.severe(e);
+          logger.severe(state);
         }
       },
     );
@@ -69,22 +45,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          userCredentials = await userRepository.signUp(
+          final User user = await userRepository.registerUser(
             event.email,
             event.password,
-            event.firstName,
-            event.lastName,
+            event.username,
             event.phoneNumber,
-            event.age,
           );
-          add(GetUserInfo(userID: userCredentials.user!.uid));
-        } on AuthException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
+          emit(UserLoaded(userInfo: user, cars: []));
+          logger.info(state);
         } catch (e) {
-          emit(const UserError(errorMessage: 'An unexpected error occurred'));
+          emit(UserError(errorMessage: e.toString()));
           logger.severe(e);
+          logger.severe(state);
         }
       },
     );
@@ -95,13 +67,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(UserLoading());
           userRepository.resetPassword(event.email);
           emit(UserInitial());
-        } on AuthException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
         } catch (e) {
-          emit(const UserError(errorMessage: 'An unexpected error occurred'));
+          emit(UserError(errorMessage: e.toString()));
           logger.severe(e);
+          logger.severe(state);
         }
       },
     );
@@ -110,16 +79,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          userRepository.addPhoneNumber(event.phoneNumber, event.userID);
+          userRepository.addPhoneNumber(event.phoneNumber, event.userid);
           emit(UserInitial());
-          add(GetUserInfo(userID: event.userID));
-        } on FirestoreException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
+          add(GetUserInfo());
         } catch (e) {
-          emit(const UserError(errorMessage: 'An unexpected error occurred'));
+          emit(UserError(errorMessage: e.toString()));
           logger.severe(e);
+          logger.severe(state);
         }
       },
     );
@@ -127,15 +93,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<AddUserImage>(
       (event, emit) async {
         try {
-          userRepository.addImage(event.imageUrl, event.userID);
-          add(GetUserInfo(userID: event.userID));
-        } on FirestoreException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
+          await userRepository.addImage(event.image, event.userid);
+          add(GetUserInfo());
         } catch (e) {
-          emit(const UserError(errorMessage: 'An unexpected error occurred'));
+          emit(UserError(errorMessage: e.toString()));
           logger.severe(e);
+          logger.severe(state);
         }
       },
     );
@@ -144,16 +107,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         try {
           emit(UserLoading());
-          final userInfo = await userRepository.getUserInfo(event.userID);
-          final userCars = await userRepository.getUserCars(event.userID);
-          emit(UserLoaded(userInfo: userInfo!, cars: userCars));
-        } on FirestoreException catch (e) {
-          emit(UserError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(UserError(errorMessage: e.message));
+          logger.info(state);
+          final userInfo = await userRepository.getUserInfo();
+          final userCars = await userRepository.getUserCars();
+          emit(UserLoaded(userInfo: userInfo, cars: userCars));
+          logger.info(userInfo);
+          logger.info(state);
         } catch (e) {
-          emit(const UserError(errorMessage: 'An unexpected error occurred'));
+          emit(UserError(errorMessage: e.toString()));
           logger.severe(e);
+          logger.severe(state);
         }
       },
     );

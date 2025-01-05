@@ -1,40 +1,43 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drivolution/data/models/car_image_model.dart';
+import 'package:drivolution/data/models/car_location_model.dart';
+import 'package:drivolution/data/enums/drivetrain_type.dart';
+import 'package:drivolution/data/enums/fuel_type.dart';
+import 'package:drivolution/data/enums/transmission.dart';
+import 'package:drivolution/data/enums/car_type.dart';
+import 'package:drivolution/data/models/user_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Car extends Equatable {
-  final String? id;
-  final String logo;
-  final String img;
+  final int? id;
+  final User? owner;
   final String name;
   final String model;
-  final int rent;
-  final List<String> images;
-  final GeoPoint geoPoint;
-  final String locationName;
-  final String type;
-  final int seats;
-  final int doors;
-  final String fuel;
-  final List<String> features;
   final String color;
   final String interiorColor;
   final String engine;
-  final String drivetrain;
   final int kilometrage;
-  final String transmission;
-  final String ownerid;
+  final int doors;
+  final int seats;
+  final DrivetrainType drivetrain;
+  final Transmission transmission;
+  final CarType type;
+  final FuelType fuel;
+  final double dailyRate;
   final String description;
+  final String logo;
+  final List<CarImage> images;
+  final CarLocation location;
+  final List<String> features;
 
   const Car({
     this.id,
+    this.owner,
     required this.logo,
-    required this.img,
     required this.name,
     required this.model,
-    required this.rent,
+    required this.dailyRate,
     required this.images,
-    required this.geoPoint,
-    required this.locationName,
+    required this.location,
     required this.type,
     required this.seats,
     required this.doors,
@@ -46,92 +49,80 @@ class Car extends Equatable {
     required this.drivetrain,
     required this.kilometrage,
     required this.transmission,
-    required this.ownerid,
     required this.description,
   });
 
-  factory Car.fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options,
-  ) {
-    final data = snapshot.data();
+  factory Car.fromJson(Map<String, dynamic> json) {
     return Car(
-      id: snapshot.id,
-      logo: data?['logo'],
-      img: data?['image'],
-      name: data?['name'],
-      model: data?['model'],
-      rent: data?['rent'],
-      images: List<String>.from(data?['images']),
-      geoPoint: data?['geoPoint'],
-      locationName: data?['locationName'],
-      type: data?['type'],
-      seats: data?['seats'],
-      doors: data?['doors'],
-      fuel: data?['fuel'],
-      features: List<String>.from(data?['features']),
-      color: data?['color'],
-      interiorColor: data?['interiorColor'],
-      engine: data?['engine'],
-      drivetrain: data?['drivetrain'],
-      kilometrage: data?['kilometrage'],
-      description: data?['description'],
-      transmission: data?['transmission'],
-      ownerid: data?['ownerid'],
+      id: json['id'],
+      owner: User.fromJson(json['owner']),
+      name: json['name'],
+      model: json['model'],
+      interiorColor: json['interior_color'],
+      color: json['color'],
+      kilometrage: json['kilometrage'],
+      doors: json['doors'],
+      seats: json['seats'],
+      drivetrain: DrivetrainType.fromApiString(json['drivetrain']),
+      transmission: Transmission.fromApiString(json['transmission']),
+      type: CarType.fromApiString(json['type']),
+      fuel: FuelType.fromApiString(json['fuel']),
+      dailyRate: double.parse(json['daily_rate'].toString()),
+      description: json['description'],
+      logo: json['logo'],
+      images: (json['images'] as List)
+          .map((image) => CarImage.fromJson(image))
+          .toList(),
+      location: CarLocation.fromJson(json['location']),
+      features: List<String>.from(json['features']),
+      engine: json['engine'],
     );
   }
 
-  //? Convert Car object to a Map for writing to Firebase
-  Map<String, dynamic> toFirestore() {
+  Map<String, dynamic> toJson() {
     return {
-      // 'id': id,
-      'logo': logo,
-      'image': img,
       'name': name,
       'model': model,
-      'rent': rent,
-      'images': images,
-      'locationName': locationName,
-      'geoPoint': geoPoint,
-      'type': type,
-      'seats': seats,
-      'doors': doors,
-      'fuel': fuel,
-      'features': features,
+      'interior_color': interiorColor,
       'color': color,
-      'interiorColor': interiorColor,
-      'engine': engine,
-      'drivetrain': drivetrain,
       'kilometrage': kilometrage,
+      'doors': doors,
+      'seats': seats,
+      'drivetrain': drivetrain.toApiString(),
+      'transmission': transmission.toApiString(),
+      'type': type.toApiString(),
+      'fuel': fuel.toApiString(),
+      'daily_rate': dailyRate.toString(),
       'description': description,
-      'transmission': transmission,
-      'ownerid': ownerid,
+      'logo': logo,
+      'images': images.map((image) => image.toJson()).toList(),
+      'location': location.toJson(),
+      'features': features,
+      'engine': engine,
     };
   }
 
   @override
   List<Object?> get props => [
         id,
-        logo,
-        img,
+        owner,
         name,
         model,
-        rent,
-        images,
-        geoPoint,
-        locationName,
-        type,
-        seats,
-        doors,
-        fuel,
-        features,
-        color,
         interiorColor,
-        engine,
-        drivetrain,
+        color,
         kilometrage,
+        doors,
+        seats,
+        drivetrain,
         transmission,
-        ownerid,
+        type,
+        fuel,
+        dailyRate,
         description,
+        logo,
+        images,
+        location,
+        features,
+        engine,
       ];
 }

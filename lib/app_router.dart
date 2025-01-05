@@ -1,14 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drivolution/data/models/car_image_model.dart';
+import 'package:drivolution/data/repositories/authentication_repository.dart';
 import 'package:drivolution/data/repositories/car_repository.dart';
 import 'package:drivolution/data/repositories/image_repository.dart';
-import 'package:drivolution/data/repositories/notification_repository.dart';
 import 'package:drivolution/data/repositories/reservation_repository.dart';
 import 'package:drivolution/data/repositories/user_repository.dart';
-import 'package:drivolution/data/services/cars_services.dart';
+import 'package:drivolution/data/services/authentication_service.dart';
+import 'package:drivolution/data/services/cars_service.dart';
 import 'package:drivolution/data/services/image_service.dart';
-import 'package:drivolution/data/services/notifications_services.dart';
-import 'package:drivolution/data/services/reservations_services.dart';
-import 'package:drivolution/data/services/user_services.dart';
+import 'package:drivolution/data/services/reservations_service.dart';
+import 'package:drivolution/data/services/user_service.dart';
 import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
@@ -16,10 +16,10 @@ import 'package:drivolution/logic/car_image_cubit/car_image_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
+import 'package:drivolution/logic/internet_cubit/internet_cubit.dart';
 import 'package:drivolution/logic/location_bloc/location_bloc.dart';
 import 'package:drivolution/logic/logo_bloc/logo_bloc.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
-import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
 import 'package:drivolution/logic/reservation_bloc/reservation_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/logic/user_image_cubit/user_image_cubit.dart';
@@ -35,35 +35,23 @@ import 'package:drivolution/presentation/screens/my_reservations.dart';
 import 'package:drivolution/presentation/screens/sign_up_screen.dart';
 import 'package:drivolution/presentation/screens/welcome_screen.dart';
 import 'package:drivolution/presentation/widgets/photo_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:drivolution/presentation/screens/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
-  late FirebaseAuth firebaseAuth;
-  late FirebaseFirestore firebaseFirestore;
-  late FirebaseStorage firebaseStorage;
-  late FirebaseMessaging firebaseMessaging;
-  late GoogleSignIn googleSignIn;
-  late FlutterLocalNotificationsPlugin notificationsPlugin;
-
-  late CarServices carServices;
-  late UserServices userServices;
+  late CarService carService;
+  late UserService userService;
   late ImageService imageService;
-  late ReservationServices reservationServices;
-  late NotificationServices notificationServices;
+  late ReservationService reservationService;
+  late AuthService authService;
 
   late CarRepository carRepository;
   late UserRepository userRepository;
   late ImageRepository imageRepository;
   late ReservationRepository reservationRepository;
-  late NotificationRepository notificationRepository;
+  late AuthRepository authRepository;
 
   late CarsBloc carsBloc;
   late UserBloc userBloc;
@@ -73,46 +61,27 @@ class AppRouter {
   late LocationBloc locationBloc;
   late MapBloc mapBloc;
   late AlbumBloc albumBloc;
-  late NotificationsBloc notificationsBloc;
   late CarFormBloc carFormBloc;
   late AuthCubit authCubit;
   late CarImageCubit carImageCubit;
   late UserImageCubit userImageCubit;
+  late InternetCubit internetCubit;
 
   AppRouter() {
-    firebaseStorage = FirebaseStorage.instance;
-    firebaseFirestore = FirebaseFirestore.instance;
-    firebaseAuth = FirebaseAuth.instance;
-    firebaseMessaging = FirebaseMessaging.instance;
-    googleSignIn = GoogleSignIn();
-    notificationsPlugin = FlutterLocalNotificationsPlugin();
+    imageService = ImageService();
+    carService = CarService();
+    userService = UserService();
+    reservationService = ReservationService();
+    authService = AuthService();
 
-    imageService = ImageService(firebaseStorage: firebaseStorage);
-    carServices = CarServices(firebaseFirestore: firebaseFirestore);
-    userServices = UserServices(
-      firebaseAuth: firebaseAuth,
-      googleSignIn: googleSignIn,
-      firebaseFirestore: firebaseFirestore,
-      firebaseMessaging: firebaseMessaging,
-    );
-    notificationServices = NotificationServices(
-      firebaseMessaging: firebaseMessaging,
-      userServices: userServices,
-      carServices: carServices,
-      notificationsPlugin: notificationsPlugin,
-    );
-    reservationServices = ReservationServices(
-      firebaseFirestore: firebaseFirestore,
-      notificationServices: notificationServices,
-    );
-
-    carRepository = CarRepository(carServices: carServices);
-    userRepository = UserRepository(userServices: userServices);
+    carRepository = CarRepository(carService: carService);
+    userRepository =
+        UserRepository(userService: userService, authService: authService);
     imageRepository = ImageRepository(imageService: imageService);
     reservationRepository =
-        ReservationRepository(reservationServices: reservationServices);
-    notificationRepository =
-        NotificationRepository(notificationServices: notificationServices);
+        ReservationRepository(reservationServices: reservationService);
+    authRepository =
+        AuthRepository(authService: authService, userService: userService);
 
     carsBloc = CarsBloc(carRepository: carRepository);
     userBloc = UserBloc(userRepository: userRepository);
@@ -123,21 +92,16 @@ class AppRouter {
     locationBloc = LocationBloc();
     mapBloc = MapBloc(imageService: imageService);
     albumBloc = AlbumBloc();
-    notificationsBloc =
-        NotificationsBloc(notificationRepository: notificationRepository);
+
     carFormBloc = CarFormBloc(
         carRepository: carRepository, imageRepository: imageRepository);
 
-    authCubit = AuthCubit(userServices: userServices);
+    internetCubit = InternetCubit();
+    authCubit = AuthCubit(
+      authRepository: authRepository,
+    );
     carImageCubit = CarImageCubit(imageRepository: imageRepository);
     userImageCubit = UserImageCubit(imageRepository: imageRepository);
-
-    initializeNotifications(notificationServices);
-  }
-
-  void initializeNotifications(
-      NotificationServices notificationServices) async {
-    await notificationServices.initNotifications();
   }
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -152,7 +116,6 @@ class AppRouter {
               BlocProvider.value(value: carsBloc),
               BlocProvider.value(value: favoriteBloc),
               BlocProvider.value(value: authCubit),
-              BlocProvider.value(value: notificationsBloc),
               BlocProvider.value(value: userImageCubit),
             ],
             child: const MainScreen(),
@@ -195,11 +158,11 @@ class AppRouter {
           ),
         );
       case 'daterangepicker':
-        final carID = settings.arguments as String;
+        final carid = settings.arguments as int;
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: reservationBloc,
-            child: DateRangePicker(carid: carID),
+            child: DateRangePicker(carid: carid),
           ),
         );
       case 'mapscreen':
@@ -235,28 +198,28 @@ class AppRouter {
           ),
         );
       case 'mycarsscreen':
-        final userID = settings.arguments as String;
+        final userID = settings.arguments as int;
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: userBloc,
-            child: MyCars(userID: userID),
+            child: MyCars(userid: userID),
           ),
         );
       case 'myreservationsscreen':
-        final userID = settings.arguments as String;
+        final userid = settings.arguments as int;
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(value: reservationBloc),
               BlocProvider.value(value: carsBloc),
             ],
-            child: MyReservations(userID: userID),
+            child: MyReservations(userid: userid),
           ),
         );
       case 'photoview':
-        final imagesUrl = settings.arguments as List<String>;
+        final imagesUrl = settings.arguments as List<CarImage>;
         return MaterialPageRoute(
-          builder: (_) => PhotoViewPage(imagesUrl: imagesUrl),
+          builder: (_) => PhotoViewPage(images: imagesUrl),
         );
     }
     return null;
@@ -271,10 +234,10 @@ class AppRouter {
     favoriteBloc.close();
     mapBloc.close();
     albumBloc.close();
-    notificationsBloc.close();
     carFormBloc.close();
     authCubit.close();
     carImageCubit.close();
     userImageCubit.close();
+    internetCubit.close();
   }
 }

@@ -35,7 +35,7 @@ class ConfirmReservation extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is RangePicked) {
-          int price = (state.duration + 1) * car.rent;
+          double price = (state.duration + 1) * car.dailyRate;
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(30),
@@ -108,8 +108,8 @@ class ConfirmReservation extends StatelessWidget {
                                   context.read<ReservationBloc>().add(
                                         MakeReservation(
                                           reservation: Reservation(
-                                            carId: car.id!,
-                                            customerId: authState.user.uid,
+                                            car: car.id!,
+                                            renter: authState.userid,
                                             startDate:
                                                 state.selectedRange.start,
                                             endDate: state.selectedRange.end,

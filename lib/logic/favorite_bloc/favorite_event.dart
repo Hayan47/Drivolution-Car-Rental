@@ -8,21 +8,21 @@ sealed class FavoriteEvent extends Equatable {
 }
 
 class GetFavoriteCars extends FavoriteEvent {
-  final List<String> favoriteCarsIDs;
+  final int userid;
 
-  const GetFavoriteCars({required this.favoriteCarsIDs});
+  const GetFavoriteCars({required this.userid});
 }
 
 class AddCarToFavorites extends FavoriteEvent {
-  final Car car;
-  final String userid;
+  final int carid;
+  final int userid;
 
-  const AddCarToFavorites({required this.car, required this.userid});
+  const AddCarToFavorites({required this.carid, required this.userid});
 }
 
 class RemoveCarFromFavorites extends FavoriteEvent {
-  final Car car;
-  final String userid;
+  final int carid;
+  final int userid;
 
-  const RemoveCarFromFavorites({required this.car, required this.userid});
+  const RemoveCarFromFavorites({required this.carid, required this.userid});
 }

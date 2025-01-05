@@ -12,7 +12,7 @@ final class UserInitial extends UserState {}
 final class UserLoading extends UserState {}
 
 class UserLoaded extends UserState {
-  final Usr userInfo;
+  final User userInfo;
   final List<Car> cars;
 
   const UserLoaded({

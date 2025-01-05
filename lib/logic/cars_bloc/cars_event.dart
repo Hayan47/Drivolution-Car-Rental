@@ -9,16 +9,16 @@ sealed class CarsEvent extends Equatable {
 
 class GetAllCarsEvent extends CarsEvent {}
 
-class AddCarEvent extends CarsEvent {
-  final Car car;
-
-  const AddCarEvent({required this.car});
-}
+// class AddCarEvent extends CarsEvent {
+//   final Car car;
+//
+//   const AddCarEvent({required this.car});
+// }
 
 class DeleteCarEvent extends CarsEvent {
-  final Car car;
+  final int carid;
 
-  const DeleteCarEvent({required this.car});
+  const DeleteCarEvent({required this.carid});
 }
 
 class SearchForCarEvent extends CarsEvent {

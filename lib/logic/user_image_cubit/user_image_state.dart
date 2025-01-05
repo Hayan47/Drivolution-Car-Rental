@@ -12,12 +12,12 @@ class UserImageInitial extends UserImageState {}
 class UserImageLoading extends UserImageState {}
 
 class UserImageChanged extends UserImageState {
-  final String imageUrl;
+  final File image;
   final String message;
 
   const UserImageChanged({
     required this.message,
-    required this.imageUrl,
+    required this.image,
   });
 
   @override

@@ -53,7 +53,7 @@ class CarPickAlbumWidget extends StatelessWidget {
                     children: List.generate(
                       state.images.length,
                       (index) => Card(
-                        child: Image.memory(state.images[index]),
+                        child: Image.file(state.images[index]),
                       ),
                     ),
                   );

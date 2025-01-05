@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drivolution/data/services/image_service.dart';
 import 'package:drivolution/data/services/logger_service.dart';
 import 'package:equatable/equatable.dart';
@@ -56,7 +55,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           icon: BitmapDescriptor.fromBytes(smalling!),
           markerId: const MarkerId('carloc'),
           infoWindow: const InfoWindow(title: 'Car Location'),
-          position: LatLng(event.geoPoint.latitude, event.geoPoint.longitude),
+          position: LatLng(event.latitude, event.longitude),
         )
       };
       emit(

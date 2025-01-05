@@ -1,44 +1,53 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drivolution/data/exceptions/firestore_exception.dart';
+import 'package:dio/dio.dart';
+import 'package:drivolution/data/exceptions/api_exception.dart';
 import 'package:drivolution/data/exceptions/network_exception.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
 import 'package:drivolution/data/services/logger_service.dart';
-import 'package:drivolution/data/services/reservations_services.dart';
+import 'package:drivolution/data/services/reservations_service.dart';
 
 class ReservationRepository {
   final logger = LoggerService().getLogger('Reservation Repo Logger');
-  final ReservationServices reservationServices;
+  final ReservationService reservationServices;
 
   ReservationRepository({required this.reservationServices});
 
-  Future<List<Reservation>> getCarReservations(String carid) async {
+  Future<void> makeReservation(Reservation reservation) async {
     try {
-      return await reservationServices.getCarReservations(carid);
-    } on FirebaseException catch (e) {
-      throw FirestoreException.fromFirebaseException(e);
-    } catch (e) {
-      throw NetworkException.connectionFailed();
+      Map<String, dynamic> reservationData = reservation.toJson();
+      final response =
+          await reservationServices.makeReservation(reservationData);
+    } on DioException catch (dioException) {
+      throw dioException.error!;
     }
   }
 
-  Future<void> makeReservation(Reservation res) async {
+  Future<List<Reservation>> getCarReservations(int carid) async {
     try {
-      return await reservationServices.makeReservation(res);
-    } on FirebaseException catch (e) {
-      throw FirestoreException.fromFirebaseException(e);
-    } catch (e) {
-      logger.severe(e);
-      throw NetworkException.connectionFailed();
+      List<Reservation> reservations = [];
+      final response = await reservationServices.getCarReservations(carid);
+      reservations = (response as List<dynamic>)
+          .map(
+            (e) => Reservation.fromJson(e),
+          )
+          .toList();
+      return reservations;
+    } on DioException catch (dioException) {
+      throw dioException.error!;
     }
   }
 
-  Future<List<Reservation>> getUserReservations(String userid) async {
+  Future<List<Reservation>> getUserReservations(int userid) async {
     try {
-      return await reservationServices.getUserReservations(userid);
-    } on FirebaseException catch (e) {
-      throw FirestoreException.fromFirebaseException(e);
-    } catch (e) {
-      throw NetworkException.connectionFailed();
+      List<Reservation> reservations = [];
+      final response = await reservationServices.getUserReservations(userid);
+      reservations = (response as List<dynamic>)
+          .map(
+            (e) => Reservation.fromJson(e),
+          )
+          .toList();
+      return reservations;
+    } on DioException catch (dioException) {
+      throw dioException.error!;
     }
   }
 }

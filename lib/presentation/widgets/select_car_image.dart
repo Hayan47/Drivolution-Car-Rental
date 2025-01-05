@@ -46,7 +46,7 @@ class SelectCarImage extends StatelessWidget {
                     child: SizedBox(
                       child: Card(
                         color: Colors.transparent,
-                        child: Image.memory(
+                        child: Image.file(
                           state.imageData,
                           fit: BoxFit.contain,
                         ),

@@ -4,15 +4,12 @@ import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/themes/themes.dart';
 import 'package:drivolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'firebase_options.dart';
 
 Future<void> main() async {
   await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

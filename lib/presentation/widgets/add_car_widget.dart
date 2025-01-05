@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddCarWidget extends StatelessWidget {
-  final String uid;
-  const AddCarWidget({super.key, required this.uid});
+  final int userid;
+  const AddCarWidget({super.key, required this.userid});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class AddCarWidget extends StatelessWidget {
                       Navigator.pushNamed(context, 'addcarscreen');
                     }
                   } else {
-                    context.read<UserBloc>().add(GetUserInfo(userID: uid));
+                    context.read<UserBloc>().add(GetUserInfo());
                   }
                 },
                 backgroundColor: AppColors.oceanBlue,

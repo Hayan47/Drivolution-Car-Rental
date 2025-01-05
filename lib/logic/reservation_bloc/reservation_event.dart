@@ -8,12 +8,12 @@ sealed class ReservationEvent extends Equatable {
 }
 
 class GetCarReservations extends ReservationEvent {
-  final String carID;
+  final int carid;
 
-  const GetCarReservations({required this.carID});
+  const GetCarReservations({required this.carid});
 
   @override
-  List<Object> get props => [carID];
+  List<Object> get props => [carid];
 }
 
 class PickRange extends ReservationEvent {
@@ -33,7 +33,7 @@ class MakeReservation extends ReservationEvent {
 }
 
 class GetUserReservations extends ReservationEvent {
-  final String userID;
+  final int userid;
 
-  const GetUserReservations({required this.userID});
+  const GetUserReservations({required this.userid});
 }

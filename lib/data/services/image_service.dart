@@ -1,75 +1,46 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:drivolution/data/services/api_service.dart';
+import 'package:drivolution/data/services/logger_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:image/image.dart' as IMG;
 
-class ImageService {
-  final FirebaseStorage firebaseStorage;
-
-  ImageService({required this.firebaseStorage});
-
+class ImageService extends ApiService {
+  final loggerr = LoggerService().getLogger("Image Service Logger");
   //? remove img background
   Future<Uint8List> removeBackground(Uint8List imageFile) async {
-    final response = await http.post(
-      Uri.parse('https://api.remove.bg/v1.0/removebg'),
-      headers: {
-        'X-Api-Key': dotenv.env['REMOVE_BG_API_KEY'].toString(),
-      },
-      body: {
-        'image_file_b64': base64.encode(imageFile),
-      },
-    );
-    Uint8List imageBytes = response.bodyBytes;
-    return imageBytes;
-  }
+    try {
+      // Prepare the base64-encoded image
+      final encodedImage = base64.encode(imageFile);
 
-  //?upload Image
-  Future<List<String>> uploadImages({
-    required List<Uint8List> images,
-    required String path,
-  }) async {
-    final uploadedUrls = <String>[];
-    for (int i = 0; i < images.length; i++) {
-      // final String imageName = imagesName + i.toString();
-      final ref = firebaseStorage.ref().child('$path$i');
+      // Create the multipart request
+      final uri = Uri.parse('https://api.remove.bg/v1.0/removebg');
+      final request = http.MultipartRequest('POST', uri);
 
-      final uploadTask = ref.putData(images[i]);
-      // Calculate progress
-      // final progress = (uploadTask.snapshot.bytesTransferred /
-      //         uploadTask.snapshot.totalBytes *
-      //         100)
-      //     .toInt();
+      // Add the API key
+      request.headers['X-Api-Key'] = dotenv.env['REMOVE_BG_API_KEY'].toString();
 
-      // Trigger event with updated progress and uploaded URLs
-      // context.read<UploadBloc>().add(UploadProgressEvent(progress: progress, uploadedUrls: uploadedUrls));
+      // Add the base64 image
+      request.fields['image_file_b64'] = encodedImage;
 
-      final url = await (await uploadTask).ref.getDownloadURL();
-      uploadedUrls.add(url);
+      // Send the request
+      final response = await request.send();
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        final responseBody = await http.Response.fromStream(response);
+        return responseBody.bodyBytes; // Return the image bytes
+      } else {
+        logger.warning("Failed to remove background: ${response.statusCode}");
+        throw Exception(
+            "Failed to remove background: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      logger.severe("Error removing background: $e");
+      rethrow;
     }
-    return uploadedUrls;
-    // .snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
-    //   switch (taskSnapshot.state) {
-    //     case TaskState.running:
-    //       final progress =
-    //           100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-    //       print("Upload $i is $progress% complete.");
-    //       break;
-    //     case TaskState.paused:
-    //       print("Upload is paused.");
-    //       break;
-    //     case TaskState.canceled:
-    //       print("Upload was canceled");
-    //       break;
-    //     case TaskState.error:
-    //       break;
-    //     case TaskState.success:
-    //       final imageUrl = ref.getDownloadURL();
-    //       print('Uploaded image $i: $imageUrl');
-    //   }
-    // });
   }
 
   //? compress img
@@ -94,21 +65,8 @@ class ImageService {
   }
 
   //? featch Logos
-  Future<List<String>> fetchCarLogos() async {
-    List<String> photoUrls = [];
-    try {
-      Reference directoryRef =
-          firebaseStorage.ref().child('myfiles').child('logos');
-
-      ListResult result = await directoryRef.listAll();
-
-      for (Reference ref in result.items) {
-        String imageUrl = await ref.getDownloadURL();
-        photoUrls.add(imageUrl);
-      }
-      return photoUrls;
-    } catch (e) {
-      return [];
-    }
+  Future<List<dynamic>> getCarLogos() async {
+    final response = await dio.get('car_logos/');
+    return response.data;
   }
 }

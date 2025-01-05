@@ -1,21 +1,9 @@
-enum NetworkExceptionType { connectionFailed, timeout, unknown }
+import 'package:drivolution/data/exceptions/app_exception.dart';
 
-class NetworkException implements Exception {
-  final String message;
-  final NetworkExceptionType type;
+class NetworkException extends AppException {
+  NetworkException({String? message})
+      : super(message: message ?? 'Network connection error');
 
-  NetworkException({required this.message, required this.type});
-
-  factory NetworkException.connectionFailed() {
-    return NetworkException(
-        message:
-            'Unable to connect to the service. Please check your internet connection.',
-        type: NetworkExceptionType.connectionFailed);
-  }
-
-  factory NetworkException.timeout() {
-    return NetworkException(
-        message: 'Connection timed out. Please try again.',
-        type: NetworkExceptionType.timeout);
-  }
+  @override
+  String toString() => message;
 }

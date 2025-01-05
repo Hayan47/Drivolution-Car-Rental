@@ -21,12 +21,12 @@ class UserImageCubit extends Cubit<UserImageState> {
         emit(UserImageLoading());
 
         final image = File(pickedFile.path);
-        final imageData = await image.readAsBytes();
+        // final imageData = await image.readAsBytes();
 
-        final imageUrl = await imageRepository.uploadImages(
-            images: [imageData], path: 'profile pictures/$userEmail');
+        // final imageUrl = await imageRepository.uploadImages(
+        //     images: [imageData], path: 'profile pictures/$userEmail');
         emit(UserImageChanged(
-            imageUrl: imageUrl.first, message: 'Image Changed Successfully'));
+            image: image, message: 'Image Changed Successfully'));
       } else {
         emit(const UserImageError('No User Image Selected'));
       }

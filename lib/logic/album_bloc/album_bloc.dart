@@ -20,11 +20,10 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
         try {
           if (pickedFiles.isNotEmpty) {
             emit(AlbumLoading());
-            final List<Uint8List> carImages = [];
+            final List<File> carImages = [];
             for (var pickedFile in pickedFiles) {
               final image = File(pickedFile.path);
-              final imageData = await image.readAsBytes();
-              carImages.add(imageData);
+              carImages.add(image);
             }
             emit(AlbumChanged(carImages));
           } else {

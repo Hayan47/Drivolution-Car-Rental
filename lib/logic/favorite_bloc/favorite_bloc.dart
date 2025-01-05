@@ -1,6 +1,3 @@
-import 'package:drivolution/data/exceptions/auth_exception.dart';
-import 'package:drivolution/data/exceptions/firestore_exception.dart';
-import 'package:drivolution/data/exceptions/network_exception.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/repositories/user_repository.dart';
 import 'package:drivolution/data/services/logger_service.dart';
@@ -18,16 +15,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       (event, emit) async {
         try {
           emit(FavoriteCarsLoading());
-          favoriteCars =
-              await userRepository.getFavoriteCars(event.favoriteCarsIDs);
+          logger.info(state);
+          favoriteCars = await userRepository.getFavoriteCars(event.userid);
           emit(FavoriteCarsLoaded(favoriteCars));
-        } on FirestoreException catch (e) {
-          emit(FavoriteError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(FavoriteError(errorMessage: e.message));
+          logger.info(state);
         } catch (e) {
-          emit(const FavoriteError(
-              errorMessage: 'An unexpected error occurred'));
+          emit(FavoriteError(errorMessage: e.toString()));
           logger.severe(e);
         }
       },
@@ -35,18 +28,14 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     on<AddCarToFavorites>(
       (event, emit) async {
         try {
-          emit(AddingCarToFavorite(id: event.car.id!));
-          await userRepository.addToFavorite(event.car.id!, event.userid);
-          favoriteCars.add(event.car);
+          emit(AddingCarToFavorite(id: event.carid));
+          await userRepository.addToFavorite(event.carid, event.userid);
+          // favoriteCars.add(event.car);
+          add(GetFavoriteCars(userid: event.userid));
           Future.delayed(const Duration(seconds: 3));
           emit(FavoriteCarsLoaded(favoriteCars));
-        } on FirestoreException catch (e) {
-          emit(FavoriteError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(FavoriteError(errorMessage: e.message));
         } catch (e) {
-          emit(const FavoriteError(
-              errorMessage: 'An unexpected error occurred'));
+          emit(FavoriteError(errorMessage: e.toString()));
           logger.severe(e);
         }
       },
@@ -54,18 +43,14 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     on<RemoveCarFromFavorites>(
       (event, emit) async {
         try {
-          emit(RemovingCarFromFavorite(id: event.car.id!));
-          await userRepository.removeFromFavorite(event.car.id!, event.userid);
-          favoriteCars.remove(event.car);
+          emit(RemovingCarFromFavorite(id: event.carid));
+          await userRepository.removeFromFavorite(event.carid, event.userid);
+          // favoriteCars.remove(event.car);
+          add(GetFavoriteCars(userid: event.userid));
           await Future.delayed(const Duration(milliseconds: 500));
           emit(FavoriteCarsLoaded(favoriteCars));
-        } on FirestoreException catch (e) {
-          emit(FavoriteError(errorMessage: e.message));
-        } on NetworkException catch (e) {
-          emit(FavoriteError(errorMessage: e.message));
         } catch (e) {
-          emit(const FavoriteError(
-              errorMessage: 'An unexpected error occurred'));
+          emit(FavoriteError(errorMessage: e.toString()));
           logger.severe(e);
         }
       },

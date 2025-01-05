@@ -27,13 +27,13 @@ final class FavoriteError extends FavoriteState {
 }
 
 class AddingCarToFavorite extends FavoriteState {
-  final String id;
+  final int id;
 
   const AddingCarToFavorite({required this.id});
 }
 
 class RemovingCarFromFavorite extends FavoriteState {
-  final String id;
+  final int id;
 
   const RemovingCarFromFavorite({required this.id});
 }

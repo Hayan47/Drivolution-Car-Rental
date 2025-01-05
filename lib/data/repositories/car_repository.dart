@@ -1,57 +1,72 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drivolution/data/exceptions/firestore_exception.dart';
-import 'package:drivolution/data/exceptions/network_exception.dart';
+import 'package:dio/dio.dart';
 import 'package:drivolution/data/models/car_model.dart';
-import 'package:drivolution/data/services/cars_services.dart';
+import 'package:drivolution/data/services/cars_service.dart';
+import 'package:drivolution/data/services/logger_service.dart';
 
 class CarRepository {
-  final CarServices carServices;
+  final logger = LoggerService().getLogger("Car Repo Logger");
+  final CarService carService;
 
-  CarRepository({required this.carServices});
+  CarRepository({required this.carService});
 
   Future<List<Car>> getAllCars() async {
     try {
-      return await carServices.getAllCars();
-    } on FirebaseException catch (e) {
-      throw FirestoreException.fromFirebaseException(e);
-    } catch (e) {
-      throw NetworkException.connectionFailed();
+      List<Car> cars = [];
+      final response = await carService.getAllCars();
+      cars = response
+          .map(
+            (car) => Car.fromJson(car),
+          )
+          .toList();
+      return cars;
+    } on DioException catch (dioException) {
+      throw dioException.error!;
     }
   }
 
   Future<void> addCar(Car car) async {
     try {
-      await carServices.addCar(car);
-    } on FirebaseException catch (e) {
-      throw FirestoreException.fromFirebaseException(e);
-    } catch (e) {
-      throw NetworkException.connectionFailed();
+      Map<String, dynamic> carData = car.toJson();
+      await carService.addCar(carData, car.images, car.location);
+    } on DioException catch (dioException) {
+      // rethrow;
+      // logger.severe("Dio Error");
+      logger.severe(dioException.error);
+      throw dioException.error!;
     }
   }
 
-  Future<void> deleteCar(Car car) async {
+  Future<void> deleteCar(int carid) async {
     try {
-      await carServices.deleteCar(car);
-    } on FirebaseException catch (e) {
-      throw FirestoreException.fromFirebaseException(e);
-    } catch (e) {
-      throw NetworkException.connectionFailed();
+      await carService.deleteCar(carid);
+    } on DioException catch (dioException) {
+      throw dioException.error!;
     }
   }
 
-  List<Car> searchForCars(List<Car> cars, String text) {
-    List<Car> searchedForCars =
-        cars.where((car) => car.name.toLowerCase().contains(text)).toList();
-    return searchedForCars;
-  }
-
-  Future<List<Car>> getCarsInfo(List<String> carIDs) async {
+  Future<List<Car>> searchForCars(String text) async {
+    // List<Car> searchedForCars =
+    //     cars.where((car) => car.name.toLowerCase().contains(text)).toList();
+    // return searchedForCars;
     try {
-      return await carServices.getCarsInfo(carIDs);
-    } on FirebaseException catch (e) {
-      throw FirestoreException.fromFirebaseException(e);
-    } catch (e) {
-      throw NetworkException.connectionFailed();
+      List<Car> cars = [];
+      final response = await carService.searchForCars(text);
+      cars = response
+          .map(
+            (car) => Car.fromJson(car),
+          )
+          .toList();
+      return cars;
+    } on DioException catch (dioException) {
+      throw dioException.error!;
     }
   }
+
+  // Future<List<Car>> getCarsInfo(List<String> carIDs) async {
+  //   try {
+  //     return await carService.getCarsInfo(carIDs);
+  //   } catch (e) {
+  //     throw NetworkException.connectionFailed();
+  //   }
+  // }
 }

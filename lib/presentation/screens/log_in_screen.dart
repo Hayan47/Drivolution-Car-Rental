@@ -55,7 +55,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 );
                 showToastMessage(
                   context,
-                  'welcome back  ${state.userInfo.firstName}',
+                  'welcome back  ${state.userInfo.username}',
                   const Icon(Icons.done,
                       color: AppColors.successGreen, size: 18),
                 );
@@ -369,31 +369,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                                 ),
                                               ],
                                             ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 15),
-                                        child: Text(
-                                          'or continue with',
-                                          style: AppTypography.h4.copyWith(
-                                            color: AppColors.coralRed,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () async {
-                                          context
-                                              .read<UserBloc>()
-                                              .add(SignInWithGoogle());
-                                        },
-                                        child: SizedBox(
-                                          height: 60,
-                                          width: 60,
-                                          child: Image.asset(
-                                            'assets/img/logo/google.png',
-                                          ),
-                                        ),
-                                      )
                                     ],
                                   ),
                                   Row(

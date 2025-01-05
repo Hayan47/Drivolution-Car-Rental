@@ -40,9 +40,9 @@ class MyCarCard extends StatelessWidget {
                   height: 120,
                   width: MediaQuery.sizeOf(context).width * 0.6,
                   child: Hero(
-                    tag: car.img,
+                    tag: car.images[0].imageUrl,
                     child: CachedNetworkImage(
-                      imageUrl: car.img,
+                      imageUrl: car.images[0].imageUrl,
                       fit: BoxFit.fitWidth,
                     ),
                   ),

@@ -2,13 +2,11 @@ import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
-import 'package:drivolution/logic/notifications_bloc/notifications_bloc.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/screens/5screens/add.dart';
 import 'package:drivolution/presentation/screens/5screens/fav.dart';
 import 'package:drivolution/presentation/screens/5screens/home.dart';
 import 'package:drivolution/presentation/screens/5screens/prof.dart';
-import 'package:drivolution/presentation/screens/5screens/notifications.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/utils/responsive/responsive_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +29,6 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     const FavoriteScreen(),
     const AddScreen(),
-    const NotificationsScreen(),
     const ProfileScreen(),
   ];
 
@@ -51,13 +48,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> loadData() async {
     context.read<CarsBloc>().add(GetAllCarsEvent());
-    final state = BlocProvider.of<AuthCubit>(context).state;
-    if (state is Authenticated) {
-      context.read<UserBloc>().add(GetUserInfo(userID: state.user.uid));
-      context
-          .read<NotificationsBloc>()
-          .add(GetUserNotifications(userID: state.user.uid));
-    }
+    context.read<AuthCubit>().checkAuth();
   }
 
   void navigate(int index) {
@@ -71,11 +62,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UserBloc, UserState>(
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is UserLoaded) {
-          context.read<FavoriteBloc>().add(
-              GetFavoriteCars(favoriteCarsIDs: state.userInfo.favoriteCars));
+        if (state is Authenticated) {
+          context
+              .read<FavoriteBloc>()
+              .add(GetFavoriteCars(userid: state.userid));
         }
       },
       child: ValueListenableBuilder<int>(
@@ -143,12 +135,12 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                               GButton(
                                   icon: FontAwesomeIcons.car, text: 'add car'),
-                              GButton(
-                                padding: EdgeInsets.symmetric(horizontal: 2),
-                                icon: IconlyLight.notification,
-                                text: 'notifications',
-                                iconSize: 25,
-                              ),
+                              // GButton(
+                              //   padding: EdgeInsets.symmetric(horizontal: 2),
+                              //   icon: IconlyLight.notification,
+                              //   text: 'notifications',
+                              //   iconSize: 25,
+                              // ),
                               GButton(
                                 icon: IconlyLight.profile,
                                 text: 'profile',
@@ -222,16 +214,16 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                           ),
-                          NavigationRailDestination(
-                            icon: Icon(IconlyLight.notification),
-                            label: Text(
-                              'notifications',
-                              style: AppTypography.h4.copyWith(
-                                color: AppColors.pureWhite,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
+                          // NavigationRailDestination(
+                          //   icon: Icon(IconlyLight.notification),
+                          //   label: Text(
+                          //     'notifications',
+                          //     style: AppTypography.h4.copyWith(
+                          //       color: AppColors.pureWhite,
+                          //       fontSize: 16,
+                          //     ),
+                          //   ),
+                          // ),
                           NavigationRailDestination(
                             icon: Icon(IconlyLight.profile),
                             label: Text(

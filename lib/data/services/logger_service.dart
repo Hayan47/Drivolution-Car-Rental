@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:logging/logging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 
 class LoggerService {
   static final LoggerService _instance = LoggerService._internal();
@@ -13,8 +16,7 @@ class LoggerService {
   }
 
   void _initializeLogging() {
-    Logger.root.level =
-        Level.ALL; 
+    Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((record) {
       if (kDebugMode) {
         print(_getFormattedLog(record));
@@ -66,3 +68,5 @@ class LoggerService {
     Logger.root.fine(message, error, stackTrace);
   }
 }
+
+

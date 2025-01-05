@@ -14,58 +14,44 @@ class SignIn extends UserEvent {
   const SignIn({required this.email, required this.password});
 }
 
-class SignInWithGoogle extends UserEvent {}
-
 class SignOut extends UserEvent {}
 
 class AddUserPhoneNumber extends UserEvent {
   final String phoneNumber;
-  final String userID;
+  final int userid;
 
-  const AddUserPhoneNumber({required this.phoneNumber, required this.userID});
+  const AddUserPhoneNumber({required this.phoneNumber, required this.userid});
 }
 
 class AddUserImage extends UserEvent {
-  final String imageUrl;
-  final String userID;
+  final File image;
+  final int userid;
 
-  const AddUserImage({required this.imageUrl, required this.userID});
+  const AddUserImage({required this.image, required this.userid});
 }
 
 class SignUp extends UserEvent {
   final String email;
   final String password;
-  final String firstName;
-  final String lastName;
+  final String username;
   final String phoneNumber;
   final int age;
 
   const SignUp({
     required this.email,
     required this.password,
-    required this.firstName,
-    required this.lastName,
+    required this.username,
     required this.phoneNumber,
     required this.age,
   });
 }
 
-class GetUserInfo extends UserEvent {
-  final String userID;
-
-  const GetUserInfo({required this.userID});
-}
-
-// class GetUserCars extends UserEvent {
-//   final String userID;
-
-//   const GetUserCars({required this.userID});
-// }
+class GetUserInfo extends UserEvent {}
 
 class GetUserReservation extends UserEvent {
-  final String userID;
+  final int userid;
 
-  const GetUserReservation({required this.userID});
+  const GetUserReservation({required this.userid});
 }
 
 class ResetPassword extends UserEvent {

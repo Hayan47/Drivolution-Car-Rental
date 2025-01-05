@@ -38,7 +38,7 @@ class CarDetailsScreen extends StatelessWidget {
                 ),
                 centerTitle: true,
                 background: CarImagesWidget(
-                  carImage: car.img,
+                  carImage: car.images[0],
                   carImages: car.images,
                 ),
               ),
@@ -64,7 +64,7 @@ class CarDetailsScreen extends StatelessWidget {
                   child: Stack(
                     children: [
                       CarImagesWidget(
-                        carImage: car.img,
+                        carImage: car.images[0],
                         carImages: car.images,
                       ),
                       Positioned(

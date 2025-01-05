@@ -33,10 +33,9 @@ class ProfileDetailsScreen extends StatelessWidget {
                         Positioned(
                           top: 0,
                           child: UserNameAndPhone(
-                            firstName: userState.userInfo.firstName,
-                            lastName: userState.userInfo.lastName,
+                            username: userState.userInfo.username,
                             phoneNumber: userState.userInfo.phoneNumber,
-                            uid: userState.userInfo.userid,
+                            userid: userState.userInfo.id!,
                           ),
                         ),
                       ],
@@ -45,8 +44,8 @@ class ProfileDetailsScreen extends StatelessWidget {
                     titlePadding: EdgeInsets.zero,
                     //! User Image
                     background: UserImage(
-                      img: userState.userInfo.img,
-                      uid: userState.userInfo.userid,
+                      img: userState.userInfo.profilePicture,
+                      userid: userState.userInfo.id!,
                     ),
                   ),
                   actions: [
@@ -58,7 +57,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                 //! User Menu
                 SliverToBoxAdapter(
                   child: UserProfileMenu(
-                    uid: userState.userInfo.userid,
+                    userid: userState.userInfo.id!,
                   ),
                 ),
               ],
@@ -82,8 +81,8 @@ class ProfileDetailsScreen extends StatelessWidget {
                                 right: Radius.circular(12),
                               ),
                               child: UserImage(
-                                img: userState.userInfo.img,
-                                uid: userState.userInfo.userid,
+                                img: userState.userInfo.profilePicture,
+                                userid: userState.userInfo.id!,
                               ),
                             ),
                             Positioned(
@@ -98,10 +97,9 @@ class ProfileDetailsScreen extends StatelessWidget {
                       ),
                       //! User Name + Phone
                       UserNameAndPhone(
-                        firstName: userState.userInfo.firstName,
-                        lastName: userState.userInfo.lastName,
+                        username: userState.userInfo.username,
                         phoneNumber: userState.userInfo.phoneNumber,
-                        uid: userState.userInfo.userid,
+                        userid: userState.userInfo.id!,
                       ),
                     ],
                   ),
@@ -110,7 +108,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: UserProfileMenu(
-                        uid: userState.userInfo.userid,
+                        userid: userState.userInfo.id!,
                       ),
                     ),
                   ),

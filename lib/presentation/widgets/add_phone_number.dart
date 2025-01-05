@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPhoneNumber extends StatelessWidget {
-  final String id;
+  final int id;
   AddPhoneNumber({super.key, required this.id});
 
   final _phoneController = TextEditingController();
@@ -97,7 +97,7 @@ class AddPhoneNumber extends StatelessWidget {
                 onTap: () async {
                   context.read<UserBloc>().add(
                         AddUserPhoneNumber(
-                            phoneNumber: _phoneController.text, userID: id),
+                            phoneNumber: _phoneController.text, userid: id),
                       );
                 },
                 child: Container(

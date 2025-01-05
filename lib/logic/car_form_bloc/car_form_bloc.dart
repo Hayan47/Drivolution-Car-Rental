@@ -1,5 +1,11 @@
-import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:drivolution/data/enums/car_type.dart';
+import 'package:drivolution/data/enums/drivetrain_type.dart';
+import 'package:drivolution/data/enums/fuel_type.dart';
+import 'package:drivolution/data/enums/transmission.dart';
+import 'package:drivolution/data/models/car_image_model.dart';
+import 'package:drivolution/data/models/car_location_model.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/repositories/car_repository.dart';
 import 'package:drivolution/data/repositories/image_repository.dart';
@@ -26,7 +32,7 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
     on<ColorChanged>(_onColorChanged);
     on<InteriorColorChanged>(_onInteriorColorChanged);
     on<KilometrageChanged>(_onKilometrageChanged);
-    on<RentChanged>(_onRentChanged);
+    on<DailyRateChanged>(_onRentChanged);
     on<TypeChanged>(_onTypeChanged);
     on<FuelChanged>(_onFuelChanged);
     on<TransmissionChanged>(_onTransmissionChanged);
@@ -48,9 +54,9 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
     ));
   }
 
-  void _onRentChanged(RentChanged event, Emitter<CarFormState> emit) {
+  void _onRentChanged(DailyRateChanged event, Emitter<CarFormState> emit) {
     emit(state.copyWith(
-      rent: event.rent,
+      dailyRate: event.dailyRate,
       errors: Map<String, String>.from(state.errors)..remove('rent'),
     ));
   }
@@ -173,21 +179,31 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
     emit(state.copyWith(status: FormStatus.loading));
 
     //! Upload Images
-    List<Uint8List> images = state.images;
+    List<File> images = [];
     images.insert(0, state.image!);
-    List<String> paths = await imageRepository.uploadImages(
-        images: images,
-        path: 'cars/${event.ownerid}/${state.name}/${state.name}');
+    images.addAll(state.images);
     try {
       carRepository.addCar(Car(
         logo: state.logo,
-        img: paths.first,
         name: state.name,
         model: state.model,
-        rent: state.rent,
-        images: paths.sublist(1),
-        geoPoint: GeoPoint(state.lat, state.lang),
-        locationName: state.city,
+        dailyRate: state.dailyRate,
+        images: images
+            .asMap()
+            .entries
+            .map(
+              (entry) => CarImage(
+                imageUrl: '',
+                imageFile: entry.value,
+                isPrimary: entry.key == 0, // true for index 0, false for others
+              ),
+            )
+            .toList(),
+        location: CarLocation(
+          name: state.city,
+          latitude: state.lat,
+          longitude: state.lang,
+        ),
         type: state.type!,
         seats: state.seats,
         doors: state.doors,
@@ -199,12 +215,11 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
         drivetrain: state.drivetrain!,
         kilometrage: state.kiloMetrage,
         transmission: state.transmission!,
-        ownerid: event.ownerid,
         description: state.discription,
       ));
-      await Future.delayed(Duration(seconds: 2)); // Simulate API call
       emit(state.copyWith(status: FormStatus.success));
     } catch (e) {
+      logger.severe(e);
       emit(
         state.copyWith(
           status: FormStatus.failure,
@@ -231,7 +246,7 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
   }
 
   void _onAlbumChanged(CarAlbumChanged event, Emitter<CarFormState> emit) {
-    final images = List<Uint8List>.from(state.images)..addAll(event.images);
+    final images = event.images;
 
     emit(state.copyWith(
       images: images,
@@ -262,7 +277,9 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
       errors['kilometrage'] = 'Car Kilometrage is required';
     }
 
-    if (state.rent <= 0) errors['price'] = 'Car Rent must be greater than 0';
+    if (state.dailyRate <= 0) {
+      errors['price'] = 'Car Rent must be greater than 0';
+    }
 
     if (state.type == null) errors['type'] = 'Car Type is required';
     if (state.fuel == null) errors['fuel'] = 'Car Fuel is required';
@@ -279,7 +296,6 @@ class CarFormBloc extends Bloc<CarFormEvent, CarFormState> {
     if (state.images.isEmpty) {
       errors['images'] = 'At least one image is required';
     }
-    logger.info(state);
     emit(state.copyWith(
       errors: errors,
       dateTime: DateTime.now(),

@@ -1,4 +1,7 @@
-import 'package:drivolution/constants/car_dropdown_constants.dart';
+import 'package:drivolution/data/enums/car_type.dart';
+import 'package:drivolution/data/enums/drivetrain_type.dart';
+import 'package:drivolution/data/enums/fuel_type.dart';
+import 'package:drivolution/data/enums/transmission.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/presentation/widgets/car_add_description_widget.dart';
@@ -175,12 +178,12 @@ class AddCar2 extends StatelessWidget {
                   ),
                 ),
                 MyTextField(
-                  initialValue: state.rent.toString(),
+                  initialValue: state.dailyRate.toString(),
                   hint: '50',
                   inputType: TextInputType.number,
                   actionType: TextInputAction.next,
                   onChanged: (value) => context.read<CarFormBloc>().add(
-                        RentChanged(rent: int.parse(value)),
+                        DailyRateChanged(dailyRate: double.parse(value)),
                       ),
                 ),
               ],
@@ -195,9 +198,13 @@ class AddCar2 extends StatelessWidget {
                   icon: 'assets/icons/sedan.png',
                   hint: 'select',
                   dropdownValue: state.type,
-                  items: CarDropdownConstants.types
-                      .map((type) =>
-                          DropdownMenuItem(value: type, child: Text(type)))
+                  items: CarType.values
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.name),
+                        ),
+                      )
                       .toList(),
                   onChanged: (value) =>
                       context.read<CarFormBloc>().add(TypeChanged(type: value)),
@@ -207,9 +214,13 @@ class AddCar2 extends StatelessWidget {
                   icon: 'assets/icons/gas.png',
                   hint: 'select',
                   dropdownValue: state.fuel,
-                  items: CarDropdownConstants.fuels
-                      .map((fuel) =>
-                          DropdownMenuItem(value: fuel, child: Text(fuel)))
+                  items: FuelType.values
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.name),
+                        ),
+                      )
                       .toList(),
                   onChanged: (value) =>
                       context.read<CarFormBloc>().add(FuelChanged(fuel: value)),
@@ -226,9 +237,13 @@ class AddCar2 extends StatelessWidget {
                   icon: 'assets/icons/gear.png',
                   hint: 'select',
                   dropdownValue: state.transmission,
-                  items: CarDropdownConstants.transmissions
-                      .map((transmission) => DropdownMenuItem(
-                          value: transmission, child: Text(transmission)))
+                  items: Transmission.values
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.name),
+                        ),
+                      )
                       .toList(),
                   onChanged: (value) => context
                       .read<CarFormBloc>()
@@ -239,9 +254,13 @@ class AddCar2 extends StatelessWidget {
                   icon: 'assets/icons/wheel.png',
                   hint: 'select',
                   dropdownValue: state.drivetrain,
-                  items: CarDropdownConstants.drivetrains
-                      .map((drivetrain) => DropdownMenuItem(
-                          value: drivetrain, child: Text(drivetrain)))
+                  items: DrivetrainType.values
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.name),
+                        ),
+                      )
                       .toList(),
                   onChanged: (value) => context
                       .read<CarFormBloc>()

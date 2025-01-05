@@ -5,11 +5,9 @@ import 'package:drivolution/presentation/widgets/login_widget.dart';
 import 'package:drivolution/presentation/widgets/shimmer_all_cars.dart';
 import 'package:drivolution/utils/responsive/responsive_helper.dart';
 import 'package:drivolution/utils/responsive/responsive_widget.dart';
-import 'package:drivolution/utils/responsive/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drivolution/presentation/widgets/car_card.dart';
-import 'package:lottie/lottie.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -20,6 +18,9 @@ class FavoriteScreen extends StatelessWidget {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         if (state is Authenticated) {
+          context
+              .read<FavoriteBloc>()
+              .add(GetFavoriteCars(userid: state.userid));
           return BlocBuilder<FavoriteBloc, FavoriteState>(
             builder: (context, state) {
               if (state is FavoriteCarsLoaded) {

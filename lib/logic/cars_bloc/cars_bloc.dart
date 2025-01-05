@@ -1,5 +1,3 @@
-import 'package:drivolution/data/exceptions/firestore_exception.dart';
-import 'package:drivolution/data/exceptions/network_exception.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/data/repositories/car_repository.dart';
 import 'package:drivolution/data/services/logger_service.dart';
@@ -18,50 +16,47 @@ class CarsBloc extends Bloc<CarsEvent, CarsState> {
         emit(CarsLoading());
         cars = await carRepository.getAllCars();
         emit(CarsLoaded(cars));
-      } on FirestoreException catch (e) {
-        emit(CarsError(e.message));
-      } on NetworkException catch (e) {
-        emit(CarsError(e.message));
+        logger.info(state);
       } catch (e) {
-        emit(CarsError('An unexpected error occurred'));
+        emit(CarsError(e.toString()));
         logger.severe(e);
       }
     });
 
-    on<AddCarEvent>((event, emit) async {
-      try {
-        emit(CarsLoading());
-        await carRepository.addCar(event.car);
-        emit(const CarAdded('Car Added Successfully'));
-        add(GetAllCarsEvent());
-      } on FirestoreException catch (e) {
-        emit(CarsError(e.message));
-      } on NetworkException catch (e) {
-        emit(CarsError(e.message));
-      } catch (e) {
-        emit(CarsError('An unexpected error occurred'));
-        logger.severe(e);
-      }
-    });
+    // on<AddCarEvent>((event, emit) async {
+    //   try {
+    //     emit(CarsLoading());
+    //     // await carRepository.addCar(event.car);
+    //     emit(const CarAdded('Car Added Successfully'));
+    //     add(GetAllCarsEvent());
+    //   } catch (e) {
+    //     emit(CarsError(e.toString()));
+    //     logger.severe(e);
+    //   }
+    // });
 
     on<DeleteCarEvent>((event, emit) async {
       try {
-        await carRepository.deleteCar(event.car);
+        await carRepository.deleteCar(event.carid);
         emit(const CarDeleted('Car Deleted Successfully'));
         add(GetAllCarsEvent());
-      } on FirestoreException catch (e) {
-        emit(CarsError(e.message));
-      } on NetworkException catch (e) {
-        emit(CarsError(e.message));
       } catch (e) {
-        emit(CarsError('An unexpected error occurred'));
+        emit(CarsError(e.toString()));
         logger.severe(e);
       }
     });
 
-    on<SearchForCarEvent>((event, emit) {
-      List<Car> searchedForCars = carRepository.searchForCars(cars, event.text);
-      emit(CarSearching(searchedForCars: searchedForCars));
+    on<SearchForCarEvent>((event, emit) async {
+      // List<Car> searchedForCars = carRepository.searchForCars(cars, event.text);
+      // emit(CarSearching(searchedForCars: searchedForCars));
+      try {
+        List<Car> searchedForCars =
+            await carRepository.searchForCars(event.text);
+        emit(CarSearching(searchedForCars: searchedForCars));
+      } catch (e) {
+        emit(CarsError(e.toString()));
+        logger.severe(e);
+      }
     });
 
     on<CloseSearchForCarEvent>((event, emit) {
@@ -69,17 +64,13 @@ class CarsBloc extends Bloc<CarsEvent, CarsState> {
     });
 
     on<GetCarsInfo>((event, emit) async {
-      try {
-        final cars = await carRepository.getCarsInfo(event.carIDs);
-        emit(CarsLoaded(cars));
-      } on FirestoreException catch (e) {
-        emit(CarsError(e.message));
-      } on NetworkException catch (e) {
-        emit(CarsError(e.message));
-      } catch (e) {
-        emit(CarsError('An unexpected error occurred'));
-        logger.severe(e);
-      }
+      // try {
+      //   final cars = await carRepository.getCarsInfo(event.carIDs);
+      //   emit(CarsLoaded(cars));
+      // } catch (e) {
+      //   emit(CarsError('An unexpected error occurred'));
+      //   logger.severe(e);
+      // }
     });
   }
 }

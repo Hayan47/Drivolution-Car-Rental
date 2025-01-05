@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/logic/map_bloc/map_bloc.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
@@ -8,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../data/models/car_model.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapScreen extends StatelessWidget {
   late GoogleMapController _googleMapController;
@@ -17,9 +14,11 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context
-        .read<MapBloc>()
-        .add(LoadCarLocation(geoPoint: car.geoPoint, carImage: car.img));
+    context.read<MapBloc>().add(LoadCarLocation(
+          carImage: car.images[0].imageUrl,
+          latitude: car.location.latitude,
+          longitude: car.location.longitude,
+        ));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.oceanBlue,
@@ -85,7 +84,7 @@ class MapScreen extends StatelessWidget {
         builder: (context, state) {
           return GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(car.geoPoint.latitude, car.geoPoint.longitude),
+              target: LatLng(car.location.latitude, car.location.longitude),
               zoom: 14,
             ),
             zoomControlsEnabled: false,

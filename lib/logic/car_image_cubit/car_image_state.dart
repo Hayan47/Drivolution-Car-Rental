@@ -12,7 +12,7 @@ class CarImageInitial extends CarImageState {}
 class CarImageLoading extends CarImageState {}
 
 class CarImageChanged extends CarImageState {
-  final Uint8List imageData;
+  final File imageData;
 
   const CarImageChanged(this.imageData);
 

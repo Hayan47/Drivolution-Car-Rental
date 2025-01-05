@@ -17,9 +17,9 @@ class ModelChanged extends CarFormEvent {
   const ModelChanged({required this.model});
 }
 
-class RentChanged extends CarFormEvent {
-  final int rent;
-  const RentChanged({required this.rent});
+class DailyRateChanged extends CarFormEvent {
+  final double dailyRate;
+  const DailyRateChanged({required this.dailyRate});
 }
 
 class ColorChanged extends CarFormEvent {
@@ -48,22 +48,22 @@ class DescriptionChanged extends CarFormEvent {
 }
 
 class TypeChanged extends CarFormEvent {
-  final String type;
+  final CarType type;
   const TypeChanged({required this.type});
 }
 
 class FuelChanged extends CarFormEvent {
-  final String fuel;
+  final FuelType fuel;
   const FuelChanged({required this.fuel});
 }
 
 class TransmissionChanged extends CarFormEvent {
-  final String transmission;
+  final Transmission transmission;
   const TransmissionChanged({required this.transmission});
 }
 
 class DrivetrainChanged extends CarFormEvent {
-  final String drivetrain;
+  final DrivetrainType drivetrain;
   const DrivetrainChanged({required this.drivetrain});
 }
 
@@ -91,12 +91,12 @@ class LogoChanged extends CarFormEvent {
 }
 
 class MainImageChanged extends CarFormEvent {
-  final Uint8List image;
+  final File image;
   const MainImageChanged({required this.image});
 }
 
 class CarAlbumChanged extends CarFormEvent {
-  final List<Uint8List> images;
+  final List<File> images;
   const CarAlbumChanged({required this.images});
 }
 
@@ -110,10 +110,6 @@ class FeatureRemoved extends CarFormEvent {
   const FeatureRemoved({required this.feature});
 }
 
-class FormSubmitted extends CarFormEvent {
-  final String ownerid;
-
-  const FormSubmitted({required this.ownerid});
-}
+class FormSubmitted extends CarFormEvent {}
 
 class ResetFormEvent extends CarFormEvent {}

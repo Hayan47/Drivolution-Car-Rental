@@ -14,10 +14,15 @@ class MapTapEvent extends MapEvent {
 }
 
 class LoadCarLocation extends MapEvent {
-  final GeoPoint geoPoint;
+  final double latitude;
+  final double longitude;
   final String carImage;
 
-  const LoadCarLocation({required this.geoPoint, required this.carImage});
+  const LoadCarLocation({
+    required this.latitude,
+    required this.longitude,
+    required this.carImage,
+  });
 }
 
 class GetMyLocation extends MapEvent {}

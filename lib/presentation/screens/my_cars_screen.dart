@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyCars extends StatelessWidget {
-  final String userID;
-  const MyCars({super.key, required this.userID});
+  final int userid;
+  const MyCars({super.key, required this.userid});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MyCars extends StatelessWidget {
           builder: (context, state) {
             if (state is UserLoaded) {
               if (state.cars.isEmpty) {
-                return Center(child: AddCarWidget(uid: state.userInfo.userid));
+                return Center(child: AddCarWidget(userid: state.userInfo.id!));
               } else {
                 return ResponsiveWidget(
                   mobile: ListView.builder(

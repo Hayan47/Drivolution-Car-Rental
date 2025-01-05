@@ -72,7 +72,7 @@ class CarCard extends StatelessWidget {
                               ),
                             ),
                             Hero(
-                              tag: car.geoPoint,
+                              tag: car.location.name,
                               child: CachedNetworkImage(
                                 imageUrl: car.logo,
                                 width: 50,
@@ -96,9 +96,9 @@ class CarCard extends StatelessWidget {
               width: constraints.maxWidth / 2,
               height: 120,
               child: Hero(
-                tag: car.img,
+                tag: car.images.firstWhere((image) => image.isPrimary).imageUrl,
                 child: CachedNetworkImage(
-                  imageUrl: car.img,
+                  imageUrl: car.images[0].imageUrl,
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -125,7 +125,7 @@ class CarCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${car.rent.toString().substring(0, min(4, car.rent.toString().length))} \$',
+                      '${car.dailyRate.toString().substring(0, min(4, car.dailyRate.toString().length))} \$',
                       style: AppTypography.labelLarge.copyWith(
                         color: AppColors.pureWhite,
                       ),

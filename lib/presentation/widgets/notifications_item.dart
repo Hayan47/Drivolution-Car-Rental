@@ -1,14 +1,12 @@
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:flutter/material.dart';
-import 'package:drivolution/data/models/notification_model.dart'
-    as mynotification;
+
 import 'package:iconly/iconly.dart';
 import 'package:intl/intl.dart';
 
 class NotificationItem extends StatelessWidget {
-  final mynotification.Notification notification;
-  const NotificationItem({super.key, required this.notification});
+  const NotificationItem({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class NotificationItem extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Text(
-                notification.title,
+                'notification.title',
                 style: AppTypography.labelLarge.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -43,7 +41,7 @@ class NotificationItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                notification.body,
+                'notification.body',
                 style: AppTypography.bodyLarge.copyWith(color: AppColors.pearl),
               ),
               const SizedBox(height: 5),
@@ -56,8 +54,9 @@ class NotificationItem extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    DateFormat('EEE, MMM d, yyyy, hh:mm a')
-                        .format(notification.timestamp.toDate()),
+                    '',
+                    // DateFormat('EEE, MMM d, yyyy, hh:mm a')
+                    //     .format(notification.timestamp.toDate()),
                     style: AppTypography.labelMedium.copyWith(
                       color: AppColors.pearl,
                       fontWeight: FontWeight.w100,

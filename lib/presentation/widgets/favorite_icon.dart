@@ -15,7 +15,7 @@ class FavoriteIcon extends StatelessWidget {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, authstate) {
         if (authstate is Authenticated) {
-          if (car.ownerid == authstate.user.uid) {
+          if (car.owner!.id == authstate.userid) {
             return Container();
           } else {
             return Hero(
@@ -44,8 +44,8 @@ class FavoriteIcon extends StatelessWidget {
                           onTap: () {
                             context.read<FavoriteBloc>().add(
                                   RemoveCarFromFavorites(
-                                    car: car,
-                                    userid: authstate.user.uid,
+                                    carid: car.id!,
+                                    userid: authstate.userid,
                                   ),
                                 );
                           },
@@ -65,8 +65,8 @@ class FavoriteIcon extends StatelessWidget {
                           onTap: () {
                             context.read<FavoriteBloc>().add(
                                   AddCarToFavorites(
-                                    car: car,
-                                    userid: authstate.user.uid,
+                                    carid: car.id!,
+                                    userid: authstate.userid,
                                   ),
                                 );
                           },

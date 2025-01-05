@@ -1,3 +1,4 @@
+import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/user_bloc/user_bloc.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
@@ -7,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserProfileMenu extends StatelessWidget {
-  final String uid;
-  const UserProfileMenu({super.key, required this.uid});
+  final int userid;
+  const UserProfileMenu({super.key, required this.userid});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class UserProfileMenu extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: ListTile(
             onTap: () {
-              Navigator.pushNamed(context, 'mycarsscreen', arguments: uid);
+              Navigator.pushNamed(context, 'mycarsscreen', arguments: userid);
             },
             leading: const Icon(
               FontAwesomeIcons.car,
@@ -44,7 +45,7 @@ class UserProfileMenu extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pushNamed(context, 'myreservationsscreen',
-                  arguments: uid);
+                  arguments: userid);
             },
             leading: const Icon(
               Icons.library_books_rounded,
@@ -75,6 +76,7 @@ class UserProfileMenu extends StatelessWidget {
                       onPressed: () {
                         context.read<UserBloc>().add(SignOut());
                         Navigator.pop(context);
+                        context.read<AuthCubit>().emit(NotAuthenticated());
                       },
                       text: 'Are you sure you want to sign out?'),
                 );

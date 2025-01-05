@@ -14,7 +14,7 @@ class AddScreen extends StatelessWidget {
         if (state is NotAuthenticated) {
           return LoginWidget();
         } else {
-          return AddCarWidget(uid: (state as Authenticated).user.uid);
+          return AddCarWidget(userid: (state as Authenticated).userid);
         }
       },
     );

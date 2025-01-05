@@ -12,7 +12,7 @@ final class AlbumInitial extends AlbumState {}
 class AlbumLoading extends AlbumState {}
 
 class AlbumChanged extends AlbumState {
-  final List<Uint8List> images;
+  final List<File> images;
 
   const AlbumChanged(this.images);
 }

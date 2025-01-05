@@ -1,5 +1,3 @@
-import 'package:drivolution/data/exceptions/firestore_exception.dart';
-import 'package:drivolution/data/exceptions/network_exception.dart';
 import 'package:drivolution/data/models/reservation_model.dart';
 import 'package:drivolution/data/repositories/reservation_repository.dart';
 import 'package:drivolution/data/services/logger_service.dart';
@@ -24,7 +22,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
       try {
         emit(ReservationsLoading());
         reservations =
-            await reservationRepository.getCarReservations(event.carID);
+            await reservationRepository.getCarReservations(event.carid);
         disabledDates = [];
         for (Reservation reservation in reservations) {
           DateTime startDate = reservation.startDate;
@@ -37,12 +35,8 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         }
         emit(ReservationsLoaded(
             reservations: reservations, disabledDates: disabledDates));
-      } on FirestoreException catch (e) {
-        emit(ReservationsError(message: e.message));
-      } on NetworkException catch (e) {
-        emit(ReservationsError(message: e.message));
       } catch (e) {
-        emit(ReservationsError(message: 'An unexpected error occurred'));
+        emit(ReservationsError(message: e.toString()));
         logger.severe(e);
       }
     });
@@ -94,12 +88,8 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
       try {
         await reservationRepository.makeReservation(event.reservation);
         emit(ReservationsInitial());
-      } on FirestoreException catch (e) {
-        emit(ReservationsError(message: e.message));
-      } on NetworkException catch (e) {
-        emit(ReservationsError(message: e.message));
       } catch (e) {
-        emit(ReservationsError(message: 'An unexpected error occurred'));
+        emit(ReservationsError(message: e.toString()));
         logger.severe(e);
       }
     });
@@ -107,7 +97,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     on<GetUserReservations>((event, emit) async {
       try {
         userReservations =
-            await reservationRepository.getUserReservations(event.userID);
+            await reservationRepository.getUserReservations(event.userid);
         disabledDates = [];
         for (Reservation reservation in userReservations) {
           DateTime startDate = reservation.startDate;
@@ -120,12 +110,8 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         }
         emit(ReservationsLoaded(
             reservations: userReservations, disabledDates: disabledDates));
-      } on FirestoreException catch (e) {
-        emit(ReservationsError(message: e.message));
-      } on NetworkException catch (e) {
-        emit(ReservationsError(message: e.message));
       } catch (e) {
-        emit(ReservationsError(message: 'An unexpected error occurred'));
+        emit(ReservationsError(message: e.toString()));
         logger.severe(e);
       }
     });
