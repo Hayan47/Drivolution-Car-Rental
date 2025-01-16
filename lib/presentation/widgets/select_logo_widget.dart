@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
+import 'image_error_widget.dart';
+
 class SelectLogoWidget extends StatelessWidget {
   const SelectLogoWidget({super.key});
 
@@ -77,6 +79,7 @@ class SelectLogoWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           child: CachedNetworkImage(
                             imageUrl: state.carLogos[index],
+                            errorWidget: (context, url, error) => ImageErrorSmallWidget(),
                             // placeholder: (context, url) =>
                             //     Lottie.asset('assets/lottie/SplashyLoader.json'),
                           ),

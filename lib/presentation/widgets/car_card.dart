@@ -6,6 +6,7 @@ import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/favorite_icon.dart';
 import 'package:flutter/material.dart';
 import '../../data/models/car_model.dart';
+import 'image_error_widget.dart';
 
 class CarCard extends StatelessWidget {
   final Car car;
@@ -53,7 +54,7 @@ class CarCard extends StatelessWidget {
                                     children: [
                                       Flexible(
                                         child: Hero(
-                                          tag: car.name,
+                                          tag: car.location.longitude,
                                           child: Text(
                                             '${car.name} ${car.model}',
                                             overflow: TextOverflow.ellipsis,
@@ -72,11 +73,12 @@ class CarCard extends StatelessWidget {
                               ),
                             ),
                             Hero(
-                              tag: car.location.name,
+                              tag: car.location.latitude,
                               child: CachedNetworkImage(
                                 imageUrl: car.logo,
                                 width: 50,
                                 height: 50,
+                                errorWidget: (context, url, error) => ImageErrorSmallWidget(),
                               ),
                             )
                           ],
@@ -100,6 +102,7 @@ class CarCard extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: car.images[0].imageUrl,
                   fit: BoxFit.fitWidth,
+                  errorWidget: (context, url, error) => ImageErrorBigWidget(),
                 ),
               ),
             ),

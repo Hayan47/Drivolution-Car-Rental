@@ -55,7 +55,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 );
                 showToastMessage(
                   context,
-                  'welcome back  ${state.userInfo.username}',
+                  'welcome back  ${state.userInfo.firstName}',
                   const Icon(Icons.done,
                       color: AppColors.successGreen, size: 18),
                 );

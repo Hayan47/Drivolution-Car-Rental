@@ -4,6 +4,8 @@ import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'image_error_widget.dart';
+
 class CarImagesWidget extends StatelessWidget {
   final _controller = PageController();
   final CarImage carImage;
@@ -28,6 +30,7 @@ class CarImagesWidget extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: filteredCarImages[index].imageUrl,
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => ImageErrorBigWidget(),
                 ),
               ),
             ),

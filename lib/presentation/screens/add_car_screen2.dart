@@ -211,7 +211,7 @@ class AddCar2 extends StatelessWidget {
                 ),
                 MyDropdown(
                   label: 'fuel',
-                  icon: 'assets/icons/gas.png',
+                  icon: 'assets/icons/petrol.png',
                   hint: 'select',
                   dropdownValue: state.fuel,
                   items: FuelType.values

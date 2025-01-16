@@ -130,7 +130,7 @@ class OwnerCard extends StatelessWidget {
                                         Row(
                                           children: [
                                             Text(
-                                              car.owner!.username,
+                                              '${car.owner!.firstName} ${car.owner!.lastName}',
                                               style: AppTypography.labelLarge
                                                   .copyWith(
                                                 color: AppColors.pureWhite,

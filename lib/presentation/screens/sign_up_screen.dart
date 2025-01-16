@@ -18,7 +18,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _usernamecontroller = TextEditingController();
+  final _firstnamecontroller = TextEditingController();
+  final _lastnamecontroller = TextEditingController();
   final _phonecontroller = TextEditingController();
 
   final _emailcontroller = TextEditingController();
@@ -34,7 +35,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    _usernamecontroller.dispose();
+    _firstnamecontroller.dispose();
+    _lastnamecontroller.dispose();
     _phonecontroller.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
@@ -66,7 +68,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 );
                 showToastMessage(
                   context,
-                  'welcome ${state.userInfo.username}',
+                  'welcome ${state.userInfo.firstName}',
                   const Icon(Icons.done,
                       color: AppColors.successGreen, size: 18),
                 );
@@ -122,61 +124,137 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Spacer(
                                       flex: 1,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 25),
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            constraints: BoxConstraints(
-                                              maxWidth: 520,
-                                            ),
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.coralRed,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: ConstrainedBox(
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        //!first name TextField
+                                        Stack(
+                                          children: [
+                                            Container(
                                               constraints: BoxConstraints(
-                                                maxWidth: 500,
+                                                maxWidth:
+                                                ResponsiveHelper.isPortrait(
+                                                    context)
+                                                    ? ResponsiveHelper.wp(
+                                                    context, 35)
+                                                    : 238,
                                               ),
-                                              child: TextFormField(
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                controller: _usernamecontroller,
-                                                autovalidateMode:
-                                                    AutovalidateMode
-                                                        .onUserInteraction,
-                                                validator: (value) {
-                                                  if (value == '') {
-                                                    return 'Enter a name';
-                                                  }
-                                                  return null;
-                                                },
-                                                style: AppTypography.labelLarge
-                                                    .copyWith(
-                                                  color: AppColors.pureWhite,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.coralRed,
+                                                borderRadius:
+                                                BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxWidth: ResponsiveHelper
+                                                      .isPortrait(context)
+                                                      ? ResponsiveHelper.wp(
+                                                      context, 30)
+                                                      : 218,
                                                 ),
-                                                decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  hintText: 'Username',
-                                                  helperText: '',
-                                                  hintStyle: AppTypography
+                                                child: TextFormField(
+                                                  textInputAction:
+                                                  TextInputAction.next,
+                                                  textAlign: TextAlign.center,
+                                                  controller:
+                                                  _firstnamecontroller,
+                                                  autovalidateMode:
+                                                  AutovalidateMode
+                                                      .onUserInteraction,
+                                                  validator: (value) {
+                                                    if (value == '') {
+                                                      return 'Enter a name';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  style: AppTypography
                                                       .labelLarge
                                                       .copyWith(
                                                     color: AppColors.pureWhite,
                                                   ),
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: 'First Name',
+                                                    helperText: '',
+                                                    hintStyle: AppTypography
+                                                        .labelLarge
+                                                        .copyWith(
+                                                      color:
+                                                      AppColors.pureWhite,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 25),
+                                        //!last name TextField
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                maxWidth:
+                                                ResponsiveHelper.isPortrait(
+                                                    context)
+                                                    ? ResponsiveHelper.wp(
+                                                    context, 35)
+                                                    : 238,
+                                              ),
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.coralRed,
+                                                borderRadius:
+                                                BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxWidth: ResponsiveHelper
+                                                      .isPortrait(context)
+                                                      ? ResponsiveHelper.wp(
+                                                      context, 30)
+                                                      : 218,
+                                                ),
+                                                child: TextFormField(
+                                                  textInputAction:
+                                                  TextInputAction.next,
+                                                  textAlign: TextAlign.center,
+                                                  controller:
+                                                  _lastnamecontroller,
+                                                  style: AppTypography
+                                                      .labelLarge
+                                                      .copyWith(
+                                                    color: AppColors.pureWhite,
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: 'Last Name',
+                                                    helperText: '',
+                                                    hintStyle: AppTypography
+                                                        .labelLarge
+                                                        .copyWith(
+                                                      color:
+                                                      AppColors.pureWhite,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
 
                                     //!Phone TextField
@@ -489,8 +567,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                               _passwordcontroller
                                                                   .text
                                                                   .trim(),
-                                                          username:
-                                                              _usernamecontroller
+                                                          firstName:
+                                                              _firstnamecontroller
+                                                                  .text
+                                                                  .trim(),
+                                                          lastName:
+                                                              _lastnamecontroller
                                                                   .text
                                                                   .trim(),
                                                           phoneNumber:

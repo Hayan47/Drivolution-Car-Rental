@@ -48,7 +48,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           final User user = await userRepository.registerUser(
             event.email,
             event.password,
-            event.username,
+            event.firstName,
+            event.lastName,
             event.phoneNumber,
           );
           emit(UserLoaded(userInfo: user, cars: []));

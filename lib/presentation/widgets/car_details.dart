@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import '../../data/models/car_model.dart';
+import 'car_box_widget.dart';
+import 'image_error_widget.dart';
 import 'owner_card.dart';
 
 class CarDetails extends StatefulWidget {
@@ -45,11 +47,13 @@ class _CarDetailsState extends State<CarDetails> {
                 child: Row(
                   children: [
                     Hero(
-                      tag: widget.car.location,
+                      tag: widget.car.location.latitude,
                       child: CachedNetworkImage(
                         imageUrl: widget.car.logo,
                         width: 35,
                         height: 35,
+                        errorWidget: (context, url, error) =>
+                            ImageErrorSmallWidget(),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -222,143 +226,37 @@ class _CarDetailsState extends State<CarDetails> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 5, right: 2, left: 2),
-                  constraints: BoxConstraints(
-                    minWidth: 80,
-                    minHeight: 80,
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      //*botom right dark
-                      BoxShadow(
-                        color: AppColors.steelGrey.withOpacity(0.5),
-                        offset: const Offset(1, 1),
-                        blurRadius: 2,
-                        spreadRadius: 1,
-                      ),
-                    ],
+                //!1 seats
+                CarBoxWidget(
+                  logo: Image.asset(
+                    'assets/icons/seats.png',
+                    width: 32,
+                    height: 32,
                     color: AppColors.oceanBlue,
-                    borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/icons/seat.png',
-                        width: 50,
-                        height: 50,
-                        color: AppColors.deepNavy,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '${widget.car.seats.toString()} seats',
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.deepNavy,
-                        ),
-                      )
-                    ],
-                  ),
+                  title: widget.car.seats.toString(),
                 ),
                 //!2 doors
-                Container(
-                  padding: const EdgeInsets.only(top: 5, right: 2, left: 2),
-                  constraints: BoxConstraints(
-                    minWidth: 80,
-                    minHeight: 80,
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      //*botom right dark
-                      BoxShadow(
-                        color: AppColors.steelGrey.withOpacity(0.5),
-                        offset: const Offset(1, 1),
-                        blurRadius: 2,
-                        spreadRadius: 1,
-                      ),
-                    ],
+                CarBoxWidget(
+                  logo: Image.asset(
+                    'assets/icons/doors.png',
+                    width: 32,
+                    height: 32,
                     color: AppColors.oceanBlue,
-                    borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/icons/door.png',
-                        width: 50,
-                        height: 50,
-                        color: AppColors.deepNavy,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '${widget.car.doors.toString()} doors',
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.deepNavy,
-                        ),
-                      )
-                    ],
-                  ),
+                  title: widget.car.doors.toString(),
                 ),
                 //!3 fuel
-                Container(
-                  padding: const EdgeInsets.only(top: 5, right: 2, left: 2),
-                  constraints: BoxConstraints(
-                    minWidth: 80,
-                    minHeight: 80,
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      //*botom right dark
-                      BoxShadow(
-                        color: AppColors.steelGrey.withOpacity(0.5),
-                        offset: const Offset(1, 1),
-                        blurRadius: 2,
-                        spreadRadius: 1,
-                      ),
-                    ],
+                CarBoxWidget(
+                  logo: Image.asset(
+                    'assets/icons/${widget.car.fuel.name}.png',
+                    width: 32,
+                    height: 32,
                     color: AppColors.oceanBlue,
-                    borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Column(
-                    children: [
-                      Builder(
-                        builder: (context) {
-                          switch (widget.car.fuel.toApiString().toLowerCase()) {
-                            case 'petrol':
-                              return Image.asset(
-                                'assets/icons/gas.png',
-                                width: 50,
-                                height: 50,
-                                color: AppColors.deepNavy,
-                              );
-                            case 'disel':
-                              return Image.asset(
-                                'assets/icons/disel.png',
-                                width: 50,
-                                height: 50,
-                                color: AppColors.jetBlack,
-                              );
-                            case 'electric':
-                              return Image.asset(
-                                'assets/icons/disel.png',
-                                width: 50,
-                                height: 50,
-                                color: AppColors.jetBlack,
-                              );
-                            default:
-                              return Container();
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        widget.car.fuel.toApiString().toLowerCase(),
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.deepNavy,
-                        ),
-                      )
-                    ],
-                  ),
+                  title: widget.car.fuel.name,
                 ),
               ],
             ),

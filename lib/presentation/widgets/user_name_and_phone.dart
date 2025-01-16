@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserNameAndPhone extends StatelessWidget {
-  final String username;
+  final String firstName;
+  final String lastName;
   final String phoneNumber;
   final int userid;
   const UserNameAndPhone({
     super.key,
-    required this.username,
+    required this.firstName,
+    required this.lastName,
     required this.phoneNumber,
     required this.userid,
   });
@@ -25,7 +27,7 @@ class UserNameAndPhone extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 8),
           child: Text(
-            username,
+            '$firstName $lastName',
             style: AppTypography.labelLarge.copyWith(
               color: AppColors.pureWhite,
               fontSize: ResponsiveHelper.sp(context, 10),

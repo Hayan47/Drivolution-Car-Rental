@@ -33,14 +33,16 @@ class AddUserImage extends UserEvent {
 class SignUp extends UserEvent {
   final String email;
   final String password;
-  final String username;
+  final String firstName;
+  final String lastName;
   final String phoneNumber;
   final int age;
 
   const SignUp({
     required this.email,
     required this.password,
-    required this.username,
+    required this.firstName,
+    required this.lastName,
     required this.phoneNumber,
     required this.age,
   });

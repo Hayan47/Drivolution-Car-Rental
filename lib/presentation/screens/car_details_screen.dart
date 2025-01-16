@@ -26,7 +26,7 @@ class CarDetailsScreen extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: const EdgeInsets.all(8),
                 title: Hero(
-                  tag: car.name,
+                  tag: car.location.longitude,
                   child: Text(
                     textAlign: TextAlign.center,
                     car.name,
@@ -83,7 +83,7 @@ class CarDetailsScreen extends StatelessWidget {
                         left: 0,
                         right: 0,
                         child: Hero(
-                          tag: car.name,
+                          tag: car.location.longitude,
                           child: Text(
                             textAlign: TextAlign.center,
                             car.name,

@@ -33,7 +33,8 @@ class ProfileDetailsScreen extends StatelessWidget {
                         Positioned(
                           top: 0,
                           child: UserNameAndPhone(
-                            username: userState.userInfo.username,
+                            firstName: userState.userInfo.firstName,
+                            lastName: userState.userInfo.lastName,
                             phoneNumber: userState.userInfo.phoneNumber,
                             userid: userState.userInfo.id!,
                           ),
@@ -97,7 +98,8 @@ class ProfileDetailsScreen extends StatelessWidget {
                       ),
                       //! User Name + Phone
                       UserNameAndPhone(
-                        username: userState.userInfo.username,
+                        firstName: userState.userInfo.firstName,
+                        lastName: userState.userInfo.lastName,
                         phoneNumber: userState.userInfo.phoneNumber,
                         userid: userState.userInfo.id!,
                       ),

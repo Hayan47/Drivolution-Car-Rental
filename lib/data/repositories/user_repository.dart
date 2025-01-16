@@ -20,12 +20,14 @@ class UserRepository {
   Future<User> registerUser(
     String email,
     String password,
-    String username,
+    String firstName,
+    String lastName,
     String phoneNumber,
   ) async {
     try {
       final userData = {
-        'username': username,
+        'first_name': firstName,
+        'last_name': lastName,
         'email': email,
         'password': password,
         'phone_number': phoneNumber,
