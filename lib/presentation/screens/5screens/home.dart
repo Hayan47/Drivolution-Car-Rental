@@ -219,7 +219,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     );
                   } else {
-                    context.read<CarsBloc>().add(GetAllCarsEvent());
                     return Expanded(
                       child: GestureDetector(
                         onTap: () {

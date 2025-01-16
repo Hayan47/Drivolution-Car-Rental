@@ -22,7 +22,7 @@ The application is divided into three main layers:
 - BLoC layer: This layer contains the business logic of the application and manages the state of the application. The BLoC layer communicates with the data layer to retrieve data and emits new states based on the current state and user actions.
 - Data layer: This layer is responsible for retrieving data from external APIs or local storage. In the case of Drivolution, the data layer communicates with Firebase to retrieve data.
 
-You can download the APK file for Drivolution from this link: https://www.mediafire.com/file/esdirs83v43snla/Drivolution2.0.7.apk/file
+You can download the APK file for Drivolution from this link: https://www.mediafire.com/file/kvq3s3aa4qrmnlz/Drivolution2.1.4.apk/file
 
 ## ScreenShots
 

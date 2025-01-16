@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drivolution/logic/user_bloc/user_bloc.dart';
+import 'package:drivolution/logic/car_owner_bloc/car_owner_bloc.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
 import 'package:drivolution/presentation/themes/app_typography.dart';
 import 'package:drivolution/presentation/widgets/shimmer_owner_card.dart';
@@ -16,10 +16,10 @@ class OwnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<UserBloc>().add(GetUserInfo(userID: car.ownerid));
-    return BlocBuilder<UserBloc, UserState>(
+    context.read<CarOwnerBloc>().add(GetCarOwnerInfo(userid: car.ownerid));
+    return BlocBuilder<CarOwnerBloc, CarOwnerState>(
       builder: (context, state) {
-        if (state is UserLoaded) {
+        if (state is CarOwnerLoaded) {
           return Stack(
             children: [
               Padding(

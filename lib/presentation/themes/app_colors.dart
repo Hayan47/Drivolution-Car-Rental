@@ -7,6 +7,8 @@ class AppColors {
   static const oceanBlue = Color(0xff78bcc4);
   static const deepNavy = Color(0xff002c3e);
   static const twilightBlue = Color(0xff243B55);
+  static const royalPurple = Color(0xff9627BD);
+  static const dodgerBlue = Color(0xff2196F3);
   static const skyBlue = Color(0xff9FD5DB);
   static const aquaFrost = Color(0xffB8E0E5);
   static const mistBlue = Color(0xffE5F4F6);
@@ -124,6 +126,16 @@ class AppColors {
       coralRed,
     ],
   );
+
+  static LinearGradient boxGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      royalPurple.withOpacity(0.2),
+      oceanBlue.withOpacity(0.2),
+    ],
+  );
+
   // Material Design Swatches
   static final MaterialColor oceanBlueSwatch = createMaterialColor(oceanBlue);
   static final MaterialColor blazingRedSwatch = createMaterialColor(blazingRed);

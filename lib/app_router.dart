@@ -13,6 +13,7 @@ import 'package:drivolution/logic/album_bloc/album_bloc.dart';
 import 'package:drivolution/logic/auth_cubit/auth_cubit.dart';
 import 'package:drivolution/logic/car_form_bloc/car_form_bloc.dart';
 import 'package:drivolution/logic/car_image_cubit/car_image_cubit.dart';
+import 'package:drivolution/logic/car_owner_bloc/car_owner_bloc.dart';
 import 'package:drivolution/logic/cars_bloc/cars_bloc.dart';
 import 'package:drivolution/data/models/car_model.dart';
 import 'package:drivolution/logic/favorite_bloc/favorite_bloc.dart';
@@ -78,6 +79,7 @@ class AppRouter {
   late AuthCubit authCubit;
   late CarImageCubit carImageCubit;
   late UserImageCubit userImageCubit;
+  late CarOwnerBloc carOwnerBloc;
 
   AppRouter() {
     firebaseStorage = FirebaseStorage.instance;
@@ -131,6 +133,7 @@ class AppRouter {
     authCubit = AuthCubit(userServices: userServices);
     carImageCubit = CarImageCubit(imageRepository: imageRepository);
     userImageCubit = UserImageCubit(imageRepository: imageRepository);
+    carOwnerBloc = CarOwnerBloc(userRepository: userRepository);
 
     initializeNotifications(notificationServices);
   }
@@ -169,6 +172,7 @@ class AppRouter {
               BlocProvider.value(value: reservationBloc),
               BlocProvider.value(value: favoriteBloc),
               BlocProvider.value(value: authCubit),
+              BlocProvider.value(value: carOwnerBloc),
             ],
             child: CarDetailsScreen(car: car),
           ),

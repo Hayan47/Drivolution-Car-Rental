@@ -94,7 +94,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       }
       try {
         position = await Geolocator.getCurrentPosition(
-            timeLimit: const Duration(seconds: 12));
+            timeLimit: const Duration(seconds: 60));
         emit(
           UserLocationFetched(
             userPosition: position!,
@@ -106,7 +106,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         logger.info(state);
       } catch (e) {
         logger.info(e);
-        emit(MapError(message: e.toString()));
+        emit(MapError(message: 'Error getting location'));
         logger.severe(state);
       }
     });

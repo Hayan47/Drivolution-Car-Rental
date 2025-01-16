@@ -26,8 +26,8 @@ class CarDetailsWidget extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          decoration: const BoxDecoration(
-            color: AppColors.charcoal,
+          decoration: BoxDecoration(
+            color: AppColors.pearl.withOpacity(0.1),
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(24),
             ),
@@ -47,8 +47,8 @@ class CarDetailsWidget extends StatelessWidget {
         ),
         //!1 color
         Container(
-          decoration: const BoxDecoration(
-              color: AppColors.charcoal,
+          decoration: BoxDecoration(
+              color: AppColors.pearl.withOpacity(0.1),
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(24))),
           child: Column(
             children: [

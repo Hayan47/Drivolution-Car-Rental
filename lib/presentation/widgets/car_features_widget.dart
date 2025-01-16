@@ -29,11 +29,19 @@ class _CarFeaturesWidgetState extends State<CarFeaturesWidget> {
             children: [
               Container(
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.charcoal,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(24),
+                decoration: BoxDecoration(
+                  color: AppColors.pearl.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppColors.pearl.withOpacity(0.2),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.jetBlack.withOpacity(0.1),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -49,7 +57,22 @@ class _CarFeaturesWidgetState extends State<CarFeaturesWidget> {
                 ),
               ),
               Container(
-                color: AppColors.charcoal,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.pearl.withOpacity(0.1),
+                  // border: Border.symmetric(
+                  //   vertical: BorderSide(
+                  //     color: AppColors.pearl.withOpacity(0.2),
+                  //   ),
+                  // ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.jetBlack.withOpacity(0.1),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: AnimatedSize(
                   duration: const Duration(milliseconds: 600),
                   curve: Curves.easeInOutCubicEmphasized,
@@ -65,10 +88,23 @@ class _CarFeaturesWidgetState extends State<CarFeaturesWidget> {
                       return Column(
                         children: [
                           ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: AppColors.oceanBlue,
-                              foregroundColor: AppColors.deepNavy,
-                              child: Text('${index + 1}'),
+                            leading: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                // Ensures the container is circular
+                                gradient: AppColors.boxGradient,
+                              ),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                // Transparent to show the gradient
+                                foregroundColor: AppColors.deepNavy,
+                                child: Text(
+                                  '${index + 1}',
+                                  style: AppTypography.labelLarge.copyWith(
+                                    color: AppColors.oceanBlue,
+                                  ),
+                                ),
+                              ),
                             ),
                             title: Text(
                               widget.features[index],
@@ -77,14 +113,14 @@ class _CarFeaturesWidgetState extends State<CarFeaturesWidget> {
                               ),
                             ),
                           ),
-                          widget.features.length - 1 == index
-                              ? Container()
-                              : const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Divider(
-                                    color: AppColors.oceanBlue,
-                                  ),
-                                ),
+                          // widget.features.length - 1 == index
+                          //     ? Container()
+                          //     : const Padding(
+                          //         padding: EdgeInsets.symmetric(horizontal: 20),
+                          //         child: Divider(
+                          //           color: AppColors.oceanBlue,
+                          //         ),
+                          //       ),
                         ],
                       );
                     },
@@ -93,8 +129,9 @@ class _CarFeaturesWidgetState extends State<CarFeaturesWidget> {
               ),
               !_showAllFeatures.value
                   ? Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.charcoal,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: AppColors.pearl.withOpacity(0.1),
                         borderRadius: BorderRadius.vertical(
                           bottom: Radius.circular(24),
                         ),
@@ -122,8 +159,9 @@ class _CarFeaturesWidgetState extends State<CarFeaturesWidget> {
                       ),
                     )
                   : Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.charcoal,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: AppColors.pearl.withOpacity(0.1),
                         borderRadius: BorderRadius.vertical(
                           bottom: Radius.circular(24),
                         ),

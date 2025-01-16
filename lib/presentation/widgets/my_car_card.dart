@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/widgets/image_error_widget.dart';
 import 'package:flutter/material.dart';
 import '../../data/models/car_model.dart';
 
@@ -33,6 +34,7 @@ class MyCarCard extends StatelessWidget {
                     imageUrl: car.logo,
                     width: 50,
                     height: 50,
+                    errorWidget: (context, url, error) => ImageErrorSmallWidget(),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -44,6 +46,7 @@ class MyCarCard extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: car.img,
                       fit: BoxFit.fitWidth,
+                      errorWidget: (context, url, error) => ImageErrorBigWidget(),
                     ),
                   ),
                 ),

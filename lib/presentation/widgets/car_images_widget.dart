@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drivolution/presentation/themes/app_colors.dart';
+import 'package:drivolution/presentation/widgets/image_error_widget.dart';
 import 'package:drivolution/presentation/widgets/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -26,6 +27,7 @@ class CarImagesWidget extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: carImages[index],
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => ImageErrorBigWidget(),
                 ),
               ),
             ),
